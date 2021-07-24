@@ -30,12 +30,10 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
         <?php
 
-            $form = ActiveForm::begin([
-                    // 'id' => $model->formName()
-            ]); ?>
+            $form = ActiveForm::begin(['id'=>'Leave'],['options' => ['enctype' => 'multipart/form-data']]); ?>
 
 
-
+           <?= $form->errorSummary($model); ?>
 
             <div class="row">
                 <div class="col-md-6">
@@ -62,6 +60,9 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
                             <?= $form->field($model, 'Leave_Code')->dropDownList($leavetypes,['prompt' => 'Select ..']) ?>
 
+                            <div class="leave_attachment">
+                                <?= $form->field($model, 'attachment')->fileInput() ?>
+                            </div>
                             <?= $form->field($model, 'Start_Date')->textInput(['type' => 'date','required' => true]) ?>
                             <?= $form->field($model, 'Days_To_Go_on_Leave')->textInput(['type' => 'number','required' =>  true,'min'=> 1]) ?>
                             <?= $form->field($model, 'Reliever')->dropDownList($employees,['prompt' => 'Select ..','required'=> true]) ?>
@@ -139,20 +140,13 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
                 <!---Upload Leave Attachment File-->
 
-                <?php $atform = \yii\widgets\ActiveForm::begin(['id'=>'attachmentform'],['options' => ['enctype' => 'multipart/form-data']]); ?>
-                    <?= $atform->errorSummary($Attachmentmodel)?>
-                    <button class="btn btn-primary btn-file"><?= $Attachmentmodel->getPath($model->Application_No)?'<i class="fa fa-upload"></i>&nbsp;&nbsp;Update Leave Attachment':'<i class="fa fa-upload"></i>&nbsp;&nbsp;Upload Leave Attachment' ?>
-                        <?= $atform->field($Attachmentmodel,'attachmentfile')->fileInput(['id' => 'attachmentfile', 'name' => 'attachmentfile' ])->label(false);?>
-                    </button>
+                
 
-                    <?= $atform->field($Attachmentmodel,'Document_No')->hiddenInput(['value' => $model->Application_No])->label(false);?>
-                    <?= Html::submitButton(($model->isNewRecord)?'':'', ['class' => '']) ?>
+                <?php if($model->Attachement_Path){ 
+                    //Yii::$app->recruitment->printrr($model->readFile($model->Attachement_Path));
+                    ?>
 
-                <?php \yii\widgets\ActiveForm::end(); ?>
-
-                <?php if($Attachmentmodel->getPath($model->Application_No)){   ?>
-
-                <iframe src="data:application/pdf;base64,<?= $Attachmentmodel->readAttachment($model->Application_No); ?>" height="950px" width="100%"></iframe>
+                    <iframe src="data:application/pdf;base64,<?= $model->readFile($model->Attachement_Path); ?>" height="950px" width="100%"></iframe>
                 <?php }  ?>
             </div>
         </div>
@@ -189,7 +183,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 <input type="hidden" name="url" value="<?= $absoluteUrl ?>">
 <?php
 $script = <<<JS
-    $('#attachmentform').hide();
+    $('.leave_attachment').hide();
         // Set Leave Type
         
      $('#leave-leave_code').change(function(e){
@@ -234,9 +228,9 @@ $script = <<<JS
             $.post(Vurl).done(function(msg){
                 console.log(msg);
                 if(msg.Requires_Attachment){
-                    $('#attachmentform').show();
+                    $('.leave_attachment').show();
                 }else{
-                    $('#attachmentform').hide();
+                    $('.leave_attachment').hide();
                 }
             });
          

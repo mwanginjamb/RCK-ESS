@@ -74,7 +74,7 @@ public $isNewRecord;
             ['Days_To_Go_on_Leave','integer','min'=> 1],
             [['attachment'],'file','mimeTypes' => Yii::$app->params['QualificationsMimeTypes']],
             [['attachment'],'file','maxSize' => '5120000'],
-            [['attachment'], 'file', 'skipOnEmpty' => false, 'extensions' => 'pdf, doc, docx']
+            [['attachment'], 'file', 'skipOnEmpty' => true, 'extensions' => 'pdf, doc, docx']
         ];
     }
 
@@ -89,19 +89,32 @@ public $isNewRecord;
     public function upload()
     {
         if ($this->validate()) {
-            $this->attachment->saveAs('qualifications/' . str_replace(' ','',$this->attachment->baseName) . '.' . $this->attachment->extension);
-            $this->Attachement_Path = 'qualifications/'.str_replace(' ','',$this->attachment->name);
+
+            $imageId = Yii::$app->security->generateRandomString(8);
+            $this->attachment->saveAs('leave_attachments/'.$imageId. '.' . $this->attachment->extension);
+            $this->Attachement_Path = \yii\helpers\Url::home(true).'leave_attachments/'.$imageId.'.'.$this->attachment->extension;
+            $locaPath = 'leave_attachments/'.$imageId. '.' . $this->attachment->extension;
             //You can then attach to sharepoint and unlink the resource on local file system
 
-            var_dump( $this->attachment); exit;
+            // var_dump( $this->attachment); exit;
 
-            Yii::$app->recruitment->sharepoint_attach($this->Attachement_Path);
+            Yii::$app->recruitment->sharepoint_attach($locaPath);
             return true;
         } else {
 
             print_r($this->errors); exit;
             return $this->getErrors();
         }
+    }
+
+
+    public function readFile($path)
+    {
+       
+            $binary = file_get_contents($path);
+            $content = chunk_split(base64_encode($binary));
+            return $content;
+    
     }
 
 

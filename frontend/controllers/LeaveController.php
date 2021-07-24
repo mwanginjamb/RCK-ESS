@@ -33,6 +33,8 @@ use yii\web\UploadedFile;
 
 class LeaveController extends Controller
 {
+    private $metadata = [];
+
     public function behaviors()
     {
         return [
@@ -110,6 +112,23 @@ class LeaveController extends Controller
 
             //Yii::$app->recruitment->printrr($refresh );
             Yii::$app->navhelper->loadmodel($refresh[0],$model);
+
+
+            if(!empty($_FILES['Leave']['name']['attachment'])){
+
+                $this->metadata = [
+                    'Application' => $model->Application_No,
+                    'Employee' => $model->Employee_No,
+                    'Leavetype' => $model->Leave_Type_Decription,
+                ];
+                
+                Yii::$app->session->set('metadata',$this->metadata);
+                $model->attachment = UploadedFile::getInstance($model, 'attachment');
+                $model->upload();
+            }
+
+
+
             $result = Yii::$app->navhelper->updateData($service,$model);
             if(!is_string($result)){
 
@@ -126,7 +145,7 @@ class LeaveController extends Controller
 
 
         // Upload Attachment File
-        if(!empty($_FILES)){
+       /* if(!empty($_FILES)){
             $Attachmentmodel = new Leaveattachment();
             $Attachmentmodel->Document_No =  Yii::$app->request->post()['Leaveattachment']['Document_No'];
             $Attachmentmodel->attachmentfile = UploadedFile::getInstanceByName('attachmentfile');
@@ -142,7 +161,7 @@ class LeaveController extends Controller
                  return $this->redirect(['index']);
             }
             
-        }
+        }*/
 
         return $this->render('create',[
             'model' => $model,
@@ -187,26 +206,7 @@ class LeaveController extends Controller
             Yii::$app->recruitment->printrr($result);
         }
 
-        // Upload Attachment File
-        if(!empty($_FILES)){
-          //  Yii::$app->recruitment->printrr($_FILES);
-            $Attachmentmodel = new Leaveattachment();
-            $Attachmentmodel->Document_No =  Yii::$app->request->post()['Leaveattachment']['Document_No'];
-            $Attachmentmodel->attachmentfile = UploadedFile::getInstanceByName('attachmentfile');
-            $result = $Attachmentmodel->upload($Attachmentmodel->Document_No);
-            if(!is_string($result) || $result == true){
-                Yii::$app->session->setFlash('success','Leave Attachement Saved Successfully. ', true);
-            }else{
-                Yii::$app->session->setFlash('error','Could not save attachment.'.$result, true);
-            }
-
-            return $this->render('update',[
-                'model' => $model,
-                'leavetypes' => $this->getLeaveTypes(),
-                'employees' => $this->getEmployees(),
-
-            ]);
-        }
+      
 
         if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Leave'],$model) ){
             $filter = [
@@ -216,6 +216,20 @@ class LeaveController extends Controller
             $refresh = Yii::$app->navhelper->getData($service,$filter);
             $model->Key = $refresh[0]->Key;
             // Yii::$app->navhelper->loadmodel($refresh[0],$model);
+
+            // Yii::$app->recruitment->printrr($_FILES);
+
+            if(!empty($_FILES['Leave']['name']['attachment'])){
+
+                $this->metadata = [
+                    'Application' => $model->Application_No,
+                    'Employee' => $model->Employee_No,
+                    'Leavetype' => $model->Leave_Type_Decription,
+                ];
+                Yii::$app->session->set('metadata',$this->metadata);
+                $model->attachment = UploadedFile::getInstance($model, 'attachment');
+                $model->upload();
+            }
 
             $result = Yii::$app->navhelper->updateData($service,$model);
 
@@ -724,6 +738,8 @@ class LeaveController extends Controller
 
         }
     }
+
+    
 
 
 

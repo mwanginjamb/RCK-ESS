@@ -150,9 +150,9 @@ $Attachmentmodel = new \frontend\models\Leaveattachment()
                     <?php ActiveForm::end(); ?>
 
 
-            <?php if($Attachmentmodel->getPath($model->Application_No)){   ?>
+            <?php if($model->Attachement_Path){   ?>
 
-                <iframe src="data:application/pdf;base64,<?= $Attachmentmodel->readAttachment($model->Application_No); ?>" height="950px" width="100%"></iframe>
+                <iframe src="data:application/pdf;base64,<?= $model->readFile($model->Attachement_Path); ?>" height="950px" width="100%"></iframe>
 
 
             <?php }  ?>
