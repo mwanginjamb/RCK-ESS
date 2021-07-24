@@ -10,6 +10,7 @@ namespace frontend\models;
 use common\models\User;
 use Yii;
 use yii\base\Model;
+use yii\web\UploadedFile;
 
 
 class Leave extends Model
@@ -49,6 +50,16 @@ public $Status;
 public $Approval_Entries;
 public $Leave_Allowance;
 public $Rejection_Comments;
+
+
+
+public $Include_Leave_Allowance;
+public $Leave_Allowance_Amount;
+
+public $attachment;
+public $Attachement_Path;
+
+
 public $isNewRecord;
 
     /*public function __construct(array $config = [])
@@ -60,7 +71,10 @@ public $isNewRecord;
     {
         return [
             [['Leave_Code','Start_Date','Days_To_Go_on_Leave','Reliever'], 'required'],
-            ['Days_To_Go_on_Leave','integer','min'=> 1]
+            ['Days_To_Go_on_Leave','integer','min'=> 1],
+            [['attachment'],'file','mimeTypes' => Yii::$app->params['QualificationsMimeTypes']],
+            [['attachment'],'file','maxSize' => '5120000'],
+            [['attachment'], 'file', 'skipOnEmpty' => false, 'extensions' => 'pdf, doc, docx']
         ];
     }
 
@@ -70,6 +84,24 @@ public $isNewRecord;
             '_x003C_Global_Dimension_1_Code_x003E_' => 'Program',
             'Global_Dimension_2_Code' => 'Department',
         ];
+    }
+
+    public function upload()
+    {
+        if ($this->validate()) {
+            $this->attachment->saveAs('qualifications/' . str_replace(' ','',$this->attachment->baseName) . '.' . $this->attachment->extension);
+            $this->Attachement_Path = 'qualifications/'.str_replace(' ','',$this->attachment->name);
+            //You can then attach to sharepoint and unlink the resource on local file system
+
+            var_dump( $this->attachment); exit;
+
+            Yii::$app->recruitment->sharepoint_attach($this->Attachement_Path);
+            return true;
+        } else {
+
+            print_r($this->errors); exit;
+            return $this->getErrors();
+        }
     }
 
 

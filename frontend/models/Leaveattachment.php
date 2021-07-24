@@ -52,6 +52,13 @@ public $attachmentfile;
 
 
         //return($model); 
+        //Yii::$app->recruitment->printrr($this->attachmentfile->error);
+        //var_dump($model->errors); exit;
+        if($this->attachmentfile->error)
+        {
+            print 'Following file upload error occured: <b>'.Yii::$app->params['FILE_ERRORS'][$this->attachmentfile->error - 1].'</b>';
+            exit;
+        }
 
         if($model->validate()){
             // Check if directory exists, else create it
@@ -59,7 +66,10 @@ public $attachmentfile;
                 FileHelper::createDirectory(dirname($imagePath));
             }
 
-            $this->attachmentfile->saveAs($imagePath);
+
+
+            $uploadObject = $this->attachmentfile->saveAs($imagePath);
+
 
             //Post to Nav
             if($docId && !$this->getAttachment($docId)) // A create scenario
@@ -69,7 +79,7 @@ public $attachmentfile;
                 $model->File_path = $imagePath;//$imagePath;
                 $result = Yii::$app->navhelper->postData($service, $model);
                 
-                    return $result;
+                return $result;
                 
             }elseif($docId && $this->getAttachment($docId)) //An update scenario
             {

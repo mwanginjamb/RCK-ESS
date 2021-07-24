@@ -46,6 +46,7 @@ phpunit.phar
 /frontend/web/images
 /frontend/web/leave_attachments
 /frontend/web/ess_attachments
+/frontend/web/qualifications
 
 #Exclude comon configs
 

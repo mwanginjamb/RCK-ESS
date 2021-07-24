@@ -193,7 +193,7 @@ class LeaveController extends Controller
             $Attachmentmodel = new Leaveattachment();
             $Attachmentmodel->Document_No =  Yii::$app->request->post()['Leaveattachment']['Document_No'];
             $Attachmentmodel->attachmentfile = UploadedFile::getInstanceByName('attachmentfile');
-            $result = $Attachmentmodel->Upload($Attachmentmodel->Document_No);
+            $result = $Attachmentmodel->upload($Attachmentmodel->Document_No);
             if(!is_string($result) || $result == true){
                 Yii::$app->session->setFlash('success','Leave Attachement Saved Successfully. ', true);
             }else{
@@ -487,7 +487,7 @@ class LeaveController extends Controller
         //Yii::$app->recruitment->printrr(Yii::$app->user->identity->Employee[0]->Global_Dimension_3_Code);
         $service = Yii::$app->params['ServiceName']['Employees'];
         $filter = [
-            'Global_Dimension_3_Code' => Yii::$app->user->identity->Employee[0]->Global_Dimension_3_Code
+            // 'Global_Dimension_3_Code' => Yii::$app->user->identity->Employee[0]->Global_Dimension_3_Code
         ];
         $employees = \Yii::$app->navhelper->getData($service, $filter);
         $data = [];
