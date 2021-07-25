@@ -169,7 +169,7 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
             <a href="<?= $absoluteUrl ?>site" class="brand-link">
                 <!--<img src="<?= $webroot ?>/images/Logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
                      style="opacity: .8">-->
-                <span class="brand-text font-weight-light"><?= Yii::$app->params['generalTitle']?></span>
+                <span class="brand-text font-weight-light"><?= Yii::$app->params['ClientCompany']?></span>
             </a>
 
             <!-- Sidebar -->
