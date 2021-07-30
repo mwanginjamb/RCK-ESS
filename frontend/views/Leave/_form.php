@@ -383,10 +383,10 @@ $script = <<<JS
      
      
     
-    $('#attachmentfile').change((e) => {
+    /*$('#attachmentfile').change((e) => {
         $(e.target).closest('form').trigger('submit');
         console.log('Upload Submitted ...');
-    }); 
+    }); */
 
     
     /*Divs parenting*/

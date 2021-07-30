@@ -12,22 +12,26 @@ use Yii;
 use yii\base\Model;
 
 
-class Overtimeline extends Model
+class Timesheetline extends Model
 {
 
-  public $Key;
-  public $Date; 
-  public $Start_Time; 
-  public $End_Time; 
-  public $Percentage; 
-  public $Hours_Worked; 
-  public $Activity_Description; 
-  public $Grant; 
-  public $Supervisor_Comments; 
-  public $isNewRecord;
+public $Key;
+public $Date;
+  public $Start_Time;
+  public $End_Time;
+  public $Percentage;
+  public $Hours_Worked;
+  public $Activity_Description;
+  public $Grant;
+  public $Supervisor_Comments;
+  public $Application_No;
+  public $Line_No;
+  public $Employee_No;
+
+public $isNewRecord;
 
     /*public function __construct(array $config = [])
-    {
+    {       
         return $this->getLines($this->No);
     }*/
 

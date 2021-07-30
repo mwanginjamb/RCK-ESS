@@ -436,6 +436,7 @@ class ApprovalsController extends Controller
     }
 
 
+    /*Approves All Documents Except Leave and Leave Recall -  Developer was lazy in adding then here*/
 
     public function actionApproveRequest($app, $empNo, $docType = "")
     {
@@ -443,7 +444,7 @@ class ApprovalsController extends Controller
 
         $data = [
             'applicationNo' => $app,
-            'emplN' => $empNo
+            'emplN' => Yii::$app->user->identity->{'Employee No_'}
         ];
 
         if($docType == 'Requisition_Header')
@@ -459,7 +460,8 @@ class ApprovalsController extends Controller
         }
          elseif($docType == 'Overtime_Application')
         {
-             $result = Yii::$app->navhelper->PortalWorkFlows($service,['applicationNo' => $app],'IanApproveOverTime');
+             // $result = Yii::$app->navhelper->PortalWorkFlows($service,['applicationNo' => $app],'IanApproveOverTime');
+             $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanApproveOverTime');
         }
           elseif($docType == 'Employee_Exit')
         {
@@ -567,6 +569,7 @@ class ApprovalsController extends Controller
 
         $data = [
             'applicationNo' => $app,
+            'emplN' => Yii::$app->user->identity->{'Employee No_'}
         ];
 
 
@@ -589,6 +592,7 @@ class ApprovalsController extends Controller
 
         $data = [
             'applicationNo' => $app,
+            'emplN' => Yii::$app->user->identity->{'Employee No_'}
         ];
 
 
@@ -613,6 +617,7 @@ class ApprovalsController extends Controller
 
         $data = [
             'applicationNo' => $app,
+            'emplN' => Yii::$app->user->identity->{'Employee No_'}
         ];
 
 

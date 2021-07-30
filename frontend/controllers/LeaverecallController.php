@@ -118,7 +118,7 @@ class LeaverecallController extends Controller
         }
 
 
-        //Yii::$app->recruitment->printrr($model);
+        // Yii::$app->recruitment->printrr($model);
 
         return $this->render('create',[
             'model' => $model,
@@ -131,7 +131,14 @@ class LeaverecallController extends Controller
 
 
     public function actionUpdate(){
+
         $model = new Leaverecall();
+
+
+
+
+        //Yii::$app->recruitment->printrr($model->leaves);
+
         $service = Yii::$app->params['ServiceName']['LeaveRecallCard'];
         $model->isNewRecord = false;
         if(!isset(Yii::$app->request->post()['Leaverecall']))

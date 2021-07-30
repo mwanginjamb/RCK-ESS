@@ -248,12 +248,12 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
                                     </a>
                                 </li>
 
-                                <li class="nav-item">
+                               <!-- <li class="nav-item">
                                     <a href="<?= $absoluteUrl ?>leaverecall/create/?create=1" class="nav-link <?= Yii::$app->recruitment->currentaction('leaverecall','create')?'active':'' ?>">
                                         <i class="fa fa-recycle nav-icon"></i>
                                         <p>Recall Leave</p>
                                     </a>
-                                </li>
+                                </li>-->
 
                                 <li class="nav-item">
                                     <a href="<?= $absoluteUrl ?>leaverecall/index" class="nav-link <?= Yii::$app->recruitment->currentaction('leaverecall',['index','view'])?'active':'' ?>">
@@ -264,19 +264,19 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
 
                                 <!-- Leave Reimbursement -->
 
-                                 <li class="nav-item">
+                                 <!--<li class="nav-item">
                                     <a href="<?= $absoluteUrl ?>leave-reimburse/index" class="nav-link <?= Yii::$app->recruitment->currentaction('leave-reimburse',['index','view'])?'active':'' ?>">
                                         <i class="fa fa-list nav-icon"></i>
                                         <p>Leave Reimbursement</p>
                                     </a>
-                                </li>
+                                </li>-->
 
-                                <li class="nav-item">
+                                <!--<li class="nav-item">
                                     <a href="<?= $absoluteUrl ?>leaveplan/create" class="nav-link <?= Yii::$app->recruitment->currentaction('leaveplan','create')?'active':'' ?>">
                                         <i class="fa fa-directions nav-icon"></i>
                                         <p>New Leave Plan</p>
                                     </a>
-                                </li>
+                                </li>-->
 
                                 <li class="nav-item">
                                     <a href="<?= $absoluteUrl ?>leaveplan/index" class="nav-link <?= Yii::$app->recruitment->currentaction('leaveplan','index')?'active':'' ?>">
@@ -310,7 +310,7 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
                             <a href="#" class="nav-link <?= Yii::$app->recruitment->currentCtrl(['payslip','p9'])?'active':'' ?>">
                                 <i class="nav-icon fa fa-file-invoice-dollar"></i>
                                 <p>
-                                    HR Reports
+                                    Payroll Reports
                                     <i class="fas fa-angle-left right"></i>
                                     <!--<span class="badge badge-info right">6</span>-->
                                 </p>
@@ -341,6 +341,47 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
                         </li>
                         <!--payroll reports-->
 
+                         <!--Timesheets -->
+
+                         <li class="nav-item has-treeview <?= Yii::$app->recruitment->currentCtrl(['timesheet'])?'menu-open':'' ?>">
+                            <a href="#" class="nav-link <?= Yii::$app->recruitment->currentCtrl(['timesheet'])?'active':'' ?>">
+                                <i class="nav-icon fa fa-clock"></i>
+                                <p>
+                                    Timesheets
+                                    <i class="fas fa-angle-left right"></i>
+                                    <!--<span class="badge badge-info right">6</span>-->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>timesheet" class="nav-link <?= Yii::$app->recruitment->currentaction('timesheet','index')?'active':'' ?>">
+                                        <i class="fa fa-check-square nav-icon"></i>
+                                        <p>New Timesheets</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>timesheet/pending" class="nav-link <?= Yii::$app->recruitment->currentaction('timesheet','pending')?'active':'' ?>">
+                                        <i class="fa fa-check-square nav-icon"></i>
+                                        <p>Pending Approval</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>timesheet/approved" class="nav-link <?= Yii::$app->recruitment->currentaction('timesheet','approved')?'active':'' ?>">
+                                        <i class="fa fa-check-square nav-icon"></i>
+                                        <p>Approved Timesheets</p>
+                                    </a>
+                                </li>
+
+                               
+
+                                
+
+                            </ul>
+                        </li>
+                        <!--Timesheets-->
+
 
 
                         
@@ -360,7 +401,7 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
 
                         <!-- power Bi -->
 
-                        <?php if( 1==1 ) : ?>
+                        <?php if( 1==0 ) : ?>
 
                             <li class="nav-item has-treeview <?= Yii::$app->recruitment->currentCtrl('powerbi')?'menu-open':'' ?>">
                                 <a href="#" class="nav-link <?= Yii::$app->recruitment->currentCtrl('powerbi')?'active':'' ?>" title="Power BI Reports">

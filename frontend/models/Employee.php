@@ -132,6 +132,16 @@ class Employee extends Model
     public $Inactive_Date;
     public $EFT_Format;
     public $Application_Method;
+    public $Initials;
+    public $Search_Name;
+    public $Phone_No_2;
+    public $Global_Dimension_1_Name;
+    public $Physical_Address;
+    public $Supervisor_Code;
+    public $Procurement_Comm_Member;
+    public $Emplymt_Contract_Code;
+    public $Bank_Branch_Code;
+    public $Bank_Branch_Name;
 
     public function rules()
     {

@@ -67,15 +67,21 @@ class Leaverecall extends Model
         $service = Yii::$app->params['ServiceName']['LeaveList'];
         $filter = [
             'Status' => 'Approved',
-            'Employee_No' => $this->Employee_No,
+            'Employee_No' => Yii::$app->user->identity->{'Employee No_'},
             //'Posted' => true
         ];
         $leaves = \Yii::$app->navhelper->getData($service,$filter);
+
+        //return $leaves;
 
         $result = [];
 
 
         foreach($leaves as $leave){
+            if(empty($leave->Start_Date))
+            {
+                continue;
+            }
             if(isset($leave->Days_Applied) && $leave->Days_Applied > 0) {
                 $result[] = [
                     'No' => $leave->Application_No,

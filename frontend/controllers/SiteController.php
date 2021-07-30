@@ -338,7 +338,7 @@ class SiteController extends Controller
     }
 
     public function getSupervisor($userID){
-        $service = Yii::$app->params['ServiceName']['employeeCard'];
+        $service = Yii::$app->params['ServiceName']['EmployeeCard'];
         $filter = [
             'User_ID' => $userID
         ];
