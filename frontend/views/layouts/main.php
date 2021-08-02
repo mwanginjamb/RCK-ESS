@@ -284,6 +284,12 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
                                         <p>Leave Plan List</p>
                                     </a>
                                 </li>
+                                 <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>leaveplan/departmental-leave-plan" class="nav-link <?= Yii::$app->recruitment->currentaction('leaveplan','departmental-leave-plan')?'active':'' ?>">
+                                        <i class="fa fa-list nav-icon"></i>
+                                        <p>Departmental Leave Plan </p>
+                                    </a>
+                                </li>
 
                             </ul>
                         </li>

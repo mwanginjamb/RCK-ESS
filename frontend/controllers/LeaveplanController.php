@@ -59,7 +59,7 @@ class LeaveplanController extends Controller
             ],
             'contentNegotiator' =>[
                 'class' => ContentNegotiator::class,
-                'only' => ['list'],
+                'only' => ['list','list-department'],
                 'formatParam' => '_format',
                 'formats' => [
                     'application/json' => Response::FORMAT_JSON,
@@ -72,6 +72,12 @@ class LeaveplanController extends Controller
     public function actionIndex(){
 
         return $this->render('index');
+
+    }
+
+    public function actionDepartmentalLeavePlan(){
+
+        return $this->render('dplan');
 
     }
 
@@ -259,7 +265,33 @@ class LeaveplanController extends Controller
     }
 
 
+    /*Leave Plan Departmental List*/
 
+    public function actionListDepartment(){
+        $service = Yii::$app->params['ServiceName']['DepartmentalLeaveList'];
+        $filter = [
+            'Global_Dimension_1_Code' => Yii::$app->user->identity->Employee[0]->Global_Dimension_1_Code,
+        ];
+
+        $results = \Yii::$app->navhelper->getData($service,$filter);
+        $result = [];
+        foreach($results as $item){
+                      
+
+            $result['data'][] = [
+                'Key' => $item->Key,
+                'Employee_No' => !empty($item->Employee_Code)?$item->Employee_Code:'',
+                'Employee_Name' => !empty($item->Employee_Name)?$item->Employee_Name:'',
+                'Leave_Type_Description' => !empty($item->Leave_Type_Description)?$item->Leave_Type_Description:'',
+                'Start_Date' => !empty($item->Start_Date)?$item->Start_Date:'',
+                'End_Date' => !empty($item->End_Date)?$item->End_Date:'',
+                'Days_Planned' => !empty($item->Days_Planned)?$item->Days_Planned:'',
+                'Leave_Calender' => !empty($item->Leave_Calender)?$item->Leave_Calender:'',
+            ];
+        }
+
+        return $result;
+    }
 
     public function getEmployees(){
         $service = Yii::$app->params['ServiceName']['Employees'];

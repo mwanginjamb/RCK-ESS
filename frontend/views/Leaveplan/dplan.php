@@ -11,22 +11,11 @@
 /* @var $this yii\web\View */
 
 $this->title = Yii::$app->params['generalTitle'];
-$this->params['breadcrumbs'][] = ['label' => 'Timesheet List', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Departmental Leave Plan List', 'url' => ['departmental-leave-plan']];
 $this->params['breadcrumbs'][] = '';
 $url = \yii\helpers\Url::home(true);
 ?>
-<div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-body">
-        <?= \yii\helpers\Html::a('New Timesheet Document',['create'],['class' => 'btn btn-info push-right', 'data' => [
-            'confirm' => 'Are you sure you want to create a new Document?',
-            'method' => 'get',
-        ],]) ?>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 
 <?php
@@ -50,8 +39,7 @@ if(Yii::$app->session->hasFlash('success')){
     <div class="col-md-12">
         <div class="card card-info">
             <div class="card-header">
-                <h3 class="card-title">Open Timesheets List</h3>
-
+                <h3 class="card-title">Departmental Leave Plan List</h3>
             </div>
             <div class="card-body">
                 <table class="table table-bordered dt-responsive table-hover" id="table">
@@ -75,18 +63,21 @@ $script = <<<JS
           $('#table').DataTable({
            
             //serverSide: true,  
-            ajax: url+'timesheet/list',
+            ajax: url+'leaveplan/list-department',
             paging: true,
             columns: [
-                { title: 'No' ,data: 'No'},
                 { title: 'Employee No' ,data: 'Employee_No'},
-                { title: 'Employee Name' ,data: 'Employee_Name'},             
-                { title: 'Status' ,data: 'Status'},
-                { title: 'Action', data: 'Action' },
-                               
+                { title: 'Employee Name' ,data: 'Employee_Name'},
+                { title: 'Leave Type' ,data: 'Leave_Type_Description'},
+                { title: 'Start Date' ,data: 'Start_Date'},
+                { title: 'End Date' ,data: 'End_Date'},
+                { title: 'Days Planned', data: 'Days_Planned' },
+                { title: 'Leave Calender', data: 'Leave_Calender' },
+                
+               
             ] ,                              
            language: {
-                "zeroRecords": "No Open Timesheet records to display"
+                "zeroRecords": "No Departmental Leave Plans to display"
             },
             
             order : [[ 0, "desc" ]]

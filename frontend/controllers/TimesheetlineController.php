@@ -98,7 +98,8 @@ class TimesheetlineController extends Controller
             
 
             $request = Yii::$app->navhelper->readByKey($service, $model->Key);
-            Yii::$app->navhelper->loadmodel($request[0],$model);
+            // Yii::$app->recruitment->printrr($request);
+            Yii::$app->navhelper->loadmodel($request,$model);
 
             $result = Yii::$app->navhelper->updateData($service,$model);
 
