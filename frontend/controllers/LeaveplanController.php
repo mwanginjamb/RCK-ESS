@@ -76,7 +76,7 @@ class LeaveplanController extends Controller
     }
 
     public function actionDepartmentalLeavePlan(){
-
+        // Yii::$app->recruitment->printrr(Yii::$app->user->identity->Employee);
         return $this->render('dplan');
 
     }
@@ -270,16 +270,19 @@ class LeaveplanController extends Controller
     public function actionListDepartment(){
         $service = Yii::$app->params['ServiceName']['DepartmentalLeaveList'];
         $filter = [
-            'Global_Dimension_1_Code' => Yii::$app->user->identity->Employee[0]->Global_Dimension_1_Code,
+            'Global_Dimension_2_Code' => Yii::$app->user->identity->Employee[0]->Global_Dimension_2_Code,
         ];
 
         $results = \Yii::$app->navhelper->getData($service,$filter);
+
+        // Yii::$app->recruitment->printrr($results);
+
         $result = [];
         foreach($results as $item){
                       
 
             $result['data'][] = [
-                'Key' => $item->Key,
+                'Key' => !empty($item->Key)?$item->Key:'',
                 'Employee_No' => !empty($item->Employee_Code)?$item->Employee_Code:'',
                 'Employee_Name' => !empty($item->Employee_Name)?$item->Employee_Name:'',
                 'Leave_Type_Description' => !empty($item->Leave_Type_Description)?$item->Leave_Type_Description:'',
