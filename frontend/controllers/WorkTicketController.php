@@ -72,7 +72,7 @@ class WorkTicketController extends Controller
 
         /*Do initial request */
         if(!isset(Yii::$app->request->post()['Workticket'])){
-            $model->Driver_Staff_No = Yii::$app->user->identity->{'Employee_No'};
+            $model->Driver_Staff_No = Yii::$app->user->identity->{'Employee No_'};
             $request = Yii::$app->navhelper->postData($service, $model);
             if(!is_string($request) )
             {
@@ -263,7 +263,7 @@ class WorkTicketController extends Controller
     public function actionList(){
         $service = Yii::$app->params['ServiceName']['WorkTicketList'];
         $filter = [
-            'Driver_Staff_No' => Yii::$app->user->identity->Employee_No,
+            'Driver_Staff_No' => Yii::$app->user->identity->{'Employee No_'},
         ];
 
 
@@ -359,7 +359,7 @@ class WorkTicketController extends Controller
             'Posted' => true
         ];
         $result = \Yii::$app->navhelper->getData($service, $filter);
-
+        $data = [];
 
 
 

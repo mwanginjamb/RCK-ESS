@@ -22,6 +22,10 @@ $this->title = 'Update Work Ticket';
 
     <?= $this->render('_form',[
         'model' => $model,
+        'vehicles' =>  $vehicles,
+        'departments' =>  $departments,
+        'requisitions' => $requisitions,
+        'fuel' => $fuel
 
     ]) ?>
 
