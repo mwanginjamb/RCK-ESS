@@ -11,8 +11,8 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\AgendaDocument */
-$this->params['breadcrumbs'][] = ['label' => 'Leave Plan', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => 'New Request', 'url' => ['create']];
+$this->params['breadcrumbs'][] = ['label' => 'Vehicle Requisitions', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Update Request', 'url' => ['update', 'No' => $model->Booking_Requisition_No]];
 $this->title = 'Update Vehicle Requisition';
 
 ?>

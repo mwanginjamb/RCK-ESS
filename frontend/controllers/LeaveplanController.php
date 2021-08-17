@@ -273,7 +273,9 @@ class LeaveplanController extends Controller
             'Global_Dimension_2_Code' => Yii::$app->user->identity->Employee[0]->Global_Dimension_2_Code,
         ];
 
-        $results = \Yii::$app->navhelper->getData($service,$filter);
+        
+
+        $results = \Yii::$app->navhelper->getData($service, $filter);
 
         // Yii::$app->recruitment->printrr($results);
 
@@ -290,6 +292,7 @@ class LeaveplanController extends Controller
                 'End_Date' => !empty($item->End_Date)?$item->End_Date:'',
                 'Days_Planned' => !empty($item->Days_Planned)?$item->Days_Planned:'',
                 'Leave_Calender' => !empty($item->Leave_Calender)?$item->Leave_Calender:'',
+                'Department' => !empty($item->Global_Dimension_2_Code)?$item->Global_Dimension_2_Code:'',
             ];
         }
 

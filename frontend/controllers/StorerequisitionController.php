@@ -72,7 +72,7 @@ class StorerequisitionController extends Controller
 
         /*Do initial request */
         if(!isset(Yii::$app->request->post()['Storerequisition'])){
-            $model->Employee_No = Yii::$app->user->identity->{'Employee_No'};
+            $model->Employee_No = Yii::$app->user->identity->{'Employee No_'};
             $request = Yii::$app->navhelper->postData($service, $model);
             if(!is_string($request) )
             {
@@ -84,6 +84,7 @@ class StorerequisitionController extends Controller
                     'model' => $model,
                     'programs' => $this->getPrograms(),
                     'departments' => $this->getDepartments(),
+                    'locations' => $this->getLocations()
                 ]);
             }
         }
@@ -112,6 +113,7 @@ class StorerequisitionController extends Controller
             'model' => $model,
             'programs' => $this->getPrograms(),
             'departments' => $this->getDepartments(),
+            'locations' => $this->getLocations()
         ]);
     }
 
@@ -132,7 +134,13 @@ class StorerequisitionController extends Controller
             //load nav result to model
             $model = Yii::$app->navhelper->loadmodel($result[0],$model) ;
         }else{
-            Yii::$app->recruitment->printrr($result);
+            Yii::$app->session->setFlash('error','Error Updating Document : '.$result );
+            return $this->render('update',[
+                'model' => $model,
+                'programs' => $this->getPrograms(),
+                'departments' => $this->getDepartments(),
+                'locations' => $this->getLocations()
+            ]);
         }
 
 
@@ -145,7 +153,7 @@ class StorerequisitionController extends Controller
                 return $this->redirect(['view','No' => $result->No]);
 
             }else{
-                Yii::$app->session->setFlash('success','Error Updating Document'.$result );
+                Yii::$app->session->setFlash('error','Error Updating Document'.$result );
                 return $this->render('update',[
                     'model' => $model,
                 ]);
@@ -161,8 +169,7 @@ class StorerequisitionController extends Controller
                 'model' => $model,
                 'programs' => $this->getPrograms(),
                 'departments' => $this->getDepartments(),
-
-
+                'locations' => $this->getLocations()
             ]);
         }
 
@@ -170,7 +177,7 @@ class StorerequisitionController extends Controller
             'model' => $model,
             'programs' => $this->getPrograms(),
             'departments' => $this->getDepartments(),
-
+            'locations' => $this->getLocations()
         ]);
     }
 
@@ -261,6 +268,13 @@ class StorerequisitionController extends Controller
         return ArrayHelper::map($result,'Code','Name');
     }
 
+    public function getLocations(){
+        $service = Yii::$app->params['ServiceName']['Locations'];
+
+        $result = \Yii::$app->navhelper->getData($service);
+        return Yii::$app->navhelper->refactorArray($result,'Code','Name');
+    }
+
     /* Get Department*/
 
     public function getDepartments(){
@@ -325,54 +339,53 @@ class StorerequisitionController extends Controller
 
     /* Call Approval Workflow Methods */
 
-    public function actionSendForApproval()
+    public function actionSendForApproval($No)
     {
         $service = Yii::$app->params['ServiceName']['PortalFactory'];
 
         $data = [
-            'applicationNo' => Yii::$app->request->get('Booking_Requisition_No'),
+            'applicationNo' => Yii::$app->request->get('No'),
             'sendMail' => true,
             'approvalUrl' => '',
         ];
 
 
-        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanSendLeavePlanForApproval');
+        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanSendRequisitionHeaderForApproval');
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Request Sent to Supervisor Successfully.', true);
-            return $this->redirect(['view','Plan_No' => $Plan_No]);
+            return $this->redirect(['view','No' => $No]);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error Sending  Request for Approval  : '. $result);
-            return $this->redirect(['view','Plan_No' => $Plan_No]);
+            return $this->redirect(['view','No' => $No]);
 
         }
     }
 
     /*Cancel Approval Request */
 
-    public function actionCancelRequest($Plan_No)
+    public function actionCancelRequest($No)
     {
         $service = Yii::$app->params['ServiceName']['PortalFactory'];
 
         $data = [
-            'applicationPlan_No' => $Plan_No,
+            'applicationPlan_No' => $No,
         ];
 
 
-        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanCancelLeavePlanApprovalRequest');
+        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanCancelRequisitionHeaderApprovalRequest');
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Request Cancelled Successfully.', true);
-            return $this->redirect(['view','Plan_No' => $Plan_No]);
+            return $this->redirect(['index','No' => $No]);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error Cancelling Approval Request.  : '. $result);
-            return $this->redirect(['view','Plan_No' => $Plan_No]);
+            return $this->redirect(['view','No' => $No]);
 
         }
     }
-
 
 
 }

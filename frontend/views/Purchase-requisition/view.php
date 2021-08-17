@@ -96,14 +96,16 @@ if(Yii::$app->session->hasFlash('success')){
                                 <?= $form->field($model, 'No')->textInput(['readonly' => true]) ?>
                                 <?= $form->field($model, 'Key')->hiddenInput()->label(false) ?>
                                 <?= $form->field($model, 'Employee_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                <?= $form->field($model, 'Employee_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                 <?= $form->field($model, 'Title')->textInput(['maxlength'=> 250]) ?>
+                                <?= $form->field($model, 'Requested_Delivery_Date')->textInput(['type'=> 'date','readonly'=> true, 'disabled'=>true]) ?>
 
                             </div>
                             <div class="col-md-6">
 
                                 <?= $form->field($model, 'Global_Dimension_2_Code')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                 <?= $form->field($model, 'Requisition_Date')->textInput(['readonly'=> true,'disabled'=> true]) ?>
-                                <?= $form->field($model, 'Transaction_Type')->textInput(['readonly'=> true,'disabled'=> true]) ?>
+                                
                                 <?= $form->field($model, 'Status')->textInput(['readonly'=> true,'disabled'=> true]) ?>
                                 <?= $form->field($model, 'Approval_Entries')->textInput(['readonly'=> true,'disabled'=> true]) ?>
                                
@@ -212,7 +214,7 @@ if(Yii::$app->session->hasFlash('success')){
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
                     </button>
-                    <h4 class="modal-title" id="myModalLabel" style="position: absolute">Store Requisitions</h4>
+                    <h4 class="modal-title" id="myModalLabel" style="position: absolute">Purchase Requisitions</h4>
                 </div>
                 <div class="modal-body">
 

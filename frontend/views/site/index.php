@@ -344,7 +344,7 @@ exit;*/
 
                 <div class="row">
 
-                    <div class="col-md-7">
+                    <div class="col-md-12">
                         <div class="card card-info">
                             <div class="card-header">
                                 <h3 class="card-title">My Leave Balances</h3>
@@ -367,7 +367,7 @@ exit;*/
                                         if($key == 'Key') {
                                             continue;
                                         }
-                                        elseif ($key == 'Annual_Leave_Bal' || $key == 'Compasionate_Leave_Bal'){
+                                        else{ /*if ($key == 'Annual_Leave_Bal' || $key == 'Compasionate_Leave_Bal'){*/
                                             print '
                                             <tr>
                                                 <td>'.$key.'</td><td>'.$val.'</td>
@@ -386,7 +386,7 @@ exit;*/
                     </div>
 
 
-                    <div class="col-md-5">
+                    <!--<div class="col-md-5">
 
                         <div class="card card-info">
                             <div class="card-header">
@@ -410,7 +410,7 @@ exit;*/
                             </div>
                         </div>
 
-                    </div>
+                    </div>-->
 
 
 

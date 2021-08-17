@@ -72,7 +72,7 @@ class PurchaseRequisitionController extends Controller
 
         /*Do initial request */
         if(!isset(Yii::$app->request->post()['Purchaserequisition'])){
-            $model->Employee_No = Yii::$app->user->identity->{'Employee_No'};
+            $model->Employee_No = Yii::$app->user->identity->{'Employee No_'};
             $request = Yii::$app->navhelper->postData($service, $model);
             if(!is_string($request) )
             {
@@ -88,6 +88,7 @@ class PurchaseRequisitionController extends Controller
             }
         }
 
+        $model->Requested_Delivery_Date = ($model->Requested_Delivery_Date == '0001-01-01')?date('Y-m-d'):$model->Requested_Delivery_Date;
         if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Purchaserequisition'],$model) ){
 
 
@@ -236,7 +237,7 @@ class PurchaseRequisitionController extends Controller
                     'Key' => $item->Key,
                     'No' => $item->No,
                     'Employee_No' => !empty($item->Employee_No)?$item->Employee_No:'',
-                    'Employee_Name' => !empty($item->Created_On)?$item->Created_On:'',
+                    'Employee_Name' => !empty($item->Employee_Name)?$item->Employee_Name:'',
                     'Global_Dimension_1_Code' => !empty($item->Global_Dimension_1_Code)?$item->Global_Dimension_1_Code:'',
                     'Status' => $item->Status,
                     'Action' => $link.' '. $updateLink.' '.$Viewlink ,
@@ -344,11 +345,11 @@ class PurchaseRequisitionController extends Controller
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Approval Request Sent to Supervisor Successfully.', true);
-            return $this->redirect(['view','No' => $No]);
+            return $this->redirect(['index']);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error Sending Approval Request for Approval  : '. $result);
-            return $this->redirect(['view','No' => $No]);
+            return $this->redirect(['index']);
 
         }
     }
@@ -368,11 +369,11 @@ class PurchaseRequisitionController extends Controller
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Approval Request Cancelled Successfully.', true);
-            return $this->redirect(['view','No' => $No]);
+            return $this->redirect(['index']);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error Cancelling Approval Approval Request.  : '. $result);
-            return $this->redirect(['view','No' => $No]);
+            return $this->redirect(['index']);
 
         }
     }

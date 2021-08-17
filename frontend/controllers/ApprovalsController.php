@@ -447,9 +447,21 @@ class ApprovalsController extends Controller
             'emplN' => Yii::$app->user->identity->{'Employee No_'}
         ];
 
-        if($docType == 'Requisition_Header')
+        if($docType == 'Requisition_Header' || $docType == 'Store_Requisition')
         {
             $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanApproveRequisitionHeader');
+        }
+        elseif($docType == 'Fueling')
+        {
+            $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanApproveFuelRequisition');
+        }
+        elseif($docType == 'V_Booking')
+        {
+            $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanApproveVehicleBookingRequisition');
+        }
+         elseif($docType == 'V_Repair')
+        {
+            $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanApproveVehicleRepairRequisition');
         }elseif($docType == 'Leave_Reimbursement')
         {
              $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanApproveLeave');
@@ -458,7 +470,7 @@ class ApprovalsController extends Controller
         {
              $result = Yii::$app->navhelper->PortalWorkFlows($service,['applicationNo' => $app],'IanApproveChangeRequest');
         }
-         elseif($docType == 'Overtime_Application')
+         elseif($docType == 'Overtime_Application') //  Also works for overtime
         {
              // $result = Yii::$app->navhelper->PortalWorkFlows($service,['applicationNo' => $app],'IanApproveOverTime');
              $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanApproveOverTime');

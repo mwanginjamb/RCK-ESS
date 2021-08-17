@@ -89,6 +89,7 @@ class StorerequisitionlineController extends Controller
 
             $filter = [
                 'Requisition_No' => $model->Requisition_No,
+                'Line_No' => $model->Line_No
             ];
 
             $result = Yii::$app->navhelper->updateData($service,$model);

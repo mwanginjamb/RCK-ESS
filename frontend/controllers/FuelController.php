@@ -79,13 +79,14 @@ class FuelController extends Controller
 
 
     public function actionCreate(){
-
+        
+       // Yii::$app->recruitment->printrr(Yii::$app->user->identity->{'Employee No_'});
         $model = new Fuel();
         $service = Yii::$app->params['ServiceName']['FuelingDocumentPortal'];
 
         /*Do initial request */
         if(!isset(Yii::$app->request->post()['Fuel'])){
-            $model->Driver_Staff_No = Yii::$app->user->identity->{'Employee_No'};
+            $model->Driver_Staff_No = Yii::$app->user->identity->{'Employee No_'};
             $request = Yii::$app->navhelper->postData($service,$model);
             if(is_object($request) )
             {
@@ -231,6 +232,12 @@ class FuelController extends Controller
         $results = \Yii::$app->navhelper->getData($service,$filter);
         $result = [];
         foreach($results as $item){
+
+            if(empty($item->Fuel_Code))
+            {
+                continue;
+            }
+
             $link = $updateLink = $deleteLink =  '';
             $Viewlink = Html::a('<i class="fas fa-eye"></i>',['view','No'=> $item->Fuel_Code ],['class'=>'btn btn-outline-primary btn-xs','title' => 'View Request.' ]);
             if($item->Status == 'New'){
@@ -242,7 +249,7 @@ class FuelController extends Controller
 
             $result['data'][] = [
                 'Key' => $item->Key,
-                'No' => $item->Fuel_Code,
+                'No' => !empty($item->Fuel_Code)?$item->Fuel_Code:'',
                 'Vehicle_Registration_No' => !empty($item->Vehicle_Registration_No)?$item->Vehicle_Registration_No:'',
                 'Vehicle_Model' => !empty($item->Vehicle_Model)?$item->Vehicle_Model:'',
                 'Driver_Name' => !empty($item->Driver_Name)?$item->Driver_Name:'',
@@ -403,55 +410,57 @@ class FuelController extends Controller
         return $model;
     }
 
-    /* Call Approval Workflow Methods */
+   /* Call Approval Workflow Methods */
 
-    public function actionSendForApproval()
-    {
-        $service = Yii::$app->params['ServiceName']['PortalFactory'];
+   public function actionSendForApproval($No = "")
+   {
+       $service = Yii::$app->params['ServiceName']['PortalFactory'];
 
-        $data = [
-            'applicationNo' => Yii::$app->request->get('Booking_Requisition_No'),
-            'sendMail' => true,
-            'approvalUrl' => '',
-        ];
+       $data = [
+           'applicationNo' => Yii::$app->request->get('No'),
+           'sendMail' => true,
+           'approvalUrl' => '',
+       ];
 
-
-        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanSendLeavePlanForApproval');
-
-        if(!is_string($result)){
-            Yii::$app->session->setFlash('success', 'Request Sent to Supervisor Successfully.', true);
-            return $this->redirect(['view','Plan_No' => $Plan_No]);
-        }else{
-
-            Yii::$app->session->setFlash('error', 'Error Sending  Request for Approval  : '. $result);
-            return $this->redirect(['view','Plan_No' => $Plan_No]);
-
-        }
-    }
-
-    /*Cancel Approval Request */
-
-    public function actionCancelRequest($Plan_No)
-    {
-        $service = Yii::$app->params['ServiceName']['PortalFactory'];
-
-        $data = [
-            'applicationPlan_No' => $Plan_No,
-        ];
+       // Yii::$app->recruitment->printrr($data);
 
 
-        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanCancelLeavePlanApprovalRequest');
+       $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanSendFuelRequisitionForApproval');
 
-        if(!is_string($result)){
-            Yii::$app->session->setFlash('success', 'Request Cancelled Successfully.', true);
-            return $this->redirect(['view','Plan_No' => $Plan_No]);
-        }else{
+       if(!is_string($result)){
+           Yii::$app->session->setFlash('success', 'Request Sent to Supervisor Successfully.', true);
+           return $this->redirect(['index']);
+       }else{
 
-            Yii::$app->session->setFlash('error', 'Error Cancelling Approval Request.  : '. $result);
-            return $this->redirect(['view','Plan_No' => $Plan_No]);
+           Yii::$app->session->setFlash('error', 'Error Sending  Request for Approval  : '. $result);
+           return $this->redirect(['index']);
 
-        }
-    }
+       }
+   }
+
+   /*Cancel Approval Request */
+
+   public function actionCancelRequest($No = "")
+   {
+       $service = Yii::$app->params['ServiceName']['PortalFactory'];
+
+       $data = [
+           'applicationNo' => $No,
+       ];
+
+
+       $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanCancelFuelRequisitionApprovalRequest');
+
+       if(!is_string($result)){
+           Yii::$app->session->setFlash('success', 'Request Cancelled Successfully.', true);
+           return $this->redirect(['index']);
+       }else{
+
+           Yii::$app->session->setFlash('error', 'Error Cancelling Approval Request.  : '. $result);
+           return $this->redirect(['index']);
+
+       }
+   }
 
     /*Get Vehicles */
     public function getVehicles(){

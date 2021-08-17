@@ -69,6 +69,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                             <?= $form->field($model, 'Driver_Staff_No')->textInput(['readonly'=> true,'disabled'=> true]) ?>
                             <?= $form->field($model, 'Driver_Name')->textInput(['readonly'=> true,'disabled'=> true]) ?>
                             <?= $form->field($model, 'Type_of_Fuel')->textInput(['readonly'=> true]) ?>
+                            <?= $form->field($model, 'Mileage_KMS')->textInput(['type'=> 'number']) ?>
                             <?= $form->field($model, 'Receipt_Date')->textInput(['readonly'=> true,'disabled'=> true]) ?>
                             <?= $form->field($model, 'Receipt_Order_No')->textInput(['readonly'=> true,'disabled'=> true]) ?>
                             <?= '<p><span>Total Fuel Cost</span> '.Html::a($model->Total_Fuel_Cost,'#'); '</p>'?>

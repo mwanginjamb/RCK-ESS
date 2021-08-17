@@ -84,6 +84,9 @@ class WorkTicketController extends Controller
                     'model' => $model,
                     'programs' => $this->getPrograms(),
                     'departments' => $this->getDepartments(),
+                    'vehicles' => $this->getVehicles(),
+                    'requisitions' => $this->getReleasedRequisitions(),
+                    'fuel' => $this->getFuelReq()
                 ]);
             }
         }
@@ -95,7 +98,7 @@ class WorkTicketController extends Controller
             if(!is_string($result)){
 
                 Yii::$app->session->setFlash('success','Request Created Successfully.' );
-                return $this->redirect(['view','No' => $result->No]);
+                return $this->redirect(['view','No' => $result->Work_Ticket_No]);
 
             }else{
                 Yii::$app->session->setFlash('error','Error Creating Request '.$result );
@@ -107,11 +110,16 @@ class WorkTicketController extends Controller
 
 
         //Yii::$app->recruitment->printrr($model);
+        $model->Departure_Date = ($model->Departure_Date === '0001-01-01')?date('Y-m-d'):$model->Departure_Date;
+          $model->Return_Date = ($model->Return_Date === '0001-01-01')?date('Y-m-d'):$model->Return_Date;
 
         return $this->render('create',[
             'model' => $model,
             'programs' => $this->getPrograms(),
             'departments' => $this->getDepartments(),
+            'vehicles' => $this->getVehicles(),
+            'requisitions' => $this->getReleasedRequisitions(),
+            'fuel' => $this->getFuelReq()
         ]);
     }
 
@@ -137,7 +145,9 @@ class WorkTicketController extends Controller
                 'model' => $model,
                 'programs' => $this->getPrograms(),
                 'departments' => $this->getDepartments(),
-
+                'vehicles' => $this->getVehicles(),
+                'requisitions' => $this->getReleasedRequisitions(),
+                'fuel' => $this->getFuelReq()
 
             ]);
         }
@@ -155,12 +165,19 @@ class WorkTicketController extends Controller
                 Yii::$app->session->setFlash('error','Error Updating Document'.$result );
                 return $this->render('update',[
                     'model' => $model,
+                    'programs' => $this->getPrograms(),
+                    'departments' => $this->getDepartments(),
+                    'vehicles' => $this->getVehicles(),
+                    'requisitions' => $this->getReleasedRequisitions(),
+                    'fuel' => $this->getFuelReq()
                 ]);
 
             }
 
         }
 
+          $model->Departure_Date = ($model->Departure_Date === '0001-01-01')?date('Y-m-d'):$model->Departure_Date;
+          $model->Return_Date = ($model->Return_Date === '0001-01-01')?date('Y-m-d'):$model->Return_Date;
 
         // Yii::$app->recruitment->printrr($model);
         if(Yii::$app->request->isAjax){
@@ -168,6 +185,9 @@ class WorkTicketController extends Controller
                 'model' => $model,
                 'programs' => $this->getPrograms(),
                 'departments' => $this->getDepartments(),
+                'vehicles' => $this->getVehicles(),
+                'requisitions' => $this->getReleasedRequisitions(),
+                'fuel' => $this->getFuelReq()
 
 
             ]);
@@ -177,9 +197,34 @@ class WorkTicketController extends Controller
             'model' => $model,
             'programs' => $this->getPrograms(),
             'departments' => $this->getDepartments(),
+            'vehicles' => $this->getVehicles(),
+            'requisitions' => $this->getReleasedRequisitions(),
+            'fuel' => $this->getFuelReq()
 
         ]);
     }
+
+
+    public function getVehicles(){
+        $service = Yii::$app->params['ServiceName']['VehicleRegister'];
+
+        $result = \Yii::$app->navhelper->getData($service, []);
+        $arr = [];
+        $i = 0;
+        foreach($result as $res){
+            if(!empty($res->Vehicle_Registration_No) && !empty($res->Make_Model)){
+                ++$i;
+                $arr[$i] = [
+                    'Code' => $res->Vehicle_Registration_No,
+                    'Description' => $res->Make_Model.' - '.$res->Vehicle_Registration_No
+                ];
+            }
+        }
+
+        return ArrayHelper::map($arr,'Code','Description');
+    }
+
+    
 
     public function actionDelete(){
         $service = Yii::$app->params['ServiceName']['WorkTicketDocument'];
@@ -235,6 +280,10 @@ class WorkTicketController extends Controller
                 $updateLink = (!$item->Submitted)?
                     Html::a('<i class="far fa-edit"></i>',['update','No'=> $item->Work_Ticket_No ],['class'=>'btn btn-info btn-xs','title' => 'Update Request'])
                 :'<i class="fas fa-check"></i>';
+
+                 $SubmitLink = (!$item->Submitted)?
+                    Html::a('<i class="fas fa-check"></i>',['submitwt','No'=> $item->Work_Ticket_No ],['class'=>'btn btn-success btn-xs','title' => 'submit work ticket'])
+                :'<i class="fas fa-check">Submitted</i>';
                 /* if($item->Status == 'New'){
                     $link = Html::a('<i class="fas fa-paper-plane"></i>',['send-for-approval','No'=> $item->No ],['title'=>'Send Approval Request','class'=>'btn btn-primary btn-xs']);
                     $updateLink = Html::a('<i class="far fa-edit"></i>',['update','No'=> $item->No ],['class'=>'btn btn-info btn-xs','title' => 'Update Request']);
@@ -255,7 +304,7 @@ class WorkTicketController extends Controller
                     'Created_By' => !empty($item->Created_By)?$item->Created_By:'',
                     'Department' => !empty($item->Department)?$item->Department:'',
                     'Submitted' => Html::checkbox('Submitted',$item->Submitted),
-                    'Action' => $Viewlink.' | '.$updateLink  ,
+                    'Action' => $Viewlink.$updateLink.$SubmitLink  ,
 
                 ];
             }
@@ -303,7 +352,36 @@ class WorkTicketController extends Controller
         return ArrayHelper::map($result,'Code','Name');
     }
 
+    public function getFuelReq(){
+        $service = Yii::$app->params['ServiceName']['FuelingList'];
+
+        $filter = [
+            'Posted' => true
+        ];
+        $result = \Yii::$app->navhelper->getData($service, $filter);
+
+
+
+
+        if(is_array($result)){
+            $i = 0;
+            foreach($result as  $emp){
+                $i++;
+                if(!empty($emp->Fuel_Code) && !empty($emp->Vehicle_Registration_No) && !empty($emp->Driver_Name)){
+                    $data[] = [
+                        'No' => $emp->Fuel_Code,
+                        'Desc' => $emp->Vehicle_Registration_No.' | '.$emp->Driver_Name.' | '.$emp->Created_Date.' | '.$emp->Fuel_Code
+                    ];
+                }
+            }
+
+        }
+
     
+
+       return ArrayHelper::map($data,'No','Desc');
+
+    }
 
 
 
@@ -336,6 +414,124 @@ class WorkTicketController extends Controller
     }
 
 
+    public function actionFueldd($Regno)
+    {
+       
+            $service = Yii::$app->params['ServiceName']['FuelingList'];
+            $filter = [
+                'Vehicle_Registration_No' => $Regno,
+                'Status' => 'Approved'
+            ];
+            $result = \Yii::$app->navhelper->getData($service, $filter);
+            //$data =  Yii::$app->navhelper->refactorArray($result,'No','Name');
+
+        $data[] =[
+            'No' => '',
+            'Desc' => 'Select ...',
+        ];
+        if(is_array($result)){
+            $i = 0;
+            foreach($result as  $emp){
+                $i++;
+                if(!empty($emp->Fuel_Code) && !empty($emp->Vehicle_Registration_No) && !empty($emp->Driver_Name)){
+                    $data[] = [
+                        'No' => $emp->Fuel_Code,
+                        'Desc' => $emp->Vehicle_Registration_No.' | '.$emp->Driver_Name.' | '.$emp->Created_Date.' | '.$emp->Fuel_Code
+                    ];
+                }
+            }
+
+        }        
+        // Yii::$app->recruitment->printrr($data);
+        if(count($data) )
+        {
+            foreach($data  as $k=>$v )
+            {
+                echo "<option value=".$v['No'].">".$v['Desc']."</option>";
+            }
+        }else{
+            echo "<option value=''>No data Available</option>";
+        }
+    }
+
+    //V Booking DD
+
+    public function actionBookingdd($Regno)
+    {
+       
+            $service = Yii::$app->params['ServiceName']['ReleasedBookingRequisitions'];
+            $filter = ['Vehicle_Registration_No' => $Regno];
+            $result = \Yii::$app->navhelper->getData($service, $filter);
+            //$data =  Yii::$app->navhelper->refactorArray($result,'No','Name');
+
+        $data[] = [
+             'Code' => '',
+            'Description' => 'Select ...',
+        ];
+        if(is_array($result)){
+            $i = 0;
+            foreach($result as $res){
+            if(!empty($res->Booking_Requisition_No) && !empty($res->Vehicle_Registration_No)){
+                ++$i;
+                $data[] = [
+                    'Code' => $res->Booking_Requisition_No,
+                    'Description' => $res->Vehicle_Registration_No.' - '.$res->Requisition_Date.' - '. $res->Booking_Requisition_No
+                ];
+            }
+        }
+
+        }        
+        // Yii::$app->recruitment->printrr($data);
+        if(count($data) )
+        {
+            foreach($data  as $k=>$v )
+            {
+                echo "<option value=".$v['Code'].">".$v['Description']."</option>";
+            }
+        }else{
+            echo "<option value=''>No data Available</option>";
+        }
+    }
+
+    public function getReleasedRequisitions()
+    {
+        $service = Yii::$app->params['ServiceName']['ReleasedBookingRequisitions'];
+        $result = \Yii::$app->navhelper->getData($service, []);
+         $arr = [];
+        $i = 0;
+        foreach($result as $res){
+            if(!empty($res->Booking_Requisition_No) && !empty($res->Vehicle_Registration_No)){
+                ++$i;
+                $arr[$i] = [
+                    'Code' => $res->Booking_Requisition_No,
+                    'Description' => $res->Vehicle_Registration_No.' - '.$res->Requisition_Date.' - '. $res->Booking_Requisition_No
+                ];
+            }
+        }
+         return ArrayHelper::map($arr,'Code','Description');
+    }
+
+
+    public function actionSubmitwt($No)
+    {
+        $service = Yii::$app->params['ServiceName']['FleetMgt'];
+        $data = [
+            'workTicket' => $No
+        ];
+
+        $result = Yii::$app->navhelper->CodeUnit($service,$data,'SubmitWorkTicketData');
+
+        if(!is_string($result)){
+            Yii::$app->session->setFlash('success', 'Work TicketSubmitted Successfully');
+           return  $this->redirect(['index']);
+        }else
+        {
+            Yii::$app->session->setFlash('error', 'Error: '.$result);
+            return $this->redirect(['index']);
+        }
+    }
+
+
 
 
 
@@ -360,11 +556,11 @@ class WorkTicketController extends Controller
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Request Sent to Supervisor Successfully.', true);
-            return $this->redirect(['view','Plan_No' => $Plan_No]);
+            return $this->redirect(['index']);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error Sending  Request for Approval  : '. $result);
-            return $this->redirect(['view','Plan_No' => $Plan_No]);
+            return $this->redirect(['index']);
 
         }
     }
@@ -384,11 +580,11 @@ class WorkTicketController extends Controller
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Request Cancelled Successfully.', true);
-            return $this->redirect(['view','Plan_No' => $Plan_No]);
+            return $this->redirect(['index']);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error Cancelling Approval Request.  : '. $result);
-            return $this->redirect(['view','Plan_No' => $Plan_No]);
+            return $this->redirect(['index']);
 
         }
     }

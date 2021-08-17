@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Store Requisition Card', 'url' => 
 <div class="row">
     <div class="col-md-4">
 
-        <?= ($model->Status == 'New')?Html::a('<i class="fas fa-paper-plane"></i> Send Approval Req',['send-for-approval'],['class' => 'btn btn-app submitforapproval',
+        <?= ($model->Status == 'New')?Html::a('<i class="fas fa-paper-plane"></i> Send Approval Req',['send-for-approval','No' =>$model->No],['class' => 'btn btn-app submitforapproval',
             'data' => [
                 'confirm' => 'Are you sure you want to send this document for approval?',
                 'params'=>[
@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Store Requisition Card', 'url' => 
         ]):'' ?>
 
 
-        <?= ($model->Status == 'Pending_Approval')?Html::a('<i class="fas fa-times"></i> Cancel Approval Req.',['cancel-request'],['class' => 'btn btn-app submitforapproval',
+        <?= ($model->Status == 'Pending_Approval')?Html::a('<i class="fas fa-times"></i> Cancel Approval Req.',['cancel-request','No' => $model->No],['class' => 'btn btn-app submitforapproval',
             'data' => [
             'confirm' => 'Are you sure you want to cancel document approval request?',
             'params'=>[
@@ -98,7 +98,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Store Requisition Card', 'url' => 
 
                             </div>
                             <div class="col-md-6">
-
+                                <?= $form->field($model, 'Store_Location')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                 <?= $form->field($model, 'Global_Dimension_2_Code')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                 <?= $form->field($model, 'Status')->textInput(['readonly'=> true,'disabled'=> true]) ?>
                                 <?= $form->field($model, 'Posting_Date')->hiddenInput(['readonly'=> true,'disabled'=> true])->label(false) ?>

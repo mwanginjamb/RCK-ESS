@@ -25,7 +25,8 @@ $model->isNewRecord = true;
     <?= $this->render('_form', [
         'model' => $model,
         'programs' => $programs,
-        'departments' => $departments
+        'departments' => $departments,
+        'locations' => $locations
 
     ]) ?>
 

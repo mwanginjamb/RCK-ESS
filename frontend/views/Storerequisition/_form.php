@@ -61,6 +61,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                         </div>
 
                         <div class="col-md-6">
+                            <?= $form->field($model, 'Store_Location')->dropDownList($locations,['prompt' => 'Select Store Location']) ?>
                             <?= $form->field($model, 'Global_Dimension_2_Code')->dropDownList($departments,['prompt' => 'Select Department']) ?>
                             <?= $form->field($model, 'Status')->textInput(['readonly'=> true,'disabled'=> true]) ?>
                             <?= $form->field($model, 'Posting_Date')->hiddenInput(['readonly'=> true,'disabled'=> true])->label(false) ?>

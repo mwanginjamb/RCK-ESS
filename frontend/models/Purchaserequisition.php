@@ -20,12 +20,14 @@ public $No;
 public $Employee_No;
 public $Employee_Name;
 public $Title;
+public $Requested_Delivery_Date;
+public $Project_Code;
+public $Global_Dimension_1_Code;
 public $Global_Dimension_2_Code;
 public $Requisition_Date;
-public $Transaction_Type;
 public $Status;
-public $Approval_Entries;
 public $Purchase_Requisition_Line;
+public $Approval_Entries;
 public $isNewRecord;
 
     /*public function __construct(array $config = [])
@@ -36,15 +38,16 @@ public $isNewRecord;
     public function rules()
     {
         return [
-                [['Title','No'], 'required'],
+                [['Title','No','Requested_Delivery_Date'], 'required'],
                 ['Title', 'string','max' => 250],
+                ['Requested_Delivery_Date', 'safe']
         ];
     }
 
     public function attributeLabels()
     {
         return [
-            ['Global_Dimension_2_Code' => 'Department'],
+            'Global_Dimension_2_Code' => 'Program Code',
         ];
     }
 

@@ -33,6 +33,8 @@ public $Cost_of_Repair;
 public $Budgeted_Amount;
 public $isNewRecord;
 
+public $Line_No;
+
 
     public function rules()
     {

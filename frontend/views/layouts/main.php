@@ -237,7 +237,7 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
                                 <li class="nav-item">
                                     <a href="<?= $absoluteUrl ?>leave/" class="nav-link <?= Yii::$app->recruitment->currentaction('leave','index')?'active':'' ?>">
                                         <i class="fa fa-door-open nav-icon"></i>
-                                        <p>Leave List</p>
+                                        <p>Leave Applications</p>
                                     </a>
                                 </li>
 
@@ -299,17 +299,6 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
 
                        
 
-
-
-                        
-
-
-
-
-
-
-
-                       
 
                         <!--Payroll reports -->
                          <li class="nav-item has-treeview <?= Yii::$app->recruitment->currentCtrl(['payslip','p9'])?'menu-open':'' ?>">
@@ -390,7 +379,169 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
 
 
 
+                        <!--Fleet Mgt-->
+
+                        <li class="nav-item has-treeview <?= Yii::$app->recruitment->currentCtrl(['vehiclerequisition','fuel','work-ticket','repair-requisition'])?'menu-open':'' ?>">
+                            <a href="#" title="Fleet Management" class="nav-link <?= Yii::$app->recruitment->currentCtrl(['vehiclerequisition','fuel','work-ticket','repair-requisition'])?'active':'' ?>">
+                                <i class="nav-icon fa fa-truck-moving"></i>
+                                <p>
+                                    Travel Management
+                                    <i class="fas fa-angle-left right"></i>
+                                    <!--<span class="badge badge-info right">6</span>-->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>vehiclerequisition/vehicle-availability" class="nav-link <?= Yii::$app->recruitment->currentaction('vehiclerequisition','vehicle-availability')?'active':'' ?>">
+                                        <i class="fa fa-key nav-icon"></i>
+                                        <p> Vehicle Availability List</p>
+                                    </a>
+                                </li>
+
+                                <!--<li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>vehiclerequisition/create" class="nav-link <?= Yii::$app->recruitment->currentaction('vehiclerequisition','create')?'active':'' ?>">
+                                        <i class="fa fa-key nav-icon"></i>
+                                        <p> New Booking Req.</p>
+                                    </a>
+                                </li>-->
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>vehiclerequisition" class="nav-link <?= Yii::$app->recruitment->currentaction('vehiclerequisition','index')?'active':'' ?>">
+                                        <i class="fa fa-truck-pickup nav-icon"></i>
+                                        <p> Booking Req. List</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>vehiclerequisition/approved-requisitions" class="nav-link <?= Yii::$app->recruitment->currentaction('vehiclerequisition','approved-requisitions')?'active':'' ?>">
+                                        <i class="fa fa-check nav-icon"></i>
+                                        <p> Approved Bookings List</p>
+                                    </a>
+                                </li>
+
+                               <!-- <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>fuel/create" class="nav-link <?= Yii::$app->recruitment->currentaction('fuel','create')?'active':'' ?>">
+                                        <i class="fa fa-fire nav-icon"></i>
+                                        <p> New Fuel Req.</p>
+                                    </a>
+                                </li>-->
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>fuel" class="nav-link <?= Yii::$app->recruitment->currentaction('fuel','index')?'active':'' ?>">
+                                        <i class=" fa fa-dumpster-fire nav-icon"></i>
+                                        <p> Fuel Req. List</p>
+                                    </a>
+                                </li>
+
+
+                                <!--<li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>work-ticket/create" class="nav-link <?= Yii::$app->recruitment->currentaction('work-ticket','create')?'active':'' ?>">
+                                        <i class="fa fa-ticket-alt nav-icon"></i>
+                                        <p> New Work Ticket</p>
+                                    </a>
+                                </li>-->
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>work-ticket" class="nav-link <?= Yii::$app->recruitment->currentaction('work-ticket','index')?'active':'' ?>">
+                                        <i class=" fa fa-ticket-alt nav-icon"></i>
+                                        <p> Work Ticket List</p>
+                                    </a>
+                                </li>
+
+
+                                <!--<li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>repair-requisition/create" class="nav-link <?= Yii::$app->recruitment->currentaction('repair-requisition','create')?'active':'' ?>">
+                                        <i class="fa fa-wrench nav-icon"></i>
+                                        <p> New Repair Requisition</p>
+                                    </a>
+                                </li>-->
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>repair-requisition" class="nav-link <?= Yii::$app->recruitment->currentaction('repair-requisition','index')?'active':'' ?>">
+                                        <i class=" fa fa-wrench nav-icon"></i>
+                                        <p> Repair Req. List</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>repair-requisition/monitoring" class="nav-link <?= Yii::$app->recruitment->currentaction('repair-requisition','monitoring')?'active':'' ?>">
+                                        <i class=" fa fa-wrench nav-icon"></i>
+                                        <p> Repair Status Monitoring</p>
+                                    </a>
+                                </li>
+
+
+                            </ul>
+
+                        </li>
+
+
+                        <!--/Fleet Mgt--> 
                         
+                        
+                        <!--Procurement-->
+
+                        <li class="nav-item has-treeview <?= Yii::$app->recruitment->currentCtrl(['storerequisition','purchase-requisition'])?'menu-open':'' ?>">
+                            <a href="#" title="Performance Management" class="nav-link <?= Yii::$app->recruitment->currentCtrl('storerequisition')?'active':'' ?>">
+                                <i class="nav-icon fa fa-truck-loading"></i>
+                                <p>
+                                    Procurement
+                                    <i class="fas fa-angle-left right"></i>
+                                    <!--<span class="badge badge-info right">6</span>-->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+
+
+                                <!--<li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>storerequisition/create" class="nav-link <?= Yii::$app->recruitment->currentaction('storerequisition','create')?'active':'' ?>">
+                                        <i class="fa fa-truck-loading nav-icon"></i>
+                                        <p> New Store Req.</p>
+                                    </a>
+                                </li>-->
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>storerequisition" class="nav-link <?= Yii::$app->recruitment->currentaction('storerequisition','index')?'active':'' ?>">
+                                        <i class="fa fa-truck-loading nav-icon"></i>
+                                        <p> Store Req. List</p>
+                                    </a>
+                                </li>
+
+
+                            </ul>
+
+
+
+                            <!--Purchase Requisition -->
+
+
+                            <ul class="nav nav-treeview">
+
+
+                                <!--<li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>purchase-requisition/create" class="nav-link <?= Yii::$app->recruitment->currentaction('purchase-requisition','create')?'active':'' ?>">
+                                        <i class="fa fa-truck-loading nav-icon"></i>
+                                        <p> New Purchase Req.</p>
+                                    </a>
+                                </li>-->
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>purchase-requisition" class="nav-link <?= Yii::$app->recruitment->currentaction('purchase-requisition','index')?'active':'' ?>">
+                                        <i class="fa fa-truck-loading nav-icon"></i>
+                                        <p> Purchase Req. List</p>
+                                    </a>
+                                </li>
+
+
+                            </ul>
+
+
+
+                        </li>
+
+
+                        <!--/Procurement-->
 
                         
 

@@ -13,7 +13,7 @@ use yii\helpers\Html;
 /* @var $model frontend\models\AgendaDocument */
 $this->params['breadcrumbs'][] = ['label' => 'Work Tickets', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => 'Update Work Ticket', 'url' => ['update','No' => $model->Work_Ticket_No]];
-$this->title = 'Update Store Requisition';
+$this->title = 'Update Work Ticket';
 
 ?>
 <div class="agenda-document-update">

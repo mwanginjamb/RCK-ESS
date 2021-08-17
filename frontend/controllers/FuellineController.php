@@ -78,7 +78,7 @@ class FuellineController extends Controller
         if(Yii::$app->request->get('No') && !Yii::$app->request->post()){
 
                 $model->Fuel_Code = $No;
-                $model->Line_No = time();
+                // $model->Line_No = time();
                 $result = Yii::$app->navhelper->postData($service, $model);
                
 
@@ -98,6 +98,7 @@ class FuellineController extends Controller
 
             $filter = [
                 'Fuel_Code' => Yii::$app->request->get('No'),
+                'Line_No' => $model->Line_No
             ];
 
             $refresh = Yii::$app->navhelper->getData($service,$filter);

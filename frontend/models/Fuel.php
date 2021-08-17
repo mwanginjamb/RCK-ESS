@@ -31,6 +31,8 @@ public $Receipt_Order_No;
 public $Total_Fuel_Cost;
 public $isNewRecord;
 
+public $Mileage_KMS;
+
 
     public function rules()
     {

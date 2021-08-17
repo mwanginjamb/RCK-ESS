@@ -75,10 +75,9 @@ class PurchaseRequisitionlineController extends Controller
        $service = Yii::$app->params['ServiceName']['PurchaseRequisitionLine'];
        $model = new Purchaserequisitionline();
 
-        if(Yii::$app->request->get('No') && !isset(Yii::$app->request->post()['PurchaseRequisitionlineController'])){
+        if(Yii::$app->request->get('No') && !isset(Yii::$app->request->post()['Purchaserequisitionline'])){
 
                 $model->Requisition_No = $No;
-                // $model->Type = 'Item';
                 $result = Yii::$app->navhelper->postData($service, $model);
                 //Yii::$app->recruitment->printrr($result);
 
@@ -110,11 +109,11 @@ class PurchaseRequisitionlineController extends Controller
                 'model' => $model,
                 'locations' => $this->getLocations(),
                 'items' => $this->getItems(),
-                'students' => $this->getStudents(),
-                'animals' => $this->getAnimals(),
-                'shades' => $this->getShades(),
-                'institutions' => $this->getInstitutions(),
-                'glaccounts' => $this->getGlaccounts(),
+                'students' =>[],
+                'animals' => [],
+                'shades' => [],
+                'institutions' => [],
+                'glaccounts' => [],
             ]);
         }
 
@@ -167,11 +166,11 @@ class PurchaseRequisitionlineController extends Controller
                 'model' => $model,
                 'locations' => $this->getLocations(),
                 'items' => $this->getItems(),
-                'students' => $this->getStudents(),
-                'animals' => $this->getAnimals(),
-                'shades' => $this->getShades(),
-                'institutions' => $this->getInstitutions(),
-                'glaccounts' => $this->getGlaccounts(),
+                'students' => [],
+                'animals' => [],
+                'shades' => [],
+                'institutions' => [],
+                'glaccounts' => [],
             ]);
         }
 
@@ -340,7 +339,7 @@ class PurchaseRequisitionlineController extends Controller
 
     public function getItems(){
         $service = Yii::$app->params['ServiceName']['Items'];
-        $filter = [];
+        $filter = [];   
         $result = \Yii::$app->navhelper->getData($service, $filter);
 
 

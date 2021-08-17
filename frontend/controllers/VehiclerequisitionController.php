@@ -96,7 +96,7 @@ class VehiclerequisitionController extends Controller
 
         /*Do initial request */
         if(!isset(Yii::$app->request->post()['Vehiclerequisition'])){
-            $model->Employee_No = Yii::$app->user->identity->{'Employee_No'};
+            $model->Employee_No = Yii::$app->user->identity->{'Employee No_'};;
             $request = Yii::$app->navhelper->postData($service, $model);
             if(!is_string($request) )
             {
@@ -144,7 +144,7 @@ class VehiclerequisitionController extends Controller
 
     public function actionUpdate($No){
         $model = new Vehiclerequisition();
-        $service = Yii::$app->params['ServiceName']['Vehiclerequisition'];
+        $service = Yii::$app->params['ServiceName']['BookingRequisitionPortal'];
         $model->isNewRecord = false;
 
         $filter = [
@@ -160,9 +160,9 @@ class VehiclerequisitionController extends Controller
         }
 
 
-        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Salaryadvance'],$model) ){
+        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Vehiclerequisition'],$model) ){
             $filter = [
-                'Plan_No' => $model->Plan_No,
+                'Booking_Requisition_No' => $model->Booking_Requisition_No,
             ];
             /*Read the card again to refresh Key in case it changed*/
             $refresh = Yii::$app->navhelper->getData($service,$filter);
@@ -172,12 +172,12 @@ class VehiclerequisitionController extends Controller
 
             if(!is_string($result)){
 
-                Yii::$app->session->setFlash('success','Leave Plan Header Updated Successfully.' );
+                Yii::$app->session->setFlash('success','Document Updated Successfully.' );
 
-                return $this->redirect(['view','Plan_No' => $result->Plan_No]);
+                return $this->redirect(['view','No' => $result->Booking_Requisition_No]);
 
             }else{
-                Yii::$app->session->setFlash('success','Error Updating Leave Plan Header '.$result );
+                Yii::$app->session->setFlash('success','Error Updating Document '.$result );
                 return $this->render('update',[
                     'model' => $model,
                 ]);
@@ -201,6 +201,7 @@ class VehiclerequisitionController extends Controller
 
         ]);
     }
+
 
     public function actionDelete(){
         $service = Yii::$app->params['ServiceName']['CareerDevStrengths'];
@@ -491,11 +492,11 @@ class VehiclerequisitionController extends Controller
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Request Sent to Supervisor Successfully.', true);
-            return $this->redirect(['view','No' => $DocNo]);
+            return $this->redirect(['index']);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error Sending  Request for Approval  : '. $result);
-            return $this->redirect(['view','No' => $DocNo]);
+            return $this->redirect(['index']);
 
         }
     }

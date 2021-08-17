@@ -25,6 +25,7 @@ public $Global_Dimension_3_Code;
 public $Status;
 public $Posting_Date;
 public $Approval_Entries;
+public $Store_Location;
 public $isNewRecord;
 
     /*public function __construct(array $config = [])
@@ -35,7 +36,7 @@ public $isNewRecord;
     public function rules()
     {
         return [
-
+            ['Store_Location','required'],
         ];
     }
 

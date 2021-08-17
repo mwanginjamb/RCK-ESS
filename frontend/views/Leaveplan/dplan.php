@@ -57,7 +57,7 @@ $script = <<<JS
     $(function(){
          /*Data Tables*/
          
-        $.fn.dataTable.ext.errMode = 'throw';
+        // $.fn.dataTable.ext.errMode = 'throw';
         const url = $('#url').val();
     
           $('#table').DataTable({
@@ -73,6 +73,7 @@ $script = <<<JS
                 { title: 'End Date' ,data: 'End_Date'},
                 { title: 'Days Planned', data: 'Days_Planned' },
                 { title: 'Leave Calender', data: 'Leave_Calender' },
+                { title: 'Department', data: 'Department' },
                 
                
             ] ,                              
