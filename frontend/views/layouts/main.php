@@ -381,8 +381,8 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
 
                         <!--Fleet Mgt-->
 
-                        <li class="nav-item has-treeview <?= Yii::$app->recruitment->currentCtrl(['vehiclerequisition','fuel','work-ticket','repair-requisition'])?'menu-open':'' ?>">
-                            <a href="#" title="Fleet Management" class="nav-link <?= Yii::$app->recruitment->currentCtrl(['vehiclerequisition','fuel','work-ticket','repair-requisition'])?'active':'' ?>">
+                        <li class="nav-item has-treeview <?= Yii::$app->recruitment->currentCtrl(['vehiclerequisition','fuel','work-ticket','repair-requisition','taxie'])?'menu-open':'' ?>">
+                            <a href="#" title="Fleet Management" class="nav-link <?= Yii::$app->recruitment->currentCtrl(['vehiclerequisition','fuel','work-ticket','repair-requisition','taxie'])?'active':'' ?>">
                                 <i class="nav-icon fa fa-truck-moving"></i>
                                 <p>
                                     Travel Management
@@ -399,12 +399,12 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
                                     </a>
                                 </li>
 
-                                <!--<li class="nav-item">
-                                    <a href="<?= $absoluteUrl ?>vehiclerequisition/create" class="nav-link <?= Yii::$app->recruitment->currentaction('vehiclerequisition','create')?'active':'' ?>">
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>taxie" class="nav-link <?= Yii::$app->recruitment->currentaction('taxie','index')?'active':'' ?>">
                                         <i class="fa fa-key nav-icon"></i>
-                                        <p> New Booking Req.</p>
+                                        <p> Taxie Req. List</p>
                                     </a>
-                                </li>-->
+                                </li>
 
                                 <li class="nav-item">
                                     <a href="<?= $absoluteUrl ?>vehiclerequisition" class="nav-link <?= Yii::$app->recruitment->currentaction('vehiclerequisition','index')?'active':'' ?>">
