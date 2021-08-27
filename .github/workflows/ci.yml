@@ -34,7 +34,7 @@ jobs:
         working-directory: F:\Apache24\htdocs\ESS_LIVE
         
       - name: Run any migrations
-        run: yii migrate --interactive=0
+        run: .\yii migrate --interactive=0
         working-directory: F:\Apache24\htdocs\ESS_LIVE
         
         
