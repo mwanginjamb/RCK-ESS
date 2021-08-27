@@ -144,24 +144,7 @@ class LeaveController extends Controller
         }
 
 
-        // Upload Attachment File
-       /* if(!empty($_FILES)){
-            $Attachmentmodel = new Leaveattachment();
-            $Attachmentmodel->Document_No =  Yii::$app->request->post()['Leaveattachment']['Document_No'];
-            $Attachmentmodel->attachmentfile = UploadedFile::getInstanceByName('attachmentfile');
-
-            $result = $Attachmentmodel->Upload($Attachmentmodel->Document_No);
-
-            
-             if(!is_string($result) || $result == true){
-                Yii::$app->session->setFlash('success','Leave Application and Attachement Saved Successfully. ', true);
-                 return $this->redirect(['index']);
-            }else{
-                Yii::$app->session->setFlash('error','Could not save attachment.'.$result, true);
-                 return $this->redirect(['index']);
-            }
-            
-        }*/
+      
 
         return $this->render('create',[
             'model' => $model,
@@ -498,28 +481,23 @@ class LeaveController extends Controller
 
     public function getEmployees(){
 
-        //Yii::$app->recruitment->printrr(Yii::$app->user->identity->Employee[0]->Global_Dimension_3_Code);
-        $service = Yii::$app->params['ServiceName']['Employees'];
-        $filter = [
-            // 'Global_Dimension_3_Code' => Yii::$app->user->identity->Employee[0]->Global_Dimension_3_Code
-        ];
-        $employees = \Yii::$app->navhelper->getData($service, $filter);
-        $data = [];
-        $i = 0;
-        if(is_array($employees)){
-
-            foreach($employees as  $emp){
-                $i++;
-                if(!empty($emp->Full_Name) && !empty($emp->No)){
-                    $data[$i] = [
-                        'No' => $emp->No,
-                        'Full_Name' => $emp->Full_Name
-                    ];
-                }
-
-            }
+        // Yii::$app->recruitment->printrr(Yii::$app->user->identity->Employee[0]->Global_Dimension_2_Code);
+        
+        $service = Yii::$app->params['ServiceName']['EmployeesUnfiltered'];
+        $filter = [];
+        
+        if(property_exists(Yii::$app->user->identity->Employee[0],'Global_Dimension_2_Code')) 
+        {
+            $filter = [
+                'Global_Dimension_2_Code' => Yii::$app->user->identity->Employee[0]->Global_Dimension_2_Code
+            ];
+        }else{
+            Yii::$app->session->setFlash('error','Note: You are going to see a list of all employees as relievers since your PROGRAM CODE is not set in your Employee Card.');
         }
-        return ArrayHelper::map($data,'No','Full_Name');
+       
+        $employees = \Yii::$app->navhelper->getData($service, $filter);
+    
+        return Yii::$app->navhelper->refactorArray($employees,'No','Full_Name');
     }
 
 

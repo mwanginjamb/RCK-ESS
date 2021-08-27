@@ -399,12 +399,12 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
                                     </a>
                                 </li>
 
-                                <li class="nav-item">
+                                <!--<li class="nav-item">
                                     <a href="<?= $absoluteUrl ?>taxie" class="nav-link <?= Yii::$app->recruitment->currentaction('taxie','index')?'active':'' ?>">
                                         <i class="fa fa-key nav-icon"></i>
                                         <p> Taxie Req. List</p>
                                     </a>
-                                </li>
+                                </li>-->
 
                                 <li class="nav-item">
                                     <a href="<?= $absoluteUrl ?>vehiclerequisition" class="nav-link <?= Yii::$app->recruitment->currentaction('vehiclerequisition','index')?'active':'' ?>">
