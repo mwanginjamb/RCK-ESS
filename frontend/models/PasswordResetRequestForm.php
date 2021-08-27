@@ -22,12 +22,19 @@ class PasswordResetRequestForm extends Model
             ['email', 'trim'],
             ['email', 'required'],
             ['email', 'email'],
-            ['email', 'exist',
-                'targetClass' => '\common\models\User',
-                'filter' => ['status' => User::STATUS_ACTIVE],
-                'message' => 'There is no user with this email address.'
-            ],
+            ['email', 'emailCheck' ],
         ];
+    }
+
+
+    public function emailCheck($attribute, $params)
+    {
+       $service = Yii::$app->params['ServiceName']['EmployeeCard'];
+       $Employee = Yii::$app->navhelper->getData($service,['Company_E_Mail' => $this->email]);
+
+        if(!is_array($Employee)){
+            $this->addError($attribute,'E-mail address supplied is not associated with any Employee.');
+        }
     }
 
     /**
@@ -37,10 +44,14 @@ class PasswordResetRequestForm extends Model
      */
     public function sendEmail()
     {
+        $service = Yii::$app->params['ServiceName']['EmployeeCard'];
+        $userService = Yii::$app->params['ServiceName']['UserSetup'];
+        $Employee = Yii::$app->navhelper->getData($service,['Company_E_Mail' => $this->email]);
+
+
         /* @var $user User */
         $user = User::findOne([
-            'status' => User::STATUS_ACTIVE,
-            'email' => $this->email,
+            'Employee No_ ' => $Employee[0]->No,
         ]);
 
         if (!$user) {
@@ -58,9 +69,9 @@ class PasswordResetRequestForm extends Model
             ->mailer
             ->compose(
                 ['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'],
-                ['user' => $user]
+                ['user' => $user, 'employee' => $Employee[0]]
             )
-            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' Robot'])
+            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' ESS SUPPORT'])
             ->setTo($this->email)
             ->setSubject('Password reset for ' . Yii::$app->name)
             ->send();

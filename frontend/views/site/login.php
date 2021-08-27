@@ -54,10 +54,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php $form->field($model, 'rememberMe')->checkbox() ?>
 
 
-                <!--<div class="form-group">
+                <div class="form-group">
 
-                     <?/*= '<p class="text-white">Click  here to '. Html::a('Reset Password', ['/site/request-password-reset'],['class' => '']). '.</p>' */?>
-                </div>-->
+                     <?= '<p class="text-white">Click  here to '. Html::a('Reset Password', ['/site/request-password-reset'],['class' => '']). '.</p>' ?>
+                </div>
 
                 <div class="form-group">
                     <?= Html::submitButton('Login', ['class' => 'btn btn-warning', 'name' => 'login-button']) ?>

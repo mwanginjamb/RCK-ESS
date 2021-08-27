@@ -11,8 +11,9 @@ namespace frontend\models;
 
 use yii\base\Model;
 use Yii;
+use yii\db\ActiveRecord;
 
-class Employee extends Model
+class Employee extends ActiveRecord
 {
     public $No;
     public $First_Name;
@@ -139,6 +140,15 @@ class Employee extends Model
     public $Department_Name;
     public $Section_Name;
     public $Unit_Name;
+
+
+
+    public static function tableName()
+    {
+       // return '{{%user}}';
+
+        return Yii::$app->params['DBCompanyName'].'Employee ';
+    }
 
     public function rules()
     {
