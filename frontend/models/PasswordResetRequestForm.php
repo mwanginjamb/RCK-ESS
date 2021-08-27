@@ -32,9 +32,11 @@ class PasswordResetRequestForm extends Model
        $service = Yii::$app->params['ServiceName']['EmployeeCard'];
        $Employee = Yii::$app->navhelper->getData($service,['Company_E_Mail' => $this->email]);
 
-        if(!is_array($Employee)){
+        if(!$Employee){
             $this->addError($attribute,'E-mail address supplied is not associated with any Employee.');
         }
+
+        
     }
 
     /**
@@ -50,13 +52,13 @@ class PasswordResetRequestForm extends Model
 
 
         /* @var $user User */
-        $user = User::findOne([
-            'Employee No_ ' => $Employee[0]->No,
-        ]);
+        $User = Yii::$app->navhelper->getData($userService,['Employee_No' => $Employee[0]->No]);
 
-        if (!$user) {
+        if (!is_array($User)) {
             return false;
         }
+
+        $user = User::findOne(['User ID' => $User[0]->User_ID]);
         
         if (!User::isPasswordResetTokenValid($user->password_reset_token)) {
             $user->generatePasswordResetToken();
