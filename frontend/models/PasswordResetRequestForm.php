@@ -32,7 +32,7 @@ class PasswordResetRequestForm extends Model
        $service = Yii::$app->params['ServiceName']['EmployeeCard'];
        $Employee = Yii::$app->navhelper->getData($service,['Company_E_Mail' => $this->email]);
 
-        if(!$Employee){
+        if(is_object($Employee) ||   is_string($Employee) ){
             $this->addError($attribute,'E-mail address supplied is not associated with any Employee.');
         }
 
@@ -59,10 +59,12 @@ class PasswordResetRequestForm extends Model
         }
 
         $user = User::findOne(['User ID' => $User[0]->User_ID]);
+
+        //Yii::$app->recruitment->printrr($user->User_ID);
         
-        if (!User::isPasswordResetTokenValid($user->password_reset_token)) {
-            $user->generatePasswordResetToken();
-            if (!$user->save()) {
+        if (!user::isPasswordResetTokenValid($user->password_reset_token)) {
+            $user->generatePasswordResetToken($User);
+            if (!$user->save(false)) {
                 return false;
             }
         }
@@ -73,7 +75,7 @@ class PasswordResetRequestForm extends Model
                 ['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'],
                 ['user' => $user, 'employee' => $Employee[0]]
             )
-            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' ESS SUPPORT'])
+            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' SUPPORT'])
             ->setTo($this->email)
             ->setSubject('Password reset for ' . Yii::$app->name)
             ->send();

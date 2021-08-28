@@ -34,10 +34,10 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['logout', 'signup','index','getemployee'],
+                'only' => ['logout', 'signup','index','getemployee','reset-password'],
                 'rules' => [
                     [
-                        'actions' => ['signup'],
+                        'actions' => ['signup','reset-password'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -85,7 +85,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        //Yii::$app->recruitment->printrr(Yii::$app->user->identity);
+        // Yii::$app->recruitment->printrr(Yii::$app->user->identity);
 
        if(!is_array($this->actionGetemployee()))
        {
@@ -258,6 +258,9 @@ class SiteController extends Controller
     public function actionResetPassword($token)
     {
         $this->layout = 'login';
+
+        //Yii::$app->recruitment->printrr($User);
+
         try {
             $model = new ResetPasswordForm($token);
         } catch (InvalidArgumentException $e) {

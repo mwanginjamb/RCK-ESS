@@ -11,6 +11,7 @@ use common\models\User;
 class ResetPasswordForm extends Model
 {
     public $password;
+    public $confirmpassword;
 
     /**
      * @var \common\models\User
@@ -30,7 +31,14 @@ class ResetPasswordForm extends Model
         if (empty($token) || !is_string($token)) {
             throw new InvalidArgumentException('Password reset token cannot be blank.');
         }
-        $this->_user = User::findByPasswordResetToken($token);
+
+        $userService = \Yii::$app->params['ServiceName']['UserSetup'];
+        $User = \Yii::$app->navhelper->getData($userService,['password_reset_token' => $token]);
+        $this->_user = $User[0];// User::findByPasswordResetToken($token);
+
+        
+
+
         if (!$this->_user) {
             throw new InvalidArgumentException('Wrong password reset token.');
         }
@@ -43,8 +51,10 @@ class ResetPasswordForm extends Model
     public function rules()
     {
         return [
-            ['password', 'required'],
+            [['password','confirmpassword'], 'required'],
             ['password', 'string', 'min' => 6],
+            ['confirmpassword', 'string'],
+            ['confirmpassword','compare','compareAttribute'=>'password','message'=>'Passwords do not match, try again'],
         ];
     }
 
@@ -55,10 +65,22 @@ class ResetPasswordForm extends Model
      */
     public function resetPassword()
     {
+        $Service = \Yii::$app->params['ServiceName']['PortalFactory'];
+        // call code unit
+
+        $data= [
+            'newPassword' => $this->password,
+            'confirmPassword' => $this->confirmpassword,
+            'empNo' => $this->_user->Employee_No
+        ];
+
+        return \Yii::$app->navhelper->codeunit($Service,$data,'IanResetPassword');
+        
+        /*
         $user = $this->_user;
         $user->setPassword($this->password);
         $user->removePasswordResetToken();
 
-        return $user->save(false);
+        return $user->save(false);*/
     }
 }
