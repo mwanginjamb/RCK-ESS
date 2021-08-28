@@ -50,7 +50,7 @@ phpunit.phar
 
 #Exclude comon configs
 
-/common
-/common/config/params.php
+#/common
+#/common/config/params.php
 
 .env
