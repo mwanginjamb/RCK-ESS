@@ -15,8 +15,8 @@ return [
     'NavisionPassword'=> env('NAV_PASSWORD'),
 
     'authMode' => [
-        'AD' => 'AD',
-        'NAV' => 'NAV'
+        'AD' => FALSE,
+        'NAV' => TRUE
     ],
 
 
