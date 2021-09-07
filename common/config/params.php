@@ -2,8 +2,8 @@
 return [
     'generalTitle' => env('GENERAL_TITLE'),
     'welcomeText' => env('WELCOME_TEXT'),
-    'ClientCompany' => 'Test RCK Employee Self Service', //branding
-    'VendorCompany' => 'IANSOFT TECHNOLOGIES LTD',
+    'ClientCompany' => env('CLIENT'), //branding
+    'VendorCompany' => env('VENDOR'),
     
     'adminEmail' => 'rck.support@softeboard.com',
     'supportEmail' => 'rck.support@softeboard.com',
@@ -429,6 +429,13 @@ return [
         'PurchaseRequisitionLine' => 'PurchaseRequisitionLine', // 66092
         'Institutions' => 'Institutions', //90003
         'GLAccountList' => 'GLAccountList', //18
+
+
+        /**************RFQ COMMITEE Evaluation**************************************** */
+
+        'SentQuotationList' => 'SentQuotationList', //67033
+        'RFQCommiteeEvaluation' => 'RFQCommiteeEvaluation', // 67135
+
 
 
         /**************************Work Ticket****************************************/

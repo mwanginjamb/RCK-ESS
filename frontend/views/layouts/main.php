@@ -482,7 +482,7 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
                         
                         <!--Procurement-->
 
-                        <li class="nav-item has-treeview <?= Yii::$app->recruitment->currentCtrl(['storerequisition','purchase-requisition'])?'menu-open':'' ?>">
+                        <li class="nav-item has-treeview <?= Yii::$app->recruitment->currentCtrl(['storerequisition','purchase-requisition','rfq'])?'menu-open':'' ?>">
                             <a href="#" title="Performance Management" class="nav-link <?= Yii::$app->recruitment->currentCtrl('storerequisition')?'active':'' ?>">
                                 <i class="nav-icon fa fa-truck-loading"></i>
                                 <p>
@@ -530,6 +530,22 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
                                     <a href="<?= $absoluteUrl ?>purchase-requisition" class="nav-link <?= Yii::$app->recruitment->currentaction('purchase-requisition','index')?'active':'' ?>">
                                         <i class="fa fa-truck-loading nav-icon"></i>
                                         <p> Purchase Req. List</p>
+                                    </a>
+                                </li>
+
+
+                            </ul>
+
+
+                            <!-- RFQ Comitte Evaluation -->
+
+
+                            <ul class="nav nav-treeview">
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>rfq" class="nav-link <?= Yii::$app->recruitment->currentaction('rfq','index')?'active':'' ?>">
+                                        <i class="fa fa-truck-loading nav-icon"></i>
+                                        <p> RFQ Evaluation</p>
                                     </a>
                                 </li>
 
