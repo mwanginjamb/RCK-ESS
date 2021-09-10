@@ -62,6 +62,8 @@ class User extends ActiveRecord implements IdentityInterface
     public $M_PESA_User;
     public $password_reset_token;
 
+    public $Is_System_Admin;
+
 
 
     

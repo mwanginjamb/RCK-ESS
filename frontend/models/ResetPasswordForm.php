@@ -34,6 +34,7 @@ class ResetPasswordForm extends Model
 
         $userService = \Yii::$app->params['ServiceName']['UserSetup'];
         $User = \Yii::$app->navhelper->getData($userService,['password_reset_token' => $token]);
+        //print_r($User); exit;
         $this->_user = $User[0];// User::findByPasswordResetToken($token);
 
         
@@ -75,6 +76,7 @@ class ResetPasswordForm extends Model
         ];
 
         return \Yii::$app->navhelper->codeunit($Service,$data,'IanResetPassword');
+        
         
         /*
         $user = $this->_user;
