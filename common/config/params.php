@@ -5,11 +5,11 @@ return [
     'ClientCompany' => env('CLIENT'), //branding
     'VendorCompany' => env('VENDOR'),
     
-    'adminEmail' => 'rck.support@softeboard.com',
-    'supportEmail' => 'rck.support@softeboard.com',
-    'senderEmail' => 'rck.support@softeboard.com',
+    'adminEmail' => env('SMTP_USERNAME'),
+    'supportEmail' => env('SMTP_USERNAME'),
+    'senderEmail' => env('SMTP_USERNAME'),
     
-    'senderName' => 'HRMIS mailer',
+    'senderName' => 'HRMIS',
     'user.passwordResetTokenExpire' => 3600,
     'NavisionUsername'=> env('NAV_USERNAME'),
     'NavisionPassword'=> env('NAV_PASSWORD'),
@@ -19,8 +19,6 @@ return [
         'NAV' => TRUE
     ],
 
-
-    
 
     'server'=> env('NAV_SERVER'),//'app-svr-dev.rbss.com',//Navision Server
     'WebServicePort'=> env('WS_PORT'),//Nav server Port

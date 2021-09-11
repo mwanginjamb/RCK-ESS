@@ -17,11 +17,20 @@ return [
             'useFileTransport' => false,
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
-                'host' => 'mail.softeboard.com',
-                'username' => 'rck.support@softeboard.com',
-                'password' => '@Rck2021#*',
-                'port' => '587',
+                'host' => env('SMTP_HOST'),
+                'username' => env('SMTP_USERNAME'),
+                'password' => env('SMPTP_PWD'),
+                'port' => env('SMTP_PORT'),
+                'encryption' => 'tls',
+                'streamOptions' => [
+                    'ssl' => [
+                        'allow_self_signed' => true,
+                        'verify_peer' => true,
+                        'verify_peer_name' => true,
+                    ],
+                ],
             ],
+            
         ],
         'db' => [
             'class' => 'yii\db\Connection',
