@@ -102,13 +102,7 @@ class ImprestController extends Controller
                 $model = Yii::$app->navhelper->loadmodel($request,$model);
 
 
-                return $this->render('create',[
-                    'model' => $model,
-                    'employees' => $this->getEmployees(),
-                    'programs' => $this->getPrograms(),
-                    'departments' => $this->getDepartments(),
-                    'currencies' => $this->getCurrencies()
-                ]);
+                return $this->redirect(['update','No' => $model->Key]);
 
 
 
