@@ -30,9 +30,10 @@ class PasswordResetRequestForm extends Model
     public function emailCheck($attribute, $params)
     {
        $service = Yii::$app->params['ServiceName']['EmployeeCard'];
-       $Employee = Yii::$app->navhelper->getData($service,['Company_E_Mail' => $this->email]);
+       $filter = ['Company_E_Mail' => $this->email];
+       $Employee = Yii::$app->navhelper->getData($service, $filter);
 
-        if(is_object($Employee) ||   is_string($Employee) ){
+        if(!is_array($Employee) ){
             $this->addError($attribute,'E-mail address supplied is not associated with any Employee.');
         }
 

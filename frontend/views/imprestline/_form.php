@@ -39,9 +39,9 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
 
                             <div class="col-md-12">
-                                <?= $form->field($model, 'Line_No')->textInput(['readonly' => true])->label() ?>
-                                <?= $form->field($model, 'Request_No')->textInput(['readonly' => true,'disabled'=>true])->label() ?>
-                                <?= $form->field($model, 'Key')->textInput(['readonly'=> true])->label() ?>
+                                <?= $form->field($model, 'Line_No')->hiddenInput(['readonly' => true])->label(false) ?>
+                                <?= $form->field($model, 'Request_No')->hiddenInput(['readonly' => true,'disabled'=>true])->label(false) ?>
+                                <?= $form->field($model, 'Key')->hiddenInput(['readonly'=> true])->label(false) ?>
 
                                 <?= $form->field($model, 'Transaction_Type')->
                                 dropDownList($transactionTypes,['prompt' => 'Select Transaction Type ..',
@@ -86,14 +86,14 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
 
 
-                <div class="row">
+               <!-- <div class="row">
 
                     <div class="form-group">
-                        <?= Html::submitButton(($model->isNewRecord)?'Save':'Update', ['class' => 'btn btn-success','id'=>'submit']) ?>
+                        <?php Html::submitButton(($model->isNewRecord)?'Save':'Update', ['class' => 'btn btn-success','id'=>'submit']) ?>
                     </div>
 
 
-                </div>
+                </div>-->
                 <?php ActiveForm::end(); ?>
             </div>
         </div>
@@ -115,69 +115,64 @@ $script = <<<JS
                 },'json');
         });
 
-         $('#imprestline-transaction_type').on('change', function(e){
-            e.preventDefault();
-                  
-            let Transaction_Type = e.target.value;
-            let Request_No = $('#imprestline-request_no').val();
+        
+     /*Set Transaction Type*/
+     
+     $('#imprestline-transaction_type').change((e) => {
+        updateField('Imprestline','Transaction_Type', e);
+    });
+
+    /*Set Description */
+     
+    $('#imprestline-description').change((e) => {
+        updateField('Imprestline','Description', e);
+    });
+
+    /*Set Amount */
+     
+    $('#imprestline-amount').change((e) => {
+        updateField('Imprestline','Amount', e);
+    });
+
+     function updateField(entity,fieldName, ev) {
+                const model = entity.toLowerCase();
+                const field = fieldName.toLowerCase();
+                const formField = '.field-'+model+'-'+fieldName.toLowerCase();
+                const keyField ='#'+model+'-key'; 
+                const targetField = '#'+model+'-'.field;
+                const tget = '#'+model+'-'+field;
+
+
+                const fieldValue = ev.target.value;
+                const Key = $(keyField).val();
+                //alert(Key);
+                if(Key.length){
+                    const url = $('input[name=absolute]').val()+model+'/setfield?field='+fieldName;
+                    $.post(url,{ fieldValue:fieldValue,'Key': Key}).done(function(msg){
+                        
+                            // Populate relevant Fields
+                                                       
+                            $(keyField).val(msg.Key);
+                            $(targetField).val(msg[fieldName]);
+
+                           
+                            if((typeof msg) === 'string') { // A string is an error
+                                console.log(formField);
+                                const parent = document.querySelector(formField);
+                                const helpbBlock = parent.children[2];
+                                helpbBlock.innerText = msg;
+                                
+                            }else{ // An object represents correct details
+
+                                const parent = document.querySelector(formField);
+                                const helpbBlock = parent.children[2];
+                                helpbBlock.innerText = '';
+                                
+                            }   
+                        },'json');
+                }
             
-            
-            const url = $('input[name="absolute"]').val()+'imprestline/settransactiontype';
-            $.post(url,{'Transaction_Type': Transaction_Type,'Request_No': Request_No}).done(function(msg){
-                   //populate empty form fields with new data
-                   
-                    $('#imprestline-line_no').val(msg.Line_No);
-                    $('#imprestline-key').val(msg.Key);
-                  
-                    console.log(typeof msg);
-                    console.table(msg);
-                    if((typeof msg) === 'string') { // A string is an error
-                        const parent = document.querySelector('.field-imprestline-transaction_type');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = msg;
-                        disableSubmit();
-                    }else{ // An object represents correct details
-                        const parent = document.querySelector('.field-imprestline-transaction_type');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = ''; 
-                        enableSubmit();
-                    }
-                   
-                    
-                },'json');
-        });
-         
-         $('#leaveplanline-end_date').on('change', function(e){
-            e.preventDefault();
-                  
-            const Line_No = $('#leaveplanline-line_no').val();
-            
-            
-            const url = $('input[name="absolute"]').val()+'leaveplanline/setenddate';
-            $.post(url,{'Line_No': Line_No,'End_Date': $(this).val()}).done(function(msg){
-                   //populate empty form fields with new data
-                    console.log(typeof msg);
-                    console.table(msg);
-                    if((typeof msg) === 'string'){ // A string is an error
-                        const parent = document.querySelector('.field-leaveplanline-end_date');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = msg;
-                        disableSubmit();
-                    }else{ // An object represents correct details
-                        const parent = document.querySelector('.field-leaveplanline-end_date');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = ''; 
-                        enableSubmit();
-                    }
-                    $('#leaveplanline-days_planned').val(msg.Days_Planned);
-                    // $('#leaveplanline-start_date').val(msg.Start_Date);
-                    $('#leaveplanline-holidays').val(msg.Holidays);
-                    $('#leaveplanline-weekend_days').val(msg.Weekend_Days);
-                    $('#leaveplanline-total_no_of_days').val(msg.Total_No_Of_Days);
-                    
-                },'json');
-        });
-         
+     }         
          function disableSubmit(){
              document.getElementById('submit').setAttribute("disabled", "true");
         }

@@ -78,10 +78,20 @@ class ImprestlineController extends Controller
         if($Request_No && !isset(Yii::$app->request->post()['Imprestline'])){
 
                $model->Request_No = $Request_No;
+               $model->Line_No = time();
+               $request = Yii::$app->navhelper->postData($service,$model);
+               if(is_object($request) )
+               {
+                   $model = Yii::$app->navhelper->loadmodel($request,$model);
+               }else{
+                   Yii::$app->recruitment->printrr($request);
 
+                return ['note' => '<div class="alert alert-danger">Error Creating Imprest Line: '.$request.'</div>'];
+            }
             return $this->renderAjax('create', [
                 'model' => $model,
                 'transactionTypes' => $this->getTransactiontypes(),
+                'students' => $this->getStudents()
             ]);
 
         }
@@ -111,6 +121,7 @@ class ImprestlineController extends Controller
             return $this->renderAjax('create', [
                 'model' => $model,
                 'transactionTypes' => $this->getTransactiontypes(),
+                'students' => $this->getStudents(),
             ]);
         }
 
@@ -118,22 +129,24 @@ class ImprestlineController extends Controller
     }
 
 
-    public function actionUpdate(){
+
+
+
+    public function actionUpdate($Key){
         $model = new Imprestline() ;
         $model->isNewRecord = false;
         $service = Yii::$app->params['ServiceName']['ImprestRequestLine'];
-        $filter = [
-            'Line_No' => Yii::$app->request->get('Line_No'),
-        ];
-        $result = Yii::$app->navhelper->getData($service,$filter);
+       
+        $result = Yii::$app->navhelper->readByKey($service,$Key);
 
 
-        if(is_array($result)){
+        if(is_object($result)){
             //load nav result to model
-            $model = Yii::$app->navhelper->loadmodel($result[0],$model) ;
+            $model = Yii::$app->navhelper->loadmodel($result,$model) ;
             // Yii::$app->recruitment->printrr($model);
         }else{
-            Yii::$app->recruitment->printrr($result);
+            // Yii::$app->recruitment->printrr($result);
+            return ['note' => '<div class="alert alert-danger">Error Updating Imprest Line: '.$result.'</div>'];
         }
 
 
@@ -157,13 +170,42 @@ class ImprestlineController extends Controller
             return $this->renderAjax('update', [
                 'model' => $model,
                 'transactionTypes' => $this->getTransactiontypes(),
+                'students' => $this->getStudents()
             ]);
         }
 
         return $this->render('update',[
             'model' => $model,
             'transactionTypes' => $this->getTransactiontypes(),
+            'students' => $this->getStudents()
         ]);
+    }
+
+
+    /* Get Dimension 3*/
+
+    public function getStudents(){
+        $service = Yii::$app->params['ServiceName']['DimensionValueList'];
+
+        $filter = [
+            'Global_Dimension_No' => 3
+        ];
+        $result = \Yii::$app->navhelper->getData($service, $filter);
+        //return ArrayHelper::map($result,'Code','Name');
+        //return Yii::$app->navhelper->refactorArray($result,'Code','Name');
+          $arr = [];
+        $i = 0;
+        foreach($result as $res){
+            if(!empty($res->Code) && !empty($res->Name)){
+                ++$i;
+                $arr[$i] = [
+                    'Code' => $res->Code,
+                    'Name' => $res->Name.' - '.$res->Code
+                ];
+            }
+        }
+
+        return ArrayHelper::map($arr,'Code','Name');
     }
 
     public function actionDelete(){
@@ -284,5 +326,17 @@ class ImprestlineController extends Controller
         }
 
         return $model;
+    }
+
+
+    /** Updates a single field */
+    public function actionSetfield($field){
+        $service = 'ImprestRequestSubformPortal';
+        $value = Yii::$app->request->post('fieldValue');
+       
+        $result = Yii::$app->navhelper->Commit($service,[$field => $value],Yii::$app->request->post('Key'));
+        Yii::$app->response->format = \yii\web\response::FORMAT_JSON;
+        return $result;
+          
     }
 }

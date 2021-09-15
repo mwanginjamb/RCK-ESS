@@ -139,7 +139,7 @@ return [
         'purchaseDocumentLines'=>'purchaseDocumentLines',//6405
         'UserSetup' => 'UserSetup', //119
 
-        'EmployeeCard' => 'EmployeeCard', //50096
+        'EmployeeCard' => 'EmployeeCard', //5200
         'ExpetriateCard' => 'ExpetriateCard', // 52021
         'Employees' => 'Employees', //5201
         'EmployeesUnfiltered' => 'EmployeesUnfiltered', //60083

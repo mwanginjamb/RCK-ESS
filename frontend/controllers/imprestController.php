@@ -35,7 +35,7 @@ class ImprestController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout','signup','index','surrenderlist'],
+                'only' => ['logout','signup','index','surrenderlist','create','update','view'],
                 'rules' => [
                     [
                         'actions' => ['signup'],
@@ -43,7 +43,7 @@ class ImprestController extends Controller
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout','index','surrenderlist'],
+                        'actions' => ['logout','index','surrenderlist','create','update','view'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -79,17 +79,17 @@ class ImprestController extends Controller
 
     }
 
-    public function actionCreate($requestfor){
+    public function actionCreate($requestfor='Self'){
 
         $model = new Imprestcard() ;
         $service = Yii::$app->params['ServiceName']['ImprestRequestCardPortal'];
         $request = '';
         /*Do initial request */
         if(!isset(Yii::$app->request->post()['Imprestcard'])){
-            $model->Employee_No = Yii::$app->user->identity->Employee_No;
+            $model->Employee_No =  $model->Employee_No = Yii::$app->user->identity->Employee[0]->No;
             $request = Yii::$app->navhelper->postData($service,$model);
 
-            if(!is_string($request) )
+            if(is_object($request) )
             {
                 $model = Yii::$app->navhelper->loadmodel($request,$model);
 
@@ -100,12 +100,8 @@ class ImprestController extends Controller
                 $request = Yii::$app->navhelper->updateData($service, $model);
 
                 $model = Yii::$app->navhelper->loadmodel($request,$model);
-                if(is_string($request)){
-                    Yii::$app->recruitment->printrr($request);
-                }
 
-            }else {
-                Yii::$app->session->setFlash('error', $request);
+
                 return $this->render('create',[
                     'model' => $model,
                     'employees' => $this->getEmployees(),
@@ -113,26 +109,29 @@ class ImprestController extends Controller
                     'departments' => $this->getDepartments(),
                     'currencies' => $this->getCurrencies()
                 ]);
+
+
+
+                if(is_string($request)){
+                    Yii::$app->session->setFlash('error', $request);
+                    $this->redirect(['index']);
+                }
+
+            }else {
+                Yii::$app->session->setFlash('error', $request);
+                return $this->render('index');
             }
         }
 
 
-
-
-
-
-        //Yii::$app->recruitment->printrr($request);
         if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Imprestcard'],$model) ){
-            //Yii::$app->recruitment->printrr(Yii::$app->request->post()['Imprestcard']);
-            $filter = [
-                'No' => $model->No,
-            ];
+           
 
-            $refresh = Yii::$app->navhelper->getData($service,$filter);
-            $model->Key = $refresh[0]->Key;
-            //Yii::$app->navhelper->loadmodel($refresh[0],$model);
+            $result = Yii::$app->navhelper->findOne($service,'No',Yii::$app->request->post()['Imprestcard']['No']);
+           
+            $model = Yii::$app->navhelper->loadmodel($result,$model);
 
-            $result = Yii::$app->navhelper->updateData($service,$model);
+            $result = Yii::$app->navhelper->updateData($service,$model,['No']);
 
 
             if(!is_string($result)){
@@ -163,50 +162,85 @@ class ImprestController extends Controller
     }
 
 
-    public function actionCreateSurrender(){
+    public function actionCreateSurrender($requestfor="Self"){
         // Yii::$app->recruitment->printrr(Yii::$app->request->get('requestfor'));
         $model = new Imprestsurrendercard();
         $service = Yii::$app->params['ServiceName']['ImprestSurrenderCardPortal'];
 
         /*Do initial request */
-        $request = Yii::$app->navhelper->postData($service,[]);
-
-        if(is_object($request) )
+        if(!isset(Yii::$app->request->post()['Imprestsurrendercard']))
         {
-            Yii::$app->navhelper->loadmodel($request,$model);
-
-            // Update Request for
-            $model->Request_For = Yii::$app->request->get('requestfor');
-            $model->Key = $request->Key;
-            $request = Yii::$app->navhelper->updateData($service, $model);
-
+            if($requestfor == "Self"){
+                $model->Employee_No = Yii::$app->user->identity->Employee_No;
+                $request = Yii::$app->navhelper->postData($service,$model);
+            }elseif($requestfor == "Other"){
+                $request = Yii::$app->navhelper->postData($service,[]);
+            }
+            
             if(is_string($request)){
-                Yii::$app->recruitment->printrr($request);
+                    Yii::$app->session->setFlash('error','Error Creating Imprest Surrender '.$request );
+                    return $this->render('createsurrender',[
+                        'model' => $model,
+                        'employees' => $this->getEmployees(),
+                        'programs' => $this->getPrograms(),
+                        'departments' => $this->getDepartments(),
+                        'currencies' => $this->getCurrencies(),
+                        'imprests' => $this->getmyimprests(),
+                        'receipts' => $this->getimprestreceipts($model->No)
+                    ]);
             }
 
+             if(!is_string($request) ){
+        
+                Yii::$app->navhelper->loadmodel($request,$model);
 
+                // Update Request for
+                $model->Request_For = $requestfor;
+                $model->Key = $request->Key;
+                $request = Yii::$app->navhelper->updateData($service, $model);
+
+                if(is_string($request)){
+                    Yii::$app->session->setFlash('error','Error Creating Imprest Surrender '.$request );
+                    return $this->render('createsurrender',[
+                        'model' => $model,
+                        'employees' => $this->getEmployees(),
+                        'programs' => $this->getPrograms(),
+                        'departments' => $this->getDepartments(),
+                        'currencies' => $this->getCurrencies(),
+                        'imprests' => $this->getmyimprests(),
+                        'receipts' => $this->getimprestreceipts($model->No)
+                    ]);
+                }
+
+
+            }
         }
+        
+
+        //Yii::$app->recruitment->printrr($request);
+        
+
+       
 
         if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Imprestsurrendercard'],$model) ){
 
-            $filter = [
-                'No' => $model->No,
-            ];
+            // Yii::$app->recruitment->printrr(Yii::$app->request->post());
 
-            $refresh = Yii::$app->navhelper->getData($service,$filter);
-            Yii::$app->navhelper->loadmodel($refresh[0],$model);
+             $result = Yii::$app->navhelper->findOne($service,'No',Yii::$app->request->post()['Imprestsurrendercard']['No']);
+           
+            $model = Yii::$app->navhelper->loadmodel($result,$model);
 
-            $result = Yii::$app->navhelper->updateData($service,$model);
+            $result = Yii::$app->navhelper->updateData($service,$model,['No']);
 
 
             if(!is_string($result)){
                 //Yii::$app->recruitment->printrr($result);
-                Yii::$app->session->setFlash('success','Imprest Request Created Successfully.' );
+                Yii::$app->session->setFlash('success','Imprest Surrender Created Successfully.' );
 
                 return $this->redirect(['view-surrender','No' => $result->No]);
 
             }else{
-                Yii::$app->session->setFlash('success','Error Creating Imprest Request '.$result );
+                Yii::$app->session->setFlash('error','Error Creating Imprest Surrender '.$result );
                 return $this->render('createsurrender',[
                     'model' => $model,
                     'employees' => $this->getEmployees(),
@@ -232,22 +266,111 @@ class ImprestController extends Controller
         ]);
     }
 
+     public function actionUpdateSurrender($No){
+        $model = new Imprestsurrendercard();
+        $service = Yii::$app->params['ServiceName']['ImprestSurrenderCardPortal'];
+        $model->isNewRecord = false;
 
-    public function actionUpdate(){
+        
+       //  $result = Yii::$app->navhelper->findOne($service,'No', Yii::$app->request->get('No'));
+       $result = Yii::$app->navhelper->readByKey($service, $No);
+
+        if(!is_string($result)){
+            //load nav result to model
+            $model = Yii::$app->navhelper->loadmodel($result,$model) ;//$this->loadtomodeEmployee_Nol($result[0],$Expmodel);
+        }else{
+            Yii::$app->session->setFlash('error','Error : '.$result );
+                return $this->render('updatesurrender',[
+                    'model' => $model,
+                    'employees' => $this->getEmployees(),
+                    'programs' => $this->getPrograms(),
+                    'departments' => $this->getDepartments(),
+                    'currencies' => $this->getCurrencies(),
+                    'imprests' => $this->getmyimprests(),
+                    'receipts' => $this->getimprestreceipts($model->No)
+                ]);
+        }
+
+
+        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Imprestsurrendercard'],$model) ){
+            $result = Yii::$app->navhelper->updateData($service,$model);
+            if(!empty($result)){
+
+                Yii::$app->session->setFlash('success','Imprest Surrender Request Updated Successfully.' );
+
+                return $this->render('updatesurrender',[
+                    'model' => $model,
+                    'employees' => $this->getEmployees(),
+                    'programs' => $this->getPrograms(),
+                    'departments' => $this->getDepartments(),
+                    'currencies' => $this->getCurrencies(),
+                    'imprests' => $this->getmyimprests(),
+                    'receipts' => $this->getimprestreceipts($model->No)
+                ]);
+
+            }else{
+
+                Yii::$app->session->setFlash('updatesurrender','Error : '.$result );
+                return $this->render('update',[
+                    'model' => $model,
+                    'employees' => $this->getEmployees(),
+                    'programs' => $this->getPrograms(),
+                    'departments' => $this->getDepartments(),
+                    'currencies' => $this->getCurrencies(),
+                    'imprests' => $this->getmyimprests(),
+                    'receipts' => $this->getimprestreceipts($model->No)
+                ]);
+            }
+
+        }
+
+
+        // Yii::$app->recruitment->printrr($model);
+        if(Yii::$app->request->isAjax){
+            return $this->renderAjax('updatesurrender', [
+                'model' => $model,
+                'employees' => $this->getEmployees(),
+                'programs' => $this->getPrograms(),
+                'departments' => $this->getDepartments(),
+                'currencies' => $this->getCurrencies(),
+                'imprests' => $this->getmyimprests(),
+                'receipts' => $this->getimprestreceipts($model->No)
+
+            ]);
+        }
+
+        return $this->render('updatesurrender',[
+            'model' => $model,
+            'employees' => $this->getEmployees(),
+            'programs' => $this->getPrograms(),
+            'departments' => $this->getDepartments(),
+            'currencies' => $this->getCurrencies(),
+            'imprests' => $this->getmyimprests(),
+            'receipts' => $this->getimprestreceipts($model->No)
+        ]);
+    }
+
+
+    public function actionUpdate($No){
         $model = new Imprestcard() ;
         $service = Yii::$app->params['ServiceName']['ImprestRequestCardPortal'];
         $model->isNewRecord = false;
 
-        $filter = [
-            'No' => Yii::$app->request->get('No'),
-        ];
-        $result = Yii::$app->navhelper->getData($service,$filter);
+        
+        $result = Yii::$app->navhelper->readByKey($service,$No);
 
-        if(is_array($result)){
+        if(!is_string($result)){
             //load nav result to model
-            $model = Yii::$app->navhelper->loadmodel($result[0],$model) ;//$this->loadtomodeEmployee_Nol($result[0],$Expmodel);
+            $model = Yii::$app->navhelper->loadmodel($result,$model) ;//$this->loadtomodeEmployee_Nol($result[0],$Expmodel);
         }else{
-            Yii::$app->recruitment->printrr($result);
+            Yii::$app->session->setFlash('error','Error : '.$result );
+                return $this->render('update',[
+                    'model' => $model,
+                    'employees' => $this->getEmployees(),
+                    'programs' => $this->getPrograms(),
+                    'departments' => $this->getDepartments(),
+                    'currencies' => $this->getCurrencies()
+                ]);
         }
 
 
@@ -267,7 +390,7 @@ class ImprestController extends Controller
 
             }else{
 
-                Yii::$app->session->setFlash('success','Error Creating Imprest Request '.$result );
+                Yii::$app->session->setFlash('error','Error : '.$result );
                 return $this->render('update',[
                     'model' => $model,
                     'employees' => $this->getEmployees(),
@@ -314,16 +437,12 @@ class ImprestController extends Controller
     }
 
     public function actionView($No){
-        $service = Yii::$app->params['ServiceName']['ImprestRequestCard'];
+        $service = Yii::$app->params['ServiceName']['ImprestRequestCardPortal'];
 
-        $filter = [
-            'No' => $No
-        ];
-
-        $result = Yii::$app->navhelper->getData($service, $filter);
+         $result = Yii::$app->navhelper->readByKey($service,$No);
 
         //load nav result to model
-        $model = $this->loadtomodel($result[0], new Imprestcard());
+        $model = $this->loadtomodel($result, new Imprestcard());
 
         //Yii::$app->recruitment->printrr($model);
 
@@ -369,6 +488,8 @@ class ImprestController extends Controller
             'surrender' => $No
         ];
         $path = Yii::$app->navhelper->PortalReports($service,$data,'IanGenerateImprestSurrender');
+
+        //Yii::$app->recruitment->printrr($path);
         if(!is_file($path['return_value'])){
             Yii::$app->session->setFlash('error','File is not available: '.$path['return_value']);
             return $this->render('printout',[
@@ -395,13 +516,9 @@ class ImprestController extends Controller
     public function actionViewSurrender($No){
         $service = Yii::$app->params['ServiceName']['ImprestSurrenderCard'];
 
-        $filter = [
-            'No' => $No
-        ];
-
-        $result = Yii::$app->navhelper->getData($service, $filter);
+        $result = Yii::$app->navhelper->findOne($service,'No',$No);
         //load nav result to model
-        $model = $this->loadtomodel($result[0], new Imprestsurrendercard());
+        $model = $this->loadtomodel($result, new Imprestsurrendercard());
 
         return $this->render('viewsurrender',[
             'model' => $model,
@@ -429,11 +546,11 @@ class ImprestController extends Controller
 
                 if(isset($item->No) && isset($item->Key)){
                     $link = $updateLink = $deleteLink =  '';
-                    $Viewlink = Html::a('<i class="fas fa-eye"></i>',['view','No'=> $item->No ],['class'=>'btn btn-outline-primary btn-xs']);
+                    $Viewlink = Html::a('<i class="fas fa-eye"></i>',['view','No'=> $item->Key ],['class'=>'btn btn-outline-primary btn-xs']);
                     if($item->Status == 'New'){
                         $link = Html::a('<i class="fas fa-paper-plane"></i>',['send-for-approval','No'=> $item->No ],['title'=>'Send Approval Request','class'=>'btn btn-primary btn-xs']);
 
-                        $updateLink = Html::a('<i class="far fa-edit"></i>',['update','No'=> $item->No ],['class'=>'btn btn-info btn-xs']);
+                        $updateLink = Html::a('<i class="far fa-edit"></i>',['update','No'=> $item->Key ],['class'=>'btn btn-info btn-xs']);
                     }else if($item->Status == 'Pending_Approval'){
                         $link = Html::a('<i class="fas fa-times"></i>',['cancel-request','No'=> $item->No ],['title'=>'Cancel Approval Request','class'=>'btn btn-warning btn-xs']);
                     }
@@ -446,6 +563,8 @@ class ImprestController extends Controller
                         'Purpose' => !empty($item->Purpose)?$item->Purpose:'',
                         'Imprest_Amount' => !empty($item->Imprest_Amount)?$item->Imprest_Amount:'',
                         'Status' => $item->Status,
+                        'Posted' => ($item->Posted)?'Yes':'No',
+                        'Surrendered' => ($item->Surrendered)?'Yes':'No',
                         'Action' => $link,
                         'Update_Action' => $updateLink,
                         'view' => $Viewlink
@@ -478,7 +597,7 @@ class ImprestController extends Controller
                 if($item->Status == 'New'){
                     $link = Html::a('<i class="fas fa-paper-plane"></i>',['send-for-approval','No'=> $item->No ],['title'=>'Send Approval Request','class'=>'btn btn-primary btn-xs']);
 
-                    $updateLink = Html::a('<i class="far fa-edit"></i>',['update','No'=> $item->No ],['class'=>'btn btn-info btn-xs']);
+                    $updateLink = Html::a('<i class="far fa-edit"></i>',['update-surrender','No'=> $item->No ],['class'=>'btn btn-info btn-xs']);
                 }else if($item->Status == 'Pending_Approval'){
                     $link = Html::a('<i class="fas fa-times"></i>',['cancel-request','No'=> $item->No ],['title'=>'Cancel Approval Request','class'=>'btn btn-warning btn-xs']);
                 }
@@ -513,10 +632,13 @@ class ImprestController extends Controller
     /* My Imprests*/
 
     public function getmyimprests(){
-        $service = Yii::$app->params['ServiceName']['PostedImprestRequest'];
+        $service = Yii::$app->params['ServiceName']['PortalImprestRequest'];
         $filter = [
             'Employee_No' => Yii::$app->user->identity->Employee[0]->No,
-            'Surrendered' => false,
+            'Status' => 'Approved',
+            'Posted' =>  true,
+            'Surrendered' => false
+                       
         ];
 
         $results = \Yii::$app->navhelper->getData($service,$filter);
@@ -728,11 +850,11 @@ class ImprestController extends Controller
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Imprest Request Sent to Supervisor Successfully.', true);
-            return $this->redirect(['view','No' => $No]);
+            return $this->redirect(['index']);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error Sending Imprest Request for Approval  : '. $result);
-            return $this->redirect(['view','No' => $No]);
+            return $this->redirect(['index']);
 
         }
     }
@@ -760,6 +882,21 @@ class ImprestController extends Controller
 
         }
     }
+
+
+    /** Updates a single field */
+    public function actionSetfield($field){
+        $service = 'ImprestRequestCardPortal';
+        $value = Yii::$app->request->post('fieldValue');
+       
+        $result = Yii::$app->navhelper->Commit($service,[$field => $value],Yii::$app->request->post('Key'));
+        Yii::$app->response->format = \yii\web\response::FORMAT_JSON;
+        return $result;
+          
+    }
+
+
+    
 
 
 

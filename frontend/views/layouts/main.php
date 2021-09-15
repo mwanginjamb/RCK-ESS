@@ -294,6 +294,34 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
                             </ul>
                         </li>
 
+
+                         <!-- Imprest management --->
+
+                         <li class="nav-item has-treeview <?= Yii::$app->recruitment->currentCtrl(['imprest','surrender','claim','safari'])?'menu-open':'menu-close' ?>">
+                            <a href="#" title="Performance Management" class="nav-link <?= Yii::$app->recruitment->currentCtrl(['imprest','surrender','claim'])?'active':'' ?>">
+                                <i class="nav-icon fa fa-coins"></i>
+                                <p>
+                                    Imprest Management
+                                    <i class="fas fa-angle-left right"></i>
+                                    <!--<span class="badge badge-info right">6</span>-->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>imprest" class="nav-link <?= Yii::$app->recruitment->currentaction('imprest','index')?'active':'' ?>">
+                                        <i class="fa fa-check-square nav-icon"></i>
+                                        <p> Imprest List</p>
+                                    </a>
+                                </li>
+
+
+
+                            </ul>
+
+                        </li>
+
+
                        
 
 

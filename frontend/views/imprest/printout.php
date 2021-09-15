@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = ['label' => 'printout', 'url' => ['print-impres
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Document Printout  <?= \yii\helpers\Html::a('<i class="fa fa-backward"></i> Back to Document',['view','No' => $_GET['No']],['class' => 'btn btn-outline-warning mx-4']) ?></h3>
+                    <h3 class="card-title">Document Printout  <?= \yii\helpers\Html::a('<i class="fa fa-backward"></i> Back to Document',['view','No' => $_GET['Key']],['class' => 'btn btn-outline-warning mx-4']) ?></h3>
 
                 </div>
                 <div class="card-body">

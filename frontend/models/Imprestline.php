@@ -22,6 +22,9 @@ public $Account_Name;
 public $Description;
 public $Amount;
 public $Amount_LCY;
+public $Global_Dimension_1_Code;
+public $Global_Dimension_2_Code;
+public $Sortcut_Dimension_3_Code;
 public $Budgeted_Amount;
 public $Commited_Amount;
 public $Total_Expenditure;
@@ -31,6 +34,9 @@ public $Employee_No;
 public $Balance_Less_Entry;
 public $Balance_Before_Entry;
 public $isNewRecord;
+
+
+public $Job_Planning_Line_No;
 
     public function rules()
     {
@@ -42,7 +48,9 @@ public $isNewRecord;
     public function attributeLabels()
     {
         return [
-
+            'Global_Dimension_1_Code' => 'Program',
+            'Global_Dimension_2_Code' => 'Department',
+            'Sortcut_Dimension_3_Code' => 'Student (Optional)'
         ];
     }
 }

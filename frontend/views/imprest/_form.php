@@ -8,25 +8,76 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 $absoluteUrl = \yii\helpers\Url::home(true);
+
+
+if(Yii::$app->session->hasFlash('success')){
+    print ' <div class="alert alert-success alert-dismissable">
+                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h5><i class="icon fas fa-check"></i> Success!</h5>
+ ';
+    echo Yii::$app->session->getFlash('success');
+    print '</div>';
+}else if(Yii::$app->session->hasFlash('error')){
+    print ' <div class="alert alert-danger alert-dismissable">
+                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h5><i class="icon fas fa-check"></i> Error!</h5>
+                                ';
+    echo Yii::$app->session->getFlash('error');
+    print '</div>';
+}
 ?>
+
+<div class="row">
+    <div class="col-md-4">
+
+        <?= ($model->Status == 'New')?Html::a('<i class="fas fa-paper-plane"></i> Send Approval Req',['send-for-approval','employeeNo' => Yii::$app->user->identity->{'Employee_No'}],['class' => 'btn btn-app submitforapproval',
+            'data' => [
+                'confirm' => 'Are you sure you want to send imprest request for approval?',
+                'params'=>[
+                    'No'=> $model->No,
+                    'employeeNo' => Yii::$app->user->identity->Employee[0]->No,
+                ],
+                'method' => 'get',
+        ],
+            'title' => 'Submit Imprest Approval'
+
+        ]):'' ?>
+
+
+        <?= ($model->Status == 'Pending_Approval')?Html::a('<i class="fas fa-times"></i> Cancel Approval Req.',['cancel-request'],['class' => 'btn btn-app submitforapproval',
+            'data' => [
+            'confirm' => 'Are you sure you want to cancel imprest approval request?',
+            'params'=>[
+                'No'=> $model->No,
+            ],
+            'method' => 'get',
+        ],
+            'title' => 'Cancel Imprest Approval Request'
+
+        ]):'' ?>
+
+
+        <?= Html::a('<i class="fas fa-file-pdf"></i> Print Imprest',['print-imprest'],['class' => 'btn btn-app ',
+            'data' => [
+                'confirm' => 'Print Imprest?',
+                'params'=>[
+                    'No'=> $model->No,
+                    'Key' => $model->Key
+                ],
+                'method' => 'get',
+            ],
+            'title' => 'Print Imprest.'
+
+        ]) ?>
+    </div>
+</div>
+
 
 <div class="row">
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title"><?= Html::encode($this->title) ?></h3>
-
-
-                <?php if(Yii::$app->session->hasFlash('success')): ?>
-                    <div class="alert alert-success"><?= Yii::$app->session->getFlash('success')?></div>
-                <?php endif; ?>
-
-                <?php if(Yii::$app->session->hasFlash('error')): ?>
-                    <div class="alert alert-danger"><?= Yii::$app->session->getFlash('error')?></div>
-                <?php endif; ?>
-
-
-
             </div>
             <div class="card-body">
 
@@ -105,14 +156,14 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
 
 
-                <div class="row">
+               <!-- <div class="row">
 
                     <div class="form-group">
-                        <?= Html::submitButton(($model->isNewRecord)?'Save':'Update', ['class' => 'btn btn-success']) ?>
+                        <?php Html::submitButton(($model->isNewRecord)?'Save':'Update', ['class' => 'btn btn-success']) ?>
                     </div>
 
 
-                </div>
+                </div>-->
                 <?php ActiveForm::end(); ?>
             </div>
         </div>
@@ -121,8 +172,8 @@ $absoluteUrl = \yii\helpers\Url::home(true);
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
-                    <?= Html::a('<i class="fa fa-plus-square"></i> New Imprest Line',['imprestline/create','Request_No'=>$model->No],['class' => 'add-line btn btn-outline-info',
-                    ]) ?>
+                    <?= ($model->Status == 'New')?Html::a('<i class="fa fa-plus-square"></i> New Imprest Line',['imprestline/create','Request_No'=>$model->No],['class' => 'add-line btn btn-outline-info',
+                    ]):'' ?>
                 </div>
             </div>
 
@@ -157,7 +208,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                         // print '<pre>'; print_r($model->getObjectives()); exit;
 
                         foreach($model->getLines($model->No) as $obj):
-                            $updateLink = Html::a('<i class="fa fa-edit"></i>',['imprestline/update','Line_No'=> $obj->Line_No],['class' => 'update-objective btn btn-outline-info btn-xs']);
+                            $updateLink = Html::a('<i class="fa fa-edit"></i>',['imprestline/update','Key'=> $obj->Key],['class' => 'update-objective btn btn-outline-info btn-xs']);
                             $deleteLink = Html::a('<i class="fa fa-trash"></i>',['imprestline/delete','Key'=> $obj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
                             ?>
                             <tr>
@@ -204,7 +255,9 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                     <h4 class="modal-title" id="myModalLabel" style="position: absolute">Imprest Management</h4>
                 </div>
                 <div class="modal-body">
-
+                            <div class="spinner-border mr-auto" role="status">
+                                <span class="sr-only">Loading</span>
+                            </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -230,119 +283,97 @@ $script = <<<JS
                 },'json');
         });*/
 
+
+        $('.delete, .delete-objective').on('click',function(e){
+         e.preventDefault();
+           var secondThought = confirm("Are you sure you want to delete this record ?");
+           if(!secondThought){//if user says no, kill code execution
+                return;
+           }
+           
+         var url = $(this).attr('href');
+         $.get(url).done(function(msg){
+             $('.modal').modal('show')
+                    .find('.modal-body')
+                    .html(msg.note);
+         },'json');
+     });
+
         // Set other Employee
-        
-     $('#imprestcard-employee_no').change(function(e){
-        const Employee_No = e.target.value;
-        const No = $('#imprestcard-no').val();
-        if(No.length){
-            const url = $('input[name=url]').val()+'imprest/setemployee';
-            $.post(url,{'Employee_No': Employee_No,'No': No}).done(function(msg){
-                   //populate empty form fields with new data
-                    console.log(typeof msg);
-                    console.table(msg);
-                    if((typeof msg) === 'string') { // A string is an error
-                        const parent = document.querySelector('.field-imprestcard-employee_no');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = msg;
-                        
-                    }else{ // An object represents correct details
-                        const parent = document.querySelector('.field-imprestcard-employee_no');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = ''; 
-                        
-                    }
-                    
-                },'json');
-        }
-     });
+  
+     $('#imprestcard-employee_no').change((e) => {
+        updateField('Imprestcard','Employee_No', e);
+    });
+
+
      
-     /*Set Program and Department dimension */
-     
-     $('#imprestcard-global_dimension_1_code').change(function(e){
-        const dimension = e.target.value;
-        const No = $('#imprestcard-no').val();
-        if(No.length){
-            const url = $('input[name=url]').val()+'imprest/setdimension?dimension=Global_Dimension_1_Code';
-            $.post(url,{'dimension': dimension,'No': No}).done(function(msg){
-                   //populate empty form fields with new data
-                    console.log(typeof msg);
-                    console.table(msg);
-                    if((typeof msg) === 'string') { // A string is an error
-                        const parent = document.querySelector('.field-imprestcard-global_dimension_1_code');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = msg;
-                        
-                    }else{ // An object represents correct details
-                        const parent = document.querySelector('.field-imprestcard-global_dimension_1_code');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = ''; 
-                        
-                    }
-                    
-                },'json');
-        }
-     });
+     /*Set Program  */
+    
+
+     $('#imprestcard-global_dimension_1_code').change((e) => {
+        updateField('Imprestcard','Global_Dimension_1_Code', e);
+    });
      
      
      /* set department */
      
-     $('#imprestcard-global_dimension_2_code').change(function(e){
-        const dimension = e.target.value;
-        const No = $('#imprestcard-no').val();
-        if(No.length){
-            const url = $('input[name=url]').val()+'imprest/setdimension?dimension=Global_Dimension_2_Code';
-            $.post(url,{'dimension': dimension,'No': No}).done(function(msg){
-                   //populate empty form fields with new data
-                    console.log(typeof msg);
-                    console.table(msg);
-                    if((typeof msg) === 'string') { // A string is an error
-                        const parent = document.querySelector('.field-imprestcard-global_dimension_2_code');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = msg;
-                        
-                    }else{ // An object represents correct details
-                        const parent = document.querySelector('.field-imprestcard-global_dimension_2_code');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = ''; 
-                        
-                    }
-                    
-                },'json');
-        }
-     });
+     $('#imprestcard-global_dimension_2_code').change((e) => {
+        updateField('Imprestcard','Global_Dimension_2_Code', e);
+    });
+
+    /**Update Purpose */
+
+    $('#imprestcard-purpose').change((e) => {
+        updateField('Imprestcard','Purpose', e);
+    }); 
      
      
      /*Set Imprest Type*/
      
-     $('#imprestcard-imprest_type').change(function(e){
-        const Imprest_Type = e.target.value;
-        const No = $('#imprestcard-no').val();
-        if(No.length){
-            const url = $('input[name=url]').val()+'imprest/setimpresttype';
-            $.post(url,{'Imprest_Type': Imprest_Type,'No': No}).done(function(msg){
-                   //populate empty form fields with new data
-                    console.log(typeof msg);
-                    console.table(msg);
-                    if((typeof msg) === 'string') { // A string is an error
-                        const parent = document.querySelector('.field-imprestcard-imprest_type');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = msg;
+
+     $('#imprestcard-imprest_type').change((e) => {
+        updateField('Imprestcard','Imprest_Type', e);
+    });
+
+     function updateField(entity,fieldName, ev) {
+                const model = entity.toLowerCase();
+                const field = fieldName.toLowerCase();
+                const formField = '.field-'+model+'-'+fieldName.toLowerCase();
+                const keyField ='#'+model+'-key'; 
+                const targetField = '#'+model+'-'.field;
+                const tget = '#'+model+'-'+field;
+
+
+                const fieldValue = ev.target.value;
+                const Key = $(keyField).val();
+                //alert(Key);
+                if(Key.length){
+                    const url = $('input[name=url]').val()+'imprest'+'/setfield?field='+fieldName;
+                    $.post(url,{ fieldValue:fieldValue,'Key': Key}).done(function(msg){
                         
-                    }else{ // An object represents correct details
-                        const parent = document.querySelector('.field-imprestcard-imprest_type');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = '';
-                        
-                         $('.modal').modal('show')
-                        .find('.modal-body')
-                        .html('<div class="alert alert-success">Imprest Type Update Successfully.</div>');
-                        
-                    }
-                    
-                },'json');
-        }
-     });
+                            // Populate relevant Fields
+                                                       
+                            $(keyField).val(msg.Key);
+                            $(targetField).val(msg[fieldName]);
+
+                           
+                            if((typeof msg) === 'string') { // A string is an error
+                                console.log(formField);
+                                const parent = document.querySelector(formField);
+                                const helpbBlock = parent.children[2];
+                                helpbBlock.innerText = msg;
+                                
+                            }else{ // An object represents correct details
+
+                                const parent = document.querySelector(formField);
+                                const helpbBlock = parent.children[2];
+                                helpbBlock.innerText = '';
+                                
+                            }   
+                        },'json');
+                }
+            
+     }
      
      
      /* Add Line */

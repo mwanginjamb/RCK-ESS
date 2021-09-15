@@ -27,8 +27,8 @@ Yii::$app->session->set('isSupervisor',false);*/
             'data' => [
                 'confirm' => 'Are you sure you want to send imprest request for approval?',
                 'params'=>[
-                    'No'=> $_GET['No'],
-                    'employeeNo' => Yii::$app->user->identity->{'Employee_No'},
+                    'No'=> $model->No,
+                    'employeeNo' => Yii::$app->user->identity->Employee[0]->No,
                 ],
                 'method' => 'get',
         ],
@@ -41,7 +41,7 @@ Yii::$app->session->set('isSupervisor',false);*/
             'data' => [
             'confirm' => 'Are you sure you want to cancel imprest approval request?',
             'params'=>[
-                'No'=> $_GET['No'],
+                'No'=> $model->No,
             ],
             'method' => 'get',
         ],
@@ -55,6 +55,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                 'confirm' => 'Print Imprest?',
                 'params'=>[
                     'No'=> $model->No,
+                    'Key' => $model->Key
                 ],
                 'method' => 'get',
             ],
@@ -185,7 +186,7 @@ Yii::$app->session->set('isSupervisor',false);*/
 
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">   <?= Html::a('<i class="fa fa-plus-square"></i> New Imprest Line',['imprestline/create','Request_No'=>$model->No],['class' => 'add-objective btn btn-outline-info']) ?></div>
+                    <div class="card-title">   <?= ($model->Status == 'New')? Html::a('<i class="fa fa-plus-square"></i> New Imprest Line',['imprestline/create','Request_No'=>$model->No],['class' => 'add-objective btn btn-outline-info']):'' ?></div>
                 </div>
 
 
@@ -222,7 +223,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                             // print '<pre>'; print_r($model->getObjectives()); exit;
 
                             foreach($model->getLines($model->No) as $obj):
-                                $updateLink = Html::a('<i class="fa fa-edit"></i>',['imprestline/update','Line_No'=> $obj->Line_No],['class' => 'update-objective btn btn-outline-info btn-xs']);
+                                $updateLink = Html::a('<i class="fa fa-edit"></i>',['imprestline/update','Key'=> $obj->Key],['class' => 'update-objective btn btn-outline-info btn-xs']);
                                 $deleteLink = Html::a('<i class="fa fa-trash"></i>',['imprestline/delete','Key'=> $obj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
                                 ?>
                                 <tr>
@@ -270,8 +271,10 @@ Yii::$app->session->set('isSupervisor',false);*/
                     </button>
                     <h4 class="modal-title" id="myModalLabel" style="position: absolute">Imprest Management</h4>
                 </div>
-                <div class="modal-body">
-
+                <div class="modal-body  align-items-center justify-content-center">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading</span>
+                            </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
