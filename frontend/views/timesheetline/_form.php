@@ -31,6 +31,8 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                     <?= $form->field($model, 'End_Time')->textInput(['type' => 'time']) ?>
                                     <?= $form->field($model, 'Hours_Worked')->textInput(['readonly' => true]) ?>
                                     <?= $form->field($model, 'Activity_Description')->textarea(['rows' => 2,'maxlength' => 250]) ?>
+                                    <?= $form->field($model, 'Grant')->dropDownList($grants, ['prompt' => 'Select ...','required' => true]) ?>
+
                                     <?= $form->field($model, 'Application_No')->hiddenInput(['readonly' => true])->label(false); ?>
                                     <?= $form->field($model, 'Key')->hiddenInput(['readonly' => true])->label(false); ?>
                                     <?= $form->field($model, 'Line_No')->hiddenInput(['readonly'=> true])->label(false) ?>

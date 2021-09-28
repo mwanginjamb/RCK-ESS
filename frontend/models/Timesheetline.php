@@ -38,7 +38,7 @@ public $isNewRecord;
     public function rules()
     {
         return [
-
+            [['Grant','Start_Time','End_Time','Activity_Description'], 'required']
         ];
     }
 

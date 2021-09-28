@@ -117,6 +117,7 @@ class TimesheetlineController extends Controller
         if(Yii::$app->request->isAjax){
             return $this->renderAjax('create', [
                 'model' => $model,
+                'grants' => $this->getGrants()
             ]);
         }
 
@@ -163,11 +164,13 @@ class TimesheetlineController extends Controller
         if(Yii::$app->request->isAjax){
             return $this->renderAjax('update', [
                 'model' => $model,
+                'grants' => $this->getGrants()
             ]);
         }
 
         return $this->render('update',[
             'model' => $model,
+            'grants' => $this->getGrants()
         ]);
     }
 
@@ -326,45 +329,16 @@ class TimesheetlineController extends Controller
     }
 
 
-    /*Get Vehicles */
-    public function getVehicles(){
-        $service = Yii::$app->params['ServiceName']['AvailableVehicleLookUp'];
+    /*Get Grants */
+    public function getGrants(){
+        $service = Yii::$app->params['ServiceName']['DonorList'];
 
         $result = \Yii::$app->navhelper->getData($service, []);
-        $arr = [];
-        $i = 0;
-        foreach($result as $res){
-            if(!empty($res->Vehicle_Registration_No) && !empty($res->Make_Model)){
-                ++$i;
-                $arr[$i] = [
-                    'Code' => $res->Vehicle_Registration_No,
-                    'Description' => $res->Make_Model
-                ];
-            }
-        }
+        $data = Yii::$app->navhelper->refactorArray($result,'Donor_Code','Donor_Name');
 
-        return ArrayHelper::map($arr,'Code','Description');
+        return $data;
     }
 
 
-
-
-
-
-
-
-
-    public function loadtomodel($obj,$model){
-
-        if(!is_object($obj)){
-            return false;
-        }
-        $modeldata = (get_object_vars($obj)) ;
-        foreach($modeldata as $key => $val){
-            if(is_object($val)) continue;
-            $model->$key = $val;
-        }
-
-        return $model;
-    }
+    
 }

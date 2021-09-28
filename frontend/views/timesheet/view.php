@@ -152,6 +152,7 @@ if(Yii::$app->session->hasFlash('success')){
                                     <td><b>End Date</b></td>
                                     <td><b>Hours Worked</b></td>
                                     <td><b>Activity Description</b></td>
+                                    <td><b>Grant</b></td>
                                     <td><b>Action</b></td>
 
 
@@ -171,6 +172,7 @@ if(Yii::$app->session->hasFlash('success')){
                                         <td data-validate="Hours_Worked" data-key="<?= $obj->Key ?>" data-name="End_Time" data-no="<?= $obj->Line_No ?>"  data-service="OvertimeLine" ><?= !empty($obj->End_Time)?$obj->End_Time:'Not Set' ?></td>
                                         <td id="Hours_Worked"><?= !empty($obj->Hours_Worked)?$obj->Hours_Worked:'Not Set' ?></td>
                                         <td data-key="<?= $obj->Key ?>" data-name="Activity_Description" data-no="<?= $obj->Line_No ?>"  data-service="OvertimeLine" ><?= !empty($obj->Activity_Description)?$obj->Activity_Description:'Not Set' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="Grant" data-no="<?= $obj->Grant ?>"  data-service="OvertimeLine" ><?= !empty($obj->Grant)?$obj->Grant:'Not Set' ?></td>
                                         <td class="text-center"><?= $updateLink.$deleteLink ?></td>
 
                                     </tr>
