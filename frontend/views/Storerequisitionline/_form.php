@@ -26,6 +26,8 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                             <div class="col-md-12">
                                     <?= $form->field($model, 'Requisition_No')->textInput(['readonly' => true]) ?>
                                     <?= $form->field($model, 'No')->dropDownList($items, ['prompt' => 'Select Item...']) ?>
+                                    <?= $form->field($model, 'Description')->textarea(['rows' => 2, 'required' =>  true]) ?>
+
                                     <?= $form->field($model, 'Location')->dropDownList($locations, ['prompt' => 'Select Location...']) ?>
                                     <?= $form->field($model, 'Quantity')->textInput(['type' => 'number']) ?>
                                     <?= $form->field($model, 'Key')->hiddenInput(['readonly'=> true])->label(false) ?>

@@ -140,6 +140,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Store Requisition Card', 'url' => 
                             <tr>
                                 <td><b>Requisition No.</b></td>
                                 <td><b>Item Name</b></td>
+                                <td><b>Description</b></td>
                                 <td><b>Unit of Measure</b></td>
                                 <td><b>Location</b></td>
                                 <td><b>Quantity Requested</b></td>
@@ -161,6 +162,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Store Requisition Card', 'url' => 
 
                                     <td><?= !empty($obj->Requisition_No)?$obj->Requisition_No:'Not Set' ?></td>
                                     <td><?= !empty($obj->Name)?$obj->Name:'Not Set' ?></td>
+                                    <td><?= !empty($obj->Description)?$obj->Description:'Not Set' ?></td>
                                     <td><?= !empty($obj->Unit_of_Measure)?$obj->Unit_of_Measure:'Not Set' ?></td>
                                     <td><?= !empty($obj->Location)?$obj->Location:'Not Set' ?></td>
                                     <td><?= !empty($obj->Quantity)?$obj->Quantity:'Not Set' ?></td>
