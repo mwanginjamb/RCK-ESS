@@ -168,11 +168,11 @@ if(Yii::$app->session->hasFlash('success')){
                                     <tr>
 
                                         <td data-key="<?= $obj->Key ?>" data-name="Date" data-no="<?= $obj->Line_No ?>"  data-service="OvertimeLine"><?= !empty($obj->Date)?$obj->Date:'Not Set' ?></td>
-                                        <td data-key="<?= $obj->Key ?>" data-name="Start_Time" data-no="<?= $obj->Line_No ?>"  data-service="OvertimeLine" ><?= !empty($obj->Start_Time)?$obj->Start_Time:'Not Set' ?></td>
-                                        <td data-validate="Hours_Worked" data-key="<?= $obj->Key ?>" data-name="End_Time" data-no="<?= $obj->Line_No ?>"  data-service="OvertimeLine" ><?= !empty($obj->End_Time)?$obj->End_Time:'Not Set' ?></td>
-                                        <td id="Hours_Worked"><?= !empty($obj->Hours_Worked)?$obj->Hours_Worked:'Not Set' ?></td>
-                                        <td data-key="<?= $obj->Key ?>" data-name="Activity_Description" data-no="<?= $obj->Line_No ?>"  data-service="OvertimeLine" ><?= !empty($obj->Activity_Description)?$obj->Activity_Description:'Not Set' ?></td>
-                                        <td data-key="<?= $obj->Key ?>" data-name="Grant" data-no="<?= $obj->Grant ?>"  data-service="OvertimeLine" ><?= !empty($obj->Grant)?$obj->Grant:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Start_Time)?$obj->Start_Time:'Not Set' ?></td>
+                                        <td><?= !empty($obj->End_Time)?$obj->End_Time:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Hours_Worked)?$obj->Hours_Worked:'Not Set' ?></td>
+                                        <td ><?= !empty($obj->Activity_Description)?$obj->Activity_Description:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Grant)?$obj->Grant:'Not Set' ?></td>
                                         <td class="text-center"><?= $updateLink.$deleteLink ?></td>
 
                                     </tr>
