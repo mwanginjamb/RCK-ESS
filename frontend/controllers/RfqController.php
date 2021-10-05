@@ -210,6 +210,27 @@ class RfqController extends Controller
         }
     }
 
+    // Vote
+
+    public function actionVote(){
+        $service = Yii::$app->params['ServiceName']['RFQCommiteeEvaluation'];
+
+        $args = [
+            'Award' => Yii::$app->request->post('Award'),
+            'Remarks' => Yii::$app->request->post('Remarks'),
+            'Key' => Yii::$app->request->post('Key')
+        ];
+        $result = Yii::$app->navhelper->updateData($service, $args);
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        if(!is_string($result)){
+
+            return ['note' => '<div class="alert alert-success">Award vote submitted Successfully</div>'];
+        }else{
+            return ['note' => '<div class="alert alert-danger">Error submitting award vote: '.$result.'</div>' ];
+        }
+    }
+
+
     public function actionView(){
         $service = Yii::$app->params['ServiceName']['RFQCommiteeEvaluation'];
 
