@@ -8,7 +8,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-$no = property_exists($model,'RFQ_No')?$model->RFQ_No:'';
+$no = property_exists($model[0],'RFQ_No')?$model[0]->RFQ_No:'';
 $this->title = 'RFQ Evalution - '.$no;
 $this->params['breadcrumbs'][] = ['label' => 'Sent RFQ List   ', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => 'RFQ Commitee Evaluation ', 'url' => ['#']];
@@ -83,7 +83,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                                     <tr>
                                         <td class="font-weight-bold">Description</td>
                                         <td class="font-weight-bold">Vendor Name</td>
-                                        <td class="font-weight-bold">Committee Member_ID</td>
+                                        <td class="font-weight-bold">Committee Member ID</td>
                                         <td class="font-weight-bold">Quoted Amount (Ksh.)</td>
                                         <td class="font-weight-bold">Award</td>
                                         <td class="font-weight-bold">Remarks</td>
@@ -92,23 +92,27 @@ Yii::$app->session->set('isSupervisor',false);*/
                                 </thead>
                                 <tbody>
                                     <?php if(is_string($model)): ?>
-
                                     <tr>
                                         <td colspan="6" align="center"><?= $model ?></td>
                                     </tr>
 
-                                    <?php elseif(is_object($model)): ?>
+                                    <?php elseif(is_array($model)): 
+                                    
+                                    foreach($model as $m):
+                                         ?>
                                     <tr>
-                                        <td><?= $model->Description ?></td>
-                                        <td><?= $model->Vendor_Name ?></td>
-                                        <td><?=$model->Committee_Member_ID ?></td>
-                                        <td><?= number_format($model->Quoted_Amount) ?></td>
-                                        <td><?= Html::checkbox( 'Award', $model->Award, ['id'=>'award','rev'=> $model->Key]) ?></td>
-                                        <td><?= Html::textarea('Remarks',property_exists($model,'Remarks')?$model->Remarks:'',['rows' => 2]) ?></td>
-                                        <td><?= Html::button('<i class="fa fa-check"></i>Submit', ['id' => 'Submit','class' => 'btn btn-success'])?></td>
+                                        <td><?= $m->Description ?></td>
+                                        <td><?= $m->Vendor_Name ?></td>
+                                        <td><?=$m->Committee_Member_ID ?></td>
+                                        <td><?= number_format($m->Quoted_Amount) ?></td>
+                                        <td><?= Html::checkbox( 'Award', $m->Award, ['rev'=> $m->Key, 'id' => 'Award_'.$m->Vendor_No]) ?></td>
+                                        <td><?= Html::textarea('Remarks',property_exists($m,'Remarks')?$m->Remarks:'',['rows' => 2,'id' => 'Remarks_'.$m->Vendor_No]) ?></td>
+                                        <td><?= Html::button('<i class="fa fa-check"></i>Submit', ['class' => 'btn btn-success','id' => $m->Vendor_No, 'rel' => $m->Key ])?></td>
                                     </tr>
 
-                                    <?php endif; ?>
+                                    <?php
+                                    endforeach;
+                                 endif; ?>r
                                 </tbody>
                             </table>
                         </div>
@@ -165,20 +169,25 @@ $script = <<<JS
 
         // Vote to award vendor
 
-        $('#Submit').on('click',(e) => {
+        $('button').on('click',(e) => {
            if(confirm("Do you know what you are doing ?"))
            {
-                let Award = $("input[name='Award']").prop("selected", false)[0].checked;
-                let Remarks = $("textarea[name='Remarks']").val();
-                let Key = $("input[name='Award']").attr('rev');
+                let Key = e.target.getAttribute('rel');
+                let No = e.target.getAttribute('id');
+                let Award = $("#Award_"+No).prop("selected", false)[0].checked;
+                let Remarks = $("#Remarks_"+No).val();
+               
+
+                // console.log(Key); 
 
                 const Payload = {
                     Award,
                     Remarks,
-                    Key
+                    Key,
+                    No
                 };
 
-                console.log(Payload);
+                console.log(Payload); 
                 const url = $('input[name=url]').val()+'rfq/vote';
                 $.post(url, Payload).done(function(msg){
                     $('.modal').modal('show')
@@ -217,7 +226,7 @@ $style = <<<CSS
                 text-align: center;
     }
     
-    /* Table Media Queries */
+    /* Table Media Queries 
     
      @media (max-width: 500px) {
           table td:nth-child(2),td:nth-child(3),td:nth-child(6),td:nth-child(7),td:nth-child(8),td:nth-child(9),td:nth-child(10), td:nth-child(11) {
@@ -242,7 +251,7 @@ $style = <<<CSS
           table td:nth-child(2),td:nth-child(7),td:nth-child(8),td:nth-child(9),td:nth-child(10), td:nth-child(11) {
                 display: none;
         }
-    }
+    }*/
 CSS;
 
 $this->registerCss($style);

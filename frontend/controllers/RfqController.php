@@ -214,14 +214,17 @@ class RfqController extends Controller
 
     public function actionVote(){
         $service = Yii::$app->params['ServiceName']['RFQCommiteeEvaluation'];
-
+        $award = (Yii::$app->request->post('Award') == 'false')?0:1;
+        
         $args = [
-            'Award' => Yii::$app->request->post('Award'),
+            'Award' => $award,
             'Remarks' => Yii::$app->request->post('Remarks'),
             'Key' => Yii::$app->request->post('Key')
         ];
         $result = Yii::$app->navhelper->updateData($service, $args);
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        // return Yii::$app->recruitment->printrr($args);
         if(!is_string($result)){
 
             return ['note' => '<div class="alert alert-success">Award vote submitted Successfully</div>'];
@@ -236,14 +239,16 @@ class RfqController extends Controller
 
         $filter = [
             'RFQ_No' => Yii::$app->request->post('RFQ_No'),
-            'Committee_Member_ID' => Yii::$app->request->post('Committee_Member_ID')
+            'Committee_Member_ID' => Yii::$app->user->identity->{'User ID'} //Yii::$app->request->post('Committee_Member_ID')
         ];
+
+        //Yii::$app->recruitment->printrr($filter);
 
         $result = Yii::$app->navhelper->getData($service, $filter);
 
-        //Yii::$app->recruitment->printrr($result);
+        // Yii::$app->recruitment->printrr($result);
 
-        $model = is_array($result)?$result[0]:'You have no evaluations to make for this RFQ';
+        $model = is_array($result)?$result:'You have no evaluations to make for this RFQ';
 
         return $this->render('view',[
             'model' => $model,
