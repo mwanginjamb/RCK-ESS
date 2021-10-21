@@ -74,7 +74,7 @@ $script = <<<JS
     $(function(){
          /*Data Tables*/
          
-         // $.fn.dataTable.ext.errMode = 'throw';
+        $.fn.dataTable.ext.errMode = 'throw';
         const url = $('#url').val();
     
           $('#table').DataTable({
