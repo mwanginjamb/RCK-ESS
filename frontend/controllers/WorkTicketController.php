@@ -212,11 +212,11 @@ class WorkTicketController extends Controller
         $arr = [];
         $i = 0;
         foreach($result as $res){
-            if(!empty($res->Vehicle_Registration_No) && !empty($res->Make_Model)){
+            if(!empty($res->Vehicle_Registration_No) /*&& !empty($res->Make_Model)*/){
                 ++$i;
                 $arr[$i] = [
                     'Code' => $res->Vehicle_Registration_No,
-                    'Description' => $res->Make_Model.' - '.$res->Vehicle_Registration_No
+                    'Description' => /*$res->Make_Model.' - '.*/ $res->Vehicle_Registration_No
                 ];
             }
         }
