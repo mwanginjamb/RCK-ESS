@@ -124,10 +124,11 @@ $script = <<<JS
             e.preventDefault();
                   
             const Line_No = $('#leaveplanline-line_no').val();
+            const Plan_No = $('#leaveplanline-plan_no').val();
             
             
             const url = $('input[name="absolute"]').val()+'leaveplanline/setstartdate';
-            $.post(url,{'Line_No': Line_No,'Start_Date': $(this).val()}).done(function(msg){
+            $.post(url,{'Line_No': Line_No,'Start_Date': $(this).val(),'Plan_No': Plan_No}).done(function(msg){
                    //populate empty form fields with new data
                     console.log(typeof msg);
                     console.table(msg);

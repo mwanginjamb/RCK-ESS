@@ -182,7 +182,7 @@ class LeaveplanlineController extends Controller
     public function actionSetstartdate(){
         $model = new Leaveplanline();
         $service = Yii::$app->params['ServiceName']['LeavePlanLine'];
-
+       // $model->Plan_No = Yii::$app->request->get('Plan_No');
         $filter = [
             'Line_No' => Yii::$app->request->post('Line_No')
         ];
@@ -192,11 +192,13 @@ class LeaveplanlineController extends Controller
             Yii::$app->navhelper->loadmodel($line[0],$model);
             $model->Key = $line[0]->Key;
             $model->Start_Date = date('Y-m-d',strtotime(Yii::$app->request->post('Start_Date')));
-
+            $result = Yii::$app->navhelper->updateData($service,$model);
+        }else{
+            $model->Start_Date = date('Y-m-d',strtotime(Yii::$app->request->post('Start_Date')));
+            $model->Plan_No = Yii::$app->request->post('Plan_No');
+            $result = Yii::$app->navhelper->postData($service,$model);
         }
 
-
-        $result = Yii::$app->navhelper->updateData($service,$model);
 
         Yii::$app->response->format = \yii\web\response::FORMAT_JSON;
 
