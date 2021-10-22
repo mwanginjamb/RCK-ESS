@@ -25,32 +25,32 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
                             <div class="col-md-6">
                                     <?= $form->field($model, 'Type')->dropDownList([
-                                            'G_L_Account' => 'G_L_Account',
-                                            'Fixed_Asset' => 'Fixed_Asset',
-                                            'Item' => 'Item'
-                                        ],['readonly' => true]); ?>
-                                    <?= $form->field($model, 'No')->dropDownList($items, ['prompt' => 'Select Item...']) ?>
-                                    <?= $form->field($model, 'Location')->dropDownList($locations, ['prompt' => 'Select Location...']) ?>
-                                    <?= $form->field($model, 'Estimate_Unit_Price')->textInput() ?>
+                                            'Service' => 'Service',
+                                            'Repair' => 'Repair',
+                                            'Replacement' => 'Replacement'
+                                        ],['prompt' => 'Select']); ?>
+                                   
+                                    <?= $form->field($model, 'Location_Code')->dropDownList($locations, ['prompt' => 'Select Location...']) ?>
+                                   
                                     <?= $form->field($model, 'Quantity')->textInput(['type' => 'number']) ?>
-                                    <?= $form->field($model, 'Reason_For_Requisition')->textInput(['maxlength'=> 250]); ?>
+                                    <?= $form->field($model, 'Description')->textInput(['maxlength'=> 250]); ?>
+                                    <?= $form->field($model, 'Repair_Date')->textInput(['type' => 'date']) ?>
+                                    <?= $form->field($model, 'Due_Replacement_Date')->textInput(['type' => 'date']) ?>
 
                             </div>
 
                             <div class="col-md-6">
-                                <?= $form->field($model, 'Requisition_No')->textInput(['readonly' => true]) ?>
+                                <?= $form->field($model, 'Repair_Requisition_No')->textInput(['readonly' => true]) ?>
+                                <?= $form->field($model, 'Vendor_Garage')->textInput() ?>
 
-                                <?= $form->field($model, 'Estimate_Total_Amount')->textInput(['readonly' => true]) ?>
-                                <?= $form->field($model, 'ShortcutDimCode_x005B_3_x005D_')->dropDownList($students, ['Prompt' => 'Select Student...']) ?>
-                                <?= $form->field($model, 'ShortcutDimCode_x005B_4_x005D_')->dropDownList($shades, ['Prompt' => 'Select Shade ...']) ?>
-                                <?= $form->field($model, 'ShortcutDimCode_x005B_5_x005D_')->dropDownList($animals, ['Prompt' => 'Select Animal...']) ?>
-                                <?= $form->field($model, 'Institution_Code')->dropDownList($institutions, ['Prompt' => 'Select Institution ...']) ?>
+                                <?= $form->field($model, 'Cost_of_Repair')->textInput(['readonly' => true]) ?>
+                                <?= $form->field($model, 'Budgeted_Amount')->dropDownList($students, ['Prompt' => 'Select Student...']) ?>
+                               
 
                             </div>
 
                                 <?= $form->field($model, 'Key')->hiddenInput(['readonly'=> true])->label(false) ?>
-                                <?= $form->field($model, 'Line_No')->hiddenInput(['readonly'=> true])->label(false) ?>
-                                <?= $form->field($model, 'Requisition_No')->hiddenInput(['readonly'=> true])->label(false) ?>
+                               
 
 
 

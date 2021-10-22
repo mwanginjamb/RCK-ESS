@@ -215,7 +215,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Repair Requisition Card', 'url' =>
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
                     </button>
-                    <h4 class="modal-title" id="myModalLabel" style="position: absolute">Store Requisitions</h4>
+                    <h4 class="modal-title" id="myModalLabel" style="position: absolute">Repair Requisitions</h4>
                 </div>
                 <div class="modal-body">
 
