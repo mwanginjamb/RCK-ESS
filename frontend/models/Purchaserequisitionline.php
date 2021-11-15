@@ -58,8 +58,8 @@ public $isNewRecord;
     public function attributeLabels()
     {
         return [
-            'Global_Dimension_2_Code' => 'Department',
-            'ShortcutDimCode_x005B_3_x005D_' => 'Student',
+            'Global_Dimension_1_Code' => 'Sub Office',
+            'Global_Dimension_2_Code' => 'Program Code',
             'ShortcutDimCode_x005B_4_x005D_' => 'Shade',
             'ShortcutDimCode_x005B_5_x005D_' => 'Animal',
             'ShortcutDimCode_x005B_6_x005D_' => 'unknown Dim 3',

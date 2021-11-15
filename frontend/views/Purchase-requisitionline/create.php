@@ -32,11 +32,11 @@ $model->isNewRecord = true;
             'model' => $model,
             'items' => $items,
             'locations' => $locations,
-            'students' => $students,
-            'animals' => $animals,
-            'shades' => $shades,
-            'institutions' => $institutions,
-            'glaccounts' => $glaccounts
+            'subOffices' => $subOffices,
+            'programCodes' => $programCodes,
+            'jobs' =>  $jobs,
+            'jobTasks' => $jobTasks
+            
         ]) ?>
     </div>
 </div>

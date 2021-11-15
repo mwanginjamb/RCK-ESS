@@ -109,11 +109,10 @@ class PurchaseRequisitionlineController extends Controller
                 'model' => $model,
                 'locations' => $this->getLocations(),
                 'items' => $this->getItems(),
-                'students' =>[],
-                'animals' => [],
-                'shades' => [],
-                'institutions' => [],
-                'glaccounts' => [],
+                'subOffices' => $this->getDimension(1),
+                'programCodes' => $this->getDimension(2),
+                'jobs' =>  $this->getJob(),
+                'jobTasks' => $this->getJobTask()
             ]);
         }
 
@@ -166,11 +165,10 @@ class PurchaseRequisitionlineController extends Controller
                 'model' => $model,
                 'locations' => $this->getLocations(),
                 'items' => $this->getItems(),
-                'students' => [],
-                'animals' => [],
-                'shades' => [],
-                'institutions' => [],
-                'glaccounts' => [],
+                'subOffices' => $this->getDimension(1),
+                'programCodes' => $this->getDimension(2),
+                'jobs' =>  $this->getJob(),
+                'jobTasks' => $this->getJobTask()
             ]);
         }
 
@@ -373,6 +371,41 @@ class PurchaseRequisitionlineController extends Controller
 
         return Yii::$app->navhelper->refactorArray($result,'No','Name');
     }
+
+    // get SUb offices
+
+    public function getDimension($value)
+    {
+        $service = Yii::$app->params['ServiceName']['DimensionValueList'];
+        $filter = ['Global_Dimension_No' => $value];
+        $result = \Yii::$app->navhelper->getData($service, $filter);
+        return Yii::$app->navhelper->refactorArray($result,'Code','Name');
+    }
+
+    // Get Job
+
+    public function getJob()
+    {
+        $service = Yii::$app->params['ServiceName']['Jobs'];
+        $filter = [];
+        $result = \Yii::$app->navhelper->getData($service, $filter);
+        return Yii::$app->navhelper->refactorArray($result,'No','Description');
+    }
+
+    // Get Job Task
+
+    public function getJobTask()
+    {
+        $service = Yii::$app->params['ServiceName']['JobTaskLines'];
+        $filter = [];
+        $result = \Yii::$app->navhelper->getData($service, $filter);
+        return Yii::$app->navhelper->refactorArray($result,'Job_Task_No','Description');
+    }
+
+
+    
+
+
 
 
     // Get options for No. Dropdown

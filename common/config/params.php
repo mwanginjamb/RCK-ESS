@@ -147,6 +147,8 @@ return [
 
         'DimensionValueList' => 'DimensionValueList', //560
         'PaymentTypes' => 'PaymentTypes', //64058
+        'Jobs' => 'Jobs', //89
+        'JobTaskLines' => 'JobTaskLines', //1002
 
         'leaveApplicationList' => 'leaveApplicationList', // 71053
         'leaveApplicationCard' => 'leaveApplicationCard', //71075
