@@ -112,7 +112,7 @@ Yii::$app->session->set('isSupervisor',false);*/
 
                                     <?php
                                     endforeach;
-                                 endif; ?>r
+                                 endif; ?>
                                 </tbody>
                             </table>
                         </div>
@@ -170,7 +170,7 @@ $script = <<<JS
         // Vote to award vendor
 
         $('button').on('click',(e) => {
-           if(confirm("Do you know what you are doing ?"))
+           if(confirm("Are you certain with your choice ?"))
            {
                 let Key = e.target.getAttribute('rel');
                 let No = e.target.getAttribute('id');
