@@ -414,7 +414,7 @@ class PurchaseRequisitionlineController extends Controller
                 'Job_Task_No' => $task_no
             ];
             $result = \Yii::$app->navhelper->getData($service, $filter);
-            $data =  Yii::$app->navhelper->refactorArray($result,'No','Description');
+            $data =  Yii::$app->navhelper->refactorArray($result,'Line_No','Description');
 
         if(count($data) )
         {
