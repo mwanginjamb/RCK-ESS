@@ -39,6 +39,8 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                     <?= $form->field($model, 'Location')->dropDownList($locations, ['prompt' => 'Select Location...']) ?>
                                     <?= $form->field($model, 'Estimate_Unit_Price')->textInput() ?>
                                     <?= $form->field($model, 'Quantity')->textInput(['type' => 'number']) ?>
+
+                                    <?= $form->field($model, 'Requisition_No')->textInput(['readonly' => true]) ?>
                                     
 
                             </div>
@@ -47,9 +49,13 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                 <?= $form->field($model, 'Global_Dimension_1_Code')->dropDownList($subOffices, ['prompt' => 'Select Sub office...']) ?>
                                 <?= $form->field($model, 'Global_Dimension_2_Code')->dropDownList($programCodes, ['prompt' => 'Select Sub office...']) ?>
                                 <?= $form->field($model, 'Job_No')->dropDownList($jobs, ['prompt' => 'Select Sub office...']) ?>
-                                <?= $form->field($model, 'Job_Task_No')->dropDownList($jobTasks, ['prompt' => 'Select Sub office...']) ?>
-
-                                <?= $form->field($model, 'Requisition_No')->textInput(['readonly' => true]) ?>
+                                <?= $form->field($model, 'Job_Task_No')->dropDownList($jobTasks, [
+                                    'prompt' => 'Select ...',
+                                    'onchange' => '$.post("../purchase-requisitionline/planning-dd?task_no="+$(this).val()+"&job_no="+$("#purchaserequisitionline-job_no").val(), (data) => {
+                                        $("select#purchaserequisitionline-job_planning_line_no").html( data );
+                                    })'
+                                    ]) ?>
+                                <?= $form->field($model, 'Job_Planning_Line_No')->dropDownList([], ['prompt' => 'Select Item...']) ?>
 
                                 <?= $form->field($model, 'Estimate_Total_Amount')->textInput(['readonly' => true, 'disabled' =>  true]) ?>
                                
