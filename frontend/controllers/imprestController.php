@@ -121,7 +121,7 @@ class ImprestController extends Controller
         if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Imprestcard'],$model) ){
            
 
-            $result = Yii::$app->navhelper->findOne($service,'No',Yii::$app->request->post()['Imprestcard']['No']);
+            $result = Yii::$app->navhelper->findOne($service,'','No',Yii::$app->request->post()['Imprestcard']['No']);
            
             $model = Yii::$app->navhelper->loadmodel($result,$model);
 
@@ -220,7 +220,7 @@ class ImprestController extends Controller
 
             // Yii::$app->recruitment->printrr(Yii::$app->request->post());
 
-             $result = Yii::$app->navhelper->findOne($service,'No',Yii::$app->request->post()['Imprestsurrendercard']['No']);
+             $result = Yii::$app->navhelper->findOne($service,'','No',Yii::$app->request->post()['Imprestsurrendercard']['No']);
            
             $model = Yii::$app->navhelper->loadmodel($result,$model);
 
@@ -521,7 +521,7 @@ class ImprestController extends Controller
     public function actionViewSurrender($No){
         $service = Yii::$app->params['ServiceName']['ImprestSurrenderCard'];
 
-        $result = Yii::$app->navhelper->findOne($service,'No',$No);
+        $result = Yii::$app->navhelper->findOne($service,'','No',$No);
         //load nav result to model
         $model = $this->loadtomodel($result, new Imprestsurrendercard());
 

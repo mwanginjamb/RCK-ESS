@@ -506,12 +506,41 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
 
 
                         <!--/Fleet Mgt--> 
+
+                        <!---Store Requisition--->
+
+
+                        
+                        <li class="nav-item has-treeview <?= Yii::$app->recruitment->currentCtrl(['storerequisition'])?'menu-open':'' ?>">
+                            <a href="#" title="Performance Management" class="nav-link <?= Yii::$app->recruitment->currentCtrl('storerequisition')?'active':'' ?>">
+                                <i class="nav-icon fa fa-store"></i>
+                                <p>
+                                    Store Requisition
+                                    <i class="fas fa-angle-left right"></i>
+                                    <!--<span class="badge badge-info right">6</span>-->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>storerequisition" class="nav-link <?= Yii::$app->recruitment->currentaction('storerequisition','index')?'active':'' ?>">
+                                        <i class="fa fa-store-alt nav-icon"></i>
+                                        <p> Store Req. List</p>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+                         
+
+
+                        <!---/Store Requisition--->
                         
                         
                         <!--Procurement-->
 
-                        <li class="nav-item has-treeview <?= Yii::$app->recruitment->currentCtrl(['storerequisition','purchase-requisition','rfq'])?'menu-open':'' ?>">
-                            <a href="#" title="Performance Management" class="nav-link <?= Yii::$app->recruitment->currentCtrl('storerequisition')?'active':'' ?>">
+                        <li class="nav-item has-treeview <?= Yii::$app->recruitment->currentCtrl(['purchase-requisition','rfq'])?'menu-open':'' ?>">
+                            <a href="#" title="Performance Management" class="nav-link <?= Yii::$app->recruitment->currentCtrl(['purchase-requisition','rfq'])?'active':'' ?>">
                                 <i class="nav-icon fa fa-truck-loading"></i>
                                 <p>
                                     Procurement
@@ -519,25 +548,7 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
                                     <!--<span class="badge badge-info right">6</span>-->
                                 </p>
                             </a>
-                            <ul class="nav nav-treeview">
-
-
-                                <!--<li class="nav-item">
-                                    <a href="<?= $absoluteUrl ?>storerequisition/create" class="nav-link <?= Yii::$app->recruitment->currentaction('storerequisition','create')?'active':'' ?>">
-                                        <i class="fa fa-truck-loading nav-icon"></i>
-                                        <p> New Store Req.</p>
-                                    </a>
-                                </li>-->
-
-                                <li class="nav-item">
-                                    <a href="<?= $absoluteUrl ?>storerequisition" class="nav-link <?= Yii::$app->recruitment->currentaction('storerequisition','index')?'active':'' ?>">
-                                        <i class="fa fa-truck-loading nav-icon"></i>
-                                        <p> Store Req. List</p>
-                                    </a>
-                                </li>
-
-
-                            </ul>
+                          
 
 
 
