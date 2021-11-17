@@ -91,7 +91,7 @@ class TaxielineController extends Controller
                 'Key' => $model->Key
             ];
 
-            $refresh = Yii::$app->navhelper->getData($service,$filter);
+            $refresh = Yii::$app->navhelper->readByKey($service,$model->Key);
             if(is_array($refresh))
             {
                 $model->Key = $refresh[0]->Key;
@@ -117,9 +117,21 @@ class TaxielineController extends Controller
             return $this->renderAjax('create', [
                 'model' => $model,
                 'vehicles' => $this->getVehicles(),
+                'jobs' => $this->getJob(),
+                'jobTasks' => $this->getJobTask(),
+                'glAccounts' =>  $this->getGlaccounts(),
+                'requestTypes' =>  $this->getRequestTypes()
             ]);
         }
 
+        return $this->render('create', [
+            'model' => $model,
+            'vehicles' => $this->getVehicles(),
+            'jobs' => $this->getJob(),
+            'jobTasks' => $this->getJobTask(),
+            'glAccounts' =>  $this->getGlaccounts(),
+            'requestTypes' =>  $this->getRequestTypes()
+        ]);
 
     }
 
@@ -128,14 +140,12 @@ class TaxielineController extends Controller
         $model = new Taxieline() ;
         $model->isNewRecord = false;
         $service = Yii::$app->params['ServiceName']['TaxieLines'];
-        $filter = [
-            'Document_No' => Yii::$app->request->get('No'),
-        ];
-        $result = Yii::$app->navhelper->getData($service,$filter);
+       
+        $result = Yii::$app->navhelper->readByKey($service,Yii::$app->request->get('No'));
 
-        if(is_array($result)){
+        if(is_object($result)){
             //load nav result to model
-            Yii::$app->navhelper->loadmodel($result[0],$model) ;
+            Yii::$app->navhelper->loadmodel($result,$model) ;
         }else{
             Yii::$app->recruitment->printrr($result);
         }
@@ -166,12 +176,17 @@ class TaxielineController extends Controller
             return $this->renderAjax('update', [
                 'model' => $model,
                 'vehicles' => $this->getVehicles(),
+                'jobs' => $this->getJob(),
+                'jobTasks' => $this->getJobTask(),
+                'glAccounts' =>  $this->getGlaccounts(),
+                'requestTypes' =>  $this->getRequestTypes()
             ]);
         }
 
         return $this->render('update',[
             'model' => $model,
             'vehicles' => $this->getVehicles(),
+            'requestTypes' =>  $this->getRequestTypes()
         ]);
     }
 
@@ -185,6 +200,71 @@ class TaxielineController extends Controller
             return ['note' => '<div class="alert alert-danger">Error Purging Record: '.$result.'</div>' ];
         }
     }
+
+    // Get Taxie Request Types
+
+    public function getRequestTypes()
+     {
+         $service = Yii::$app->params['ServiceName']['TaxieRequestTypes'];
+         $result = \Yii::$app->navhelper->getData($service);
+         return Yii::$app->navhelper->refactorArray($result,'Code','Code');
+     }
+
+     /*Get a list of all GL Accounts*/
+     public function getGlaccounts()
+     {
+         $service = Yii::$app->params['ServiceName']['GLAccountList'];
+         $filter = [];
+         $result = \Yii::$app->navhelper->getData($service, $filter);
+ 
+         return Yii::$app->navhelper->refactorArray($result,'No','Name');
+     }
+
+     // Get Job
+
+     public function getJob()
+     {
+         $service = Yii::$app->params['ServiceName']['Jobs'];
+         $filter = [];
+         $result = \Yii::$app->navhelper->getData($service, $filter);
+         return Yii::$app->navhelper->refactorArray($result,'No','Description');
+     }
+ 
+     // Get Job Task
+ 
+     public function getJobTask()
+     {
+         $service = Yii::$app->params['ServiceName']['JobTaskLines'];
+         $filter = [];
+         $result = \Yii::$app->navhelper->getData($service, $filter);
+         return Yii::$app->navhelper->refactorArray($result,'Job_Task_No','Description');
+     }
+ 
+ 
+     // Get Job Planning Lines
+ 
+     public function actionPlanningDd($task_no,$job_no)
+     {
+         
+             $service = Yii::$app->params['ServiceName']['JobPlanningLines'];
+             $filter = [
+                 'Job_No' => $job_no,
+                 'Job_Task_No' => $task_no
+             ];
+             $result = \Yii::$app->navhelper->getData($service, $filter);
+             $data =  Yii::$app->navhelper->refactorArray($result,'Line_No','Description');
+ 
+         if(count($data) )
+         {
+             foreach($data  as $k => $v )
+             {
+                 echo "<option value='$k'>".$v."</option>";
+             }
+         }else{
+             echo "<option value=''>No data Available</option>";
+         }
+     }
+ 
 
     public function actionSetstartdate(){
         $model = new Leaveplanline();

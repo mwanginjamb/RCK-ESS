@@ -23,15 +23,30 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                 <div class="row">
 
 
-                            <div class="col-md-12">
-                                    <?= $form->field($model, 'Request_Type')->dropDownList(['Official' => 'Official','Personal' => 'Personal'], ['prompt' => 'Select Vehicle']) ?>
-                                    <?= $form->field($model, 'Departure_Location')->textInput(['type' => 'date']) ?>
+                            <div class="col-md-6">
+                                    <?= $form->field($model, 'Request_Type')->dropDownList($requestTypes, ['prompt' => 'Select ...']) ?>
+                                    <?= $form->field($model, 'Departure_Location')->textInput(['maxlength' => 200]) ?>
+                                    <?= $form->field($model, 'Travel_Date')->textInput(['type' => 'date']) ?>
                                     <?= $form->field($model, 'Departure_Time')->textInput(['type' => 'time']) ?>
-                                    <?php $form->field($model, 'Destination_Location')->textInput() ?>
-                                    <?php $form->field($model, 'No_of_Person_s_Travelling')->textInput(['type' => 'number']) ?>
-                                    <?php $form->field($model, 'Reason_For_Request')->textarea(['rows' => 2]) ?>
-                                    <?= $form->field($model, 'Key')->hiddenInput(['readonly'=> true])->label(false) ?>
-                                    <?php $form->field($model, 'Document_No')->textInput(['readonly' => true]) ?>
+                                    <?= $form->field($model, 'Destination_Location')->textInput(['maxlength' => 200]) ?>
+                                    <?= $form->field($model, 'Reason_For_Request')->textarea(['rows' => 2,'maxlength' => 250]) ?>
+                                    <?= $form->field($model, 'No_of_Person_s_Travelling')->textInput(['type' => 'number']) ?>
+                                   
+                                    
+                            </div>
+                            <div class="col-md-6">
+                            <?= $form->field($model, 'Job_No')->dropDownList($jobs, ['prompt' => 'Select Sub office...']) ?>
+                                <?= $form->field($model, 'Job_Task_No')->dropDownList($jobTasks, [
+                                    'prompt' => 'Select ...',
+                                    'onchange' => '$.post("../taxieline/planning-dd?task_no="+$(this).val()+"&job_no="+$("#taxieline-job_no").val(), (data) => {
+                                        $("select#taxieline-job_planning_line_no").html( data );
+                                    })'
+                                    ]) ?>
+                                <?= $form->field($model, 'Job_Planning_Line_No')->dropDownList([], ['prompt' => 'Select ...']) ?>
+
+                                <?= $form->field($model, 'G_L_Account_No')->dropDownList($glAccounts, ['prompt' => 'Select ...']) ?>
+                                <?= $form->field($model, 'Key')->hiddenInput(['readonly'=> true])->label(false) ?>
+                                <?php $form->field($model, 'Document_No')->textInput(['readonly' => true]) ?>
                             </div>
 
 
@@ -65,6 +80,15 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 <input type="hidden" name="absolute" value="<?= $absoluteUrl ?>">
 <?php
 $script = <<<JS
+
+
+
+// Make some fields searchable
+$('#taxieline-job_no').select2();
+$('#taxieline-job_task_no').select2();
+$('#taxieline-g_l_account_no').select2();
+
+
  //Submit Rejection form and get results in json    
         $('form').on('submit', function(e){
             e.preventDefault()

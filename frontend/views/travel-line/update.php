@@ -12,8 +12,7 @@ use yii\helpers\Html;
 /* @var $model frontend\models\AgendaDocument */
 
 $this->title = 'Update Line.';
-$model->Start_Time = date('H:i:s', strtotime($model->Start_Time));
-$model->End_Time = date('H:i:s', strtotime($model->Start_Time));
+
 ?>
 <div class="card">
     <div class="card-header">
@@ -22,7 +21,12 @@ $model->End_Time = date('H:i:s', strtotime($model->Start_Time));
     <div class="card-body">
         <?= $this->render('_form', [
             'model' => $model,
-            'grants' => $grants
+            'items' => $items,
+            'locations' => $locations,
+            'students' => $students,
+            'animals' => $animals,
+            'shades' => $shades,
+            'institutions' => $institutions
         ]) ?>
     </div>
 </div>

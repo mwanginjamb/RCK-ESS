@@ -11,9 +11,9 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\AgendaDocument */
-$this->params['breadcrumbs'][] = ['label' => 'Taxie Requisitions', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => 'Update Request', 'url' => ['update', 'No' => $model->No]];
-$this->title = 'Update Vehicle Requisition';
+$this->params['breadcrumbs'][] = ['label' => 'Vehicle Repair Requisitions', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Update Request', 'url' => ['update','No' => $model->Repair_Requisition_No]];
+$this->title = 'Vehicle Repair Requisition';
 
 ?>
 <div class="agenda-document-update">
@@ -22,7 +22,7 @@ $this->title = 'Update Vehicle Requisition';
 
     <?= $this->render('_form',[
         'model' => $model,
-        'vendors' => $vendors
+        'vehicles' => $vehicles
     ]) ?>
 
 </div>

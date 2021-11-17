@@ -65,7 +65,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                         <div class="col-md-6">
                             <?= $form->field($model, 'Employee_Name')->textInput(['readonly'=> true,'disabled'=> true]) ?>
                             <?= $form->field($model, 'Status')->textInput(['readonly'=> true,'disabled'=> true]) ?>
-                            <?= $form->field($model, 'Taxi_Company')->dropDownList([],['prompt'=> 'Select ...']) ?>
+                            <?= $form->field($model, 'Taxi_Company')->dropDownList($vendors,['prompt'=> 'Select ...']) ?>
                             
 
                         </div>
@@ -146,6 +146,10 @@ $script = <<<JS
         
                 },'json');
         });*/
+
+        // Allow vendords dd to be searchable
+
+        $('#taxie-taxi_company').select2();
 
         // Set other Employee
         

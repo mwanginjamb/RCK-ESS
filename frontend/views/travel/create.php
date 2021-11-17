@@ -11,8 +11,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\AgendaDocument */
 
-$this->title = 'Taxie Requisition';
-$this->params['breadcrumbs'][] = ['label' => 'Taxie Requisitions', 'url' => ['index']];
+$this->title = 'Vehicle Repair Requisition';
+$this->params['breadcrumbs'][] = ['label' => 'Vehicle Repair Requisitions', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => 'New Request', 'url' => ['create']];
 //$this->params['breadcrumbs'][] = $this->title;
 
@@ -24,7 +24,7 @@ $model->isNewRecord = true;
 
     <?= $this->render('_form', [
         'model' => $model,
-        'vendors' => $vendors
+        'vehicles' => $vehicles
 
     ]) ?>
 

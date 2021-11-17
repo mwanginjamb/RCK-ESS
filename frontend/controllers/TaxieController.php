@@ -91,12 +91,11 @@ class TaxieController extends Controller
             $request = Yii::$app->navhelper->postData($service, $model);
             if(!is_string($request) )
             {
-                Yii::$app->navhelper->loadmodel($request,$model);
+                // Yii::$app->navhelper->loadmodel($request,$model);
+                return $this->redirect(['update','No' => $model->No]);
             }else{
                 Yii::$app->session->setFlash('error',$request);
-                return $this->render('create',[
-                    'model' => $model,
-                ]);
+                return $this->redirect(['index']);
             }
         }
 
@@ -127,6 +126,7 @@ class TaxieController extends Controller
 
         return $this->render('create',[
             'model' => $model,
+            'vendors' =>  $this->getVendors(),
         ]);
     }
 
@@ -141,13 +141,16 @@ class TaxieController extends Controller
         $filter = [
             'Booking_Requisition_No' => $No,
         ];
-        $result = Yii::$app->navhelper->getData($service,$filter);
+        $result = Yii::$app->navhelper->findOne($service,'','No',$No);
 
-        if(is_array($result)){
+        if(is_object($result)){
             //load nav result to model
-            $model = Yii::$app->navhelper->loadmodel($result[0],$model) ;//$this->loadtomodeEmployee_Plan_Nol($result[0],$Expmodel);
+            $model = Yii::$app->navhelper->loadmodel($result,$model) ;//$this->loadtomodeEmployee_Plan_Nol($result[0],$Expmodel);
         }else{
-            Yii::$app->recruitment->printrr($result);
+            // Yii::$app->recruitment->printrr($result);
+
+            Yii::$app->session->setFlash('error',$result);
+            return $this->redirect(['index']);
         }
 
 
@@ -156,8 +159,8 @@ class TaxieController extends Controller
                 'No' => $model->No,
             ];
             /*Read the card again to refresh Key in case it changed*/
-            $refresh = Yii::$app->navhelper->getData($service,$filter);
-            Yii::$app->navhelper->loadmodel($refresh[0],$model);
+            $refresh = Yii::$app->navhelper->findOne($service,'','No',$No);
+            Yii::$app->navhelper->loadmodel($refresh,$model);
 
             $result = Yii::$app->navhelper->updateData($service,$model);
 
@@ -165,12 +168,13 @@ class TaxieController extends Controller
 
                 Yii::$app->session->setFlash('success','Document Updated Successfully.' );
 
-                return $this->redirect(['view','No' => $result->Booking_Requisition_No]);
+                return $this->redirect(['view','No' => $result->No]);
 
             }else{
                 Yii::$app->session->setFlash('success','Error Updating Document '.$result );
                 return $this->render('update',[
                     'model' => $model,
+                    'vendors' =>  $this->getVendors(),
                 ]);
 
             }
@@ -182,14 +186,14 @@ class TaxieController extends Controller
         if(Yii::$app->request->isAjax){
             return $this->renderAjax('update', [
                 'model' => $model,
-
+                'vendors' =>  $this->getVendors(),
 
             ]);
         }
 
         return $this->render('update',[
             'model' => $model,
-
+            'vendors' =>  $this->getVendors(),
         ]);
     }
 
@@ -210,14 +214,10 @@ class TaxieController extends Controller
         $model = new Taxie();
         $service = Yii::$app->params['ServiceName']['TaxieCard'];
 
-        $filter = [
-            'Booking_Requisition_No' => $No
-        ];
-
-        $result = Yii::$app->navhelper->getData($service, $filter);
+        $result = Yii::$app->navhelper->findOne($service,'','No',$No);
 
         //load nav result to model
-        $model = $this->loadtomodel($result[0], $model);
+        $model = $this->loadtomodel($result , $model);
 
         //Yii::$app->recruitment->printrr($model);
 
@@ -322,6 +322,13 @@ class TaxieController extends Controller
         }
 
         return $result;
+    }
+
+    public function getVendors() 
+    {
+        $service = Yii::$app->params['ServiceName']['Vendors'];
+        $result = Yii::$app->navhelper->getData($service);
+        return Yii::$app->navhelper->refactorArray($result,'No','Name');
     }
 
     public function getEmployees(){

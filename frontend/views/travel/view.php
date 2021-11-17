@@ -9,43 +9,38 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-$this->title = 'Taxie Requisition - '.$model->No;
-$this->params['breadcrumbs'][] = ['label' => 'Taxie Requsitions List', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => 'Taxie Requsition Card', 'url' => ['view','No'=> $model->No]];
-/** Status Sessions */
+$this->title = 'Vehicle Repair Requisition - '.$model->Repair_Requisition_No;
+$this->params['breadcrumbs'][] = ['label' => 'Vehicle Repair Requisitions', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Repair Requisition Card', 'url' => ['Reuisition view','No'=> $model->Repair_Requisition_No]];
 
-
-/* Yii::$app->session->set('MY_Appraisal_Status',$model->MY_Appraisal_Status);
-Yii::$app->session->set('EY_Appraisal_Status',$model->EY_Appraisal_Status);
-Yii::$app->session->set('isSupervisor',false);*/
 ?>
 
 <div class="row">
     <div class="col-md-4">
 
-        <?= ($model->Status == 'New')?Html::a('<i class="fas fa-paper-plane"></i> Send Approval Req',['send-for-approval'],['class' => 'btn btn-app submitforapproval',
+        <?= ($model->Requisition_Status == 'New')?Html::a('<i class="fas fa-paper-plane"></i> Send Approval Req',['send-for-approval'],['class' => 'btn btn-app submitforapproval',
             'data' => [
                 'confirm' => 'Are you sure you want to send this document for approval?',
                 'params'=>[
-                    'No'=> $model->No,
+                    'No'=> $model->Repair_Requisition_No,
                     'employeeNo' => Yii::$app->user->identity->{'Employee_No'},
                 ],
                 'method' => 'get',
         ],
-            'title' => 'Submit Leave Plan Approval'
+            'title' => 'Submit Document for Approval'
 
         ]):'' ?>
 
 
-        <?= ($model->Status == 'Pending_Approval')?Html::a('<i class="fas fa-times"></i> Cancel Approval Req.',['cancel-request'],['class' => 'btn btn-app submitforapproval',
+        <?= ($model->Requisition_Status == 'Pending_Approval')?Html::a('<i class="fas fa-times"></i> Cancel Approval Req.',['cancel-request'],['class' => 'btn btn-app submitforapproval',
             'data' => [
-            'confirm' => 'Are you sure you want to cancel imprest approval request?',
+            'confirm' => 'Are you sure you want to cancel document approval request?',
             'params'=>[
-                'No'=> $model->No,
+                'No'=> $model->Repair_Requisition_No,
             ],
             'method' => 'get',
         ],
-            'title' => 'Cancel Leave Plan Approval Request'
+            'title' => 'Cancel Document Approval Request'
 
         ]):'' ?>
     </div>
@@ -55,11 +50,8 @@ Yii::$app->session->set('isSupervisor',false);*/
         <div class="col-md-12">
             <div class="card-info">
                 <div class="card-header">
-                    <h3>Taxie Requisition Document </h3>
+                    <h3>Vehicle Repair Requisition Document </h3>
                 </div>
-
-
-
             </div>
         </div>
     </div>
@@ -69,22 +61,21 @@ Yii::$app->session->set('isSupervisor',false);*/
             <div class="card">
                 <div class="card-header">
 
-
-
-
-                    <h3 class="card-title">Requisition No : <?= $model->No?></h3>
-
-
+                    <h3 class="card-title">Requisition No : <?= $model->Repair_Requisition_No ?></h3>
 
                     <?php
                     if(Yii::$app->session->hasFlash('success')){
                         print ' <div class="alert alert-success alert-dismissable">
-                                 ';
+                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h5><i class="icon fas fa-check"></i> Success!</h5>
+ ';
                         echo Yii::$app->session->getFlash('success');
                         print '</div>';
                     }else if(Yii::$app->session->hasFlash('error')){
                         print ' <div class="alert alert-danger alert-dismissable">
-                                 ';
+                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h5><i class="icon fas fa-times"></i> Error!</h5>
+                                ';
                         echo Yii::$app->session->getFlash('error');
                         print '</div>';
                     }
@@ -99,20 +90,27 @@ Yii::$app->session->set('isSupervisor',false);*/
                     <div class="row">
                         <div class=" row col-md-12">
                             <div class="col-md-6">
-                                <?= $form->field($model, 'No')->textInput(['readonly'=> true]) ?>
+
+                                <?= $form->field($model, 'Repair_Requisition_No')->textInput(['readonly' => true]) ?>
                                 <?= $form->field($model, 'Key')->hiddenInput()->label(false) ?>
-                                <?= $form->field($model, 'Created_By')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, 'Created_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, 'Created_Time')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                <?= $form->field($model, 'Vehicle_Registration_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                 <?= $form->field($model, 'Employee_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                <?= $form->field($model, 'Fixed_Asset_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                <?= $form->field($model, 'Vehicle_Frame_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                <?= $form->field($model, 'Vehicle_Model')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                <?= $form->field($model, 'Requisition_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
 
                             </div>
                             <div class="col-md-6">
-                                <?= $form->field($model, 'Employee_Name')->textInput(['readonly'=> true,'disabled'=> true]) ?>
-                                <?= $form->field($model, 'Status')->textInput(['readonly'=> true,'disabled'=> true]) ?>
-                                <?= $form->field($model, 'Taxi_Company')->textInput(['readonly'=> true,'disabled'=> true]) ?>
 
-
+                                <?= $form->field($model, 'Reason_Code')->textInput(['readonly'=> true,'disabled'=> true]) ?>
+                                <?= $form->field($model, 'Requested_By')->textInput(['readonly'=> true,'disabled'=> true]) ?>
+                                <?= $form->field($model, 'Department')->textInput(['readonly'=> true,'disabled'=> true]) ?>
+                                <?= $form->field($model, 'Requisition_Status')->textInput(['readonly'=> true,'disabled'=> true]) ?>
+                                <?= $form->field($model, 'Total_Cost')->textInput(['readonly'=> true,'disabled'=> true]) ?>
+                                <?= $form->field($model, 'Mileage_at_Service_KMS')->textInput(['type'=> 'number','readonly'=> true,'disabled'=> true]) ?>
+                                <?= $form->field($model, 'Service_Date')->textInput(['type'=> 'date','readonly'=> true,'disabled'=> true]) ?>
+                               
 
                             </div>
                         </div>
@@ -133,7 +131,7 @@ Yii::$app->session->set('isSupervisor',false);*/
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">
-                        <?=($model->Status == 'New')?Html::a('<i class="fa fa-plus-square"></i> Add Line',['taxieline/create','No'=>$model->No],['class' => 'add-line btn btn-outline-info',
+                        <?=($model->Requisition_Status == 'New')?Html::a('<i class="fa fa-plus-square"></i> Add Line',['repair-requisitionline/create','No'=>$model->Repair_Requisition_No],['class' => 'add-line btn btn-outline-info',
                         ]):'' ?>
                     </div>
                 </div>
@@ -145,41 +143,61 @@ Yii::$app->session->set('isSupervisor',false);*/
 
 
                     <?php if(is_array($model->lines)){ //show Lines ?>
-                        <table class="table table-bordered">
-                            <thead>
-                            <tr>
-                                <td><b>Request_Type</b></td>
-                                <td><b>Departure_Location</b></td>
-                                <td><b>Departure_Time</b></td>
-                                <td><b>Destination_Location</b></td>
-                                <td><b>Reason_For_Request</b></td>
-                                <td><b>No_of_Person_s_Travelling</b></td>
-                                <td><b>Total_Travel_Cost</b></td>
-                                <td><b>Action</b></td>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                            foreach($model->lines as $obj):
-                                $updateLink = Html::a('<i class="fa fa-edit"></i>',['taxieline/update','No'=> $obj->Key],['class' => 'update-objective btn btn-outline-info btn-xs']);
-                                $deleteLink = Html::a('<i class="fa fa-trash"></i>',['taxieline/delete','Key'=> $obj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
-                                ?>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
                                 <tr>
+                                    <td><b>Type</b></td>
+                                    <td><b>No</b></td>
+                                    <td><b>Description</b></td>
+                                    <td><b>Location Code</b></td>
+                                    <td><b>Quantity</b></td>
+                                    <td><b>Repair Date</b></td>
+                                    <td><b>Duration Of Use</b></td>
+                                    <td><b>Due Replacement Date</b></td>
+                                    <td><b>Vendor Garage</b></td>
+                                    <td><b>Garage Name</b></td>
+                                    <td><b>Cost of Repair</b></td>
+                                    <td><b>Budgeted Amount</b></td>
 
-                                    <td><?= !empty($obj->Request_Type)?$obj->Request_Type:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Departure_Location)?$obj->Departure_Location:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Departure_Time)?$obj->Departure_Time:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Destination_Location)?$obj->Destination_Location:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Reason_For_Request)?$obj->Reason_For_Request:'Not Set' ?></td>
-                                    <td><?= !empty($obj->No_of_Person_s_Travelling)?$obj->No_of_Person_s_Travelling:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Total_Travel_Cost)?$obj->Total_Travel_Cost:'Not Set' ?></td>
-                                    
 
-                                    <td><?= $updateLink.'|'.$deleteLink ?></td>
+                                    <td><b>Action</b></td>
+
                                 </tr>
-                            <?php endforeach; ?>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                <?php
+                                // print '<pre>'; print_r($model->getObjectives()); exit;
+
+                                foreach($model->lines as $obj):
+                                    $updateLink = ($model->Requisition_Status == 'New')?Html::a('<i class="fa fa-edit"></i>',['repair-requisitionline/update','No'=> $obj->Line_No],['class' => 'update-objective btn btn-outline-info btn-xs']):'';
+                                    $deleteLink = ($model->Requisition_Status == 'New')?Html::a('<i class="fa fa-trash"></i>',['repair-requisitionline/delete','Key'=> $obj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']):'';
+                                    ?>
+                                    <tr>
+
+                                        <td><?= !empty($obj->Type)?$obj->Type:'Not Set' ?></td>
+                                        <td><?= !empty($obj->No)?$obj->No:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Description)?$obj->Description:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Location_Code)?$obj->Location_Code:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Quantity)?$obj->Quantity:'Not Set' ?></td>
+
+                                        <td><?= !empty($obj->Repair_Date)?$obj->Repair_Date:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Duration_Of_Use)?$obj->Duration_Of_Use:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Due_Replacement_Date)?$obj->Due_Replacement_Date:'Not Set' ?></td>
+
+                                        <td><?= !empty($obj->Vendor_Garage)?$obj->Vendor_Garage:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Garage_Name)?$obj->Garage_Name:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Cost_of_Repair)?$obj->Cost_of_Repair:'Not Set' ?></td>
+
+                                        <td><?= !empty($obj->Budgeted_Amount)?$obj->Budgeted_Amount:'Not Set' ?></td>
+                                        <td><?= $updateLink.'|'.$deleteLink ?></td>
+
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+
                     <?php } ?>
                 </div>
             </div>
@@ -197,7 +215,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
                     </button>
-                    <h4 class="modal-title" id="myModalLabel" style="position: absolute">Fleet Management</h4>
+                    <h4 class="modal-title" id="myModalLabel" style="position: absolute">Repair Requisitions</h4>
                 </div>
                 <div class="modal-body">
 
@@ -433,6 +451,17 @@ $style = <<<CSS
         margin-right: 50%;
         font-weight: bold;
     }
+
+    tbody {
+      display: inline-block;
+      overflow-y:auto;
+    }
+    thead, tbody tr {
+      display:table;
+      width: 100%;
+      table-layout:fixed;
+    }
+
 
     table td:nth-child(11), td:nth-child(12) {
                 text-align: center;

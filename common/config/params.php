@@ -385,6 +385,8 @@ return [
         'TaxieCard' => 'TaxieCard', // 70068
         'TaxieLines' => 'TaxieLines', //70067
         'TaxieList' => 'TaxieList', //70066
+        'Vendors' => 'Vendors', // 34
+        'TaxieRequestTypes' => 'TaxieRequestTypes', // 70076
         
 
         'Payrollperiods' => 'Payrollperiods', //58002
@@ -393,7 +395,7 @@ return [
 
         'P9YEARS' => 'P9YEARS', //50067
 
-        /* Request to Approve */
+        /* Request to Approve */ 
         'RequeststoApprove' => 'RequeststoApprove', //654
         'RequestsTo_ApprovePortal'=> 'RequestsTo_ApprovePortal', // 67123
         'ApprovalCommentsWeb' => 'ApprovalCommentsWeb', // 50068

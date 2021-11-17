@@ -17,8 +17,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 $model->isNewRecord = true;
-$model->Booking_Date = date('Y-m-d');
+//$model->Booking_Date = date('Y-m-d');
 //$model->End_Date = date('m-d-Y');
+$model->Travel_Date = (date('Y',strtotime($model->Travel_Date)) == '0001')?$model->Travel_Date = date('Y-m-d'):$model->Travel_Date;
 ?>
 
 
@@ -32,6 +33,10 @@ $model->Booking_Date = date('Y-m-d');
         <?= $this->render('_form', [
             'model' => $model,
             'vehicles' => $vehicles,
+            'jobs' => $jobs,
+            'jobTasks' => $jobTasks,
+            'glAccounts' => $glAccounts,
+            'requestTypes' => $requestTypes
         ]) ?>
     </div>
 </div>
