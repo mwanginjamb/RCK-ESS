@@ -172,7 +172,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                 'data' => [
                     'confirm' => 'Are you sure you want to send imprest request for approval?',
                     'params'=>[
-                        'No'=> $_GET['No'],
+                        'No'=> $model->No,
                         'employeeNo' => Yii::$app->user->identity->{'Employee_No'},
                     ],
                     'method' => 'get',

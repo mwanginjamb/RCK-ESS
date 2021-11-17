@@ -430,10 +430,21 @@ class ImprestController extends Controller
         }
     }
 
-    public function actionView($No){
+    public function actionView($No="",$DocNo=''){
         $service = Yii::$app->params['ServiceName']['ImprestRequestCardPortal'];
 
-         $result = Yii::$app->navhelper->readByKey($service,$No);
+
+        if(!empty($DocNo))
+        {
+            $result = Yii::$app->navhelper->findOne($service,'','No', $DocNo);
+        }else if(!empty($No)){
+            $result = Yii::$app->navhelper->readByKey($service,$No);
+        }else{
+            Yii::$app->session->setFlash('error', 'We could not find the document you are looking for, Sorry.');
+            return $this->redirect(['index']);
+        }
+
+         
 
         //load nav result to model
         $model = $this->loadtomodel($result, new Imprestcard());

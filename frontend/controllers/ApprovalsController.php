@@ -363,7 +363,7 @@ class ApprovalsController extends Controller
                     }
                     elseif ($app->Document_Type == 'Imprest')
                     {
-                        $detailsLink = Html::a('Request Details',['imprest/view','No'=> $app->Document_No, 'Approval' => true ],['class'=>'btn btn-outline-info btn-xs','target' => '_blank']);
+                        $detailsLink = Html::a('Request Details',['imprest/view','DocNo'=> $app->Document_No, 'Approval' => true ],['class'=>'btn btn-outline-info btn-xs','target' => '_blank']);
                     }
                     elseif($app->Document_Type == 'Leave_Reimbursement')
                     {
@@ -542,15 +542,15 @@ class ApprovalsController extends Controller
              }
               elseif($docType == 'Overtime_Application')
             {
-                 $result = Yii::$app->navhelper->PortalWorkFlows($service,['applicationNo' => $app],'IanRejectOverTime');
+                 $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanRejectOverTime');
             }
             elseif($docType == 'Employee_Exit')
             {
-                 $result = Yii::$app->navhelper->PortalWorkFlows($service,['applicationNo' => $app],'IanRejectEmployeeExit');
+                 $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanRejectEmployeeExit');
             }
             elseif($docType == 'Change_Request')
             {
-                 $result = Yii::$app->navhelper->PortalWorkFlows($service,['applicationNo' => $app],'IanRejectChangeRequest');
+                 $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanRejectChangeRequest');
             }
             else{
                 $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanRejectLeave');
@@ -704,7 +704,7 @@ class ApprovalsController extends Controller
                     }
                     elseif ($app->Document_Type == 'Imprest')
                     {
-                        $detailsLink = Html::a('Request Details',['imprest/view','No'=> $app->Document_No, 'Approval' => true ],['class'=>'btn btn-outline-info btn-xs','target' => '_blank']);
+                        $detailsLink = Html::a('Request Details',['imprest/view','DocNo'=> $app->Document_No, 'Approval' => true ],['class'=>'btn btn-outline-info btn-xs','target' => '_blank']);
                     }
                     elseif($app->Document_Type == 'Leave_Reimbursement')
                     {
