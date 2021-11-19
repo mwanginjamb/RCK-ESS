@@ -77,7 +77,7 @@ class AdminlteAsset extends AssetBundle
 
 
         'Js/custom.js',
-        'Js/sw.js'
+        'Js/app.js'
 
     ];
     public $depends = [
