@@ -43,7 +43,7 @@ phpunit.phar
 /backend/web/robots.txt
 
 /frontend/web/profile
-/frontend/web/images
+#/frontend/web/images
 /frontend/web/leave_attachments
 /frontend/web/ess_attachments
 /frontend/web/qualifications
