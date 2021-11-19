@@ -29,6 +29,16 @@ $employee = (!Yii::$app->user->isGuest)?Yii::$app->user->identity->employee[0]:[
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+      <!-- PWA SHIT -->
+      <link rel="manifest" href="/manifest.json">
+        <meta name="theme-color" content="#e8701f">
+        <link rel="apple-touch-icon" href="/images/apple-touch-icon-120-120.png"/>
+      <meta name="apple-mobile-web-app-status-bar" content="#37327c">
+    
+    <!-- / PWA SHIT -->
+
+
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?= Html::csrfMetaTags() ?>

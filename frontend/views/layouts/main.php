@@ -33,7 +33,7 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
 
 
      <!-- PWA SHIT -->
-     <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#e8701f">
     <link rel="apple-touch-icon" href="/images/apple-touch-icon-120-120.png"/>
     <meta name="apple-mobile-web-app-status-bar" content="#37327c">
