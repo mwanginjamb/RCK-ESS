@@ -91,7 +91,8 @@ class TaxieController extends Controller
             $request = Yii::$app->navhelper->postData($service, $model);
             if(!is_string($request) )
             {
-                // Yii::$app->navhelper->loadmodel($request,$model);
+               // Yii::$app->recruitment->printrr($model);
+                Yii::$app->navhelper->loadmodel($request,$model);
                 return $this->redirect(['update','No' => $model->No]);
             }else{
                 Yii::$app->session->setFlash('error',$request);
