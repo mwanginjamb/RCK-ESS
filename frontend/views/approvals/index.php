@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Approvals List', 'url' => ['index'
 
                 </div>
                 <div class="card-body">
-                    <table class="table table-bordered dt-responsive table-hover" id="approvals">
+                    <table class="table table-bordered table-hover display responsive nowrap" id="approvals">
                     </table>
                 </div>
             </div>

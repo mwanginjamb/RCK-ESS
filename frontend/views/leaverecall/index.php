@@ -53,7 +53,7 @@ if(Yii::$app->session->hasFlash('success')){
                 <h3 class="card-title">Leave Recall Application List</h3>
             </div>
             <div class="card-body">
-                <table class="table table-bordered dt-responsive table-hover" id="table">
+                <table class="table table-bordered display responsive nowrap table-hover" id="table">
                 </table>
             </div>
         </div>

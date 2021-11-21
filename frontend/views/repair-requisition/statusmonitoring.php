@@ -45,7 +45,7 @@ if(Yii::$app->session->hasFlash('success')){
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered dt-responsive table-hover" id="table">
+                    <table class="table table-bordered display responsive nowrap table-hover" id="table">
                     </table>
                 </div>
             </div>

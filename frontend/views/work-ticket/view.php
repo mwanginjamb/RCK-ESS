@@ -11,14 +11,14 @@ use yii\widgets\ActiveForm;
 
 $this->title = 'Work Ticket - '.$model->Work_Ticket_No;
 $this->params['breadcrumbs'][] = ['label' => 'Work Tickets', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => 'Work Ticket Document', 'url' => ['view','No'=> $model->No]];
+$this->params['breadcrumbs'][] = ['label' => 'Work Ticket Document', 'url' => ['view','No'=> $model->Work_Ticket_No]];
 
 ?>
 
 <div class="row">
     <div class="col-md-4">
 
-        <?= ($model->Status == 'New')?Html::a('<i class="fas fa-paper-plane"></i> Send Approval Req',['send-for-approval'],['class' => 'btn btn-app submitforapproval',
+        <?php (!$model->Submitted)?Html::a('<i class="fas fa-paper-plane"></i> Send Approval Req',['send-for-approval'],['class' => 'btn btn-app submitforapproval',
             'data' => [
                 'confirm' => 'Are you sure you want to send this document for approval?',
                 'params'=>[
@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Work Ticket Document', 'url' => ['
         ]):'' ?>
 
 
-        <?= ($model->Status == 'Pending_Approval')?Html::a('<i class="fas fa-times"></i> Cancel Approval Req.',['cancel-request'],['class' => 'btn btn-app submitforapproval',
+        <?php (!$model->Submitted)?Html::a('<i class="fas fa-times"></i> Cancel Approval Req.',['cancel-request'],['class' => 'btn btn-app submitforapproval',
             'data' => [
             'confirm' => 'Are you sure you want to cancel document approval request?',
             'params'=>[

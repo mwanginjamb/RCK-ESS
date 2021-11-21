@@ -56,6 +56,7 @@ return [
         'PortalFactory', // 50062
         'ImprestManagement', // 50017
         'EmployeeExitManagement',
+        'FleetMgt', //50230
     ],
     'ServiceName'=>[
 
@@ -462,6 +463,7 @@ return [
         'Portal_Workflows' => 'Portal_Workflows', //50019 Approval code unit
         'JobApplication' => 'JobApplication', //50002 Job Aplication Management Code Unit
         'PortalReports' => 'PortalReports',//50064
+        'FleetMgt' => 'FleetMgt',  //50230
 
          /********************TIMESHEETS***************************************/
 

@@ -23,8 +23,12 @@ class AdminlteAsset extends AssetBundle
         'plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css',
         'plugins/icheck-bootstrap/icheck-bootstrap.min.css',
         'plugins/jqvmap/jqvmap.min.css',
-        'plugins/datatables-bs4/css/dataTables.bootstrap4.css',
-        'https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css',
+        //'plugins/datatables-bs4/css/dataTables.bootstrap4.css',
+        //'https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css',
+        'https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css',
+        'https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css',
+
+
         'dist/css/adminlte.min.css',
         'plugins/overlayScrollbars/css/OverlayScrollbars.min.css',
         'plugins/daterangepicker/daterangepicker.css',
@@ -71,8 +75,12 @@ class AdminlteAsset extends AssetBundle
 
 
         'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.12/js/select2.full.min.js',
-        'https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js',
-        'https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js ',
+       // 'https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js',
+       // 'https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js ',
+
+        'https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js',
+        'https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js',
+
         'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/js/bootstrap-timepicker.min.js',
 
 
