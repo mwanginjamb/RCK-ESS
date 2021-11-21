@@ -158,7 +158,7 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
 
                         <div class="dropdown-divider"></div>
 
-                        <?= (!Yii::$app->user->isGuest)? Html::a('<i class="fas fa-file-pdf "></i> ESS Manuals','../essfile/index',['class'=> 'dropdown-item']): ''; ?>
+                        <?php (!Yii::$app->user->isGuest)? Html::a('<i class="fas fa-file-pdf "></i> ESS Manuals','../essfile/index',['class'=> 'dropdown-item']): ''; ?>
 
 
 
