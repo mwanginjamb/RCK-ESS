@@ -13,7 +13,7 @@ use yii\helpers\Html;
 
 $this->title = 'Update Line.';
 $model->Start_Time = date('H:i:s', strtotime($model->Start_Time));
-$model->End_Time = date('H:i:s', strtotime($model->Start_Time));
+$model->End_Time = date('H:i:s', strtotime($model->End_Time));
 ?>
 <div class="card">
     <div class="card-header">

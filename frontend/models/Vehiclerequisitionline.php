@@ -24,10 +24,13 @@ public $Booked_Status;
 public $Booking_Requisition_Status;
 public $isNewRecord;
 
+public $Start_Time;
+public $Expected_End_Time;
+
     public function rules()
     {
         return [
-
+            [['Start_Time','Expected_End_Time','Booking_Date','End_Date','Vehicle_Regitration_No'], 'required'],
         ];
     }
 

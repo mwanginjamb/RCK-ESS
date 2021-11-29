@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $model->isNewRecord = true;
 $model->Booking_Date = date('Y-m-d');
-//$model->End_Date = date('m-d-Y');
+$model->End_Date = date('m-d-Y');
 ?>
 
 

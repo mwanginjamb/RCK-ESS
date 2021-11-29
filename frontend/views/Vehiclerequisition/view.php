@@ -138,11 +138,6 @@ Yii::$app->session->set('isSupervisor',false);*/
                 </div>
 
                 <div class="card-body">
-
-
-
-
-
                     <?php if(is_array($model->lines)){ //show Lines ?>
                         <table class="table table-bordered">
                             <thead>
@@ -167,14 +162,18 @@ Yii::$app->session->set('isSupervisor',false);*/
                             foreach($model->lines as $obj):
                                 $updateLink = Html::a('<i class="fa fa-edit"></i>',['vehiclerequisitionline/update','No'=> $obj->Booking_Requisition_No],['class' => 'update-objective btn btn-outline-info btn-xs']);
                                 $deleteLink = Html::a('<i class="fa fa-trash"></i>',['vehiclerequisitionline/delete','Key'=> $obj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
-                                ?>
+                               
+                                $Start_Time = !empty($obj->Start_Time )?date('H:i:s',strtotime($obj->Start_Time)):'';
+                                $Expected_End_Time = !empty($obj->Expected_End_Time)?date('H:i:s',strtotime($obj->Expected_End_Time)):'';
+                               
+                               ?>
                                 <tr>
 
                                     <td><?= !empty($obj->Booking_Requisition_No)?$obj->Booking_Requisition_No:'Not Set' ?></td>
                                     <td><?= !empty($obj->Vehicle_Regitration_No)?$obj->Vehicle_Regitration_No:'Not Set' ?></td>
                                     <td><?= !empty($obj->Vehicle_Model)?$obj->Vehicle_Model:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Booking_Date)?$obj->Booking_Date:'Not Set' ?></td>
-                                    <td><?= !empty($obj->End_Date)?$obj->End_Date:'Not Set' ?></td>
+                                    <td><?= !empty($obj->Booking_Date)?$obj->Booking_Date.' '. $Start_Time:'Not Set' ?></td>
+                                    <td><?= !empty($obj->End_Date)?$obj->End_Date.' '.$Expected_End_Time:'Not Set' ?></td>
                                     <td><?= !empty($obj->Booking_Duration_Days)?$obj->Booking_Duration_Days:'Not Set' ?></td>
                                     <td><?= !empty($obj->Booking_Requisition_Status)?$obj->Booking_Requisition_Status:'Not Set' ?></td>
                                     <td><?= !empty($obj->End_Date)?$obj->End_Date:'Not Set' ?></td>

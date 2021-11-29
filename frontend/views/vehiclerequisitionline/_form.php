@@ -20,13 +20,27 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
                     <?php
                     $form = ActiveForm::begin(); ?>
+                
+                
+                <div class="row">
+                    <div class="col-md-12">
+                    <?= $form->field($model, 'Vehicle_Regitration_No')->dropDownList($vehicles, ['prompt' => 'Select Vehicle','required' => true]) ?>
+                    </div>
+                </div>
                 <div class="row">
 
 
-                            <div class="col-md-12">
-                                    <?= $form->field($model, 'Vehicle_Regitration_No')->dropDownList($vehicles, ['prompt' => 'Select Vehicle']) ?>
+                            <div class="col-md-6">
+
                                     <?= $form->field($model, 'Booking_Date')->textInput(['type' => 'date']) ?>
+                                    
                                     <?= $form->field($model, 'End_Date')->textInput(['type' => 'date']) ?>
+                            </div>
+
+                            <div class="col-md-6">
+
+                                    <?= $form->field($model, 'Start_Time')->textInput(['type' => 'time', 'required' => true]) ?>
+                                    <?= $form->field($model, 'Expected_End_Time')->textInput(['type' => 'time', 'required' => true]) ?>
                                     <?php $form->field($model, 'Booking_Duration_Days')->textInput() ?>
                                     <?= $form->field($model, 'Key')->hiddenInput(['readonly'=> true])->label(false) ?>
                                     <?php $form->field($model, 'Booking_Requisition_No')->textInput(['readonly' => true]) ?>
