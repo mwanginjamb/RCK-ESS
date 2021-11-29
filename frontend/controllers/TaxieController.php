@@ -358,108 +358,6 @@ class TaxieController extends Controller
         return $data;
     }
 
-
-
-    public function actionSetloantype(){
-        $model = new Salaryadvance();
-        $service = Yii::$app->params['ServiceName']['SalaryAdvanceCard'];
-
-        $filter = [
-            'Plan_No' => Yii::$app->request->post('Plan_No')
-        ];
-        $request = Yii::$app->navhelper->getData($service, $filter);
-
-        if(is_array($request)){
-            Yii::$app->navhelper->loadmodel($request[0],$model);
-            $model->Key = $request[0]->Key;
-            $model->Loan_Type = Yii::$app->request->post('loan');
-        }
-
-
-        $result = Yii::$app->navhelper->updateData($service,$model);
-
-        Yii::$app->response->format = \yii\web\response::FORMAT_JSON;
-
-        return $result;
-
-    }
-
-    public function actionSetamount(){
-        $model = new Salaryadvance();
-        $service = Yii::$app->params['ServiceName']['SalaryAdvanceCard'];
-
-        $filter = [
-            'Plan_No' => Yii::$app->request->post('Plan_No')
-        ];
-        $request = Yii::$app->navhelper->getData($service, $filter);
-
-        if(is_array($request)){
-            Yii::$app->navhelper->loadmodel($request[0],$model);
-            $model->Key = $request[0]->Key;
-            $model->Amount_Requested = Yii::$app->request->post('amount');
-        }
-
-
-        $result = Yii::$app->navhelper->updateData($service,$model);
-
-        Yii::$app->response->format = \yii\web\response::FORMAT_JSON;
-
-        return $result;
-
-    }
-
-    /* Set Imprest Type */
-
-    public function actionSetimpresttype(){
-        $model = new Imprestcard();
-        $service = Yii::$app->params['ServiceName']['ImprestRequestCardPortal'];
-
-        $filter = [
-            'Plan_No' => Yii::$app->request->post('Plan_No')
-        ];
-        $request = Yii::$app->navhelper->getData($service, $filter);
-
-        if(is_array($request)){
-            Yii::$app->navhelper->loadmodel($request[0],$model);
-            $model->Key = $request[0]->Key;
-            $model->Imprest_Type = Yii::$app->request->post('Imprest_Type');
-        }
-
-
-        $result = Yii::$app->navhelper->updateData($service,$model,['Amount_LCY']);
-
-        Yii::$app->response->format = \yii\web\response::FORMAT_JSON;
-
-        return $result;
-
-    }
-
-        /*Set Imprest to Surrend*/
-
-    public function actionSetimpresttosurrender(){
-        $model = new Imprestsurrendercard();
-        $service = Yii::$app->params['ServiceName']['ImprestSurrenderCardPortal'];
-
-        $filter = [
-            'Plan_No' => Yii::$app->request->post('Plan_No')
-        ];
-        $request = Yii::$app->navhelper->getData($service, $filter);
-
-        if(is_array($request)){
-            Yii::$app->navhelper->loadmodel($request[0],$model);
-            $model->Key = $request[0]->Key;
-            $model->Imprest_Plan_No = Yii::$app->request->post('Imprest_Plan_No');
-        }
-
-
-        $result = Yii::$app->navhelper->updateData($service,$model);
-
-        Yii::$app->response->format = \yii\web\response::FORMAT_JSON;
-
-        return $result;
-
-    }
-
     public function loadtomodel($obj,$model){
 
         if(!is_object($obj)){
@@ -483,11 +381,11 @@ class TaxieController extends Controller
         $data = [
             'applicationNo' => $DocNo,
             'sendMail' => true,
-            'approvalUrl' => '',
+            'approvalUrl' => Yii::$app->urlManager->createAbsoluteUrl(['taxie/view','No' => $DocNo]),
         ];
 
 
-        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanSendVehicleBookingRequisitionForApproval');
+        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanSendTaxiRequisitionForApproval');
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Request Sent to Supervisor Successfully.', true);
@@ -511,15 +409,15 @@ class TaxieController extends Controller
         ];
 
 
-        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanCancelVehicleBookingRequisitionApprovalRequest');
+        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanCancelTaxiRequisitionApprovalRequest');
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Request Cancelled Successfully.', true);
-            return $this->redirect(['view','No' => $No]);
+            return $this->redirect(['index']);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error Cancelling Approval Request.  : '. $result);
-            return $this->redirect(['view','No' => $Plan_No]);
+            return $this->redirect(['index']);
 
         }
     }
