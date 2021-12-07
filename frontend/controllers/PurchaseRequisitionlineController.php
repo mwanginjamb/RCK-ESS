@@ -55,7 +55,7 @@ class PurchaseRequisitionlineController extends Controller
             ],
             'contentNegotiator' =>[
                 'class' => ContentNegotiator::class,
-                'only' => ['setquantity','setitem','setlocation','set-type','setprice'],
+                'only' => ['setquantity','setitem','setlocation','set-type','setprice','set-no'],
                 'formatParam' => '_format',
                 'formats' => [
                     'application/json' => Response::FORMAT_JSON,
@@ -212,6 +212,30 @@ class PurchaseRequisitionlineController extends Controller
         return $result;
 
     }
+
+    public function actionSetNo(){
+        $model = new Purchaserequisitionline();
+        $service = Yii::$app->params['ServiceName']['PurchaseRequisitionLine'];
+
+        $filter = [
+            'Line_No' => Yii::$app->request->post('Line_No')
+        ];
+        $line = Yii::$app->navhelper->getData($service, $filter);
+        // Yii::$app->recruitment->printrr($line);
+        if(is_array($line)){
+            Yii::$app->navhelper->loadmodel($line[0],$model,['Line_No']);
+            $model->Key = $line[0]->Key;
+            $model->No = Yii::$app->request->post('No');
+
+        }
+
+
+        $result = Yii::$app->navhelper->updateData($service,$model);
+
+        return $result;
+
+    }
+
 
 
     public function actionSetprice(){
@@ -436,9 +460,12 @@ class PurchaseRequisitionlineController extends Controller
         if($type == 'G_L_Account')
         {
             $service = Yii::$app->params['ServiceName']['GLAccountList'];
-            $filter = [];
+            $filter = [
+                'Direct_Posting' => true,
+                'Income_Balance' => 'Income_Statement'
+            ];
             $result = \Yii::$app->navhelper->getData($service, $filter);
-            $data =  Yii::$app->navhelper->refactorArray($result,'No','Name');
+            $data =  Yii::$app->navhelper->refactorArray($result,'No','No');
 
         }elseif($type == 'Item')
         {

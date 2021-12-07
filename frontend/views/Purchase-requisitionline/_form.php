@@ -36,8 +36,11 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                             })'
                                          ]); ?>
                                     <?= $form->field($model, 'No')->dropDownList([], ['prompt' => 'Select Item...']) ?>
+                                    <?= $form->field($model, 'Name')->textInput(['disabled' => true, 'readonly' => true]) ?>
+
                                     <?= $form->field($model, 'Location')->dropDownList($locations, ['prompt' => 'Select Location...']) ?>
                                     <?= $form->field($model, 'Estimate_Unit_Price')->textInput() ?>
+                                    <?= $form->field($model, 'Description')->textarea(['rows' => 2, 'required'=> true]) ?>
                                     <?= $form->field($model, 'Quantity')->textInput(['type' => 'number']) ?>
 
                                     <?= $form->field($model, 'Requisition_No')->textInput(['readonly' => true]) ?>
@@ -98,6 +101,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 <?php
 $script = <<<JS
 
+ //$('#purchaserequisitionline-no').select2();
 
  //Submit form and get results in json    
         $('form').on('submit', function(e){
@@ -142,6 +146,39 @@ $script = <<<JS
                     $('#purchaserequisitionline-estimate_total_amount').val(msg.Estimate_Total_Amount);
                    
                     
+                },'json');
+        });
+
+
+
+        // Commit GL account No
+
+        $('#purchaserequisitionline-no').on('change', function(e){
+            e.preventDefault();
+                  
+            const No = e.target.value;
+            const Line_No = $('#purchaserequisitionline-line_no').val();
+            
+            
+            const url = $('input[name="absolute"]').val()+'purchase-requisitionline/set-no';
+            $.post(url,{'No': No,'Line_No': Line_No}).done(function(msg){
+                   //populate empty form fields with new data
+                    console.log(typeof msg);
+                    console.table(msg);
+                    if((typeof msg) === 'string') { // A string is an error
+                        const parent = document.querySelector('.field-purchaserequisitionline-no');
+                        const helpbBlock = parent.children[2];
+                        helpbBlock.innerText = msg;
+                        disableSubmit();
+                    }else{ // An object represents correct details
+                        const parent = document.querySelector('.field-purchaserequisitionline-no');
+                        const helpbBlock = parent.children[2];
+                        helpbBlock.innerText = ''; 
+                        enableSubmit();
+                    }
+                    $('#purchaserequisitionline-key').val(msg.Key);
+                    $('#purchaserequisitionline-name').val(msg.Name);
+                
                 },'json');
         });
 
