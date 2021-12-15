@@ -90,7 +90,7 @@ class Navhelper extends Component{
         if(count($res) && !isset($res[0])){
             return $res[$service];
         }else{
-            return false;
+            return $res;
         }
 
     }
@@ -100,6 +100,8 @@ class Navhelper extends Component{
 
         $url  =  new Services($service);
         $wsdl = $url->getUrl();
+
+        //$credentials = '';
 
         if(empty($credentials))
         {        
@@ -119,13 +121,8 @@ class Navhelper extends Component{
         }
 
 
-        $res = (array)$result = Yii::$app->navision->auth($credentials, $wsdl, $filterKey, $filterValue);
-        //var_dump($res); exit;
-        if(count($res) && !isset($res[0])){
-            return $res[$service];
-        }else{
-            return false;
-        }
+        $res = $this->findOne($service,$credentials,$filterKey, $filterValue);
+        return $res;
 
     }
 
