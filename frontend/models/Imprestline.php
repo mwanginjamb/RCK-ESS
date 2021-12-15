@@ -35,7 +35,8 @@ public $Balance_Less_Entry;
 public $Balance_Before_Entry;
 public $isNewRecord;
 
-
+public $Job_No;
+public $Job_Task_No;
 public $Job_Planning_Line_No;
 
     public function rules()
@@ -48,8 +49,8 @@ public $Job_Planning_Line_No;
     public function attributeLabels()
     {
         return [
-            'Global_Dimension_1_Code' => 'Program',
-            'Global_Dimension_2_Code' => 'Department',
+            'Global_Dimension_1_Code' => 'Sub Office',
+            'Global_Dimension_2_Code' => 'Program Code',
             'Sortcut_Dimension_3_Code' => 'Student (Optional)'
         ];
     }

@@ -27,64 +27,36 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
                     $form = ActiveForm::begin(); ?>
                 <div class="row">
-
-
-
-
-
-
-
                         <div class=" row col-md-12">
-
-
-
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <?= $form->field($model, 'Line_No')->hiddenInput(['readonly' => true])->label(false) ?>
                                 <?= $form->field($model, 'Request_No')->hiddenInput(['readonly' => true,'disabled'=>true])->label(false) ?>
                                 <?= $form->field($model, 'Key')->hiddenInput(['readonly'=> true])->label(false) ?>
-
                                 <?= $form->field($model, 'Transaction_Type')->
                                 dropDownList($transactionTypes,['prompt' => 'Select Transaction Type ..',
                                     'required'=> true, 'required' => true]) ?>
 
-
-
                                     <?= $form->field($model, 'Description')->textarea(['rows' => 3,'required' => true]) ?>
                                     <?= $form->field($model, 'Amount')->textInput(['type' => 'number','required' => true]) ?>
                             </div>
-
-
+                            <div class="col-md-6">
+                                <?= $form->field($model, 'Global_Dimension_1_Code')->dropDownList($subOffices, ['prompt' => 'Select Program...']) ?>
+                                <?= $form->field($model, 'Global_Dimension_2_Code')->dropDownList($programCodes, ['prompt' => 'Select Sub office...']) ?>
+                                <?= $form->field($model, 'Job_No')->dropDownList($jobs, ['prompt' => 'Select...']) ?>
+                                <?= $form->field($model, 'Job_Task_No')->dropDownList($jobTasks, [
+                                    'prompt' => 'Select ...',
+                                    'onchange' => '$.post("../imprestline/planning-dd?task_no="+$(this).val()+"&job_no="+$("#imprestline-job_no").val(), (data) => {
+                        
+                                        $("select#imprestline-job_planning_line_no").html( data );
+                                        
+                                    })'
+                                    ]) ?>
+                                <?= $form->field($model, 'Job_Planning_Line_No')->dropDownList([], ['prompt' => 'Select Item...']) ?>
+                            </div>
 
                         </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 </div>
-
-
-
-
-
-
-
-
-
-
-
 
                <!-- <div class="row">
 
@@ -132,6 +104,39 @@ $script = <<<JS
      
     $('#imprestline-amount').change((e) => {
         updateField('Imprestline','Amount', e);
+    });
+
+    // Update Task No
+
+
+    $('#imprestline-job_task_no').on('blur',(e) => {
+        globalFieldUpdate("Imprestline",false,"Job_Task_No", e);
+    });
+
+    
+    // Set Job No
+  
+    $('#imprestline-job_no').change((e) => {
+        globalFieldUpdate('Imprestline',false,'Job_No', e);
+    });
+
+
+    // set Job Planning Line No
+
+    $('#imprestline-job_planning_line_no').change((e) => {
+        globalFieldUpdate('Imprestline',false,'Job_Planning_Line_No', e);
+    });
+
+    // Set Sub Office
+
+    $('#imprestline-global_dimension_1_code').change((e) => {
+        globalFieldUpdate('Imprestline',false,'Global_Dimension_1_Code', e);
+    });
+
+    // set Program
+
+    $('#imprestline-global_dimension_2_code').change((e) => {
+        globalFieldUpdate('Imprestline',false,'Global_Dimension_2_Code', e);
     });
 
      function updateField(entity,fieldName, ev) {

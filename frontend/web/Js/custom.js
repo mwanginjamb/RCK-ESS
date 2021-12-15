@@ -124,6 +124,7 @@ async function getData(resource)
 // Function to do ajax field level updating
 
 function globalFieldUpdate(entity,controller = false, fieldName, ev) {
+  console.log('was invoked');
   const model = entity.toLowerCase();
   const field = fieldName.toLowerCase();
   const formField = '.field-'+model+'-'+fieldName.toLowerCase();
@@ -137,7 +138,7 @@ function globalFieldUpdate(entity,controller = false, fieldName, ev) {
  
   // If controller is falsy use the model value (entity) as the route
   if(!controller) {
-    controller = entity;
+    controller = model;
   }
 
   if(Key.length){

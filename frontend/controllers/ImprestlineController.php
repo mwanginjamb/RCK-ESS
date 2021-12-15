@@ -7,23 +7,17 @@
  */
 
 namespace frontend\controllers;
-use frontend\models\Employeeappraisalkra;
-use frontend\models\Experience;
 use frontend\models\Imprestline;
-use frontend\models\Leaveplanline;
-use frontend\models\Weeknessdevelopmentplan;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\ContentNegotiator;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
 use yii\web\Controller;
 use yii\web\BadRequestHttpException;
 
 use frontend\models\Leave;
 use yii\web\Response;
-use kartik\mpdf\Pdf;
 
 class ImprestlineController extends Controller
 {
@@ -91,7 +85,10 @@ class ImprestlineController extends Controller
             return $this->renderAjax('create', [
                 'model' => $model,
                 'transactionTypes' => $this->getTransactiontypes(),
-                'students' => $this->getStudents()
+                'subOffices' => $this->getDimension(1),
+                'programCodes' => $this->getDimension(2),
+                'jobs' =>  $this->getJob(),
+                'jobTasks' => $this->getJobTask()
             ]);
 
         }
@@ -121,7 +118,10 @@ class ImprestlineController extends Controller
             return $this->renderAjax('create', [
                 'model' => $model,
                 'transactionTypes' => $this->getTransactiontypes(),
-                'students' => $this->getStudents(),
+                'subOffices' => $this->getDimension(1),
+                'programCodes' => $this->getDimension(2),
+                'jobs' =>  $this->getJob(),
+                'jobTasks' => $this->getJobTask()
             ]);
         }
 
@@ -129,7 +129,64 @@ class ImprestlineController extends Controller
     }
 
 
+     // get SUb offices
 
+     public function getDimension($value)
+     {
+         $service = Yii::$app->params['ServiceName']['DimensionValueList'];
+         $filter = ['Global_Dimension_No' => $value];
+         $result = \Yii::$app->navhelper->getData($service, $filter);
+         return Yii::$app->navhelper->refactorArray($result,'Code','Name');
+     }
+ 
+     // Get Job
+ 
+     public function getJob()
+     {
+         $service = Yii::$app->params['ServiceName']['Jobs'];
+         $filter = [];
+         $result = \Yii::$app->navhelper->getData($service, $filter);
+         return Yii::$app->navhelper->refactorArray($result,'No','Description');
+     }
+ 
+     // Get Job Task
+ 
+     public function getJobTask()
+     {
+         $service = Yii::$app->params['ServiceName']['JobTaskLines'];
+         $filter = [];
+         $result = \Yii::$app->navhelper->getData($service, $filter);
+         return Yii::$app->navhelper->refactorArray($result,'Job_Task_No','Description');
+     }
+ 
+ 
+     // Get Job Planning Lines
+ 
+     public function actionPlanningDd($task_no,$job_no)
+     {
+         
+             $service = Yii::$app->params['ServiceName']['JobPlanningLines'];
+             $filter = [
+                 'Job_No' => $job_no,
+                 'Job_Task_No' => $task_no
+             ];
+             $result = \Yii::$app->navhelper->getData($service, $filter);
+             $data =  Yii::$app->navhelper->refactorArray($result,'Line_No','Description');
+ 
+         if(count($data) )
+         {
+             foreach($data  as $k => $v )
+             {
+                 echo "<option value='$k'>".$v."</option>";
+             }
+         }else{
+             echo "<option value=''>No data Available</option>";
+         }
+     }
+ 
+
+
+    
 
 
     public function actionUpdate($Key){
@@ -170,7 +227,10 @@ class ImprestlineController extends Controller
             return $this->renderAjax('update', [
                 'model' => $model,
                 'transactionTypes' => $this->getTransactiontypes(),
-                'students' => $this->getStudents()
+                'subOffices' => $this->getDimension(1),
+                'programCodes' => $this->getDimension(2),
+                'jobs' =>  $this->getJob(),
+                'jobTasks' => $this->getJobTask()
             ]);
         }
 

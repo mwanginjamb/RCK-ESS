@@ -73,17 +73,6 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
                 </div>
 
-
-
-
-
-
-
-
-
-
-
-
                 <div class="row">
 
                     <div class="form-group">
