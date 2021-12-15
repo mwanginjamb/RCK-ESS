@@ -45,13 +45,16 @@ class LoginForm extends Model
         // do Active directory authentication here
         if (!$this->hasErrors()) {
             $user = $this->getUser();
-            // Yii::$app->recruitment->printrr(User::Auth($this->username,$this->password));
+            //Yii::$app->recruitment->printrr($user);
 
             if (!$user || !$user->validatePassword($this->password) || !User::Auth($this->username,$this->password)->Key) {//Add AD login condition here also--> when ad details are given
 
                 $this->addError($attribute, 'Incorrect username or password.');
             }
+        }else {
+            Yii::$app->recruitment->printrr($this->errors);
         }
+
 
     }
 
