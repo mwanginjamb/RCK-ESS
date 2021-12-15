@@ -121,5 +121,62 @@ async function getData(resource)
 
 
 
+// Function to do ajax field level updating
+
+function globalFieldUpdate(entity,controller = false, fieldName, ev) {
+  const model = entity.toLowerCase();
+  const field = fieldName.toLowerCase();
+  const formField = '.field-'+model+'-'+fieldName.toLowerCase();
+  const keyField ='#'+model+'-key'; 
+  const targetField = '#'+model+'-'.field;
+  const tget = '#'+model+'-'+field;
+
+
+  const fieldValue = ev.target.value;
+  const Key = $(keyField).val();
+ 
+  // If controller is falsy use the model value (entity) as the route
+  if(!controller) {
+    controller = entity;
+  }
+
+  if(Key.length){
+      const url = $('input[name=absolute]').val()+controller+'/setfield?field='+fieldName;
+      $.post(url,{ fieldValue:fieldValue,'Key': Key}).done(function(msg){
+          
+              // Populate relevant Fields
+                                         
+              $(keyField).val(msg.Key);
+              $(targetField).val(msg[fieldName]);
+
+             
+              if((typeof msg) === 'string') { // A string is an error
+                  console.log(formField);
+                  const parent = document.querySelector(formField);
+                  const helpbBlock = parent.children[2];
+                  helpbBlock.innerText = msg;
+                  
+              }else{ // An object represents correct details
+
+                  const parent = document.querySelector(formField);
+                  const helpbBlock = parent.children[2];
+                  helpbBlock.innerText = '';
+                  
+              }   
+          },'json');
+  }
+
+}         
+function disableSubmit(){
+document.getElementById('submit').setAttribute("disabled", "true");
+}
+
+function enableSubmit(){
+document.getElementById('submit').removeAttribute("disabled");
+
+}
+
+
+
 
 
