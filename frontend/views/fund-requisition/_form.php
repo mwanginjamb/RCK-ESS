@@ -54,7 +54,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                             <?= $form->field($model, 'Employee_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                             <?= $form->field($model, 'Employee_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                             <?= $form->field($model, 'Purpose')->textInput(['required' => true]) ?>
-                            <?= '<p><span>Gross Allowance</span> '.Html::a($model->Gross_Allowance,'#',['id'=>'Gross_Allowance']); '</p>' ?>
+                            <?= '<p><span>Gross Allowance</span> '.Html::a($model->Gross_Amount,'#',['id'=>'Gross_Allowance']); '</p>' ?>
                             <?= '<p><span>Net Allowance LCY</span> '.Html::a($model->Net_Allowance_LCY,'#',['id' => 'Net_Allowance_LCY']); '</p>'?>
 
 

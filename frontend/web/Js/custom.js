@@ -132,9 +132,11 @@ function globalFieldUpdate(entity,controller = false, fieldName, ev) {
   const targetField = '#'+model+'-'.field;
   const tget = '#'+model+'-'+field;
 
-
+  
   const fieldValue = ev.target.value;
   const Key = $(keyField).val();
+
+  console.log(`My Key is ${Key}`);
  
   // If controller is falsy use the model value (entity) as the route
   if(!controller) {

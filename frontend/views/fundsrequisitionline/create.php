@@ -26,6 +26,11 @@ $model->isNewRecord = true;
     <?= $this->render('_form', [
         'model' => $model,
         'transactionTypes' => $transactionTypes,
+        'subOffices' => $subOffices,
+        'programCodes' => $programCodes,
+        'jobs' =>  $jobs,
+        'jobTasks' => $jobTasks,
+        'accounts' => $accounts
     ]) ?>
 
 </div>

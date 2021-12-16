@@ -79,7 +79,6 @@ class FundsrequisitionlineController extends Controller
 
         if($Request_No && !Yii::$app->request->post()){
                 $model->Request_No = $Request_No;
-                $model->Line_No = time();
                 $res = Yii::$app->navhelper->postData($service, $model);
                 if(!is_string($res)){
                     Yii::$app->navhelper->loadmodel($res, $model);
@@ -93,6 +92,11 @@ class FundsrequisitionlineController extends Controller
             return $this->renderAjax('create', [
                 'model' => $model,
                 'transactionTypes' => $this->getRates(),
+                'subOffices' => $this->getDimension(1),
+                'programCodes' => $this->getDimension(2),
+                'jobs' =>  $this->getJob(),
+                'jobTasks' => $this->getJobTask(),
+                'accounts' => $this->getGlaccounts()
             ]);
 
         }
@@ -104,23 +108,13 @@ class FundsrequisitionlineController extends Controller
              $refresh = Yii::$app->navhelper->getData($service,[
                 'Line_No' => Yii::$app->request->post()['Fundsrequisitionline']['Line_No']
                 ]);
-
-
-
             $model->Key = $refresh[0]->Key;
-
-
             $result = Yii::$app->navhelper->updateData($service,$model);
-
-
-
             Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             // return $model;
             if(!is_string($result)){
-
                 return ['note' => '<div class="alert alert-success">Fund Requisition Line Created Successfully. </div>' ];
             }else{
-
                 return ['note' => '<div class="alert alert-danger">Error Creating Fund Requisition Line: '.$result.'</div>'];
             }
 
@@ -130,10 +124,13 @@ class FundsrequisitionlineController extends Controller
             return $this->renderAjax('create', [
                 'model' => $model,
                 'transactionTypes' => $this->getRates(),
+                'subOffices' => $this->getDimension(1),
+                'programCodes' => $this->getDimension(2),
+                'jobs' =>  $this->getJob(),
+                'jobTasks' => $this->getJobTask(),
+                'accounts' => $this->getGlaccounts()
             ]);
         }
-
-
     }
 
 
@@ -141,26 +138,20 @@ class FundsrequisitionlineController extends Controller
         $model = new Fundsrequisitionline() ;
         $model->isNewRecord = false;
         $service = Yii::$app->params['ServiceName']['AllowanceRequestLine'];
-        $filter = [
-            'Line_No' => Yii::$app->request->get('Line_No'),
-            'Request_No' => Yii::$app->request->get('Request_No')
-        ];
-        $result = Yii::$app->navhelper->getData($service,$filter);
+        $result = Yii::$app->navhelper->readByKey($service,Yii::$app->request->get('Key'));
 
-
-        if(is_array($result)){
+        if(is_object($result)){
             //load nav result to model
-            $model = Yii::$app->navhelper->loadmodel($result[0],$model) ;
-            // Yii::$app->recruitment->printrr($model);
+            $model = Yii::$app->navhelper->loadmodel($result,$model) ;
         }else{
-            Yii::$app->recruitment->printrr($result);
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return ['note' => '<div class="alert alert-danger">Error Updating Fund Requisition Line: '.$result.'</div>'];
         }
-
 
         if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Fundsrequisitionline'],$model) ){
 
-            $refresh = Yii::$app->navhelper->getData($service,['Line_No' => Yii::$app->request->post()['Fundsrequisitionline']['Line_No']]);
-            $model->Key = $refresh[0]->Key;
+            $refresh = Yii::$app->navhelper->readByKey($service,Yii::$app->request->post()['Fundsrequisitionline']['Key']);
+            $model->Key = $refresh->Key;
 
             $result = Yii::$app->navhelper->updateData($service,$model);
 
@@ -176,6 +167,11 @@ class FundsrequisitionlineController extends Controller
         if(Yii::$app->request->isAjax){
             return $this->renderAjax('update', [
                 'model' => $model,
+                'subOffices' => $this->getDimension(1),
+                'programCodes' => $this->getDimension(2),
+                'jobs' =>  $this->getJob(),
+                'jobTasks' => $this->getJobTask(),
+                'accounts' => $this->getGlaccounts(),
                 'transactionTypes' => $this->getRates(),
             ]);
         }
@@ -197,78 +193,21 @@ class FundsrequisitionlineController extends Controller
         }
     }
 
-    public function actionSettransactioncode(){
-        $model = new Fundsrequisitionline();
-        $service = Yii::$app->params['ServiceName']['AllowanceRequestLine'];
 
-        $filter = [
-            'Line_No' => Yii::$app->request->post('Line_No')
-        ];
-        $line = Yii::$app->navhelper->getData($service, $filter);
-
-        if(is_array($line)){
-            Yii::$app->navhelper->loadmodel($line[0],$model);
-            $model->Key = $line[0]->Key;
-            $model->PD_Transaction_Code = Yii::$app->request->post('PD_Transaction_Code');
-
-        }
-
-
-        $result = Yii::$app->navhelper->updateData($service,$model);
-
-        Yii::$app->response->format = \yii\web\response::FORMAT_JSON;
-
-        return $result;
-
+    public function actionView(){
+        
     }
 
-    public function actionSetenddate(){
-        $model = new Imprestline();
-        $service = Yii::$app->params['ServiceName']['Leave__Plan__Line'];
+     /*Get a list of all GL Accounts*/
 
-        $filter = [
-            'Line_No' => Yii::$app->request->post('Line_No')
-        ];
-        $line = Yii::$app->navhelper->getData($service, $filter);
-
-        if(is_array($line)){
-            Yii::$app->navhelper->loadmodel($line[0],$model);
-            $model->Key = $line[0]->Key;
-            $model->End_Date = date('Y-m-d',strtotime(Yii::$app->request->post('End_Date')));
-        }
-
-
-        $result = Yii::$app->navhelper->updateData($service,$model);
-
-        Yii::$app->response->format = \yii\web\response::FORMAT_JSON;
-
-        return $result;
-    }
-
-    public function actionView($ApplicationNo){
-        $service = Yii::$app->params['ServiceName']['AllowanceRequestLine'];
-        $leaveTypes = $this->getLeaveTypes();
-        $employees = $this->getEmployees();
-
-        $filter = [
-            'Application_No' => $ApplicationNo
-        ];
-
-        $leave = Yii::$app->navhelper->getData($service, $filter);
-
-        //load nav result to model
-        $leaveModel = new Leave();
-        $model = $this->loadtomodel($leave[0],$leaveModel);
-
-
-        return $this->render('view',[
-            'model' => $model,
-            'leaveTypes' => ArrayHelper::map($leaveTypes,'Code','Description'),
-            'relievers' => ArrayHelper::map($employees,'No','Full_Name'),
-        ]);
-    }
-
-
+     public function getGlaccounts()
+     {
+         $service = Yii::$app->params['ServiceName']['GLAccountList'];
+         $filter = [];
+         $result = \Yii::$app->navhelper->getData($service, $filter);
+ 
+         return Yii::$app->navhelper->refactorArray($result,'No','Name');
+     }
 
     /*Get Transaction Types */
 
@@ -280,24 +219,73 @@ class FundsrequisitionlineController extends Controller
 
     }
 
+        // get SUb offices
 
-
-
-
-
-
-
-    public function loadtomodel($obj,$model){
-
-        if(!is_object($obj)){
-            return false;
+        public function getDimension($value)
+        {
+            $service = Yii::$app->params['ServiceName']['DimensionValueList'];
+            $filter = ['Global_Dimension_No' => $value];
+            $result = \Yii::$app->navhelper->getData($service, $filter);
+            return Yii::$app->navhelper->refactorArray($result,'Code','Name');
         }
-        $modeldata = (get_object_vars($obj)) ;
-        foreach($modeldata as $key => $val){
-            if(is_object($val)) continue;
-            $model->$key = $val;
+    
+        // Get Job
+    
+        public function getJob()
+        {
+            $service = Yii::$app->params['ServiceName']['Jobs'];
+            $filter = [];
+            $result = \Yii::$app->navhelper->getData($service, $filter);
+            return Yii::$app->navhelper->refactorArray($result,'No','Description');
+        }
+    
+        // Get Job Task
+    
+        public function getJobTask()
+        {
+            $service = Yii::$app->params['ServiceName']['JobTaskLines'];
+            $filter = [];
+            $result = \Yii::$app->navhelper->getData($service, $filter);
+            return Yii::$app->navhelper->refactorArray($result,'Job_Task_No','Description');
+        }
+    
+    
+        // Get Job Planning Lines
+    
+        public function actionPlanningDd($task_no,$job_no)
+        {
+            
+                $service = Yii::$app->params['ServiceName']['JobPlanningLines'];
+                $filter = [
+                    'Job_No' => $job_no,
+                    'Job_Task_No' => $task_no
+                ];
+                $result = \Yii::$app->navhelper->getData($service, $filter);
+                $data =  Yii::$app->navhelper->refactorArray($result,'Line_No','Description');
+    
+            if(count($data) )
+            {
+                foreach($data  as $k => $v )
+                {
+                    echo "<option value='$k'>".$v."</option>";
+                }
+            }else{
+                echo "<option value=''>No data Available</option>";
+            }
         }
 
-        return $model;
+        /** Updates a single field */
+    public function actionSetfield($field){
+        $service = 'AllowanceRequestLine';
+        $value = Yii::$app->request->post('fieldValue');
+       
+        $result = Yii::$app->navhelper->Commit($service,[$field => $value],Yii::$app->request->post('Key'));
+        Yii::$app->response->format = \yii\web\response::FORMAT_JSON;
+        return $result;
+          
     }
+    
+
+
+
 }

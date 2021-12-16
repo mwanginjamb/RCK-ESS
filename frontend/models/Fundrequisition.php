@@ -20,8 +20,9 @@ public $No;
 public $Employee_No;
 public $Employee_Name;
 public $Purpose;
-public $Gross_Allowance;
+public $Gross_Amount;
 public $Net_Allowance_LCY;
+public $Taxable_Amout;
 public $Status;
 public $Global_Dimension_1_Code;
 public $Global_Dimension_2_Code;
@@ -35,7 +36,6 @@ public $Paying_Bank;
 public $Paying_Bank_Name;
 public $Pay_Mode;
 public $Payroll_Period;
-public $M_PESA_Withdrawal_Fee;
 public $Cheque_No;
 public $EFT_No;
 public $Allowance_Request_Line;
@@ -56,8 +56,8 @@ public $isNewRecord;
     public function attributeLabels()
     {
         return [
-            'Global_Dimension_1_Code' => 'Program',
-            'Global_Dimension_2_Code' => 'Department'
+            'Global_Dimension_1_Code' => 'Sub Office',
+            'Global_Dimension_2_Code' => 'Program Code',
         ];
     }
 

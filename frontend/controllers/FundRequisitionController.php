@@ -87,20 +87,14 @@ class FundRequisitionController extends Controller
 
         /*Do initial request */
         if(!isset(Yii::$app->request->post()['Fundrequisition'])){
-            $model->Employee_No = Yii::$app->user->identity->{'Employee_No'};
+            $model->Employee_No = Yii::$app->user->identity->{'Employee No_'};
             $request = Yii::$app->navhelper->postData($service,$model);
             if(is_object($request) )
             {
                 Yii::$app->navhelper->loadmodel($request,$model);
             }else{
                 Yii::$app->session->setFlash('error',$request);
-                return $this->render('create',[
-                    'model' => $model,
-                    'employees' => $this->getEmployees(),
-                    'programs' => $this->getPrograms(),
-                    'departments' => $this->getDepartments(),
-                    'currencies' => $this->getCurrencies()
-                ]);
+                return $this->redirect(['index']);
             }
         }
 
@@ -310,19 +304,17 @@ class FundRequisitionController extends Controller
     public function actionView($No){
         $service = Yii::$app->params['ServiceName']['AllowanceRequestCard'];
         $model = new Fundrequisition();
-        $filter = [
-            'No' => $No
-        ];
 
-        $result = Yii::$app->navhelper->getData($service, $filter);
+        $result = Yii::$app->navhelper->findOne($service,'','No',$No);
 
         //load nav result to model
-        $model = $this->loadtomodel($result[0], $model);
+        $model = $this->loadtomodel($result, $model);
 
         // Yii::$app->recruitment->printrr($model);
 
         return $this->render('view',[
             'model' => $model,
+            'document' => $result
         ]);
     }
 

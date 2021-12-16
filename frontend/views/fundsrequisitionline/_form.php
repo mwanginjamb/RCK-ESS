@@ -30,33 +30,38 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                     ?>
                 <div class="row">
 
+                       
 
-
-
-
-
-
-                        <div class=" row col-md-12">
-
-
-
-                            <div class="col-md-12">
-                                <?= $form->field($model, 'Line_No')->textInput(['readonly' => true])->label() ?>
-                                <?= $form->field($model, 'Account_No')->textInput(['readonly' => true,'disabled' => true])->label() ?>
+                            <div class="col-md-6">                               
+                                <?= $form->field($model, 'Account_No')->dropDownList($accounts,['prompt' => 'select ...','required'=> true]) ?>
                                 <?= $form->field($model, 'Account_Name')->textInput(['readonly' => true,'disabled' => true])->label() ?>
-
                                 <?= $form->field($model, 'Request_No')->hiddenInput(['readonly' => true])->label(false) ?>
                                 <?= $form->field($model, 'PD_Transaction_Code')->
                                 dropDownList($transactionTypes,['prompt' => 'Select Transaction Type ..','required' => true]) ?>
-
                                 <?= $form->field($model, 'Description')->textarea(['rows' => 3,'required' => true]) ?>
-                                <?= $form->field($model, 'Child_Rate',['enableAjaxValidation' => true])->textInput(['type' => 'number','required' => true,'min' => 1]) ?>
-                                <?= $form->field($model, 'No_of_Children',['enableAjaxValidation' => true])->textInput(['type' => 'number','required' => true, 'min' => 1]) ?>
+
+                                <?= $form->field($model, 'Key')->textInput(['readonly'=> true])->label(false) ?>
+                               
                             </div>
 
-                            <?= $form->field($model, 'Key')->hiddenInput(['readonly'=> true])->label(false) ?>
+                            <div class="col-md-6">
+                                <?= $form->field($model, 'Global_Dimension_1_Code')->dropDownList($subOffices, ['prompt' => 'Select Program...']) ?>
+                                <?= $form->field($model, 'Global_Dimension_2_Code')->dropDownList($programCodes, ['prompt' => 'Select Sub office...']) ?>
+                                <?= $form->field($model, 'Job_No')->dropDownList($jobs, ['prompt' => 'Select...']) ?>
+                                <?= $form->field($model, 'Job_Task_No')->dropDownList($jobTasks, [
+                                    'prompt' => 'Select ...',
+                                    'onchange' => '$.post("../fundsrequisitionline/planning-dd?task_no="+$(this).val()+"&job_no="+$("#fundsrequisitionline-job_no").val(), (data) => {
+                        
+                                        $("select#fundsrequisitionline-job_planning_line_no").html( data );
+                                        
+                                    })'
+                                    ]) ?>
+                                <?= $form->field($model, 'Job_Planning_Line_No')->dropDownList([], ['prompt' => 'Select Item...']) ?>
+                            </div>
 
-                        </div>
+                            
+
+                    
 
                 </div>
 
@@ -64,7 +69,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                 <div class="row">
 
                     <div class="form-group">
-                        <?= Html::submitButton(($model->isNewRecord)?'Save':'Update', ['class' => 'btn btn-success','id'=>'submit']) ?>
+                        <?php Html::submitButton(($model->isNewRecord)?'Save':'Update', ['class' => 'btn btn-success','id'=>'submit']) ?>
                     </div>
 
 
@@ -90,75 +95,60 @@ $script = <<<JS
                 },'json');
         });
 
-         $('#fundsrequisitionline-pd_transaction_code').on('change', function(e){
-            e.preventDefault();
-                  
-            const Line_No = $('#fundsrequisitionline-line_no').val();
-            
-            
-            const url = $('input[name="absolute"]').val()+'fundsrequisitionline/settransactioncode';
-            $.post(url,{'Line_No': Line_No,'PD_Transaction_Code': $(this).val()}).done(function(msg){
-                   //populate empty form fields with new data
-                    console.log(typeof msg);
-                    console.table(msg);
-                     $('#fundsrequisitionline-account_no').val(msg.Account_No);
-                    $('#fundsrequisitionline-account_name').val(msg.Account_Name);
-                    if((typeof msg) === 'string') { // A string is an error
-                        const parent = document.querySelector('.field-leaveplanline-start_date');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = msg;
-                        disableSubmit();
-                    }else{ // An object represents correct details
-                        const parent = document.querySelector('.field-leaveplanline-start_date');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = ''; 
-                        enableSubmit();
-                    }
-                   
-                    
-                    
-                },'json');
+       // $('#fundsrequisitionline-account_no').select2();
+
+       $('#fundsrequisitionline-account_no').change((e) => {
+            globalFieldUpdate('fundsrequisitionline',false,'Account_No', e);
         });
-         
-         $('#leaveplanline-end_date').on('change', function(e){
-            e.preventDefault();
-                  
-            const Line_No = $('#leaveplanline-line_no').val();
-            
-            
-            const url = $('input[name="absolute"]').val()+'leaveplanline/setenddate';
-            $.post(url,{'Line_No': Line_No,'End_Date': $(this).val()}).done(function(msg){
-                   //populate empty form fields with new data
-                    console.log(typeof msg);
-                    console.table(msg);
-                    if((typeof msg) === 'string'){ // A string is an error
-                        const parent = document.querySelector('.field-leaveplanline-end_date');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = msg;
-                        disableSubmit();
-                    }else{ // An object represents correct details
-                        const parent = document.querySelector('.field-leaveplanline-end_date');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = ''; 
-                        enableSubmit();
-                    }
-                    $('#leaveplanline-days_planned').val(msg.Days_Planned);
-                    // $('#leaveplanline-start_date').val(msg.Start_Date);
-                    $('#leaveplanline-holidays').val(msg.Holidays);
-                    $('#leaveplanline-weekend_days').val(msg.Weekend_Days);
-                    $('#leaveplanline-total_no_of_days').val(msg.Total_No_Of_Days);
-                    
-                },'json');
+
+
+        // Se Transaction Code
+
+        $('#fundsrequisitionline-pd_transaction_code').change((e) => {
+            globalFieldUpdate('fundsrequisitionline',false,'PD_Transaction_Code', e);
         });
+
+        // Set Description
+
+        $('#fundsrequisitionline-description').change((e) => {
+            globalFieldUpdate('fundsrequisitionline',false,'Description', e);
+        });
+
+        // set Dim 1
+
+        
+        $('#fundsrequisitionline-global_dimension_1_code').on('change',(e) => {
+             globalFieldUpdate("fundsrequisitionline",false,"global_dimension_1_code", e);
+        });
+
+        // set Dim 2
+
+        $('#fundsrequisitionline-global_dimension_2_code').on('change',(e) => {
+             globalFieldUpdate("fundsrequisitionline",false,"global_dimension_2_code", e);
+        });
+
+       
+        // Set Task No
+
+        $('#fundsrequisitionline-job_task_no').on('blur',(e) => {
+             globalFieldUpdate("fundsrequisitionline",false,"Job_Task_No", e);
+        });
+
+         // Set Job No
+  
+        $('#fundsrequisitionline-job_no').change((e) => {
+            globalFieldUpdate('fundsrequisitionline',false,'Job_No', e);
+        });
+
+        // Set Planning Line
+
+        $('#fundsrequisitionline-job_planning_line_no').change((e) => {
+            globalFieldUpdate('fundsrequisitionline',false,'job_planning_line_no', e);
+        });
+
+        
          
-         function disableSubmit(){
-             document.getElementById('submit').setAttribute("disabled", "true");
-        }
-        
-        function enableSubmit(){
-            document.getElementById('submit').removeAttribute("disabled");
-        
-        }
+         
 JS;
 
 $this->registerJs($script);

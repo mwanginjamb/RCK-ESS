@@ -24,7 +24,12 @@ $this->title = 'Update Fund Requisition Line.';
 
     <?= $this->render('_form',[
         'model' => $model,
-        'transactionTypes' => $transactionTypes
+        'transactionTypes' => $transactionTypes,
+        'subOffices' => $subOffices,
+        'programCodes' => $programCodes,
+        'jobs' =>  $jobs,
+        'jobTasks' => $jobTasks,
+        'accounts' => $accounts
     ]) ?>
 
 </div>

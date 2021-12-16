@@ -120,7 +120,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                                 <?= $form->field($model, 'Employee_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                 <?= $form->field($model, 'Employee_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                 <?= $form->field($model, 'Purpose')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= '<p><span>Gross Allowance</span> '.Html::a($model->Gross_Allowance,'#'); '</p>' ?>
+                                <?= '<p><span>Gross Allowance</span> '.Html::a($model->Gross_Amount,'#'); '</p>' ?>
                                 <?= '<p><span>Net Allowance LCY</span> '.Html::a($model->Net_Allowance_LCY,'#'); '</p>'?>
 
 
@@ -157,24 +157,10 @@ Yii::$app->session->set('isSupervisor',false);*/
             </div><!--end details card-->
 
 
-            <!--Objectives card -->
+            <!-- Lines-->
 
 
-            <?php
-
-            Html::a('<i class="fas fa-paper-plane"></i> Send Approval Req',['send-for-approval','employeeNo' => Yii::$app->user->identity->{'Employee_No'}],['class' => 'btn btn-app submitforapproval',
-                'data' => [
-                    'confirm' => 'Are you sure you want to send Fund Requisition request for approval?',
-                    'params'=>[
-                        'No'=> $_GET['No'],
-                        'employeeNo' => Yii::$app->user->identity->{'Employee_No'},
-                    ],
-                    'method' => 'get',
-                ],
-                'title' => 'Submit Fund Requisition Approval'
-
-            ])
-            ?>
+           
 
 
 
@@ -192,7 +178,7 @@ Yii::$app->session->set('isSupervisor',false);*/
 
 
                     <?php
-                    if(is_array($model->getLines($model->No))){ //show Lines ?>
+                    if(property_exists($document->Allowance_Request_Line,'Allowance_Request_Line')){ //show Lines ?>
                         <table class="table table-bordered">
                             <thead>
                             <tr>
@@ -206,7 +192,9 @@ Yii::$app->session->set('isSupervisor',false);*/
 
 
                                 <td><b>Unbudgeted?</b></td>
+                            <?php if($model->Status == 'New'): ?>
                                 <td><b>Actions</b></td>
+                            <?php endif; ?>
 
 
                             </tr>
@@ -215,8 +203,8 @@ Yii::$app->session->set('isSupervisor',false);*/
                             <?php
 
 
-                            foreach($model->getLines($model->No) as $obj):
-                                $updateLink = Html::a('<i class="fa fa-edit"></i>',['fundsrequisitionline/update','Line_No'=> $obj->Line_No, 'Request_No' => $obj->Request_No],['class' => 'update-objective btn btn-outline-info btn-xs']);
+                            foreach($document->Allowance_Request_Line->Allowance_Request_Line as $obj):
+                                $updateLink = Html::a('<i class="fa fa-edit"></i>',['fundsrequisitionline/update','Key'=> $obj->Key, 'Request_No' => $model->No],['class' => 'update-objective btn btn-outline-info btn-xs']);
                                 $deleteLink = Html::a('<i class="fa fa-trash"></i>',['fundsrequisitionline/delete','Key'=> $obj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
                                 ?>
                                 <tr>
@@ -229,7 +217,9 @@ Yii::$app->session->set('isSupervisor',false);*/
                                     <td><?= !empty($obj->No_of_Children)?$obj->No_of_Children:'Not Set' ?></td>
                                     <td><?= !empty($obj->Amount)?$obj->Amount:'Not Set' ?></td>
                                     <td><?= Html::checkbox('Unbudgeted',$obj->Unbudgeted) ?></td>
+                                    <?php if($model->Status == 'New'): ?>
                                     <td><?= $updateLink.'|'.$deleteLink ?></td>
+                                    <?php endif; ?>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>
