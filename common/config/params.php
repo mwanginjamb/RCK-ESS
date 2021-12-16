@@ -75,6 +75,7 @@ return [
         'ImprestSurrenderCardPortal' => 'ImprestSurrenderCardPortal', //64059 (Page)
         'PostedImprestRequest' => 'PostedImprestRequest', //64026 (Page)
         'PostedReceiptsList' => 'PostedReceiptsList',//64056 (Page)
+        'PortalImprestRequest' => 'PortalImprestRequest', //64048
 
 
 

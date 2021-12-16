@@ -140,7 +140,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                                 <?= $form->field($model, 'Global_Dimension_1_Code')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                 <?= $form->field($model, 'Global_Dimension_2_Code')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                 <?= $form->field($model, 'Posting_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, 'Receipt_No')->dropDownList([],['prompt' => 'Select ... ']) ?>
+                                <?= $form->field($model, 'Receipt_No')->dropDownList([],['prompt' => 'Select ... ','readonly'=> true, 'disabled'=>true]) ?>
                                 <?= $form->field($model, 'Receipt_Amount')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                 <?= '<p><span> Approval Entries </span> '.Html::a($model->Approval_Entries,'#'); '</p>'?>
 
@@ -163,87 +163,66 @@ Yii::$app->session->set('isSupervisor',false);*/
             </div><!--end details card-->
 
 
-            <!--Objectives card -->
-
-
-            <?php
-
-            Html::a('<i class="fas fa-paper-plane"></i> Send Approval Req',['send-for-approval','employeeNo' => Yii::$app->user->identity->{'Employee_No'}],['class' => 'btn btn-app submitforapproval',
-                'data' => [
-                    'confirm' => 'Are you sure you want to send imprest request for approval?',
-                    'params'=>[
-                        'No'=> $_GET['No'],
-                        'employeeNo' => Yii::$app->user->identity->{'Employee_No'},
-                    ],
-                    'method' => 'get',
-                ],
-                'title' => 'Submit Imprest Approval'
-
-            ])
-            ?>
-
-
+            <!--Imprest Lines -->
 
             <div class="card">
                 <div class="card-header">
                     <div class="card-title"> Imprest Lines  </div>
                 </div>
 
-
-
                 <div class="card-body">
-
-
-
-
-
                     <?php
-                    if($model->Imprest_No && is_array($model->getLines($model->Imprest_No))){ //show Lines ?>
-                        <table class="table table-bordered">
-                            <thead>
-                            <tr>
-                                <td><b>Transaction Type</b></td>
-                                <td><b>Account No</b></td>
-                                <td><b>Account Name</b></td>
-                                <td><b>Description</b></td>
-                                <td><b>Amount</b></td>
-                                <td><b>Amount LCY</b></td>
-                                <td><b>Budgeted Amount</b></td>
-                                <td><b>Commited Amount</b></td>
-                                <td><b>Total_Expenditure</b></td>
-                                <td><b>Available Amount</b></td>
-                                <td><b>Unbudgeted?</b></td>
-                                <!--<td><b>Actions</b></td>-->
+                    if(property_exists($surrender->Imprest_Surrender_Line, 'Imprest_Surrender_Line')){ //show Lines ?>
+
+                    <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <td class="text-center text-bold">Account_Name</td>
+                                                    <td class="text-center text-bold">Description</td>
+                                                    <td class="text-center text-bold">Imprest Amount</td>
+                                                    <td class="text-center text-bold">Request No</td>
+                                                    <td class="text-center text-bold">Surrender</td>
+                                                    <td class="text-center text-bold">Donor Code</td>
+                                                    <td class="text-center text-bold">Job No</td>
+                                                    <td class="text-center text-bold">Job Task No</td>
+                                                    <td class="text-center text-bold">Job Planning Line No"</td>
+                                                    <td class="text-center text-bold">Budgeted Amount</td>
+                                                    <td class="text-center text-bold">Commited Amount</td>
+                                                    <td class="text-center text-bold">Total Expenditure</td>
+                                                    <td class="text-center text-bold">Available Amount</td>
+                                                    <td class="text-center text-bold">Unbudgeted</td>
 
 
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                            // print '<pre>'; print_r($model->getObjectives()); exit;
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <?php
+                                                // print '<pre>'; print_r($model->getObjectives()); exit;
 
-                            foreach($model->getLines($model->No) as $obj):
-                              //  $updateLink = Html::a('<i class="fa fa-edit"></i>',['imprestline/update','Line_No'=> $obj->Line_No],['class' => 'update-objective btn btn-outline-info btn-xs']);
-                                // $deleteLink = Html::a('<i class="fa fa-trash"></i>',['imprestline/delete','Key'=> $obj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
-                                ?>
-                                <tr>
+                                                foreach($surrender->Imprest_Surrender_Line->Imprest_Surrender_Line as $line):
+                                                ?>
+                                                    <tr>
 
-                                    <td><?= !empty($obj->Transaction_Type)?$obj->Transaction_Type:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Account_No)?$obj->Account_No:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Account_Name)?$obj->Account_Name:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Description)?$obj->Description:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Amount)?$obj->Amount:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Amount_LCY)?$obj->Amount_LCY:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Budgeted_Amount)?$obj->Budgeted_Amount:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Commited_Amount)?$obj->Commited_Amount:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Total_Expenditure)?$obj->Total_Expenditure:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Available_Amount)?$obj->Available_Amount:'Not Set' ?></td>
-                                    <td><?= Html::checkbox('Unbudgeted',$obj->Unbudgeted) ?></td>
-                                    <!--<td><?/*= $updateLink.'|'.$deleteLink */?></td>-->
-                                </tr>
-                            <?php endforeach; ?>
-                            </tbody>
-                        </table>
+                                                            <td class="text-center"><?= !empty($line->Account_Name)? $line->Account_Name : '' ?></td>
+                                                            <td class="text-center"><?= !empty($line->Description)? $line->Description : '' ?></td>
+                                                            <td class="text-center"><?= !empty($line->Imprest_Amount)? $line->Imprest_Amount : '' ?></td>
+                                                            <td class="text-center"><?= !empty($line->Request_No)? $line->Request_No : '' ?></td>
+                                                            <td class="text-center"><?= Html::checkbox('Surrender',$line->Surrender) ?></td>
+                                                            <td class="text-center"><?= !empty($line->Donor_Code)? $line->Donor_Code : '' ?></td>
+                                                            <td class="text-center"><?= !empty($line->Job_No)? $line->Job_No : '' ?></td>
+                                                            <td class="text-center"><?= !empty($line->Job_Task_No)? $line->Job_Task_No : '' ?></td>
+                                                            <td class="text-center"><?= !empty($line->Job_Planning_Line_No)? $line->Job_Planning_Line_No : '' ?></td>
+                                                            <td class="text-center"><?= !empty($line->Budgeted_Amount)? $line->Budgeted_Amount : '' ?></td>
+                                                            <td class="text-center"><?= !empty($line->Commited_Amount)? $line->Commited_Amount : '' ?></td>
+                                                            <td class="text-center"><?= !empty($line->Total_Expenditure)? $line->Total_Expenditure : '' ?></td>
+                                                            <td class="text-center"><?= !empty($line->Available_Amount)? $line->Available_Amount : '' ?></td>
+                                                            <td class="text-center"><?= Html::checkbox('Unbudgeted',$line->Unbudgeted) ?></td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                                </tbody>
+                                            </table>
+                    </div>
                     <?php } ?>
                 </div>
             </div>

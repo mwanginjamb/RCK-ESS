@@ -12,14 +12,14 @@
 
 $this->title = 'HRMIS - Document Printout';
 $this->params['breadcrumbs'][] = ['label' => 'imprest', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => 'printout', 'url' => ['print-imprest', 'DocNo' => $_GET['No']]];
+$this->params['breadcrumbs'][] = ['label' => 'printout', 'url' => ['print-surrender', 'No' => $No]];
 ?>
 
     <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Document Printout  <?= \yii\helpers\Html::a('<i class="fa fa-backward"></i> Back to Document',['view','DocNo' => $_GET['No']],['class' => 'btn btn-outline-warning mx-4']) ?></h3>
+                    <h3 class="card-title">Document Printout  <?= \yii\helpers\Html::a('<i class="fa fa-backward"></i> Back to Document',['view-surrender','No' => $No],['class' => 'btn btn-outline-warning mx-4']) ?></h3>
 
                 </div>
                 <div class="card-body">

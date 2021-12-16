@@ -22,7 +22,7 @@ $url = \yii\helpers\Url::home(true);
             <div class="card-body">
         <?= \yii\helpers\Html::a('New Imprest Surrender',['create-surrender'],['class' => 'btn btn-info push-right', 'data' => [
             'confirm' => 'Are you sure you want to create a new Imprest Surrender?',
-            'params' => ['requestfor' => 'self'],
+            'params' => ['requestfor' => 'Self'],
             'method' => 'get',
         ],]) ?>
             </div>

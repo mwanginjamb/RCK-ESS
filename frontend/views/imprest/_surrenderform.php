@@ -10,6 +10,56 @@ use yii\widgets\ActiveForm;
 $absoluteUrl = \yii\helpers\Url::home(true);
 ?>
 
+<?php if($model->Imprest_No && property_exists($surrender->Imprest_Surrender_Line, 'Imprest_Surrender_Line')): ?>
+
+<div class="row">
+    <div class="col-md-4">
+
+        <?= ($model->Status == 'New')?Html::a('<i class="fas fa-paper-plane"></i> Send Approval Req',['send-for-approval','employeeNo' => Yii::$app->user->identity->{'Employee_No'}],['class' => 'btn btn-app submitforapproval',
+            'data' => [
+                'confirm' => 'Are you sure you want to send imprest request for approval?',
+                'params'=>[
+                    'No'=> $_GET['No'],
+                    'employeeNo' => Yii::$app->user->identity->{'Employee_No'},
+                ],
+                'method' => 'get',
+        ],
+            'title' => 'Submit Imprest Approval'
+
+        ]):'' ?>
+
+
+        <?= ($model->Status == 'Pending_Approval')?Html::a('<i class="fas fa-times"></i> Cancel Approval Req.',['cancel-request'],['class' => 'btn btn-app submitforapproval',
+            'data' => [
+            'confirm' => 'Are you sure you want to cancel imprest approval request?',
+            'params'=>[
+                'No'=> $_GET['No'],
+            ],
+            'method' => 'get',
+        ],
+            'title' => 'Cancel Imprest Approval Request'
+
+        ]):'' ?>
+
+
+        <?= Html::a('<i class="fas fa-file-pdf"></i> Print Surrender',['print-surrender'],['class' => 'btn btn-app ',
+            'data' => [
+                'confirm' => 'Print Surrender?',
+                'params'=>[
+                    'No'=> $model->No,
+                ],
+                'method' => 'get',
+            ],
+            'title' => 'Print Surrender.'
+
+        ]) ?>
+
+    </div>
+</div>
+
+
+<?php endif; ?>
+
 <div class="row">
     <div class="col-md-12">
         <div class="card">
@@ -25,9 +75,6 @@ $absoluteUrl = \yii\helpers\Url::home(true);
             $form = ActiveForm::begin(); ?>
                 <div class="row">
                     <div class="row col-md-12">
-
-
-
                         <div class="col-md-6">
 
                             <?= $form->field($model, 'No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
@@ -89,13 +136,75 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                 <div class="row">
 
                     <div class="form-group">
-                        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+                        <?php Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
                     </div>
 
 
                 </div>
                 <?php ActiveForm::end(); ?>
             </div>
+        </div>
+
+        <!-- Lines -->
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Imprest Lines</div>
+            </div>
+
+            <div class="card-body">
+                <?php if(property_exists($surrender->Imprest_Surrender_Line, 'Imprest_Surrender_Line')): ?>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <td class="text-center text-bold">Account_Name</td>
+                                <td class="text-center text-bold">Description</td>
+                                <td class="text-center text-bold">Imprest_Amount</td>
+                                <td class="text-center text-bold">Request_No</td>
+                                <td class="text-center text-bold">Surrendered </td>
+                                <td class="text-center text-bold">Donor_Code</td>
+                                <td class="text-center text-bold">Job_No</td>
+                                <td class="text-center text-bold">Job_Task_No</td>
+                                <td class="text-center text-bold">Job_Planning_Line_No"</td>
+                                <td class="text-center text-bold">Budgeted_Amount</td>
+                                <td class="text-center text-bold">Commited_Amount</td>
+                                <td class="text-center text-bold">Total_Expenditure</td>
+                                <td class="text-center text-bold">Available_Amount</td>
+                                <td class="text-center text-bold">Unbudgeted</td>
+                                
+                            </thead>
+                            <tbody>
+                                <?php foreach($surrender->Imprest_Surrender_Line->Imprest_Surrender_Line as $line) :?>
+                                    <tr>
+                                        <td class="text-center"><?= !empty($line->Account_Name)? $line->Account_Name : '' ?></td>
+                                        <td class="text-center"><?= !empty($line->Description)? $line->Description : '' ?></td>
+                                        <td class="text-center"><?= !empty($line->Imprest_Amount)? $line->Imprest_Amount : '' ?></td>
+                                        <td class="text-center"><?= !empty($line->Request_No)? $line->Request_No : '' ?></td>
+                                        <td class="text-center"><?= Html::checkbox('Surrender',$line->Surrender) ?></td>
+                                        <td class="text-center"><?= !empty($line->Donor_Code)? $line->Donor_Code : '' ?></td>
+                                        <td class="text-center"><?= !empty($line->Job_No)? $line->Job_No : '' ?></td>
+                                        <td class="text-center"><?= !empty($line->Job_Task_No)? $line->Job_Task_No : '' ?></td>
+                                        <td class="text-center"><?= !empty($line->Job_Planning_Line_No)? $line->Job_Planning_Line_No : '' ?></td>
+                                        <td class="text-center"><?= !empty($line->Budgeted_Amount)? $line->Budgeted_Amount : '' ?></td>
+                                        <td class="text-center"><?= !empty($line->Commited_Amount)? $line->Commited_Amount : '' ?></td>
+                                        <td class="text-center"><?= !empty($line->Total_Expenditure)? $line->Total_Expenditure : '' ?></td>
+                                        <td class="text-center"><?= !empty($line->Available_Amount)? $line->Available_Amount : '' ?></td>
+                                        <td class="text-center"><?= Html::checkbox('Unbudgeted',$line->Unbudgeted) ?></td>
+                                       
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                        
+
+                <?php endif; ?>
+            </div>
+
+
+
         </div>
 
 
@@ -162,17 +271,23 @@ $script = <<<JS
                     $('#imprestsurrendercard-global_dimension_2_code').val(msg.Global_Dimension_2_Code);
                     $('#imprestsurrendercard-purpose').val(msg.Purpose);
                     if((typeof msg) === 'string') { // A string is an error
-                        const parent = document.querySelector('.field-imprestcard-employee_no');
+                        console.error(msg);
+                        const parent = document.querySelector('.field-imprestsurrendercard-imprest_no');
                         const helpbBlock = parent.children[2];
                         helpbBlock.innerText = msg;
-                        
+                        return;
                     }else{ // An object represents correct details
                         console.log('Found...');
                         console.log(msg.Global_Dimension_1_Code);
-                        const parent = document.querySelector('.field-imprestcard-employee_no');
+                        const parent = document.querySelector('.field-imprestsurrendercard-imprest_no');
                         const helpbBlock = parent.children[2];
                         helpbBlock.innerText = ''; 
                         
+                        // Trigger a page reload to display lines and workflow buttons
+
+                        location.reload(true);
+
+                        console.log('got to reloading....');
                        
                         
                     }

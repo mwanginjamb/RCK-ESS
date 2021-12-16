@@ -294,7 +294,8 @@ class ApprovalsController extends Controller
                             'name' => $app->Table_ID
                         ]): "";
 
-                    }elseif($app->Document_Type == 'Requisition_Header') // Purchase Requisition
+                    }
+                    elseif($app->Document_Type == 'Requisition_Header') // Purchase Requisition
                     {
                         $Approvelink = ($app->Status == 'Open')? Html::a('Approve Request',['approve-request','app'=> $app->Document_No, 'empNo' => $app->Approver_No, 'docType' => 'Requisition_Header'  ],['class'=>'btn btn-success btn-xs','data' => [
                             'confirm' => 'Are you sure you want to Approve this request?',
@@ -302,6 +303,21 @@ class ApprovalsController extends Controller
                         ]]):'';
 
                         $Rejectlink = ($app->Status == 'Open')? Html::a('Reject Request',['reject-request', 'docType' => 'Requisition_Header' ],['class'=>'btn btn-warning reject btn-xs',
+                            'rel' => $app->Document_No,
+                            'rev' => $app->Record_ID_to_Approve,
+                            'name' => $app->Table_ID
+                        ]): "";
+
+
+                    }
+                    elseif($app->Document_Type == 'Imprest' || $app->Document_Type == 'Surrender' ) // Imprest and Surrender
+                    {
+                        $Approvelink = ($app->Status == 'Open')? Html::a('Approve Request',['approve-request','app'=> $app->Document_No, 'empNo' => $app->Approver_No, 'docType' => $app->Document_Type  ],['class'=>'btn btn-success btn-xs','data' => [
+                            'confirm' => 'Are you sure you want to Approve this request?',
+                            'method' => 'post',
+                        ]]):'';
+
+                        $Rejectlink = ($app->Status == 'Open')? Html::a('Reject Request',['reject-request', 'docType' => $app->Document_Type ],['class'=>'btn btn-warning reject btn-xs',
                             'rel' => $app->Document_No,
                             'rev' => $app->Record_ID_to_Approve,
                             'name' => $app->Table_ID
@@ -379,6 +395,10 @@ class ApprovalsController extends Controller
                     elseif ($app->Document_Type == 'Imprest')
                     {
                         $detailsLink = Html::a('Request Details',['imprest/view','DocNo'=> $app->Document_No, 'Approval' => true ],['class'=>'btn btn-outline-info btn-xs','target' => '_blank']);
+                    }
+                    elseif ($app->Document_Type == 'Surrender')
+                    {
+                        $detailsLink = Html::a('Request Details',['imprest/view-surrender','No'=> $app->Document_No, 'Approval' => true ],['class'=>'btn btn-outline-info btn-xs','target' => '_blank']);
                     }
                     elseif($app->Document_Type == 'Leave_Reimbursement')
                     {
@@ -470,6 +490,10 @@ class ApprovalsController extends Controller
         {
             $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanApproveRequisitionHeader');
         }
+        elseif($docType == 'Imprest' || $docType == 'Surrender' ) // Imprest and Surrender
+        {
+            $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanApproveImprest');
+        }
         elseif($docType == 'Fueling')
         {
             $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanApproveFuelRequisition');
@@ -554,6 +578,10 @@ class ApprovalsController extends Controller
             if($docType == 'Requisition_Header')
             {
                 $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanRejectRequisitionHeader');
+            }
+            elseif($docType == 'Imprest' || $docType == 'Surrender' ) // Imprest and Surrender
+            {
+                $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanRejectImprest');
             }
             elseif($docType == 'Leave_Reimbursement')
              {
