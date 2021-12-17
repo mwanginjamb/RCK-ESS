@@ -120,10 +120,15 @@ async function getData(resource)
 }
 
 
+function JquerifyField(model, fieldName) {
+  field = fieldName.toLowerCase();
+  const selector =   '#'+model+'-'+field;
+  return selector;
+}
 
 // Function to do ajax field level updating
 
-function globalFieldUpdate(entity,controller = false, fieldName, ev) {
+function globalFieldUpdate(entity,controller = false, fieldName, ev, autoPopulateFields = []) {
   console.log('was invoked');
   const model = entity.toLowerCase();
   const field = fieldName.toLowerCase();
@@ -137,6 +142,7 @@ function globalFieldUpdate(entity,controller = false, fieldName, ev) {
   const Key = $(keyField).val();
 
   console.log(`My Key is ${Key}`);
+  console.log(autoPopulateFields);
  
   // If controller is falsy use the model value (entity) as the route
   if(!controller) {
@@ -152,7 +158,20 @@ function globalFieldUpdate(entity,controller = false, fieldName, ev) {
               $(keyField).val(msg.Key);
               $(targetField).val(msg[fieldName]);
 
-             
+              // Update DOM values for fields specified in autoPopulatedFields: fields in this array should be exact case and name as specified in Nav Web Service 
+
+              if(autoPopulateFields.length > 0) {
+                autoPopulateFields.forEach((field) => {
+                  let domSelector = JquerifyField(model,field);
+
+                  console.log(`Field of Corncern is ${field}`);
+                  console.log(`Model of Corncern is ${model}`);
+                  console.log(`Jquerified field is ${domSelector}`);
+                  $(domSelector).val(msg[field]);
+                });
+              }
+
+             /*******End Field auto Population  */
               if((typeof msg) === 'string') { // A string is an error
                   console.log(formField);
                   const parent = document.querySelector(formField);

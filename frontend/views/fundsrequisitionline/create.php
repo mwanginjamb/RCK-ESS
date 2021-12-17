@@ -30,7 +30,8 @@ $model->isNewRecord = true;
         'programCodes' => $programCodes,
         'jobs' =>  $jobs,
         'jobTasks' => $jobTasks,
-        'accounts' => $accounts
+        'accounts' => $accounts,
+        'employees' => $employees
     ]) ?>
 
 </div>

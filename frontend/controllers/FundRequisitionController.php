@@ -85,166 +85,55 @@ class FundRequisitionController extends Controller
         $model = new Fundrequisition();
         $service = Yii::$app->params['ServiceName']['AllowanceRequestCard'];
 
-        /*Do initial request */
-        if(!isset(Yii::$app->request->post()['Fundrequisition'])){
+         /*Do initial request */
+        
             $model->Employee_No = Yii::$app->user->identity->{'Employee No_'};
+            $model->Currency_Code = 'KES';
             $request = Yii::$app->navhelper->postData($service,$model);
             if(is_object($request) )
             {
                 Yii::$app->navhelper->loadmodel($request,$model);
+                return $this->redirect(['update','Key' => $request->Key]);
             }else{
                 Yii::$app->session->setFlash('error',$request);
                 return $this->redirect(['index']);
-            }
-        }
+            }   
 
-        //Yii::$app->recruitment->printrr($request);
-
-
-
-        if(Yii::$app->request->post() && isset(Yii::$app->request->post()['Fundrequisition']) && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Fundrequisition'],$model) ){
-
-            $filter = [
-                'No' => $model->No,
-            ];
-
-            $refresh = Yii::$app->navhelper->getData($service,$filter);
-           // Yii::$app->recruitment->printrr($refresh);
-            if(is_array($refresh)){
-                Yii::$app->navhelper->loadmodel($refresh[0],$model);
-                $result = Yii::$app->navhelper->updateData($service,$model);
-            }
-
-
-
-            if(!empty($result)){
-
-                Yii::$app->session->setFlash('success','Funds Request Created Successfully.' );
-
-                return $this->redirect(['view','No' => $result->No]);
-
-            }else{
-                Yii::$app->session->setFlash('success','Error Creating Funds Request '.$result );
-                return $this->render('create',[
-                    'model' => $model,
-                    'employees' => $this->getEmployees(),
-                    'programs' => $this->getPrograms(),
-                    'departments' => $this->getDepartments(),
-                    'currencies' => $this->getCurrencies()
-                ]);
-
-            }
-
-        }
-
-
-        //Yii::$app->recruitment->printrr($model);
-
-        return $this->render('update',[
-            'model' => $model,
-            'employees' => $this->getEmployees(),
-            'programs' => $this->getPrograms(),
-            'departments' => $this->getDepartments(),
-            'currencies' => $this->getCurrencies()
-        ]);
     }
 
 
-    public function actionCreateSurrender(){
-        // Yii::$app->recruitment->printrr(Yii::$app->request->get('requestfor'));
-        $model = new Imprestsurrendercard();
-        $service = Yii::$app->params['ServiceName']['ImprestSurrenderCardPortal'];
-
-        /*Do initial request */
-        $request = Yii::$app->navhelper->postData($service,[]);
-
-        if(is_object($request) )
-        {
-            Yii::$app->navhelper->loadmodel($request,$model);
-
-            // Update Request for
-            $model->Request_For = Yii::$app->request->get('requestfor');
-            $model->Key = $request->Key;
-            $request = Yii::$app->navhelper->updateData($service, $model);
-
-            if(is_string($request)){
-                Yii::$app->recruitment->printrr($request);
-            }
+   
 
 
-        }
-
-        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Imprestsurrendercard'],$model) ){
-
-            $filter = [
-                'No' => $model->No,
-            ];
-
-            $refresh = Yii::$app->navhelper->getData($service,$filter);
-            Yii::$app->navhelper->loadmodel($refresh[0],$model);
-
-            $result = Yii::$app->navhelper->updateData($service,$model);
-
-
-            if(!is_string($result)){
-                //Yii::$app->recruitment->printrr($result);
-                Yii::$app->session->setFlash('success','Imprest Request Created Successfully.' );
-
-                return $this->redirect(['view-surrender','No' => $result->No]);
-
-            }else{
-                Yii::$app->session->setFlash('success','Error Creating Imprest Request '.$result );
-                return $this->render('createsurrender',[
-                    'model' => $model,
-                    'employees' => $this->getEmployees(),
-                    'programs' => $this->getPrograms(),
-                    'departments' => $this->getDepartments(),
-                    'currencies' => $this->getCurrencies(),
-                    'imprests' => $this->getmyimprests(),
-                    'receipts' => $this->getimprestreceipts($model->No)
-                ]);
-
-            }
-
-        }
-
-        return $this->render('createsurrender',[
-            'model' => $model,
-            'employees' => $this->getEmployees(),
-            'programs' => $this->getPrograms(),
-            'departments' => $this->getDepartments(),
-            'currencies' => $this->getCurrencies(),
-            'imprests' => $this->getmyimprests(),
-            'receipts' => $this->getimprestreceipts($model->No)
-        ]);
-    }
-
-
-    public function actionUpdate(){
+    public function actionUpdate($No = '', $Key = ''){
         $model = new Fundrequisition();
         $service = Yii::$app->params['ServiceName']['AllowanceRequestCard'];
         $model->isNewRecord = false;
 
-        $filter = [
-            'No' => Yii::$app->request->get('No'),
-        ];
-        $result = Yii::$app->navhelper->getData($service,$filter);
+       if(!empty($No)) {
+            $result = Yii::$app->navhelper->findOne($service,'','No',$No);
+       }elseif(!empty($Key)) {
+            $result = Yii::$app->navhelper->readByKey($service, $Key);
+       }else {
+           Yii::$app->session->setFlash('error', 'You are accessing the document illegally.', true);
+           return $this->redirect(['index']);
+       }
+        
 
-        if(is_array($result)){
+        if(is_object($result)){
             //load nav result to model
-            $model = Yii::$app->navhelper->loadmodel($result[0],$model) ;//$this->loadtomodeEmployee_Nol($result[0],$Expmodel);
+            $model = Yii::$app->navhelper->loadmodel($result,$model) ;//$this->loadtomodeEmployee_Nol($result[0],$Expmodel);
         }else{
-            Yii::$app->recruitment->printrr($result);
+            Yii::$app->session->setFlash('error', $result, true);
+            return $this->redirect(['index']);
         }
 
 
         if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Fundrequisition'],$model) ){
 
-            $filter = [
-                'No' => $model->No,
-            ];
-            $refresh = Yii::$app->navhelper->getData($service,$filter);
-            Yii::$app->navhelper->loadmodel($refresh[0],$model);
+           
+            $refresh = Yii::$app->navhelper->readByKey($service, $model->Key);
+            Yii::$app->navhelper->loadmodel($refresh,$model);
 
 
             $result = Yii::$app->navhelper->updateData($service,$model);
@@ -256,13 +145,7 @@ class FundRequisitionController extends Controller
             }else{
 
                 Yii::$app->session->setFlash('error','Error Updating Fund Request '.$result );
-                return $this->render('update',[
-                    'model' => $model,
-                    'employees' => $this->getEmployees(),
-                    'programs' => $this->getPrograms(),
-                    'departments' => $this->getDepartments(),
-                    'currencies' => $this->getCurrencies()
-                ]);
+                return $this->redirect(['index']);
             }
 
         }
@@ -275,8 +158,8 @@ class FundRequisitionController extends Controller
                 'employees' => $this->getEmployees(),
                 'programs' => $this->getPrograms(),
                 'departments' => $this->getDepartments(),
-                'currencies' => $this->getCurrencies()
-
+                'currencies' => $this->getCurrencies(),
+                'document' => $result
             ]);
         }
 
@@ -285,7 +168,8 @@ class FundRequisitionController extends Controller
             'employees' => $this->getEmployees(),
             'programs' => $this->getPrograms(),
             'departments' => $this->getDepartments(),
-            'currencies' => $this->getCurrencies()
+            'currencies' => $this->getCurrencies(),
+            'document' => $result
         ]);
     }
 

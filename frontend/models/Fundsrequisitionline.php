@@ -44,8 +44,8 @@ public $isNewRecord;
     public function rules()
     {
         return [
-            [['PD_Transaction_Code', 'Description', 'Amount'], 'required'],
-            [['No_of_Children','Child_Rate'],'integer','min' => 1]
+            [['Employee_No', 'Description', 'No_of_Days'], 'required'],
+            [['No_of_Days'],'integer','min' => 1]
         ];
     }
 

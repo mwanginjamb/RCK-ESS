@@ -96,7 +96,8 @@ class FundsrequisitionlineController extends Controller
                 'programCodes' => $this->getDimension(2),
                 'jobs' =>  $this->getJob(),
                 'jobTasks' => $this->getJobTask(),
-                'accounts' => $this->getGlaccounts()
+                'accounts' => $this->getGlaccounts(),
+                'employees' => $this->getEmployees()
             ]);
 
         }
@@ -128,7 +129,8 @@ class FundsrequisitionlineController extends Controller
                 'programCodes' => $this->getDimension(2),
                 'jobs' =>  $this->getJob(),
                 'jobTasks' => $this->getJobTask(),
-                'accounts' => $this->getGlaccounts()
+                'accounts' => $this->getGlaccounts(),
+                'employees' => $this->getEmployees()
             ]);
         }
     }
@@ -173,6 +175,7 @@ class FundsrequisitionlineController extends Controller
                 'jobTasks' => $this->getJobTask(),
                 'accounts' => $this->getGlaccounts(),
                 'transactionTypes' => $this->getRates(),
+                'employees' => $this->getEmployees()
             ]);
         }
 
@@ -196,6 +199,13 @@ class FundsrequisitionlineController extends Controller
 
     public function actionView(){
         
+    }
+
+    public function getEmployees(){        
+        $service = Yii::$app->params['ServiceName']['EmployeesUnfiltered'];
+        $filter = [];
+        $employees = \Yii::$app->navhelper->getData($service, $filter);
+        return Yii::$app->navhelper->refactorArray($employees,'No','Full_Name');
     }
 
      /*Get a list of all GL Accounts*/

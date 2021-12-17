@@ -24,7 +24,8 @@ $this->title = 'Update Fund Requisition Header.';
         'employees' => $employees,
         'programs' => $programs,
         'departments' => $departments,
-        'currencies' => $currencies
+        'currencies' => $currencies,
+        'document' => $document
     ]) ?>
 
 </div>

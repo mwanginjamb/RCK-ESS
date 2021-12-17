@@ -32,7 +32,8 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
                        
 
-                            <div class="col-md-6">                               
+                            <div class="col-md-6"> 
+                                <?= $form->field($model, 'Employee_No')->dropDownList($employees,['prompt' => 'select ...','required'=> true]) ?>                           
                                 <?= $form->field($model, 'Account_No')->dropDownList($accounts,['prompt' => 'select ...','required'=> true]) ?>
                                 <?= $form->field($model, 'Account_Name')->textInput(['readonly' => true,'disabled' => true])->label() ?>
                                 <?= $form->field($model, 'Request_No')->hiddenInput(['readonly' => true])->label(false) ?>
@@ -40,11 +41,13 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                 dropDownList($transactionTypes,['prompt' => 'Select Transaction Type ..','required' => true]) ?>
                                 <?= $form->field($model, 'Description')->textarea(['rows' => 3,'required' => true]) ?>
 
-                                <?= $form->field($model, 'Key')->textInput(['readonly'=> true])->label(false) ?>
+                                <?= $form->field($model, 'Key')->textInput(['readonly'=> true]) ?>
                                
                             </div>
 
                             <div class="col-md-6">
+                                <?= $form->field($model, 'Employee_Name')->textInput(['readonly' => true,'disabled' => true])->label() ?>
+                                <?= $form->field($model, 'No_of_Days')->textInput(['type' => 'number']) ?>
                                 <?= $form->field($model, 'Global_Dimension_1_Code')->dropDownList($subOffices, ['prompt' => 'Select Program...']) ?>
                                 <?= $form->field($model, 'Global_Dimension_2_Code')->dropDownList($programCodes, ['prompt' => 'Select Sub office...']) ?>
                                 <?= $form->field($model, 'Job_No')->dropDownList($jobs, ['prompt' => 'Select...']) ?>
@@ -95,9 +98,23 @@ $script = <<<JS
                 },'json');
         });
 
+        // Set Employee No
+
+        $('#fundsrequisitionline-employee_no').change((e) => {
+            console.log('Emp no touched...');
+            globalFieldUpdate('fundsrequisitionline',false,'Employee_No', e, ['Employee_Name']);
+        });
+
+        // set No of days
+
+        $('#fundsrequisitionline-no_of_days').change((e) => {
+            console.log('No of days touched....');
+            globalFieldUpdate('fundsrequisitionline',false,'No_of_Days', e);
+        });
+
        // $('#fundsrequisitionline-account_no').select2();
 
-       $('#fundsrequisitionline-account_no').change((e) => {
+        $('#fundsrequisitionline-account_no').change((e) => {
             globalFieldUpdate('fundsrequisitionline',false,'Account_No', e);
         });
 

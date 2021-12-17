@@ -157,64 +157,45 @@ Yii::$app->session->set('isSupervisor',false);*/
             </div><!--end details card-->
 
 
-            <!-- Lines-->
-
-
-           
-
-
-
+        <!-- Lines-->
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">   <?= Html::a('<i class="fa fa-plus-square"></i> New Funds Requisition Line',['fundsrequisitionline/create','Request_No'=>$model->No],['class' => 'add-objective btn btn-outline-info']) ?></div>
                 </div>
-
-
-
                 <div class="card-body">
-
-
-
-
-
                     <?php
                     if(property_exists($document->Allowance_Request_Line,'Allowance_Request_Line')){ //show Lines ?>
                         <table class="table table-bordered">
                             <thead>
                             <tr>
+                                <td><b>Employee Name</b></td>
                                 <td><b>Transaction Type</b></td>
                                 <td><b>Account No</b></td>
                                 <td><b>Account Name</b></td>
                                 <td><b>Description</b></td>
-                                <td><b>Child Rate</b></td>
-                                <td><b>No. of Children</b></td>
+                                <td><b>Daily Rate</b></td>
+                                <td><b>No_of_Days</b></td>
                                 <td><b>Amount LCY</b></td>
-
-
                                 <td><b>Unbudgeted?</b></td>
                             <?php if($model->Status == 'New'): ?>
                                 <td><b>Actions</b></td>
                             <?php endif; ?>
-
-
                             </tr>
                             </thead>
                             <tbody>
                             <?php
-
-
                             foreach($document->Allowance_Request_Line->Allowance_Request_Line as $obj):
                                 $updateLink = Html::a('<i class="fa fa-edit"></i>',['fundsrequisitionline/update','Key'=> $obj->Key, 'Request_No' => $model->No],['class' => 'update-objective btn btn-outline-info btn-xs']);
                                 $deleteLink = Html::a('<i class="fa fa-trash"></i>',['fundsrequisitionline/delete','Key'=> $obj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
                                 ?>
                                 <tr>
-
+                                    <td><?= !empty($obj->Employee_Name)?$obj->Employee_Name:'Not Set' ?></td>
                                     <td><?= !empty($obj->PD_Transaction_Code)?$obj->PD_Transaction_Code:'Not Set' ?></td>
                                     <td><?= !empty($obj->Account_No)?$obj->Account_No:'Not Set' ?></td>
                                     <td><?= !empty($obj->Account_Name)?$obj->Account_Name:'Not Set' ?></td>
                                     <td><?= !empty($obj->Description)?$obj->Description:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Child_Rate)?$obj->Child_Rate:'Not Set' ?></td>
-                                    <td><?= !empty($obj->No_of_Children)?$obj->No_of_Children:'Not Set' ?></td>
+                                    <td><?= !empty($obj->Daily_Rate)?$obj->Daily_Rate:'Not Set' ?></td>
+                                    <td><?= !empty($obj->No_of_Days)?$obj->No_of_Days:'Not Set' ?></td>
                                     <td><?= !empty($obj->Amount)?$obj->Amount:'Not Set' ?></td>
                                     <td><?= Html::checkbox('Unbudgeted',$obj->Unbudgeted) ?></td>
                                     <?php if($model->Status == 'New'): ?>
@@ -228,7 +209,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                 </div>
             </div>
 
-            <!--objectives card -->
+        <!--objectives card -->
 
 
 
