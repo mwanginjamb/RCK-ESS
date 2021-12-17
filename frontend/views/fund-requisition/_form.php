@@ -10,6 +10,57 @@ use yii\widgets\ActiveForm;
 $absoluteUrl = \yii\helpers\Url::home(true);
 ?>
 
+<?php if(property_exists($document->Allowance_Request_Line,'Allowance_Request_Line')  && isset($model->Purpose)): ?>
+
+<div class="row">
+    <div class="col-md-4">
+
+        <?= ($model->Status == 'New')?Html::a('<i class="fas fa-paper-plane"></i> Send Approval Req',['send-for-approval','employeeNo' => Yii::$app->user->identity->{'Employee No_'}],['class' => 'btn btn-app submitforapproval',
+            'data' => [
+                'confirm' => 'Are you sure you want to send Fund Requisition request for approval?',
+                'params'=>[
+                    'No'=> $model->No,
+                    'employeeNo' => Yii::$app->user->identity->{'Employee No_'},
+                ],
+                'method' => 'get',
+        ],
+            'title' => 'Submit Fund Requisition Approval'
+
+        ]):'' ?>
+
+
+        <?= ($model->Status == 'Pending_Approval')?Html::a('<i class="fas fa-times"></i> Cancel Approval Req.',['cancel-request'],['class' => 'btn btn-app submitforapproval',
+            'data' => [
+            'confirm' => 'Are you sure you want to cancel Fund Requisition approval request?',
+            'params'=>[
+                'No'=> $model->No,
+            ],
+            'method' => 'get',
+        ],
+            'title' => 'Cancel Fund Requisition Approval Request'
+
+        ]):'' ?>
+
+
+
+        <?= Html::a('<i class="fas fa-file-pdf"></i> Print Requisition',['print-requisition'],['class' => 'btn btn-app ',
+            'data' => [
+                'confirm' => 'Print Requisition?',
+                'params'=>[
+                    'No'=> $model->No,
+                ],
+                'method' => 'get',
+            ],
+            'title' => 'Print Requisition.'
+
+        ]) ?>
+
+
+    </div>
+</div>
+
+<?php endif; ?>
+
 <div class="row">
     <div class="col-md-12">
         <div class="card">
@@ -49,6 +100,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                 <div class="row">
 
                                     <div class="form-group">
+                                        <input type="hidden" name="absolute" value="<?= $absoluteUrl ?>">
                                         <?php Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
                                     </div>
 
@@ -183,140 +235,26 @@ $script = <<<JS
 
      });
 
-        // Set other Employee
+        // Set Purpose
+
+         $('#fundrequisition-purpose').change((e) => {
+            globalFieldUpdate('fundrequisition','fund-requisition','Purpose', e);
+            location.reload(true);
+        });
         
-     $('#fundrequisition-purpose').blur(function(e){
-         e.preventDefault();
-        const Purpose = e.target.value;
-        
-        if(Purpose.length){
-            const url = $('input[name=url]').val()+'fund-requisition/setpurpose';
-            $.post(url,{'Purpose': Purpose}).done(function(msg){
-                   //populate empty form fields with new data
-                   
-                   $('#fundrequisition-no').val(msg.No);
-                   $('#fundrequisition-key').val(msg.Key);
-                   $('#fundrequisition-employee_no').val(msg.Employee_No);
-                   $('#fundrequisition-employee_name').val(msg.Employee_Name);
-                   $('#fundrequisition-employee_name').val(msg.Employee_Name);
-                   $('#Gross_Allowance').text(msg.Gross_Allowance);
-                   $('#Net_Allowance_LCY').text(msg.Net_Allowance_LCY);
-                   $('#fundrequisition-status').val(msg.Status);
-                   $('#fundrequisition-global_dimension_1_code').val(msg.Global_Dimension_1_Code);
-                   $('#fundrequisition-global_dimension_2_code').val(msg.Global_Dimension_2_Code);
-                   $('#fundrequisition-expected_date_of_surrender').val(msg.Expected_Date_of_Surrender);
-                   $('#fundrequisition-currency_code').val(msg.Currency_Code);
-                   $('#fundrequisition-exchange_rate').val(msg.Exchange_Rate);
-                   
-                   
-                   
-                   
-                   
-                    console.log(typeof msg);
-                    console.table(msg);
-                    if((typeof msg) === 'string') { // A string is an error
-                        const parent = document.querySelector('.field-imprestcard-employee_no');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = msg;
-                        
-                    }else{ // An object represents correct details
-                        const parent = document.querySelector('.field-imprestcard-employee_no');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = ''; 
-                        
-                    }
-                    
-                },'json');
-        }
-     });
-     
-     /*Set Program and Department dimension */
-     
-     $('#imprestcard-global_dimension_1_code').change(function(e){
-        const dimension = e.target.value;
-        const No = $('#imprestcard-no').val();
-        if(No.length){
-            const url = $('input[name=url]').val()+'imprest/setdimension?dimension=Global_Dimension_1_Code';
-            $.post(url,{'dimension': dimension,'No': No}).done(function(msg){
-                   //populate empty form fields with new data
-                    console.log(typeof msg);
-                    console.table(msg);
-                    if((typeof msg) === 'string') { // A string is an error
-                        const parent = document.querySelector('.field-imprestcard-global_dimension_1_code');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = msg;
-                        
-                    }else{ // An object represents correct details
-                        const parent = document.querySelector('.field-imprestcard-global_dimension_1_code');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = ''; 
-                        
-                    }
-                    
-                },'json');
-        }
-     });
+    
+         // Set Currency
+
+         $('#fundrequisition-currency_code').change((e) => {
+            globalFieldUpdate('fundrequisition','fund-requisition','Currency_Code', e,['Exchange_Rate']);
+        });
+    
      
      
-     /* set department */
-     
-     $('#imprestcard-global_dimension_2_code').change(function(e){
-        const dimension = e.target.value;
-        const No = $('#imprestcard-no').val();
-        if(No.length){
-            const url = $('input[name=url]').val()+'imprest/setdimension?dimension=Global_Dimension_2_Code';
-            $.post(url,{'dimension': dimension,'No': No}).done(function(msg){
-                   //populate empty form fields with new data
-                    console.log(typeof msg);
-                    console.table(msg);
-                    if((typeof msg) === 'string') { // A string is an error
-                        const parent = document.querySelector('.field-imprestcard-global_dimension_2_code');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = msg;
-                        
-                    }else{ // An object represents correct details
-                        const parent = document.querySelector('.field-imprestcard-global_dimension_2_code');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = ''; 
-                        
-                    }
-                    
-                },'json');
-        }
-     });
+    
      
      
-     /*Set Imprest Type*/
-     
-     $('#imprestcard-imprest_type').change(function(e){
-        const Imprest_Type = e.target.value;
-        const No = $('#imprestcard-no').val();
-        if(No.length){
-            const url = $('input[name=url]').val()+'imprest/setimpresttype';
-            $.post(url,{'Imprest_Type': Imprest_Type,'No': No}).done(function(msg){
-                   //populate empty form fields with new data
-                    console.log(typeof msg);
-                    console.table(msg);
-                    if((typeof msg) === 'string') { // A string is an error
-                        const parent = document.querySelector('.field-imprestcard-imprest_type');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = msg;
-                        
-                    }else{ // An object represents correct details
-                        const parent = document.querySelector('.field-imprestcard-imprest_type');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = '';
-                        
-                         $('.modal').modal('show')
-                        .find('.modal-body')
-                        .html('<div class="alert alert-success">Imprest Type Update Successfully.</div>');
-                        
-                    }
-                    
-                },'json');
-        }
-     });
-     
+    
      
      /* Add Line */
      $('.add-line').on('click', function(e){

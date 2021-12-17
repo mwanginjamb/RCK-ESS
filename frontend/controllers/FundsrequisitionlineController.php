@@ -79,14 +79,13 @@ class FundsrequisitionlineController extends Controller
 
         if($Request_No && !Yii::$app->request->post()){
                 $model->Request_No = $Request_No;
+                $model->Line_No = time();
                 $res = Yii::$app->navhelper->postData($service, $model);
                 if(!is_string($res)){
                     Yii::$app->navhelper->loadmodel($res, $model);
-                    $model->Request_No = $Request_No;
-                    Yii::$app->navhelper->updateData($service, $model);
                 }else{
-                    // Yii::$app->recruitment->printrr($res);
-                    Yii::$app->session->setFlash('error', $res);
+                    Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    return ['note' => '<div class="alert alert-danger">Error Creating Fund Requisition Line: '.$res.'</div>'];
                 }
 
             return $this->renderAjax('create', [

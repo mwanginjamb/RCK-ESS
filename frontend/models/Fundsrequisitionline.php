@@ -39,6 +39,7 @@ public $Job_No;
 public $Job_Task_No;
 public $Job_Planning_Line_No;
 public $Request_No;
+public $Line_No;
 public $isNewRecord;
 
     public function rules()

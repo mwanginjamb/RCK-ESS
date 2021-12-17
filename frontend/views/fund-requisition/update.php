@@ -12,7 +12,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\AgendaDocument */
 
-$this->title = 'Update Fund Requisition Header.';
+$this->title = 'Fund Requisition Header.';
 
 ?>
 <div class="agenda-document-update">

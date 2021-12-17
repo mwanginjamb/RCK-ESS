@@ -118,6 +118,13 @@ class FundRequisitionController extends Controller
            Yii::$app->session->setFlash('error', 'You are accessing the document illegally.', true);
            return $this->redirect(['index']);
        }
+
+       // Update only If Document is New
+
+       if($result->Status !== 'New'){
+            Yii::$app->session->setFlash('error', 'Your document status is: <b>'.$result->Status.'</b>, it can only be updated if status is <u><b>New</b></u>', true);
+            return $this->redirect(['index']);
+       }
         
 
         if(is_object($result)){
@@ -293,7 +300,7 @@ class FundRequisitionController extends Controller
                     'Employee_No' => !empty($item->Employee_No)?$item->Employee_No:'',
                     'Employee_Name' => !empty($item->Employee_Name)?$item->Employee_Name:'',
                     'Purpose' => !empty($item->Purpose)?$item->Purpose:'',
-                    'Gross_Allowance' => !empty($item->Gross_Allowance)?$item->Gross_Allowance:'',
+                    'Gross_Allowance' => !empty($item->Gross_Amount)?$item->Gross_Amount:'',
                     'Status' => $item->Status,
                     'Action' => $link,
                     'Update_Action' => $updateLink,
@@ -598,6 +605,14 @@ class FundRequisitionController extends Controller
 
     }
 
-
+        /** Updates a single field */
+        public function actionSetfield($field){
+            $service = 'AllowanceRequestCard';
+            $value = Yii::$app->request->post('fieldValue');
+            $result = Yii::$app->navhelper->Commit($service,[$field => $value],Yii::$app->request->post('Key'));
+            Yii::$app->response->format = \yii\web\response::FORMAT_JSON;
+            return $result;
+              
+        }
 
 }

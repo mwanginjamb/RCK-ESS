@@ -33,21 +33,27 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                        
 
                             <div class="col-md-6"> 
-                                <?= $form->field($model, 'Employee_No')->dropDownList($employees,['prompt' => 'select ...','required'=> true]) ?>                           
-                                <?= $form->field($model, 'Account_No')->dropDownList($accounts,['prompt' => 'select ...','required'=> true]) ?>
+                                <?= $form->field($model, 'Employee_No')->dropDownList($employees,['prompt' => 'select ...','required'=> true]) ?> 
+                                <?= $form->field($model, 'PD_Transaction_Code')->
+                                dropDownList($transactionTypes,['prompt' => 'Select Transaction Type ..','required' => true]) ?>                          
+                                <?php $form->field($model, 'Account_No')->dropDownList($accounts,['prompt' => 'select ...','required'=> true]) ?>
+                                <?= $form->field($model, 'Amount')->textInput(['type' => 'number','readonly' => true]) ?>
                                 <?= $form->field($model, 'Account_Name')->textInput(['readonly' => true,'disabled' => true])->label() ?>
                                 <?= $form->field($model, 'Request_No')->hiddenInput(['readonly' => true])->label(false) ?>
-                                <?= $form->field($model, 'PD_Transaction_Code')->
-                                dropDownList($transactionTypes,['prompt' => 'Select Transaction Type ..','required' => true]) ?>
+                               
                                 <?= $form->field($model, 'Description')->textarea(['rows' => 3,'required' => true]) ?>
 
-                                <?= $form->field($model, 'Key')->textInput(['readonly'=> true]) ?>
+                                <?= $form->field($model, 'Key')->hiddenInput(['readonly'=> true])->label(false) ?>
+                                <?= $form->field($model, 'Daily_Tax_Relief')->textInput(['readonly' => true,'disabled' => true]) ?>
+                                <?= $form->field($model, 'Tax_Relief')->textInput(['readonly' => true,'disabled' => true]) ?>
+                                <?= $form->field($model, 'Taxable_Amount')->textInput(['readonly' => true,'disabled' => true]) ?>
                                
                             </div>
 
                             <div class="col-md-6">
-                                <?= $form->field($model, 'Employee_Name')->textInput(['readonly' => true,'disabled' => true])->label() ?>
+                                <?= $form->field($model, 'Employee_Name')->textInput(['readonly' => true,'disabled' => true]) ?>
                                 <?= $form->field($model, 'No_of_Days')->textInput(['type' => 'number']) ?>
+                                <?= $form->field($model, 'Daily_Rate')->textInput(['type' => 'number']) ?>
                                 <?= $form->field($model, 'Global_Dimension_1_Code')->dropDownList($subOffices, ['prompt' => 'Select Program...']) ?>
                                 <?= $form->field($model, 'Global_Dimension_2_Code')->dropDownList($programCodes, ['prompt' => 'Select Sub office...']) ?>
                                 <?= $form->field($model, 'Job_No')->dropDownList($jobs, ['prompt' => 'Select...']) ?>
@@ -102,14 +108,20 @@ $script = <<<JS
 
         $('#fundsrequisitionline-employee_no').change((e) => {
             console.log('Emp no touched...');
-            globalFieldUpdate('fundsrequisitionline',false,'Employee_No', e, ['Employee_Name']);
+            globalFieldUpdate('fundsrequisitionline',false,'Employee_No', e, ['Employee_Name','Daily_Rate']);
         });
 
         // set No of days
 
         $('#fundsrequisitionline-no_of_days').change((e) => {
             console.log('No of days touched....');
-            globalFieldUpdate('fundsrequisitionline',false,'No_of_Days', e);
+            globalFieldUpdate('fundsrequisitionline',false,'No_of_Days', e, ['Amount','Daily_Rate','Daily_Tax_Relief','Tax_Relief','Taxable_Amount']);
+        });
+
+
+        // set Daily Rate
+        $('#fundsrequisitionline-daily_rate').change((e) => {
+            globalFieldUpdate('fundsrequisitionline',false,'Daily_Rate', e, ['Amount','Daily_Rate','Daily_Tax_Relief','Tax_Relief','Taxable_Amount']);
         });
 
        // $('#fundsrequisitionline-account_no').select2();
@@ -122,7 +134,7 @@ $script = <<<JS
         // Se Transaction Code
 
         $('#fundsrequisitionline-pd_transaction_code').change((e) => {
-            globalFieldUpdate('fundsrequisitionline',false,'PD_Transaction_Code', e);
+            globalFieldUpdate('fundsrequisitionline',false,'PD_Transaction_Code', e,['Account_Name']);
         });
 
         // Set Description

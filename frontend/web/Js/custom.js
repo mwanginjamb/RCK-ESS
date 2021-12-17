@@ -144,13 +144,19 @@ function globalFieldUpdate(entity,controller = false, fieldName, ev, autoPopulat
   console.log(`My Key is ${Key}`);
   console.log(autoPopulateFields);
  
+  let route = '';
   // If controller is falsy use the model value (entity) as the route
   if(!controller) {
-    controller = model;
+    route = model;
+  }else {
+    route = controller;
   }
 
+  console.log(`route to use is : ${route}`);
+  
+
   if(Key.length){
-      const url = $('input[name=absolute]').val()+controller+'/setfield?field='+fieldName;
+      const url = $('input[name=absolute]').val()+route+'/setfield?field='+fieldName;
       $.post(url,{ fieldValue:fieldValue,'Key': Key}).done(function(msg){
           
               // Populate relevant Fields
