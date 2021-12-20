@@ -62,7 +62,7 @@ public $Purpose_Code;
     public function attributeLabels()
     {
         return [
-            'Global_Dimension_1_Code' => 'Division',
+            'Global_Dimension_1_Code' => 'Program',
             'Global_Dimension_2_Code' => 'Department',
             '_x0031__3_of_Basic' => '1/3 of Consolidated Pay',
             'Basic_Pay' => 'Consolidated Pay',

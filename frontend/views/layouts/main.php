@@ -363,6 +363,35 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
 
                         </li>
 
+
+                        <!-- Salary Advance -->
+
+
+                        <li class="nav-item has-treeview <?= Yii::$app->recruitment->currentCtrl('salaryadvance')?'menu-open':'' ?>">
+                            <a href="#" title="Performance Management" class="nav-link <?= Yii::$app->recruitment->currentCtrl('salaryadvance')?'active':'' ?>">
+                                <i class="nav-icon fa fa-money-check"></i>
+                                <p>
+                                    Salary Advance
+                                    <i class="fas fa-angle-left right"></i>
+                                    <!--<span class="badge badge-info right">6</span>-->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>salaryadvance" class="nav-link <?= Yii::$app->recruitment->currentaction('salaryadvance','index')?'active':'' ?>">
+                                        <i class="fa fa-check-square nav-icon"></i>
+                                        <p> Salary Advance List</p>
+                                    </a>
+                                </li>
+
+
+                            </ul>
+
+                        </li>
+
+                        <!--/Salary Advance -->
+
                        
 
 

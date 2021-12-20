@@ -10,6 +10,40 @@ use yii\widgets\ActiveForm;
 $absoluteUrl = \yii\helpers\Url::home(true);
 ?>
 
+<?php if(!empty($model->Purpose) && !empty($model->Amount_Requested)): ?>
+<div class="row">
+    <div class="col-md-4">
+
+        <?= ($model->Status == 'New')?Html::a('<i class="fas fa-paper-plane"></i> Send Approval Req',['send-for-approval'],['class' => 'btn btn-app submitforapproval',
+            'data' => [
+                'confirm' => 'Are you sure you want to send this document for approval?',
+                'params'=>[
+                    'No'=> $_GET['No'],
+                    'employeeNo' => Yii::$app->user->identity->{'Employee No_'},
+                ],
+                'method' => 'get',
+        ],
+            'title' => 'Submit Imprest Approval'
+
+        ]):'' ?>
+
+
+        <?= ($model->Status == 'Pending_Approval' && !Yii::$app->request->get('Approval'))?Html::a('<i class="fas fa-times"></i> Cancel Approval Req.',['cancel-request'],['class' => 'btn btn-app submitforapproval',
+            'data' => [
+            'confirm' => 'Are you sure you want to cancel imprest approval request?',
+            'params'=>[
+                'No'=> $_GET['No'],
+            ],
+            'method' => 'get',
+        ],
+            'title' => 'Cancel Imprest Approval Request'
+
+        ]):'' ?>
+    </div>
+</div>
+
+<?php endif; ?>
+
 <div class="row">
     <div class="col-md-12">
         <div class="card">
@@ -59,13 +93,13 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
                             <?= $form->field($model, 'Employee_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                             <?= $form->field($model, 'Employee_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Purpose_Code')->dropDownList($purpose,['required' => true, 'prompt' => 'Select ...']) ?>
+                            <?= $form->field($model, 'Purpose')->textInput(['required' => true, 'maxlength' => '150']) ?>
                             <?= '<p><span>Employee Balance</span> '.Html::a($model->Employee_Balance,'#'); '</p>' ?>
 
                             <?= $form->field($model, 'Status')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                             <?= $form->field($model, 'Global_Dimension_1_Code')->dropDownList($programs,['prompt' => 'Select ..','readonly'=> true]) ?>
                             <?= $form->field($model, 'Global_Dimension_2_Code')->dropDownList($departments, ['prompt' => 'select ...','readonly'=> true]) ?>
-                            <?= $form->field($model, 'Loan_Type')->dropDownList($loans, ['prompt' => 'select ...','required' => true,'readonly'=> true]) ?>
+                            <?php $form->field($model, 'Loan_Type')->dropDownList($loans, ['prompt' => 'select ...','required' => true,'readonly'=> true]) ?>
 
 
                         </div>
@@ -85,10 +119,6 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
 
 
-
-
-
-
 <!--                            <p class="parent"><span>+</span>-->
 
 
@@ -99,30 +129,13 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
                         </div>
 
-
-
                     </div>
-
-
-
-
                 </div>
-
-
-
-
-
-
-
-
-
-
-
 
                 <div class="row">
 
                     <div class="form-group">
-                        <?= Html::submitButton(($model->isNewRecord)?'Save':'Update', ['class' => 'btn btn-success','id' => 'submit']) ?>
+                        <?php Html::submitButton(($model->isNewRecord)?'Save':'Update', ['class' => 'btn btn-success','id' => 'submit']) ?>
                     </div>
 
 
@@ -140,7 +153,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                     </button>
 
                     <?= $atform->field($Attachmentmodel,'Document_No')->hiddenInput(['value' => $model->No])->label(false);?>
-                    <?= Html::submitButton(($model->isNewRecord)?'':'', ['class' => '']) ?>
+                    <?php Html::submitButton(($model->isNewRecord)?'':'', ['class' => '']) ?>
 
                 <?php \yii\widgets\ActiveForm::end(); ?>
 
@@ -212,7 +225,7 @@ $script = <<<JS
 
    /*Check if Purpose requires an attachment */
      
-     $('#salaryadvance-purpose_code').change(function(e){
+     $('#salaryadvance-purpose').change(function(e){
          e.preventDefault();
           const Purpose_Code = e.target.value;
           // Check if leave required an attachment or not
@@ -234,8 +247,10 @@ $script = <<<JS
 
             // Post Code to Nav
              const No = $('#salaryadvance-no').val();
+             const Key =   $('#salaryadvance-key').val();
+
              const postUrl = $('input[name=url]').val()+'salaryadvance/setcode';
-             $.post(postUrl,{'Purpose_Code': Purpose_Code,'No': No}).done(function(msg){
+             $.post(postUrl,{'Purpose_Code': Purpose_Code,'No': No, 'Key': Key}).done(function(msg){
                    //populate empty form fields with new data
                 
                    $('#salaryadvance-key').val(msg.Key);
@@ -254,6 +269,12 @@ $script = <<<JS
                     }
                     
                 },'json');
+
+                setTimeout(() => {
+                    location.reload(true);
+                }, 3000);
+
+               
          
      });
 
@@ -335,6 +356,10 @@ $script = <<<JS
                     }
                     
                 },'json');
+
+                setTimeout(() => {
+                    location.reload(true);
+                }, 3000);
         }
      });
      

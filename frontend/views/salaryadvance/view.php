@@ -110,7 +110,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                                 <?= $form->field($model, 'Status')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                 <?= $form->field($model, 'Global_Dimension_1_Code')->textInput(['readonly'=> true]) ?>
                                 <?= $form->field($model, 'Global_Dimension_2_Code')->textInput(['readonly'=> true]) ?>
-                                <?= $form->field($model, 'Loan_Type')->textInput(['readonly'=> true]) ?>
+                                <?php $form->field($model, 'Loan_Type')->textInput(['readonly'=> true]) ?>
 
 
 
@@ -119,12 +119,13 @@ Yii::$app->session->set('isSupervisor',false);*/
                             <div class="col-md-6">
                                 <?= $form->field($model, 'Repayment_Period')->textInput(['readonly'=> true]) ?>
                                 <?= $form->field($model, 'Instalments')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, 'Basic_Pay')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, '_x0031__3_of_Basic')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, 'Current_Net_Pay')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                <?= $form->field($model, 'Basic_Pay', ['inputOptions' => ['value' => Yii::$app->formatter->asDecimal($model->Basic_Pay)]])->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, '_x0031__3_of_Basic',['inputOptions' => ['value' => Yii::$app->formatter->asDecimal($model->_x0031__3_of_Basic)]])->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Current_Net_Pay',['inputOptions' => ['value' => Yii::$app->formatter->asDecimal($model->Current_Net_Pay)]])->textInput(['readonly'=> true, 'disabled'=>true]) ?>
 
-                                <?= $form->field($model, 'Take_Home')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, 'Amount_Requested')->textInput(['required'=> true,'readonly' => true]) ?>
+                            <?= $form->field($model, 'Take_Home', ['inputOptions' => ['value' => Yii::$app->formatter->asDecimal($model->Take_Home)]])->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Amount_Requested', ['inputOptions' => ['value' => Yii::$app->formatter->asDecimal($model->Amount_Requested)]])->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            
                                 <?= $form->field($model, 'Months_Paid')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                 <?= $form->field($model, 'Rejection_Comments')->textarea(['rows'=>2,'readonly'=> true, 'disabled'=>true]) ?>
 

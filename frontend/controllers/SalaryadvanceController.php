@@ -7,15 +7,10 @@
  */
 
 namespace frontend\controllers;
-use frontend\models\Careerdevelopmentstrength;
-use frontend\models\Employeeappraisalkra;
-use frontend\models\Experience;
 use frontend\models\Imprestcard;
-use frontend\models\Imprestline;
 use frontend\models\Imprestsurrendercard;
 use frontend\models\Leaveattachment;
 use frontend\models\Salaryadvance;
-use frontend\models\Trainingplan;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\ContentNegotiator;
@@ -25,7 +20,6 @@ use yii\helpers\Html;
 use yii\web\Controller;
 use yii\web\BadRequestHttpException;
 
-use frontend\models\Leave;
 use yii\web\Response;
 use kartik\mpdf\Pdf;
 use yii\web\UploadedFile;
@@ -89,18 +83,11 @@ class SalaryadvanceController extends Controller
             if(is_object($request) )
             {
                 Yii::$app->navhelper->loadmodel($request,$model);
+                return $this->redirect(['update', 'No'=> $model->No]);
             }else if(is_string($request))
             {
                 Yii::$app->session->setFlash('error',$request);
-                return $this->render('create',[
-                    'model' => $model,
-                    'employees' => $this->getEmployees(),
-                    'programs' => $this->getPrograms(),
-                    'departments' => $this->getDepartments(),
-                    'currencies' => $this->getCurrencies(),
-                    'loans' => $this->getLoans(),
-                    'purpose' => $this->getPurpose(),
-                ]);
+                return $this->redirect(['index']);
             }
         }
 
@@ -170,7 +157,7 @@ class SalaryadvanceController extends Controller
             'departments' => $this->getDepartments(),
             'currencies' => $this->getCurrencies(),
             'loans' => $this->getLoans(),
-            'purpose' => $this->getPurpose(),
+            'purpose' => [] // $this->getPurpose(),
         ]);
     }
 
@@ -202,7 +189,7 @@ class SalaryadvanceController extends Controller
                     'departments' => $this->getDepartments(),
                     'currencies' => $this->getCurrencies(),
                     'loans' => $this->getLoans(),
-                    'purpose' => $this->getPurpose(),
+                    'purpose' => [] // $this->getPurpose(),
                 ]);
         }
 
@@ -236,7 +223,7 @@ class SalaryadvanceController extends Controller
                     'departments' => $this->getDepartments(),
                     'currencies' => $this->getCurrencies(),
                     'loans' => $this->getLoans(),
-                    'purpose' => $this->getPurpose(),
+                    'purpose' => [] // $this->getPurpose(),
                 ]);
 
             }
@@ -278,7 +265,7 @@ class SalaryadvanceController extends Controller
                     'departments' => $this->getDepartments(),
                     'currencies' => $this->getCurrencies(),
                     'loans' => $this->getLoans(),
-                    'purpose' => $this->getPurpose(),
+                    'purpose' => [] // $this->getPurpose(),
 
             ]);
         }
@@ -296,7 +283,7 @@ class SalaryadvanceController extends Controller
                 'departments' => $this->getDepartments(),
                 'currencies' => $this->getCurrencies(),
                 'loans' => $this->getLoans(),
-                'purpose' => $this->getPurpose(),
+                'purpose' => [] // $this->getPurpose(),
 
             ]);
         }
@@ -308,7 +295,7 @@ class SalaryadvanceController extends Controller
             'departments' => $this->getDepartments(),
             'currencies' => $this->getCurrencies(),
             'loans' => $this->getLoans(),
-            'purpose' => $this->getPurpose(),
+            'purpose' => [] // $this->getPurpose(),
         ]);
     }
 
@@ -338,7 +325,7 @@ class SalaryadvanceController extends Controller
         $model = $this->loadtomodel($result[0], $model);
 
         //Yii::$app->recruitment->printrr($model);
-        $model->_x0031__3_of_Basic = number_format($model->_x0031__3_of_Basic);
+        //$model->_x0031__3_of_Basic = number_format($model->_x0031__3_of_Basic);
         return $this->render('view',[
             'model' => $model,
             'Attachmentmodel' => new \frontend\models\Leaveattachment(),
@@ -375,6 +362,8 @@ class SalaryadvanceController extends Controller
             'Employee_No' => Yii::$app->user->identity->{'Employee No_'},
         ];
 
+       //  Yii::$app->recruitment->printrr($filter);
+
         $results = \Yii::$app->navhelper->getData($service,$filter);
         $result = [];
 
@@ -395,7 +384,7 @@ class SalaryadvanceController extends Controller
                     'No' => $item->No,
                     'Employee_No' => !empty($item->Employee_No)?$item->Employee_No:'',
                     'Employee_Name' => !empty($item->Employee_Name)?$item->Employee_Name:'',
-                    'Purpose' => !empty($item->Purpose_Code)?$item->Purpose_Code:'',
+                    'Purpose' => !empty($item->Purpose)?$item->Purpose:'',
                     'Amount_Requested' => !empty($item->Amount_Requested)?$item->Amount_Requested:'',
                     'Status' => $item->Status,
                     'Action' => $link,
@@ -503,6 +492,7 @@ class SalaryadvanceController extends Controller
 
     public function actionRequiresattachment($Code)
     {
+        return false;
         $service = Yii::$app->params['ServiceName']['SalaryAdvancePurpose'];
         $filter = [
             'Purpose_Code' => $Code
@@ -614,16 +604,16 @@ class SalaryadvanceController extends Controller
     public function actionSetcode(){
         $model = new Salaryadvance();
         $service = Yii::$app->params['ServiceName']['SalaryAdvanceCard'];
-        $filter = [
-            'No' => Yii::$app->request->post('No')
-        ];
-        $request = Yii::$app->navhelper->getData($service, $filter);
-        if(is_array($request)){
-            Yii::$app->navhelper->loadmodel($request[0],$model);
-            $model->Key = $request[0]->Key;
-            $model->Purpose_Code = Yii::$app->request->post('Purpose_Code');
+        
+        $request = Yii::$app->navhelper->readByKey($service, Yii::$app->request->post('Key'));
+        
+        if(is_object($request)){
+            Yii::$app->navhelper->loadmodel($request,$model);
+            $model->Key = $request->Key;
+            $model->Purpose = Yii::$app->request->post('Purpose_Code');
         }
         $result = Yii::$app->navhelper->updateData($service,$model);
+        // Yii::$app->recruitment->printrr($request);
         Yii::$app->response->format = \yii\web\response::FORMAT_JSON;
         return $result;
     }
