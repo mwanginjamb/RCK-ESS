@@ -472,7 +472,19 @@ class PurchaseRequisitionlineController extends Controller
             $service = Yii::$app->params['ServiceName']['Items'];
             $filter = [];
             $result = \Yii::$app->navhelper->getData($service, $filter);
-            $data =  Yii::$app->navhelper->refactorArray($result,'No','Description');
+
+            $arr = [];
+            
+            foreach($result as $r){
+                if($r->No &&  $r->Description ){
+                    $arr[] = ['No' => $r->No, 'Description' => $r->Description. ' - '. $r->No];
+                }
+               
+            }
+           // $data =  Yii::$app->navhelper->refactorArray($arr,'No','Description');
+            $data =  ArrayHelper::map($arr,'No','Description');
+            krsort($data);
+          
         }else{ //   No other option , kill code execution
             echo "<option value=''>No data Available</option>";
             return;
@@ -480,6 +492,7 @@ class PurchaseRequisitionlineController extends Controller
 
         if(count($data) )
         {
+          
             foreach($data  as $k => $v )
             {
                 echo "<option value='$k'>".$v."</option>";
