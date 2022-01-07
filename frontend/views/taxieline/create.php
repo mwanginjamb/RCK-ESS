@@ -36,7 +36,8 @@ $model->Travel_Date = (date('Y',strtotime($model->Travel_Date)) == '0001')?$mode
             'jobs' => $jobs,
             'jobTasks' => $jobTasks,
             'glAccounts' => $glAccounts,
-            'requestTypes' => $requestTypes
+            'requestTypes' => $requestTypes,
+            'vendors' =>  $vendors
         ]) ?>
     </div>
 </div>

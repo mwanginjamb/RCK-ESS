@@ -120,7 +120,8 @@ class TaxielineController extends Controller
                 'jobs' => $this->getJob(),
                 'jobTasks' => $this->getJobTask(),
                 'glAccounts' =>  $this->getGlaccounts(),
-                'requestTypes' =>  $this->getRequestTypes()
+                'requestTypes' =>  $this->getRequestTypes(),
+                'vendors' =>  $this->getVendors(),
             ]);
         }
 
@@ -130,7 +131,8 @@ class TaxielineController extends Controller
             'jobs' => $this->getJob(),
             'jobTasks' => $this->getJobTask(),
             'glAccounts' =>  $this->getGlaccounts(),
-            'requestTypes' =>  $this->getRequestTypes()
+            'requestTypes' =>  $this->getRequestTypes(),
+            'vendors' =>  $this->getVendors(),
         ]);
 
     }
@@ -151,7 +153,7 @@ class TaxielineController extends Controller
         }
 
 
-        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Vehiclerequisitionline'],$model) ){
+        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Taxieline'],$model) ){
 
            
             $refresh = Yii::$app->navhelper->readByKey($service, $model->Key);
@@ -179,15 +181,27 @@ class TaxielineController extends Controller
                 'jobs' => $this->getJob(),
                 'jobTasks' => $this->getJobTask(),
                 'glAccounts' =>  $this->getGlaccounts(),
-                'requestTypes' =>  $this->getRequestTypes()
+                'requestTypes' =>  $this->getRequestTypes(),
+                'vendors' =>  $this->getVendors(),
             ]);
         }
 
         return $this->render('update',[
             'model' => $model,
-            'vehicles' => $this->getVehicles(),
-            'requestTypes' =>  $this->getRequestTypes()
+                'vehicles' => $this->getVehicles(),
+                'jobs' => $this->getJob(),
+                'jobTasks' => $this->getJobTask(),
+                'glAccounts' =>  $this->getGlaccounts(),
+                'requestTypes' =>  $this->getRequestTypes(),
+                'vendors' =>  $this->getVendors(),
         ]);
+    }
+
+    public function getVendors() 
+    {
+        $service = Yii::$app->params['ServiceName']['Vendors'];
+        $result = Yii::$app->navhelper->getData($service);
+        return Yii::$app->navhelper->refactorArray($result,'No','Name');
     }
 
     public function actionDelete(){
@@ -315,26 +329,7 @@ class TaxielineController extends Controller
     }
 
     public function actionView($ApplicationNo){
-        $service = Yii::$app->params['ServiceName']['leaveApplicationCard'];
-        $leaveTypes = $this->getLeaveTypes();
-        $employees = $this->getEmployees();
-
-        $filter = [
-            'Application_No' => $ApplicationNo
-        ];
-
-        $leave = Yii::$app->navhelper->getData($service, $filter);
-
-        //load nav result to model
-        $leaveModel = new Leave();
-        $model = $this->loadtomodel($leave[0],$leaveModel);
-
-
-        return $this->render('view',[
-            'model' => $model,
-            'leaveTypes' => ArrayHelper::map($leaveTypes,'Code','Description'),
-            'relievers' => ArrayHelper::map($employees,'No','Full_Name'),
-        ]);
+       
     }
 
 

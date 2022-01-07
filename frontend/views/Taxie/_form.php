@@ -55,19 +55,15 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                             <?= $form->field($model, 'Key')->hiddenInput()->label(false) ?>
                             <?= $form->field($model, 'Created_By')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                             <?= $form->field($model, 'Created_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Employee_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-
-
-
-
+                            <?= $form->field($model, 'Created_Time')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                               
                         </div>
-
+                        
                         <div class="col-md-6">
+                            <?= $form->field($model, 'Employee_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                             <?= $form->field($model, 'Employee_Name')->textInput(['readonly'=> true,'disabled'=> true]) ?>
                             <?= $form->field($model, 'Status')->textInput(['readonly'=> true,'disabled'=> true]) ?>
-                            <?= $form->field($model, 'Taxi_Company')->dropDownList($vendors,['prompt'=> 'Select ...']) ?>
                             
-
                         </div>
 
 
@@ -78,16 +74,6 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
 
                 </div>
-
-
-
-
-
-
-
-
-
-
 
 
                 <div class="row">

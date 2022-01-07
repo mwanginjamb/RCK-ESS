@@ -9,7 +9,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-$this->title = 'Taxie Requisition - '.$model->No;
+$this->title = 'Travel Requisition - '.$model->No;
 $this->params['breadcrumbs'][] = ['label' => 'Taxie Requsitions List', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => 'Taxie Requsition Card', 'url' => ['view','No'=> $model->No]];
 /** Status Sessions */
@@ -55,7 +55,7 @@ Yii::$app->session->set('isSupervisor',false);*/
         <div class="col-md-12">
             <div class="card-info">
                 <div class="card-header">
-                    <h3>Taxie Requisition Document </h3>
+                    <h3>Travel Requisition Document </h3>
                 </div>
 
 
@@ -104,13 +104,13 @@ Yii::$app->session->set('isSupervisor',false);*/
                                 <?= $form->field($model, 'Created_By')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                 <?= $form->field($model, 'Created_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                 <?= $form->field($model, 'Created_Time')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, 'Employee_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-
+                                
                             </div>
                             <div class="col-md-6">
+                                <?= $form->field($model, 'Employee_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                 <?= $form->field($model, 'Employee_Name')->textInput(['readonly'=> true,'disabled'=> true]) ?>
                                 <?= $form->field($model, 'Status')->textInput(['readonly'=> true,'disabled'=> true]) ?>
-                                <?= $form->field($model, 'Taxi_Company')->textInput(['readonly'=> true,'disabled'=> true]) ?>
+                                
 
 
 
@@ -149,6 +149,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                             <thead>
                             <tr>
                                 <td><b>Request_Type</b></td>
+                                <td><b>Vendor Name</b></td>
                                 <td><b>Departure_Location</b></td>
                                 <td><b>Departure_Time</b></td>
                                 <td><b>Destination_Location</b></td>
@@ -167,6 +168,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                                 <tr>
 
                                     <td><?= !empty($obj->Request_Type)?$obj->Request_Type:'Not Set' ?></td>
+                                    <td><?= !empty($obj->Vendor_Name)?$obj->Vendor_Name:'Not Set' ?></td>
                                     <td><?= !empty($obj->Departure_Location)?$obj->Departure_Location:'Not Set' ?></td>
                                     <td><?= !empty($obj->Departure_Time)?$obj->Departure_Time:'Not Set' ?></td>
                                     <td><?= !empty($obj->Destination_Location)?$obj->Destination_Location:'Not Set' ?></td>
