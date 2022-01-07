@@ -21,10 +21,13 @@ public $Employee_No;
 public $Employee_Name;
 public $Global_Dimension_1_Code;
 public $Global_Dimension_2_Code;
+public $Job_Position;
+public $Supervisor_ID;
+public $Supervisor;
+public $Supervisor_Name;
+public $Period_Month;
 public $Hours_Worked;
 public $Status;
-public $isNewRecord;
-public $Rejection_Comments;
 
     /*public function __construct(array $config = [])
     {
