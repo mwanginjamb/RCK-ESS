@@ -105,6 +105,10 @@ $script = <<<JS
                 },'json');
         });
 
+        // Searchable dropdown Test
+
+        // $('#purchaserequisitionline-no').select2();
+
         /*Commit Type */
         
         $('#purchaserequisitionline-type').on('change', function(e){

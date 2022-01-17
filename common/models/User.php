@@ -134,8 +134,8 @@ class User extends ActiveRecord implements IdentityInterface
 
        // return $credentials;
 
-        $result = Yii::$app->navhelper->authEntry($service,$credentials,'User_ID', $NavisionUsername);
-
+        $result = Yii::$app->navhelper->findOne($service,$credentials,'User_ID', $NavisionUsername);
+        //return $result;
 
         return new User($result);
     }

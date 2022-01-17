@@ -45,7 +45,9 @@ class LoginForm extends Model
         // do Active directory authentication here
         if (!$this->hasErrors()) {
             $user = $this->getUser();
-            //Yii::$app->recruitment->printrr(User::Auth($this->username,$this->password));
+
+           // exit($this->username);
+            //Yii::$app->recruitment->printrr(User::Auth($this->username,$this->password)); 
 
             if (!$user || !$user->validatePassword($this->password) || !User::Auth($this->username,$this->password)->Key) {//Add AD login condition here also--> when ad details are given
 
