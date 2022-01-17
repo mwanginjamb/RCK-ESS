@@ -163,10 +163,8 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                 <td class="text-center text-bold">Imprest_Amount</td>
                                 <td class="text-center text-bold">Request_No</td>
                                 <td class="text-center text-bold">Surrendered </td>
-                                <td class="text-center text-bold">Donor_Code</td>
-                                <td class="text-center text-bold">Job_No</td>
-                                <td class="text-center text-bold">Job_Task_No</td>
-                                <td class="text-center text-bold">Job_Planning_Line_No"</td>
+                                
+                                
                                 <td class="text-center text-bold">Budgeted_Amount</td>
                                 <td class="text-center text-bold">Commited_Amount</td>
                                 <td class="text-center text-bold">Total_Expenditure</td>
@@ -182,10 +180,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                         <td class="text-center"><?= !empty($line->Imprest_Amount)? $line->Imprest_Amount : '' ?></td>
                                         <td class="text-center"><?= !empty($line->Request_No)? $line->Request_No : '' ?></td>
                                         <td class="text-center"><?= Html::checkbox('Surrender',$line->Surrender) ?></td>
-                                        <td class="text-center"><?= !empty($line->Donor_Code)? $line->Donor_Code : '' ?></td>
-                                        <td class="text-center"><?= !empty($line->Job_No)? $line->Job_No : '' ?></td>
-                                        <td class="text-center"><?= !empty($line->Job_Task_No)? $line->Job_Task_No : '' ?></td>
-                                        <td class="text-center"><?= !empty($line->Job_Planning_Line_No)? $line->Job_Planning_Line_No : '' ?></td>
+                                        
                                         <td class="text-center"><?= !empty($line->Budgeted_Amount)? $line->Budgeted_Amount : '' ?></td>
                                         <td class="text-center"><?= !empty($line->Commited_Amount)? $line->Commited_Amount : '' ?></td>
                                         <td class="text-center"><?= !empty($line->Total_Expenditure)? $line->Total_Expenditure : '' ?></td>

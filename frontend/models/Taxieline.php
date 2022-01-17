@@ -30,6 +30,9 @@ public $Budget_Amount;
 public $Estimated_Travel_Cost;
 public $isNewRecord;
 
+public $Vendor_No;
+public $Vendor_Name;
+
     public function rules()
     {
         return [

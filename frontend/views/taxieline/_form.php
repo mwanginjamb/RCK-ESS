@@ -25,6 +25,8 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
                             <div class="col-md-6">
                                     <?= $form->field($model, 'Request_Type')->dropDownList($requestTypes, ['prompt' => 'Select ...']) ?>
+                                    <?= $form->field($model, 'Vendor_No')->dropDownList($vendors, ['prompt' => 'Select ...']) ?>
+                                    
                                     <?= $form->field($model, 'Departure_Location')->textInput(['maxlength' => 200]) ?>
                                     <?= $form->field($model, 'Travel_Date')->textInput(['type' => 'date']) ?>
                                     <?= $form->field($model, 'Departure_Time')->textInput(['type' => 'time']) ?>
@@ -45,7 +47,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                 <?= $form->field($model, 'Job_Planning_Line_No')->dropDownList([], ['prompt' => 'Select ...']) ?>
 
                                 <?= $form->field($model, 'G_L_Account_No')->dropDownList($glAccounts, ['prompt' => 'Select ...']) ?>
-                                <?= $form->field($model, 'Key')->hiddenInput(['readonly'=> true])->label(false) ?>
+                                <?= $form->field($model, 'Key')->textInput(['readonly'=> true]) ?>
                                 <?php $form->field($model, 'Document_No')->textInput(['readonly' => true]) ?>
                             </div>
 
@@ -87,6 +89,7 @@ $script = <<<JS
 $('#taxieline-job_no').select2();
 $('#taxieline-job_task_no').select2();
 $('#taxieline-g_l_account_no').select2();
+$('#taxieline-vendor_no').select2();
 
 
  //Submit Rejection form and get results in json    

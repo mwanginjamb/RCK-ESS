@@ -28,7 +28,8 @@ $model->Departure_Time = date('H:i:s', strtotime($model->Departure_Time));
             'jobs' => $jobs,
             'jobTasks' => $jobTasks,
             'glAccounts' => $glAccounts,
-            'requestTypes' => $requestTypes
+            'requestTypes' => $requestTypes,
+            'vendors' =>  $vendors
         ]) ?>
     </div>
 </div>

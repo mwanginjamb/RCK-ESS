@@ -23,15 +23,13 @@ public $Created_Time;
 public $Employee_No;
 public $Employee_Name;
 public $Status;
-public $Taxi_Company;
-public $Taxi_Company_Name;
 public $isNewRecord;
 
 
     public function rules()
     {
         return [
-                [['Reason_For_Booking','Booking_Requisition_No'], 'required'],
+               
                
         ];
     }
