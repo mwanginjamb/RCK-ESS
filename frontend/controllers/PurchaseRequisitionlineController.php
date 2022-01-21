@@ -426,6 +426,51 @@ class PurchaseRequisitionlineController extends Controller
         return Yii::$app->navhelper->refactorArray($result,'Job_Task_No','Description');
     }
 
+    // Tasks DD
+
+    public function actionTasksDd($job_no)
+    {
+        
+            $service = Yii::$app->params['ServiceName']['JobTaskLines'];
+            $filter = [
+                'Job_No' => $job_no
+            ];
+            $result = \Yii::$app->navhelper->getData($service, $filter);
+
+            
+           
+            $arr = [];
+
+            foreach($result as $res)
+            {
+                if(!empty($res->Job_Task_No) && !empty($res->Description))
+                {
+                    $arr[] = [
+                        'Code' => $res->Job_Task_No,
+                        'Description' => $res->Job_Task_No.' - '.$res->Description
+                    ];
+                }
+            }
+
+            
+            $data = ArrayHelper::map($arr,'Code','Description');
+            //Yii::$app->recruitment->printrr($data);
+            
+            krsort($data);
+
+        if(count($data) )
+        {
+            foreach($data  as $k => $v )
+            {
+                echo "<option value='$k'>".$v."</option>";
+            }
+        }else{
+            echo "<option value=''>No data Available</option>";
+        }
+    }
+
+
+
 
     // Get Job Planning Lines
 
