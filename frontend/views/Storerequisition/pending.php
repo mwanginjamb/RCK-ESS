@@ -12,6 +12,7 @@
 
 $this->title = Yii::$app->params['generalTitle'];
 $this->params['breadcrumbs'][] = ['label' => 'Store Requisition List', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Store Req. Pending List', 'url' => ['pending']];
 
 $url = \yii\helpers\Url::home(true);
 ?>
@@ -75,7 +76,7 @@ $script = <<<JS
           $('#table').DataTable({
            
             //serverSide: true,  
-            ajax: url+'storerequisition/list',
+            ajax: url+'storerequisition/list-pending',
             paging: true,
             columns: [
                 { title: 'No' ,data: 'No'},

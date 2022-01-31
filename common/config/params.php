@@ -427,6 +427,8 @@ return [
         'StoreRequisitionLine' => 'StoreRequisitionLine', //66082
         'Locations' => 'Locations', //15
         'Items' => 'Items', //32
+        'SRPendingList' => 'SRPendingList', //66083
+        'SRApproved' => 'SRApproved', //66084
 
         /***************************PURCHASE REQUISITION**********************************/
 

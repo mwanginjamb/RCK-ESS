@@ -592,10 +592,29 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
                             </a>
                             <ul class="nav nav-treeview">
 
+                            <!-- Open -->
                                 <li class="nav-item">
                                     <a href="<?= $absoluteUrl ?>storerequisition" class="nav-link <?= Yii::$app->recruitment->currentaction('storerequisition','index')?'active':'' ?>">
                                         <i class="fa fa-store-alt nav-icon"></i>
                                         <p> Store Req. List</p>
+                                    </a>
+                                </li>
+
+                                <!-- Pending -->
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>storerequisition/pending" class="nav-link <?= Yii::$app->recruitment->currentaction('storerequisition','pending')?'active':'' ?>">
+                                        <i class="fa fa-store-alt nav-icon"></i>
+                                        <p> Store Req. Pending List</p>
+                                    </a>
+                                </li>
+
+                                <!-- Approved -->
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>storerequisition/approved" class="nav-link <?= Yii::$app->recruitment->currentaction('storerequisition','approved')?'active':'' ?>">
+                                        <i class="fa fa-store-alt nav-icon"></i>
+                                        <p> Store Req. Approved List</p>
                                     </a>
                                 </li>
 
@@ -647,7 +666,7 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
                                 <!-- Approved List -->
 
                                 <li class="nav-item">
-                                    <a href="<?= $absoluteUrl ?>purchase-requisition/approved" class="nav-link <?= Yii::$app->recruitment->currentaction('purchase-requisition','pending')?'active':'' ?>">
+                                    <a href="<?= $absoluteUrl ?>purchase-requisition/approved" class="nav-link <?= Yii::$app->recruitment->currentaction('purchase-requisition','approved')?'active':'' ?>">
                                         <i class="fa fa-truck-loading nav-icon"></i>
                                         <p> Purchase Req. Approved List</p>
                                     </a>
