@@ -152,7 +152,7 @@ class ImprestController extends Controller
             'employees' => $this->getEmployees(),
             'programs' => $this->getPrograms(),
             'departments' => $this->getDepartments(),
-            'currencies' => $this->getCurrencies()
+            'currencies' => Yii::$app->navhelper->dropdown('Currencies','Code','Description'),
         ]);
     }
 
@@ -199,7 +199,7 @@ class ImprestController extends Controller
                         'employees' => $this->getEmployees(),
                         'programs' => $this->getPrograms(),
                         'departments' => $this->getDepartments(),
-                        'currencies' => $this->getCurrencies(),
+                        'currencies' => Yii::$app->navhelper->dropdown('Currencies','Code','Description'),
                         'imprests' => $this->getmyimprests(),
                         'receipts' => $this->getimprestreceipts($model->No)
                     ]);
@@ -233,7 +233,7 @@ class ImprestController extends Controller
                     'employees' => $this->getEmployees(),
                     'programs' => $this->getPrograms(),
                     'departments' => $this->getDepartments(),
-                    'currencies' => $this->getCurrencies(),
+                    'currencies' => Yii::$app->navhelper->dropdown('Currencies','Code','Description'),
                     'imprests' => $this->getmyimprests(),
                     'receipts' => $this->getimprestreceipts($model->No)
                 ]);
@@ -247,7 +247,7 @@ class ImprestController extends Controller
             'employees' => $this->getEmployees(),
             'programs' => $this->getPrograms(),
             'departments' => $this->getDepartments(),
-            'currencies' => $this->getCurrencies(),
+            'currencies' => Yii::$app->navhelper->dropdown('Currencies','Code','Description'),
             'imprests' => $this->getmyimprests(),
             'receipts' => $this->getimprestreceipts($model->No)
         ]);
@@ -272,7 +272,7 @@ class ImprestController extends Controller
                     'employees' => $this->getEmployees(),
                     'programs' => $this->getPrograms(),
                     'departments' => $this->getDepartments(),
-                    'currencies' => $this->getCurrencies(),
+                    'currencies' => Yii::$app->navhelper->dropdown('Currencies','Code','Description'),
                     'imprests' => $this->getmyimprests(),
                     'receipts' => $this->getimprestreceipts($model->No),
                     'surrender' =>  new stdClass()
@@ -292,7 +292,7 @@ class ImprestController extends Controller
                     'employees' => $this->getEmployees(),
                     'programs' => $this->getPrograms(),
                     'departments' => $this->getDepartments(),
-                    'currencies' => $this->getCurrencies(),
+                    'currencies' =>Yii::$app->navhelper->dropdown('Currencies','Code','Description'),
                     'imprests' => $this->getmyimprests(),
                     'receipts' => $this->getimprestreceipts($model->No),
                     'surrender' =>  $result
@@ -306,7 +306,7 @@ class ImprestController extends Controller
                     'employees' => $this->getEmployees(),
                     'programs' => $this->getPrograms(),
                     'departments' => $this->getDepartments(),
-                    'currencies' => $this->getCurrencies(),
+                    'currencies' =>Yii::$app->navhelper->dropdown('Currencies','Code','Description'),
                     'imprests' => $this->getmyimprests(),
                     'receipts' => $this->getimprestreceipts($model->No),
                     'surrender' =>  new stdClass()
@@ -323,7 +323,7 @@ class ImprestController extends Controller
                 'employees' => $this->getEmployees(),
                 'programs' => $this->getPrograms(),
                 'departments' => $this->getDepartments(),
-                'currencies' => $this->getCurrencies(),
+                'currencies' =>Yii::$app->navhelper->dropdown('Currencies','Code','Description'),
                 'imprests' => $this->getmyimprests(),
                 'receipts' => $this->getimprestreceipts($model->No),
                 'surrender' =>  $result
@@ -336,7 +336,7 @@ class ImprestController extends Controller
             'employees' => $this->getEmployees(),
             'programs' => $this->getPrograms(),
             'departments' => $this->getDepartments(),
-            'currencies' => $this->getCurrencies(),
+            'currencies' =>Yii::$app->navhelper->dropdown('Currencies','Code','Description'),
             'imprests' => $this->getmyimprests(),
             'receipts' => $this->getimprestreceipts($model->No),
             'surrender' =>  $result
@@ -362,7 +362,7 @@ class ImprestController extends Controller
                     'employees' => $this->getEmployees(),
                     'programs' => $this->getPrograms(),
                     'departments' => $this->getDepartments(),
-                    'currencies' => $this->getCurrencies()
+                    'currencies' => Yii::$app->navhelper->dropdown('Currencies','Code','Description')
                 ]);
         }
 
@@ -378,7 +378,7 @@ class ImprestController extends Controller
                     'employees' => $this->getEmployees(),
                     'programs' => $this->getPrograms(),
                     'departments' => $this->getDepartments(),
-                    'currencies' => $this->getCurrencies()
+                    'currencies' => Yii::$app->navhelper->dropdown('Currencies','Code','Description')
                 ]);
 
             }else{
@@ -389,7 +389,7 @@ class ImprestController extends Controller
                     'employees' => $this->getEmployees(),
                     'programs' => $this->getPrograms(),
                     'departments' => $this->getDepartments(),
-                    'currencies' => $this->getCurrencies()
+                    'currencies' => Yii::$app->navhelper->dropdown('Currencies','Code','Description')
                 ]);
             }
 
@@ -403,7 +403,7 @@ class ImprestController extends Controller
                 'employees' => $this->getEmployees(),
                 'programs' => $this->getPrograms(),
                 'departments' => $this->getDepartments(),
-                'currencies' => $this->getCurrencies()
+                'currencies' => Yii::$app->navhelper->dropdown('Currencies','Code','Description')
 
             ]);
         }
@@ -413,7 +413,7 @@ class ImprestController extends Controller
             'employees' => $this->getEmployees(),
             'programs' => $this->getPrograms(),
             'departments' => $this->getDepartments(),
-            'currencies' => $this->getCurrencies()
+            'currencies' => Yii::$app->navhelper->dropdown('Currencies','Code','Description')
         ]);
     }
 

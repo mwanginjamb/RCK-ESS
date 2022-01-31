@@ -74,6 +74,7 @@ class PurchaseRequisitionlineController extends Controller
     public function actionCreate($No){
        $service = Yii::$app->params['ServiceName']['PurchaseRequisitionLine'];
        $model = new Purchaserequisitionline();
+       $model->Type = 'Fixed_Asset';
 
         if(Yii::$app->request->get('No') && !isset(Yii::$app->request->post()['Purchaserequisitionline'])){
 
@@ -426,6 +427,51 @@ class PurchaseRequisitionlineController extends Controller
         return Yii::$app->navhelper->refactorArray($result,'Job_Task_No','Description');
     }
 
+    // Tasks DD
+
+    public function actionTasksDd($job_no)
+    {
+        
+            $service = Yii::$app->params['ServiceName']['JobTaskLines'];
+            $filter = [
+                'Job_No' => $job_no
+            ];
+            $result = \Yii::$app->navhelper->getData($service, $filter);
+
+            
+           
+            $arr = [];
+
+            foreach($result as $res)
+            {
+                if(!empty($res->Job_Task_No) && !empty($res->Description))
+                {
+                    $arr[] = [
+                        'Code' => $res->Job_Task_No,
+                        'Description' => $res->Job_Task_No.' - '.$res->Description
+                    ];
+                }
+            }
+
+            
+            $data = ArrayHelper::map($arr,'Code','Description');
+            //Yii::$app->recruitment->printrr($data);
+            
+            krsort($data);
+
+        if(count($data) )
+        {
+            foreach($data  as $k => $v )
+            {
+                echo "<option value='$k'>".$v."</option>";
+            }
+        }else{
+            echo "<option value=''>No data Available</option>";
+        }
+    }
+
+
+
 
     // Get Job Planning Lines
 
@@ -471,22 +517,23 @@ class PurchaseRequisitionlineController extends Controller
         {
             $service = Yii::$app->params['ServiceName']['Items'];
             $filter = [];
-            $result = \Yii::$app->navhelper->getData($service, $filter);
+            $Items = \Yii::$app->navhelper->getData($service, $filter);
 
             $arr = [];
-            
-            foreach($result as $r){
-                if($r->No &&  $r->Description ){
-                    $arr[] = ['No' => $r->No, 'Description' => $r->Description. ' - '. $r->No];
+            //Yii::$app->recruitment->printrr($Items);
+            foreach($Items as $r){
+                if(empty($r->No) ||  empty($r->Description) ){
+                    continue;
                 }
+                $arr[] = ['No' => $r->No, 'Description' => $r->Description. ' - '. $r->No];
                
             }
-           // $data =  Yii::$app->navhelper->refactorArray($arr,'No','Description');
+            //$data =  Yii::$app->navhelper->refactorArray($arr,'No','Description');
             $data =  ArrayHelper::map($arr,'No','Description');
             krsort($data);
           
         }else{ //   No other option , kill code execution
-            echo "<option value=''>No data Available</option>";
+            echo "<option value=''>No Items data Available</option>";
             return;
         }
 
