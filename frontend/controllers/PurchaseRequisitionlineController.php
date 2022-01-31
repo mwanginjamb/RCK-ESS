@@ -74,7 +74,7 @@ class PurchaseRequisitionlineController extends Controller
     public function actionCreate($No){
        $service = Yii::$app->params['ServiceName']['PurchaseRequisitionLine'];
        $model = new Purchaserequisitionline();
-       //$model->Type = 'Fixed_Asset';
+       $model->Type = 'Fixed_Asset';
 
         if(Yii::$app->request->get('No') && !isset(Yii::$app->request->post()['Purchaserequisitionline'])){
 

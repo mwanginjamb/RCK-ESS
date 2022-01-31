@@ -1610,6 +1610,26 @@ class Navhelper extends Component{
 
         return $list;
     }
+
+    
+
+    public function dropdown($service,$from,$to, $filterValues = []){
+        
+        $service = Yii::$app->params['ServiceName'][$service];
+        
+        $filter = [];
+        if(count($filterValues) && is_array($filterValues))
+        {
+            foreach($filterValues  as $key => $value){
+                $filter = [$key => $value];  
+            }
+        }else {
+            $filter = [];
+        }
+
+        $result = \Yii::$app->navhelper->getData($service, $filter);
+        return Yii::$app->navhelper->refactorArray($result,$from,$to);
+    }
 }
 
 
