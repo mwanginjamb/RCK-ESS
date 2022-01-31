@@ -26,7 +26,7 @@ class PurchaseRequisitionController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout','signup','index','list','create','update','delete','view'],
+                'only' => ['logout','signup','index','list','create','update','delete','view','list-pending','list-approved','approved','pending'],
                 'rules' => [
                     [
                         'actions' => ['signup'],
@@ -34,7 +34,7 @@ class PurchaseRequisitionController extends Controller
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout','index','list','create','update','delete','view'],
+                        'actions' => ['logout','index','list','create','update','delete','view','list-pending','list-approved','approved','pending'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -48,7 +48,7 @@ class PurchaseRequisitionController extends Controller
             ],
             'contentNegotiator' =>[
                 'class' => ContentNegotiator::class,
-                'only' => ['list'],
+                'only' => ['list','list-pending','list-approved'],
                 'formatParam' => '_format',
                 'formats' => [
                     'application/json' => Response::FORMAT_JSON,
@@ -61,6 +61,18 @@ class PurchaseRequisitionController extends Controller
     public function actionIndex(){
 
         return $this->render('index');
+
+    }
+
+    public function actionPending(){
+
+        return $this->render('pending');
+
+    }
+
+    public function actionApproved(){
+
+        return $this->render('approved');
 
     }
 
@@ -212,10 +224,49 @@ class PurchaseRequisitionController extends Controller
     public function actionList(){
         $service = Yii::$app->params['ServiceName']['PurchaseRequisitionList'];
         $filter = [
-            'Employee_No' => Yii::$app->user->identity->Employee_No,
+            'Employee_No' => Yii::$app->user->identity->{'Employee No_'},
         ];
 
+        $results = \Yii::$app->navhelper->getData($service,$filter);
+        //Yii::$app->recruitment->printrr($filter);
+        $result = [];
+        foreach($results as $item){
 
+            if(!empty($item->No ))
+            {
+                $link = $updateLink = $deleteLink =  '';
+                $Viewlink = Html::a('<i class="fas fa-eye"></i>',['view','No'=> $item->No ],['class'=>'btn btn-outline-primary btn-xs','title' => 'View Request.' ]);
+                if($item->Status == 'New'){
+                    $link = Html::a('<i class="fas fa-paper-plane"></i>',['send-for-approval','No'=> $item->No ],['title'=>'Send Approval Request','class'=>'btn btn-primary btn-xs']);
+                    $updateLink = Html::a('<i class="far fa-edit"></i>',['update','No'=> $item->No ],['class'=>'btn btn-info btn-xs','title' => 'Update Request']);
+                }else if($item->Status == 'Pending_Approval'){
+                    $link = Html::a('<i class="fas fa-times"></i>',['cancel-request','No'=> $item->No ],['title'=>'Cancel Approval Request','class'=>'btn btn-warning btn-xs']);
+                }
+
+                $result['data'][] = [
+                    'Key' => $item->Key,
+                    'No' => $item->No,
+                    'Employee_No' => !empty($item->Employee_No)?$item->Employee_No:'',
+                    'Employee_Name' => !empty($item->Employee_Name)?$item->Employee_Name:'',
+                    'Global_Dimension_1_Code' => !empty($item->Global_Dimension_1_Code)?$item->Global_Dimension_1_Code:'',
+                    'Status' => $item->Status,
+                    'Action' => $link.' '. $updateLink.' '.$Viewlink ,
+
+                ];
+            }
+
+        }
+
+        return $result;
+    }
+
+    // Pending Requests
+
+    public function actionListPending(){
+        $service = Yii::$app->params['ServiceName']['PRPendingApproval'];
+        $filter = [
+            'Employee_No' => Yii::$app->user->identity->{'Employee No_'},
+        ];
 
         $results = \Yii::$app->navhelper->getData($service,$filter);
         //Yii::$app->recruitment->printrr($results);
@@ -240,7 +291,46 @@ class PurchaseRequisitionController extends Controller
                     'Employee_Name' => !empty($item->Employee_Name)?$item->Employee_Name:'',
                     'Global_Dimension_1_Code' => !empty($item->Global_Dimension_1_Code)?$item->Global_Dimension_1_Code:'',
                     'Status' => $item->Status,
-                    'Action' => $link.' '. $updateLink.' '.$Viewlink ,
+                    'Action' => $Viewlink ,
+
+                ];
+            }
+
+        }
+
+        return $result;
+    }
+
+    public function actionListApproved(){
+        $service = Yii::$app->params['ServiceName']['PRApproved'];
+        $filter = [
+            'Employee_No' => Yii::$app->user->identity->{'Employee No_'},
+        ];
+
+        $results = \Yii::$app->navhelper->getData($service,$filter);
+        //Yii::$app->recruitment->printrr($results);
+        $result = [];
+        foreach($results as $item){
+
+            if(!empty($item->No ))
+            {
+                $link = $updateLink = $deleteLink =  '';
+                $Viewlink = Html::a('<i class="fas fa-eye"></i>',['view','No'=> $item->No ],['class'=>'btn btn-outline-primary btn-xs','title' => 'View Request.' ]);
+                if($item->Status == 'New'){
+                    $link = Html::a('<i class="fas fa-paper-plane"></i>',['send-for-approval','No'=> $item->No ],['title'=>'Send Approval Request','class'=>'btn btn-primary btn-xs']);
+                    $updateLink = Html::a('<i class="far fa-edit"></i>',['update','No'=> $item->No ],['class'=>'btn btn-info btn-xs','title' => 'Update Request']);
+                }else if($item->Status == 'Pending_Approval'){
+                    $link = Html::a('<i class="fas fa-times"></i>',['cancel-request','No'=> $item->No ],['title'=>'Cancel Approval Request','class'=>'btn btn-warning btn-xs']);
+                }
+
+                $result['data'][] = [
+                    'Key' => $item->Key,
+                    'No' => $item->No,
+                    'Employee_No' => !empty($item->Employee_No)?$item->Employee_No:'',
+                    'Employee_Name' => !empty($item->Employee_Name)?$item->Employee_Name:'',
+                    'Global_Dimension_1_Code' => !empty($item->Global_Dimension_1_Code)?$item->Global_Dimension_1_Code:'',
+                    'Status' => $item->Status,
+                    'Action' => $Viewlink ,
 
                 ];
             }

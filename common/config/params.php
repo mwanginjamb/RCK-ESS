@@ -435,6 +435,8 @@ return [
         'PurchaseRequisitionLine' => 'PurchaseRequisitionLine', // 66092
         'Institutions' => 'Institutions', //90003
         'GLAccountList' => 'GLAccountList', //18
+        'PRPendingApproval' => 'PRPendingApproval', //66093
+        'PRApproved' => 'PRApproved', //66094
 
 
         /**************RFQ COMMITEE Evaluation**************************************** */

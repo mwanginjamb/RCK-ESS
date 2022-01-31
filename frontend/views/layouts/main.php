@@ -627,18 +627,29 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
 
                             <ul class="nav nav-treeview">
 
-
-                                <!--<li class="nav-item">
-                                    <a href="<?= $absoluteUrl ?>purchase-requisition/create" class="nav-link <?= Yii::$app->recruitment->currentaction('purchase-requisition','create')?'active':'' ?>">
-                                        <i class="fa fa-truck-loading nav-icon"></i>
-                                        <p> New Purchase Req.</p>
-                                    </a>
-                                </li>-->
-
+                            <!-- Open Requests -->
                                 <li class="nav-item">
                                     <a href="<?= $absoluteUrl ?>purchase-requisition" class="nav-link <?= Yii::$app->recruitment->currentaction('purchase-requisition','index')?'active':'' ?>">
                                         <i class="fa fa-truck-loading nav-icon"></i>
                                         <p> Purchase Req. List</p>
+                                    </a>
+                                </li>
+
+                                <!-- Pending List -->
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>purchase-requisition/pending" class="nav-link <?= Yii::$app->recruitment->currentaction('purchase-requisition','pending')?'active':'' ?>">
+                                        <i class="fa fa-truck-loading nav-icon"></i>
+                                        <p> Purchase Req. Pending List</p>
+                                    </a>
+                                </li>
+
+                                <!-- Approved List -->
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>purchase-requisition/approved" class="nav-link <?= Yii::$app->recruitment->currentaction('purchase-requisition','pending')?'active':'' ?>">
+                                        <i class="fa fa-truck-loading nav-icon"></i>
+                                        <p> Purchase Req. Approved List</p>
                                     </a>
                                 </li>
 

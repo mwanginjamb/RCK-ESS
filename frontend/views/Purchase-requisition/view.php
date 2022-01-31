@@ -10,8 +10,8 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 $this->title = 'Purchase Requisition - '.$model->No;
-$this->params['breadcrumbs'][] = ['label' => 'Store Requisitions', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => 'Store Requisition Card', 'url' => ['view','No'=> $model->No]];
+$this->params['breadcrumbs'][] = ['label' => 'Purchase Requisitions', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Purchase Requisition Card', 'url' => ['view','No'=> $model->No]];
 
 ?>
 

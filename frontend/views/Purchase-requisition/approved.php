@@ -11,8 +11,8 @@
 /* @var $this yii\web\View */
 
 $this->title = Yii::$app->params['generalTitle'];
-$this->params['breadcrumbs'][] = ['label' => 'Open Requisition List', 'url' => ['index']];
-
+$this->params['breadcrumbs'][] = ['label' => 'Open Request List', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Approved Request List', 'url' => ['approved']];
 $url = \yii\helpers\Url::home(true);
 ?>
 <div class="row">
@@ -75,7 +75,7 @@ $script = <<<JS
           $('#table').DataTable({
            
             //serverSide: true,  
-            ajax: url+'purchase-requisition/list',
+            ajax: url+'purchase-requisition/list-approved',
             paging: true,
             columns: [
                 { title: 'No' ,data: 'No'},
