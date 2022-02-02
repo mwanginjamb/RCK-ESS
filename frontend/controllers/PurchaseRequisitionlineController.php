@@ -431,17 +431,14 @@ class PurchaseRequisitionlineController extends Controller
 
     public function actionTasksDd($job_no)
     {
-        
+            ob_start();
             $service = Yii::$app->params['ServiceName']['JobTaskLines'];
             $filter = [
                 'Job_No' => $job_no
             ];
             $result = \Yii::$app->navhelper->getData($service, $filter);
-
-            
-           
             $arr = [];
-
+           
             foreach($result as $res)
             {
                 if(!empty($res->Job_Task_No) && !empty($res->Description))
@@ -452,22 +449,23 @@ class PurchaseRequisitionlineController extends Controller
                     ];
                 }
             }
-
-            
-            $data = ArrayHelper::map($arr,'Code','Description');
-            //Yii::$app->recruitment->printrr($data);
-            
-            krsort($data);
-
-        if(count($data) )
-        {
-            foreach($data  as $k => $v )
+            $data = ArrayHelper::map($arr,'Code','Description'); 
+            ksort($data);
+            if(count($data) )
             {
-                echo "<option value='$k'>".$v."</option>";
+                
+                echo '<option value="0">Select...</option>';
+                foreach($data  as $k => $v )
+                {
+                    echo "<option value='$k'>".$v."</option>";
+                    $listData = ob_get_contents();
+                }
+                ob_end_clean();
+                echo $listData;
+                exit;
+            }else{
+                echo "<option value=''>No data Available</option>";
             }
-        }else{
-            echo "<option value=''>No data Available</option>";
-        }
     }
 
 
@@ -477,24 +475,43 @@ class PurchaseRequisitionlineController extends Controller
 
     public function actionPlanningDd($task_no,$job_no)
     {
-        
             $service = Yii::$app->params['ServiceName']['JobPlanningLines'];
             $filter = [
                 'Job_No' => $job_no,
                 'Job_Task_No' => $task_no
             ];
             $result = \Yii::$app->navhelper->getData($service, $filter);
-            $data =  Yii::$app->navhelper->refactorArray($result,'Line_No','Description');
-
-        if(count($data) )
-        {
-            foreach($data  as $k => $v )
+            //$data =  Yii::$app->navhelper->refactorArray($result,'Line_No','Description');
+            $arr = [];
+           
+            foreach($result as $res)
             {
-                echo "<option value='$k'>".$v."</option>";
+                if(!empty($res->Job_Task_No) && !empty($res->Description))
+                {
+                    $arr[] = [
+                        'Code' => $res->Line_No,
+                        'Description' => $res->Line_No.' - '.$res->Description
+                    ];
+                }
             }
-        }else{
-            echo "<option value=''>No data Available</option>";
-        }
+            $data = ArrayHelper::map($arr,'Code','Description'); 
+            krsort($data);
+
+            ob_start();
+            if(count($data) )
+            {
+                echo '<option value="0">Select...</option>';
+                foreach($data  as $k => $v )
+                {
+                    echo "<option value='$k'>".$v."</option>";
+                    $listData = ob_get_contents();
+                }
+                ob_end_clean();
+                echo $listData;
+                exit;
+            }else{
+                echo "<option value=''>No data Available</option>";
+            }
     }
 
 
@@ -518,9 +535,9 @@ class PurchaseRequisitionlineController extends Controller
             $service = Yii::$app->params['ServiceName']['Items'];
             $filter = [];
             $Items = \Yii::$app->navhelper->getData($service, $filter);
-
             $arr = [];
-            //Yii::$app->recruitment->printrr($Items);
+           
+            echo '<option value="0">Select...</option>';
             foreach($Items as $r){
                 if(empty($r->No) ||  empty($r->Description) ){
                     continue;
@@ -539,145 +556,24 @@ class PurchaseRequisitionlineController extends Controller
 
         if(count($data) )
         {
-          
+            ob_start();
+            echo '<option value="0">Select...</option>';
             foreach($data  as $k => $v )
             {
                 echo "<option value='$k'>".$v."</option>";
+                $listData = ob_get_contents();
             }
+
+            ob_end_clean();
+            echo $listData;
+            exit;
         }else{
             echo "<option value=''>No data Available</option>";
         }
     }
 
-    /*  Students Dim 3*/
-    public function getStudents(){
-        $service = Yii::$app->params['ServiceName']['DimensionValueList'];
+  
 
-        $filter = [
-            'Global_Dimension_No' => 3
-        ];
-        $result = \Yii::$app->navhelper->getData($service, $filter);
-
-        $arr = [];
-        if(is_array($result))
-        {
-            foreach($result as $res)
-            {
-
-                if(!empty($res->Name)){
-                    $arr[] = [
-                        'Code' => $res->Code,
-                        'Name' => $res->Name
-                    ];
-                }
-
-            }
-        }
-
-
-        return ArrayHelper::map($arr,'Code','Name');
-    }
-
-
-    /* Get Shades 4 */
-
-    public function getShades(){
-        $service = Yii::$app->params['ServiceName']['DimensionValueList'];
-
-        $filter = [
-            'Global_Dimension_No' => 4
-        ];
-        $result = \Yii::$app->navhelper->getData($service, $filter);
-
-
-
-        $arr = [];
-        if(is_array($result))
-        {
-            foreach($result as $res)
-            {
-
-                if(!empty($res->Name)){
-                    $arr[] = [
-                        'Code' => $res->Code,
-                        'Name' => $res->Name
-                    ];
-                }
-
-            }
-        }
-
-
-        return ArrayHelper::map($arr,'Code','Name');
-    }
-
-    /* Get Animals 5*/
-
-    public function getAnimals(){
-        $service = Yii::$app->params['ServiceName']['DimensionValueList'];
-
-        $filter = [
-            'Global_Dimension_No' => 5
-        ];
-        $result = \Yii::$app->navhelper->getData($service, $filter);
-
-
-
-        $arr = []; $i=0;
-        if(is_array($result))
-        {
-            foreach($result as $res)
-            {
-
-                $i++;
-                if(!empty($res->Name)){
-                    $arr[$i] = [
-                        'Code' => $res->Code,
-                        'Name' => $res->Name
-                    ];
-                }
-
-            }
-        }
-
-
-
-        return ArrayHelper::map($arr,'Code','Name');
-    }
-
-
-    /*Dim 6*/
-
-    public function getInstitutions(){
-        $service = Yii::$app->params['ServiceName']['Institutions'];
-
-        $filter = [
-
-        ];
-        $result = \Yii::$app->navhelper->getData($service, $filter);
-        //return $result;
-
-
-        $arr = [];
-        if(is_array($result))
-        {
-            foreach($result as $res)
-            {
-
-                if(!empty($res->Name)){
-                    $arr[] = [
-                        'Code' => $res->No,
-                        'Name' => $res->Name
-                    ];
-                }
-
-            }
-        }
-
-
-
-        return ArrayHelper::map($arr,'Code','Name');
-    }
 
 
 

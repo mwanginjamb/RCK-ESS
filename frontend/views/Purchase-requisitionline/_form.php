@@ -49,10 +49,10 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                             </div>
 
                             <div class="col-md-6">
-                                <?= $form->field($model, 'Global_Dimension_1_Code')->dropDownList($subOffices, ['prompt' => 'Select Sub office...']) ?>
-                                <?= $form->field($model, 'Global_Dimension_2_Code')->dropDownList($programCodes, ['prompt' => 'Select Sub office...']) ?>
+                                <?= $form->field($model, 'Global_Dimension_1_Code')->dropDownList($subOffices, ['prompt' => 'Select ...']) ?>
+                                <?= $form->field($model, 'Global_Dimension_2_Code')->dropDownList($programCodes, ['prompt' => 'Select ...']) ?>
                                 <?= $form->field($model, 'Job_No')->dropDownList($jobs, [
-                                    'prompt' => 'Select Sub office...',
+                                    'prompt' => 'Select ...',
                                     'onchange' => '$.post("../purchase-requisitionline/tasks-dd?job_no="+$(this).val(), (data) => {
                                         $("select#purchaserequisitionline-job_task_no").html( data );
                                     })'
