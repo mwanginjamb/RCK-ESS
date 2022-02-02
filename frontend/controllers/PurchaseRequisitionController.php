@@ -26,7 +26,7 @@ class PurchaseRequisitionController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout','signup','index','list','create','update','delete','view','list-pending','list-approved','approved','pending'],
+                'only' => ['logout','signup','index','list','create','update','delete','view','list-pending','list-approved','approved','pending','list-initiated', 'initiated'],
                 'rules' => [
                     [
                         'actions' => ['signup'],
@@ -34,7 +34,7 @@ class PurchaseRequisitionController extends Controller
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout','index','list','create','update','delete','view','list-pending','list-approved','approved','pending'],
+                        'actions' => ['logout','index','list','create','update','delete','view','list-pending','list-approved','approved','pending','list-initiated', 'initiated'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -48,7 +48,7 @@ class PurchaseRequisitionController extends Controller
             ],
             'contentNegotiator' =>[
                 'class' => ContentNegotiator::class,
-                'only' => ['list','list-pending','list-approved'],
+                'only' => ['list','list-pending','list-approved','list-initiated'],
                 'formatParam' => '_format',
                 'formats' => [
                     'application/json' => Response::FORMAT_JSON,
@@ -73,6 +73,12 @@ class PurchaseRequisitionController extends Controller
     public function actionApproved(){
 
         return $this->render('approved');
+
+    }
+
+    public function actionInitiated(){
+
+        return $this->render('initiated');
 
     }
 
@@ -340,6 +346,48 @@ class PurchaseRequisitionController extends Controller
         return $result;
     }
 
+
+    public function actionListInitiated(){
+        $service = Yii::$app->params['ServiceName']['ProcurementInitiated'];
+        $filter = [
+            'Employee_No' => Yii::$app->user->identity->{'Employee No_'},
+        ];
+
+        $results = \Yii::$app->navhelper->getData($service,$filter);
+        //Yii::$app->recruitment->printrr($results);
+        $result = [];
+        foreach($results as $item){
+
+            if(!empty($item->No ))
+            {
+                $link = $updateLink = $deleteLink =  '';
+                $Viewlink = Html::a('<i class="fas fa-eye"></i>',['view','No'=> $item->No ],['class'=>'btn btn-outline-primary btn-xs','title' => 'View Request.' ]);
+                if($item->Status == 'New'){
+                    $link = Html::a('<i class="fas fa-paper-plane"></i>',['send-for-approval','No'=> $item->No ],['title'=>'Send Approval Request','class'=>'btn btn-primary btn-xs']);
+                    $updateLink = Html::a('<i class="far fa-edit"></i>',['update','No'=> $item->No ],['class'=>'btn btn-info btn-xs','title' => 'Update Request']);
+                }else if($item->Status == 'Pending_Approval'){
+                    $link = Html::a('<i class="fas fa-times"></i>',['cancel-request','No'=> $item->No ],['title'=>'Cancel Approval Request','class'=>'btn btn-warning btn-xs']);
+                }
+
+                $result['data'][] = [
+                    'Key' => $item->Key,
+                    'No' => $item->No,
+                    'Employee_No' => !empty($item->Employee_No)?$item->Employee_No:'',
+                    'Employee_Name' => !empty($item->Employee_Name)?$item->Employee_Name:'',
+                    'Global_Dimension_1_Code' => !empty($item->Global_Dimension_1_Code)?$item->Global_Dimension_1_Code:'',
+                    'Global_Dimension_2_Code' => !empty($item->Global_Dimension_2_Code)?$item->Global_Dimension_2_Code:'',
+                    'Global_Dimension_3_Code' => !empty($item->Global_Dimension_3_Code)?$item->Global_Dimension_3_Code:'',
+                    'Created_On' => !empty($item->Created_On)?$item->Created_On:'',
+                    'Status' => $item->Status,
+                    'Action' => $Viewlink ,
+
+                ];
+            }
+
+        }
+
+        return $result;
+    }
 
     /*Get Programs */
 

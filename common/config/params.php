@@ -429,6 +429,7 @@ return [
         'Items' => 'Items', //32
         'SRPendingList' => 'SRPendingList', //66083
         'SRApproved' => 'SRApproved', //66084
+        'PostedStoreRequisitionList' => 'PostedStoreRequisitionList', //66086
 
         /***************************PURCHASE REQUISITION**********************************/
 
@@ -439,6 +440,7 @@ return [
         'GLAccountList' => 'GLAccountList', //18
         'PRPendingApproval' => 'PRPendingApproval', //66093
         'PRApproved' => 'PRApproved', //66094
+        'ProcurementInitiated' => 'ProcurementInitiated', // 66127
 
 
         /**************RFQ COMMITEE Evaluation**************************************** */
