@@ -40,6 +40,13 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
                                     <?= $form->field($model, 'Location')->dropDownList($locations, ['prompt' => 'Select Location...']) ?>
                                     <?= $form->field($model, 'Estimate_Unit_Price')->textInput() ?>
+                                    <?= $form->field($model, 'Procurement_Method')->dropDownList([
+                                        '_blank_' => '_blank_',
+                                        'Tender' => 'Tender',
+                                        'RFQ' => 'RFQ',
+                                        'Direct_Procurement' => 'Direct_Procurement',
+                                        'RFP' => 'RFP',
+                                    ],['prompt' => 'Select ...']) ?>
                                     <?= $form->field($model, 'Description')->textarea(['rows' => 2, 'required'=> true]) ?>
                                     <?= $form->field($model, 'Quantity')->textInput(['type' => 'number']) ?>
 

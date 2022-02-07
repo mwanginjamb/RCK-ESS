@@ -340,5 +340,15 @@ class TimesheetlineController extends Controller
     }
 
 
+    // Donors
+    public function getJob()
+    {
+        $service = Yii::$app->params['ServiceName']['Jobs'];
+        $filter = [];
+        $result = \Yii::$app->navhelper->getData($service, $filter);
+        return Yii::$app->navhelper->refactorArray($result,'No','Description');
+    }
+
+
     
 }

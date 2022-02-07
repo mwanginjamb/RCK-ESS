@@ -223,10 +223,11 @@ class TimesheetController extends Controller
         //load nav result to model
         $model = Yii::$app->navhelper->loadmodel($result[0],$model) ;
 
-        //Yii::$app->recruitment->printrr($model);
+       // Yii::$app->recruitment->printrr($model);
 
         return $this->render('view',[
             'model' => $model,
+            'document' => $result[0]
         ]);
     }
 

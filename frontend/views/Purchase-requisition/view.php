@@ -148,7 +148,7 @@ if(Yii::$app->session->hasFlash('success')){
                                     <td><b>Type</b></td>
                                     <td><b>Name</b></td>
                                     <td><b>Unit of Measure</b></td>
-                                    <td><b>Reason For Requisition</b></td>
+                                    
                                     <td><b>Quantity</b></td>
                                     <td><b>Location</b></td>
                                     <td><b>Estimate Unit Price</b></td>
@@ -178,7 +178,7 @@ if(Yii::$app->session->hasFlash('success')){
                                         <td><?= !empty($obj->Type)?$obj->Type:'Not Set' ?></td>
                                         <td><?= !empty($obj->Name)?$obj->Name:'Not Set' ?></td>
                                         <td><?= !empty($obj->Unit_of_Measure)?$obj->Unit_of_Measure:'Not Set' ?></td>
-                                        <td><?= !empty($obj->Reason_For_Requisition)?$obj->Reason_For_Requisition:'Not Set' ?></td>
+                                        
                                         <td><?= !empty($obj->Quantity)?$obj->Quantity:'Not Set' ?></td>
                                         <td><?= !empty($obj->Location)?$obj->Location:'Not Set' ?></td>
                                         <td><?= !empty($obj->Estimate_Unit_Price)?$obj->Estimate_Unit_Price:'Not Set' ?></td>

@@ -441,6 +441,7 @@ return [
         'PRPendingApproval' => 'PRPendingApproval', //66093
         'PRApproved' => 'PRApproved', //66094
         'ProcurementInitiated' => 'ProcurementInitiated', // 66127
+        'FixedAssets' => 'FixedAssets', //5601
 
 
         /**************RFQ COMMITEE Evaluation**************************************** */

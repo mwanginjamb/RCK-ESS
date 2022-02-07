@@ -545,11 +545,17 @@ class PurchaseRequisitionlineController extends Controller
                 $arr[] = ['No' => $r->No, 'Description' => $r->Description. ' - '. $r->No];
                
             }
-            //$data =  Yii::$app->navhelper->refactorArray($arr,'No','Description');
+           
             $data =  ArrayHelper::map($arr,'No','Description');
             krsort($data);
           
-        }else{ //   No other option , kill code execution
+        }
+        elseif($type == 'Fixed_Asset')
+        {
+           $data = Yii::$app->navhelper->dropDown('FixedAssets','No','Description');
+           krsort($data);
+        }
+        else{ //   No other option , kill code execution
             echo "<option value=''>No Items data Available</option>";
             return;
         }

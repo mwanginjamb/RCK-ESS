@@ -13,7 +13,7 @@ $this->title = 'Overtime - '.$model->No;
 $this->params['breadcrumbs'][] = ['label' => 'Overtime List', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => 'Overtime Card', 'url' => ['view','No'=> $model->No]];
 
-
+// Yii::$app->recruitment->printrr($document);
 
 
 
@@ -141,7 +141,7 @@ if(Yii::$app->session->hasFlash('success')){
 
                 <div class="card-body">
 
-                    <?php if(is_array($model->lines)){ //show Lines ?>
+                    <?php if(property_exists($document->Overtime_Line,'Overtime_Line')){ //show Lines ?>
                         <div class="table-responsive">
                             <table class="table table-bordered">
                                 <thead>
@@ -160,7 +160,7 @@ if(Yii::$app->session->hasFlash('success')){
                                 </thead>
                                 <tbody>
                                 <?php
-                               foreach($model->lines as $obj):
+                               foreach($document->Overtime_Line->Overtime_Line as $obj):
                                    $deleteLink = ($model->Status == 'Open')?Html::a('<i class="fa fa-trash"></i>',['timesheetline/delete','Key'=> $obj->Key ],['class'=>'delete btn btn-outline-danger btn-xs','title' => 'Delete Overtime Line.']):'';
 
                                    $updateLink = ($model->Status == 'Open')?Html::a('<i class="fa fa-edit"></i>',['timesheetline/update','No'=> $obj->Line_No],['class' => 'add-line btn btn-info btn-xs mx-2','title' => 'update overtime line.']):'';
