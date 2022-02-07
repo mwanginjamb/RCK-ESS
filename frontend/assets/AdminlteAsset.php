@@ -50,6 +50,7 @@ class AdminlteAsset extends AssetBundle
 
         'plugins/bootstrap/js/bootstrap.bundle.min.js',
         'plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js',
+        'plugins/sweetalert2/sweetalert2.min.js',
         'dist/js/adminlte.js',
         'dist/js/demo.js',
         'plugins/jquery-mousewheel/jquery.mousewheel.js',
@@ -84,7 +85,7 @@ class AdminlteAsset extends AssetBundle
 
         'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/js/bootstrap-timepicker.min.js',
 
-        'https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js',
+        //'https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js',
         'Js/custom.js',
         'Js/app.js',
 
