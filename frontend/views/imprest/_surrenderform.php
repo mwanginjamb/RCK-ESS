@@ -149,7 +149,10 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
         <div class="card">
             <div class="card-header">
-                <div class="card-title">Imprest Lines</div>
+                <div class="card-title">Imprest Surrender Lines Lines</div>
+                <div class="card-tools">
+                    <span class="text text-info border border-info p-2 rounded">To Update <b>Actual Spend</b> double click on it's cell to update.</span>
+                </div>
             </div>
 
             <div class="card-body">
@@ -160,16 +163,16 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                             <thead>
                                 <td class="text-center text-bold">Account_Name</td>
                                 <td class="text-center text-bold">Description</td>
-                                <td class="text-center text-bold">Imprest_Amount</td>
-                                <td class="text-center text-bold">Request_No</td>
+                                <td class="text-center text-bold">Actual Spend</td>
+                                <td class="text-center text-bold">Imprest Amount</td>
+                                <td class="text-center text-bold">Request No</td>
                                 <td class="text-center text-bold">Surrendered </td>
                                 
-                                
-                                <td class="text-center text-bold">Budgeted_Amount</td>
-                                <td class="text-center text-bold">Commited_Amount</td>
-                                <td class="text-center text-bold">Total_Expenditure</td>
-                                <td class="text-center text-bold">Available_Amount</td>
-                                <td class="text-center text-bold">Unbudgeted</td>
+                                <td class="text-center text-bold">Donor Code</td>
+                                <td class="text-center text-bold">Job No</td>
+                                <td class="text-center text-bold">Job Task No</td>
+                                <td class="text-center text-bold">Job Planning Line No"</td>
+                               
                                 
                             </thead>
                             <tbody>
@@ -177,15 +180,15 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                     <tr>
                                         <td class="text-center"><?= !empty($line->Account_Name)? $line->Account_Name : '' ?></td>
                                         <td class="text-center"><?= !empty($line->Description)? $line->Description : '' ?></td>
+                                        <td data-key="<?= $line->Key ?>" data-name="Amount" data-service="ImprestSurrenderLine" ondblclick="addInput(this,'number')"><?= !empty($line->Amount)?$line->Amount:'' ?></td>
                                         <td class="text-center"><?= !empty($line->Imprest_Amount)? $line->Imprest_Amount : '' ?></td>
                                         <td class="text-center"><?= !empty($line->Request_No)? $line->Request_No : '' ?></td>
                                         <td class="text-center"><?= Html::checkbox('Surrender',$line->Surrender) ?></td>
                                         
-                                        <td class="text-center"><?= !empty($line->Budgeted_Amount)? $line->Budgeted_Amount : '' ?></td>
-                                        <td class="text-center"><?= !empty($line->Commited_Amount)? $line->Commited_Amount : '' ?></td>
-                                        <td class="text-center"><?= !empty($line->Total_Expenditure)? $line->Total_Expenditure : '' ?></td>
-                                        <td class="text-center"><?= !empty($line->Available_Amount)? $line->Available_Amount : '' ?></td>
-                                        <td class="text-center"><?= Html::checkbox('Unbudgeted',$line->Unbudgeted) ?></td>
+                                        <td class="text-center"><?= !empty($line->Donor_Code)? $line->Donor_Code : '' ?></td>
+                                        <td class="text-center"><?= !empty($line->Job_No)? $line->Job_No : '' ?></td>
+                                        <td class="text-center"><?= !empty($line->Job_Task_No)? $line->Job_Task_No : '' ?></td>
+                                        <td class="text-center"><?= !empty($line->Job_Planning_Line_No)? $line->Job_Planning_Line_No : '' ?></td>
                                        
                                     </tr>
                                 <?php endforeach; ?>

@@ -167,7 +167,7 @@ Yii::$app->session->set('isSupervisor',false);*/
 
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title"> Imprest Lines  </div>
+                    <div class="card-title"> Imprest Surrender Lines  </div>
                 </div>
 
                 <div class="card-body">
@@ -180,6 +180,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                                                 <tr>
                                                     <td class="text-center text-bold">Account_Name</td>
                                                     <td class="text-center text-bold">Description</td>
+                                                    <td class="text-center text-bold">Actual Spend</td>
                                                     <td class="text-center text-bold">Imprest Amount</td>
                                                     <td class="text-center text-bold">Request No</td>
                                                     <td class="text-center text-bold">Surrender</td>
@@ -187,11 +188,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                                                     <td class="text-center text-bold">Job No</td>
                                                     <td class="text-center text-bold">Job Task No</td>
                                                     <td class="text-center text-bold">Job Planning Line No"</td>
-                                                    <td class="text-center text-bold">Budgeted Amount</td>
-                                                    <td class="text-center text-bold">Commited Amount</td>
-                                                    <td class="text-center text-bold">Total Expenditure</td>
-                                                    <td class="text-center text-bold">Available Amount</td>
-                                                    <td class="text-center text-bold">Unbudgeted</td>
+                                                    
 
 
                                                 </tr>
@@ -206,6 +203,7 @@ Yii::$app->session->set('isSupervisor',false);*/
 
                                                             <td class="text-center"><?= !empty($line->Account_Name)? $line->Account_Name : '' ?></td>
                                                             <td class="text-center"><?= !empty($line->Description)? $line->Description : '' ?></td>
+                                                            <td data-key="<?= $line->Key ?>" data-name="Amount" data-service="ImprestSurrenderLine"><?= !empty($line->Amount)?$line->Amount:'' ?></td>
                                                             <td class="text-center"><?= !empty($line->Imprest_Amount)? $line->Imprest_Amount : '' ?></td>
                                                             <td class="text-center"><?= !empty($line->Request_No)? $line->Request_No : '' ?></td>
                                                             <td class="text-center"><?= Html::checkbox('Surrender',$line->Surrender) ?></td>
@@ -213,11 +211,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                                                             <td class="text-center"><?= !empty($line->Job_No)? $line->Job_No : '' ?></td>
                                                             <td class="text-center"><?= !empty($line->Job_Task_No)? $line->Job_Task_No : '' ?></td>
                                                             <td class="text-center"><?= !empty($line->Job_Planning_Line_No)? $line->Job_Planning_Line_No : '' ?></td>
-                                                            <td class="text-center"><?= !empty($line->Budgeted_Amount)? $line->Budgeted_Amount : '' ?></td>
-                                                            <td class="text-center"><?= !empty($line->Commited_Amount)? $line->Commited_Amount : '' ?></td>
-                                                            <td class="text-center"><?= !empty($line->Total_Expenditure)? $line->Total_Expenditure : '' ?></td>
-                                                            <td class="text-center"><?= !empty($line->Available_Amount)? $line->Available_Amount : '' ?></td>
-                                                            <td class="text-center"><?= Html::checkbox('Unbudgeted',$line->Unbudgeted) ?></td>
+                                                            
                                                     </tr>
                                                 <?php endforeach; ?>
                                                 </tbody>

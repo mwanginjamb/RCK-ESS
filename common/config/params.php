@@ -72,6 +72,7 @@ return [
 
         'ImprestSurrenderList' => 'ImprestSurrenderList', // 64030 (Page)
         'ImprestSurrenderCard' => 'ImprestSurrenderCard', // 64031 (Page)
+        'ImprestSurrenderLine' => 'ImprestSurrenderLine', // 64032 // Page
         'ImprestSurrenderCardPortal' => 'ImprestSurrenderCardPortal', //64059 (Page)
         'PostedImprestRequest' => 'PostedImprestRequest', //64026 (Page)
         'PostedReceiptsList' => 'PostedReceiptsList',//64056 (Page)
