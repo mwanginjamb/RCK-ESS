@@ -77,42 +77,23 @@ class TimesheetlineController extends Controller
        $service = Yii::$app->params['ServiceName']['OvertimeLine'];
        $model = new Timesheetline();
 
-        if(Yii::$app->request->get('No') && !Yii::$app->request->post()){
+       if(Yii::$app->request->get('No') && !Yii::$app->request->post()){
 
-                $model->Application_No = $No;
-                $model->Date = date('Y-m-d');
-                $model->Employee_No = Yii::$app->user->identity->{'Employee No_'};
-                $result = Yii::$app->navhelper->postData($service, $model);
-                //Yii::$app->recruitment->printrr($result);
-                if(is_string($result))
-                {
-                    Yii::$app->recruitment->printrr($result);
-                }
-
-                Yii::$app->navhelper->loadmodel($result,$model);
+        $model->Application_No = $No;
+        $model->Date = date('Y-m-d');
+        $model->Employee_No = Yii::$app->user->identity->{'Employee No_'};
+        $model->Line_No = time();
+        $result = Yii::$app->navhelper->postData($service, $model);
+        //Yii::$app->recruitment->printrr($result);
+        if(is_string($result))
+        {
+            Yii::$app->recruitment->printrr($result);
         }
-        
 
-        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Timesheetline'],$model) ){
+        Yii::$app->navhelper->loadmodel($result,$model);
+}
 
-            
-
-            $request = Yii::$app->navhelper->readByKey($service, $model->Key);
-            // Yii::$app->recruitment->printrr($request);
-            Yii::$app->navhelper->loadmodel($request,$model);
-
-            $result = Yii::$app->navhelper->updateData($service,$model);
-
-            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            if(!is_string($result)){
-
-                return ['note' => '<div class="alert alert-success">Line Added Successfully. </div>' ];
-            }else{
-
-                return ['note' => '<div class="alert alert-danger">Error Adding Line Line: '.$result.'</div>'];
-            }
-
-        }
+    
 
         if(Yii::$app->request->isAjax){
             return $this->renderAjax('create', [
@@ -125,20 +106,21 @@ class TimesheetlineController extends Controller
     }
 
 
-    public function actionUpdate(){
+    public function actionUpdate($Key){
         $model = new Timesheetline();
         $model->isNewRecord = false;
         $service = Yii::$app->params['ServiceName']['OvertimeLine'];
-        $filter = [
-            'Line_No' => Yii::$app->request->get('No'),
-        ];
-        $result = Yii::$app->navhelper->getData($service,$filter);
+       
 
-        if(is_array($result)){
+        $result = Yii::$app->navhelper->readByKey($service,$Key);
+
+        if(is_object($result)){
             //load nav result to model
-            Yii::$app->navhelper->loadmodel($result[0],$model) ;
+            Yii::$app->navhelper->loadmodel($result,$model) ;
         }else{
-            Yii::$app->recruitment->printrr($result);
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            //Yii::$app->recruitment->printrr($result);
+            return ['note' => '<div class="alert alert-danger">Error Updating Line: '.$result.'</div>'];
         }
 
 
@@ -347,6 +329,18 @@ class TimesheetlineController extends Controller
         $filter = [];
         $result = \Yii::$app->navhelper->getData($service, $filter);
         return Yii::$app->navhelper->refactorArray($result,'No','Description');
+    }
+
+
+     /** Updates a single field */
+     public function actionSetfield($field){
+        $service = 'OvertimeLine';
+        $value = Yii::$app->request->post('fieldValue');
+       
+        $result = Yii::$app->navhelper->Commit($service,[$field => $value],Yii::$app->request->post('Key'));
+        Yii::$app->response->format = \yii\web\response::FORMAT_JSON;
+        return $result;
+          
     }
 
 

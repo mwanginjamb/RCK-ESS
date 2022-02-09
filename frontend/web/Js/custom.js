@@ -161,10 +161,10 @@ function globalFieldUpdate(entity,controller = false, fieldName, ev, autoPopulat
   const field = fieldName.toLowerCase();
   const formField = '.field-'+model+'-'+fieldName.toLowerCase();
   const keyField ='#'+model+'-key'; 
-  const targetField = '#'+model+'-'.field;
+  const targetField = '#'+model+'-'+field;
   const tget = '#'+model+'-'+field;
 
-  
+  console.log(targetField);
   const fieldValue = ev.target.value;
   const Key = $(keyField).val();
 

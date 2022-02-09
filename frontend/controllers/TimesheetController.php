@@ -220,6 +220,8 @@ class TimesheetController extends Controller
 
         $result = Yii::$app->navhelper->getData($service, $filter);
 
+       // Yii::$app->recruitment->printrr($result);
+
         //load nav result to model
         $model = Yii::$app->navhelper->loadmodel($result[0],$model) ;
 

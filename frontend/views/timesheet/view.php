@@ -163,16 +163,16 @@ if(Yii::$app->session->hasFlash('success')){
                                foreach($document->Overtime_Line->Overtime_Line as $obj):
                                    $deleteLink = ($model->Status == 'Open')?Html::a('<i class="fa fa-trash"></i>',['timesheetline/delete','Key'=> $obj->Key ],['class'=>'delete btn btn-outline-danger btn-xs','title' => 'Delete Overtime Line.']):'';
 
-                                   $updateLink = ($model->Status == 'Open')?Html::a('<i class="fa fa-edit"></i>',['timesheetline/update','No'=> $obj->Line_No],['class' => 'add-line btn btn-info btn-xs mx-2','title' => 'update overtime line.']):'';
+                                   $updateLink = ($model->Status == 'Open')?Html::a('<i class="fa fa-edit"></i>',['timesheetline/update','Key'=> $obj->Key],['class' => 'add-line btn btn-info btn-xs mx-2','title' => 'update overtime line.']):'';
                                     ?>
                                     <tr>
 
-                                        <td data-key="<?= $obj->Key ?>" data-name="Date" data-no="<?= $obj->Line_No ?>"  data-service="OvertimeLine"><?= !empty($obj->Date)?$obj->Date:'Not Set' ?></td>
-                                        <td><?= !empty($obj->Start_Time)?$obj->Start_Time:'Not Set' ?></td>
-                                        <td><?= !empty($obj->End_Time)?$obj->End_Time:'Not Set' ?></td>
-                                        <td><?= !empty($obj->Hours_Worked)?$obj->Hours_Worked:'Not Set' ?></td>
-                                        <td ><?= !empty($obj->Activity_Description)?$obj->Activity_Description:'Not Set' ?></td>
-                                        <td><?= !empty($obj->Grant)?$obj->Grant:'Not Set' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="Date" data-service="OvertimeLine"><?= !empty($obj->Date)?$obj->Date:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Start_Time)?$obj->Start_Time:'' ?></td>
+                                        <td><?= !empty($obj->End_Time)?$obj->End_Time:'' ?></td>
+                                        <td><?= !empty($obj->Hours_Worked)?$obj->Hours_Worked:'' ?></td>
+                                        <td ><?= !empty($obj->Activity_Description)?$obj->Activity_Description:'' ?></td>
+                                        <td><?= !empty($obj->Grant)?$obj->Grant:'' ?></td>
                                         <td class="text-center"><?= $updateLink.$deleteLink ?></td>
 
                                     </tr>
