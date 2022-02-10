@@ -80,7 +80,7 @@ class TimesheetlineController extends Controller
        if(Yii::$app->request->get('No') && !Yii::$app->request->post()){
 
         $model->Application_No = $No;
-        $model->Date = date('Y-m-d');
+        //$model->Date = date('Y-m-d');
         $model->Employee_No = Yii::$app->user->identity->{'Employee No_'};
         $model->Line_No = time();
         $result = Yii::$app->navhelper->postData($service, $model);
