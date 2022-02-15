@@ -813,7 +813,7 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
 
         <!-- /.content-wrapper -->
         <footer class="main-footer">
-            <strong>Copyright &copy; <?= Yii::$app->params['generalTitle'] ?> -   2014 - <?= date('Y') ?>   <a href="#"> <?= strtoupper(Yii::$app->params['ClientCompany'])?></a>.</strong>
+            <strong>Copyright &copy; <?= Yii::$app->params['generalTitle'] ?>  <?= date('Y') ?>   <a href="#"> <?= strtoupper(Yii::$app->params['ClientCompany'])?></a>.</strong>
             All rights reserved.
             <div class="float-right d-none d-sm-inline-block">
                 <b><?= Yii::signature() ?></b>

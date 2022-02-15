@@ -100,7 +100,7 @@ class TimesheetController extends Controller
                     'model' => $model,
                     'programs' => $this->getPrograms(),
                     'departments' => $this->getDepartments(),
-                     'grades' => $this->getPayrollscales(),
+                    'grades' => $this->getPayrollscales(),
                 ]);
             }
         }

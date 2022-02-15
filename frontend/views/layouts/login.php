@@ -73,12 +73,11 @@ $this->title = Yii::$app->params['welcomeText'];
 
 </body>
 <footer class="footer" style="color: #fff3cd">
-    <strong>Copyright &copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?>.</strong>
-    All rights reserved.
-    <div class="float-right d-none d-sm-inline-block">
-        <b><?= Yii::signature() ?></b>
-    </div>
-
+<strong>Copyright &copy; <?= Yii::$app->params['generalTitle'] ?>  <?= date('Y') ?>   <a href="#"> <?= strtoupper(Yii::$app->params['ClientCompany'])?></a>.</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                <b><?= Yii::signature() ?></b>
+            </div>
 </footer>
 
 <?php $this->endBody() ?>
