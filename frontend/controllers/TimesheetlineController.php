@@ -99,7 +99,8 @@ class TimesheetlineController extends Controller
         if(Yii::$app->request->isAjax){
             return $this->renderAjax('create', [
                 'model' => $model,
-                'grants' => $this->getGrants()
+                'grants' => Yii::$app->navhelper->dropdown('ProgramFunds','Program_Code','Program_Code'), //$this->getGrants()
+
             ]);
         }
 
@@ -147,7 +148,7 @@ class TimesheetlineController extends Controller
         if(Yii::$app->request->isAjax){
             return $this->renderAjax('update', [
                 'model' => $model,
-                'grants' => $this->getGrants()
+                'grants' => Yii::$app->navhelper->dropdown('ProgramFunds','Program_Code','Program_Code'),//$this->getGrants()
             ]);
         }
 

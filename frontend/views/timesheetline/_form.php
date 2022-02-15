@@ -91,7 +91,7 @@ $script = <<<JS
                 },'json');
         });
 
-        $('#timesheetline-date').change((e) => {
+        $('#timesheetline-date').blur((e) => {
             globalFieldUpdate('Timesheetline',false,'Date', e);
         });
 

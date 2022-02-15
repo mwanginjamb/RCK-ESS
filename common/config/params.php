@@ -481,6 +481,7 @@ return [
          'TsPendingApproval' => 'TsPendingApproval', //50039
          'TsApproved' => 'TsApproved', //50040
          'TsCard' => 'TsCard', //50038
+         'ProgramFunds' => 'ProgramFunds', //58039
 
 
 

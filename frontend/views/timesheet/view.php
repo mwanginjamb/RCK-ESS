@@ -168,8 +168,8 @@ if(Yii::$app->session->hasFlash('success')){
                                     <tr>
 
                                         <td data-key="<?= $obj->Key ?>" data-name="Date" data-service="OvertimeLine"><?= !empty($obj->Date)?$obj->Date:'Not Set' ?></td>
-                                        <td><?= !empty($obj->Start_Time)?$obj->Start_Time:'' ?></td>
-                                        <td><?= !empty($obj->End_Time)?$obj->End_Time:'' ?></td>
+                                        <td><?= !empty($obj->Start_Time)?Yii::$app->formatter->asTime($obj->Start_Time):'' ?></td>
+                                        <td><?= !empty($obj->End_Time)?Yii::$app->formatter->asTime($obj->End_Time):'' ?></td>
                                         <td><?= !empty($obj->Hours_Worked)?$obj->Hours_Worked:'' ?></td>
                                         <td ><?= !empty($obj->Activity_Description)?$obj->Activity_Description:'' ?></td>
                                         <td><?= !empty($obj->Grant)?$obj->Grant:'' ?></td>
