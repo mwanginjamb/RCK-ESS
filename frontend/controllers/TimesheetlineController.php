@@ -73,10 +73,10 @@ class TimesheetlineController extends Controller
 
     }
 
-    public function actionCreate($No){
+    public function actionCreate($No,$Period_Month){
        $service = Yii::$app->params['ServiceName']['OvertimeLine'];
        $model = new Timesheetline();
-       $model->Date = date('Y-m-d');
+       $model->Date = date('Y-m-d', strtotime($Period_Month));
 
        if(Yii::$app->request->get('No') && !Yii::$app->request->post()){
 

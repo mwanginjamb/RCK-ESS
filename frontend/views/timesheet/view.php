@@ -134,7 +134,7 @@ if(Yii::$app->session->hasFlash('success')){
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">
-                        <?= ($model->Status == 'Open')?Html::a('<i class="fa fa-plus-square"></i> Add Line',['timesheetline/create','No'=>$model->No],['class' => 'add-line btn btn-outline-info',
+                        <?= ($model->Status == 'Open')?Html::a('<i class="fa fa-plus-square"></i> Add Line',['timesheetline/create','No'=>$model->No,'Period_Month'=> $model->Period_Month],['class' => 'add-line btn btn-outline-info',
                         ]):'' ?>
                     </div>
                 </div>
