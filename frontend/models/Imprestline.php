@@ -15,7 +15,6 @@ class Imprestline extends Model
 
 public $Key;
 public $Line_No;
-public $Request_No;
 public $Transaction_Type;
 public $Account_No;
 public $Account_Name;
@@ -24,20 +23,15 @@ public $Amount;
 public $Amount_LCY;
 public $Global_Dimension_1_Code;
 public $Global_Dimension_2_Code;
-public $Sortcut_Dimension_3_Code;
-public $Budgeted_Amount;
-public $Commited_Amount;
-public $Total_Expenditure;
-public $Available_Amount;
-public $Unbudgeted;
-public $Employee_No;
-public $Balance_Less_Entry;
-public $Balance_Before_Entry;
-public $isNewRecord;
+public $Donor_No;
+public $Donor_Name;
+public $Grant_No;
+public $Objective_Code;
+public $Output_Code;
+public $Outcome_Code;
+public $Activity_Code;
+public $Partner_Code;
 
-public $Job_No;
-public $Job_Task_No;
-public $Job_Planning_Line_No;
 
     public function rules()
     {
@@ -51,7 +45,7 @@ public $Job_Planning_Line_No;
         return [
             'Global_Dimension_1_Code' => 'Sub Office',
             'Global_Dimension_2_Code' => 'Program Code',
-            'Sortcut_Dimension_3_Code' => 'Student (Optional)'
+            
         ];
     }
 }

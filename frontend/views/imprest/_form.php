@@ -83,54 +83,54 @@ if(Yii::$app->session->hasFlash('success')){
 
 
 
-        <?php
+                                            <?php
 
-            $form = ActiveForm::begin(); ?>
-                <div class="row">
-                    <div class="row col-md-12">
-
-
-
-                        <div class="col-md-6">
-
-                            <?= $form->field($model, 'No')->textInput(['readonly'=> true]) ?>
-                            <?= $form->field($model, 'Key')->hiddenInput()->label(false) ?>
-
-                            <?php if($model->Request_For == 'Self'): ?>
-                                <?= $form->field($model, 'Employee_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?php else: ?>
-                                <?= $form->field($model, 'Employee_No')->dropDownList($employees,['prompt'=> 'Select Employee']) ?>
-                            <?php endif; ?>
-                            <?= $form->field($model, 'Employee_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Purpose')->textInput() ?>
-                            <?= '<p><span>Employee Balance</span> '.Html::a($model->Employee_Balance,'#'); '</p>' ?>
-                            <?= '<p><span>Imprest Amount</span> '.Html::a($model->Imprest_Amount,'#'); '</p>'?>
+                                                $form = ActiveForm::begin(); ?>
+                                                    <div class="row">
+                                                        <div class="row col-md-12">
 
 
 
-                        </div>
+                                                            <div class="col-md-6">
 
-                        <div class="col-md-6">
-                            <?= '<p><span> Amount LCY</span> '.Html::a($model->Amount_LCY,'#'); '</p>'?>
-                            <?= $form->field($model, 'Status')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Global_Dimension_1_Code')->dropDownList($programs,['prompt' => 'Select ..']) ?>
-                            <?= $form->field($model, 'Global_Dimension_2_Code')->dropDownList($departments, ['prompt' => 'select ...']) ?>
-                            <?= $form->field($model, 'Expected_Date_of_Surrender')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Imprest_Type')->dropDownList(['Local' => 'Local', 'International' => 'International'],['prompt' => 'Select ...']) ?>
+                                                                <?= $form->field($model, 'No')->textInput(['readonly'=> true]) ?>
+                                                                <?= $form->field($model, 'Key')->hiddenInput()->label(false) ?>
 
-
-                            <?php if($model->Imprest_Type == 'International'): ?>
-
-                                <?= $form->field($model, 'Currency_Code')->dropDownList($currencies,['prompt' => 'Select ...','required' => true]) ?>
-                                <?= $form->field($model, 'Exchange_Rate')->textInput(['type'=> 'number','required' => true]) ?>
-
-                            <?php endif; ?>
-
-<!--                            <p class="parent"><span>+</span>-->
+                                                                <?php if($model->Request_For == 'Self'): ?>
+                                                                    <?= $form->field($model, 'Employee_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                                                <?php else: ?>
+                                                                    <?= $form->field($model, 'Employee_No')->dropDownList($employees,['prompt'=> 'Select Employee']) ?>
+                                                                <?php endif; ?>
+                                                                <?= $form->field($model, 'Employee_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                                                <?= $form->field($model, 'Purpose')->textInput() ?>
+                                                                <?= '<p><span>Employee Balance</span> '.Html::a($model->Employee_Balance,'#'); '</p>' ?>
+                                                                <?= '<p><span>Imprest Amount</span> '.Html::a($model->Imprest_Amount,'#'); '</p>'?>
 
 
 
-                            </p>
+                                                            </div>
+
+                                                            <div class="col-md-6">
+                                                                <?= '<p><span> Amount LCY</span> '.Html::a($model->Amount_LCY,'#'); '</p>'?>
+                                                                <?= $form->field($model, 'Status')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                                                <?= $form->field($model, 'Global_Dimension_1_Code')->dropDownList($programs,['prompt' => 'Select ..']) ?>
+                                                                <?= $form->field($model, 'Global_Dimension_2_Code')->dropDownList($departments, ['prompt' => 'select ...']) ?>
+                                                                <?= $form->field($model, 'Expected_Date_of_Surrender')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                                                <?= $form->field($model, 'Imprest_Type')->dropDownList(['Local' => 'Local', 'International' => 'International'],['prompt' => 'Select ...']) ?>
+
+
+                                                                <?php if($model->Imprest_Type == 'International'): ?>
+
+                                                                    <?= $form->field($model, 'Currency_Code')->dropDownList($currencies,['prompt' => 'Select ...','required' => true]) ?>
+                                                                    <?= $form->field($model, 'Exchange_Rate')->textInput(['type'=> 'number','required' => true]) ?>
+
+                                                                <?php endif; ?>
+
+                                    <!--                            <p class="parent"><span>+</span>-->
+
+
+
+                                                                </p>
 
 
 
@@ -184,51 +184,66 @@ if(Yii::$app->session->hasFlash('success')){
 
 
                 <?php if(is_array($model->getLines($model->No))){ //show Lines ?>
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <td><b>Transaction Type</b></td>
-                            <td><b>Account No</b></td>
-                            <td><b>Account Name</b></td>
-                            <td><b>Description</b></td>
-                            <td><b>Amount</b></td>
-                            <td><b>Amount LCY</b></td>
-                            <td><b>Budgeted Amount</b></td>
-                            <td><b>Commited Amount</b></td>
-                            <td><b>Total_Expenditure</b></td>
-                            <td><b>Available Amount</b></td>
-                            <td><b>Unbudgeted?</b></td>
-                            <td><b>Actions</b></td>
 
-
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php
-                        // print '<pre>'; print_r($model->getObjectives()); exit;
-
-                        foreach($model->getLines($model->No) as $obj):
-                            $updateLink = Html::a('<i class="fa fa-edit"></i>',['imprestline/update','Key'=> $obj->Key],['class' => 'update-objective btn btn-outline-info btn-xs']);
-                            $deleteLink = Html::a('<i class="fa fa-trash"></i>',['imprestline/delete','Key'=> $obj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
-                            ?>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
                             <tr>
-
-                                <td><?= !empty($obj->Transaction_Type)?$obj->Transaction_Type:'Not Set' ?></td>
-                                <td><?= !empty($obj->Account_No)?$obj->Account_No:'Not Set' ?></td>
-                                <td><?= !empty($obj->Account_Name)?$obj->Account_Name:'Not Set' ?></td>
-                                <td><?= !empty($obj->Description)?$obj->Description:'Not Set' ?></td>
-                                <td><?= !empty($obj->Amount)?$obj->Amount:'Not Set' ?></td>
-                                <td><?= !empty($obj->Amount_LCY)?$obj->Amount_LCY:'Not Set' ?></td>
-                                <td><?= !empty($obj->Budgeted_Amount)?$obj->Budgeted_Amount:'Not Set' ?></td>
-                                <td><?= !empty($obj->Commited_Amount)?$obj->Commited_Amount:'Not Set' ?></td>
-                                <td><?= !empty($obj->Total_Expenditure)?$obj->Total_Expenditure:'Not Set' ?></td>
-                                <td><?= !empty($obj->Available_Amount)?$obj->Available_Amount:'Not Set' ?></td>
-                                <td><?= Html::checkbox('Unbudgeted',$obj->Unbudgeted) ?></td>
-                                <td><?= $updateLink.'|'.$deleteLink ?></td>
+                                    <td><b>Line No</b></td>
+                                    <td><b>Transaction_Type</b></td>
+                                    <td><b>Account_No</b></td>
+                                    <td><b>Account_Name</b></td>
+                                    <td><b>Description</b></td>
+                                    <td><b>Amount</b></td>
+                                    <td><b>Amount_LCY</b></td>
+                                    <td><b>Global_Dimension_1_Code</b></td>
+                                    <td><b>Global_Dimension_2_Code</b></td>
+                                    <td><b>Donor_No</b></td>
+                                    <td><b>Donor_Name</b></td>
+                                    <td><b>Objective_Code</b></td>
+                                    <td><b>Output_Code</b></td>
+                                    <td><b>Outcome_Code</b></td>
+                                    <td><b>Activity_Code</b></td>
+                                    <td><b>Partner_Code</b></td>
+                                    
+                                    <td><b>Actions</b></td>
+    
+    
+    
                             </tr>
-                        <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            <?php
+                            // print '<pre>'; print_r($model->getObjectives()); exit;
+    
+                            foreach($model->getLines($model->No) as $obj):
+                                $updateLink = Html::a('<i class="fa fa-edit"></i>',['imprestline/update','Key'=> $obj->Key],['class' => 'update-objective btn btn-outline-info btn-xs']);
+                                $deleteLink = Html::a('<i class="fa fa-trash"></i>',['imprestline/delete','Key'=> $obj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
+                                ?>
+                                <tr>
+    
+                                <td><?= !empty($obj->Line_No)?$obj->Line_No:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Transaction_Type)?$obj->Transaction_Type:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Account_Name)?$obj->Account_Name:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Description)?$obj->Description:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Amount)?$obj->Amount:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Amount_LCY)?$obj->Amount_LCY:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Global_Dimension_1_Code)?$obj->Global_Dimension_1_Code:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Global_Dimension_2_Code)?$obj->Global_Dimension_2_Code:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Donor_No)?$obj->Donor_No:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Donor_Name)?$obj->Donor_Name:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Objective_Code)?$obj->Objective_Code:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Output_Code)?$obj->Output_Code:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Outcome_Code)?$obj->Outcome_Code:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Activity_Code)?$obj->Activity_Code:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Partner_Code)?$obj->Partner_Code:'Not Set' ?></td>
+                                        <td><?= $updateLink.'|'.$deleteLink ?></td>
+                                    </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+
+                    </div>
                 <?php } ?>
             </div>
         </div>

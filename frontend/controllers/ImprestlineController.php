@@ -78,7 +78,7 @@ class ImprestlineController extends Controller
                {
                    $model = Yii::$app->navhelper->loadmodel($request,$model);
                }else{
-                   Yii::$app->recruitment->printrr($request);
+                   //Yii::$app->recruitment->printrr($request);
 
                 return ['note' => '<div class="alert alert-danger">Error Creating Imprest Line: '.$request.'</div>'];
             }

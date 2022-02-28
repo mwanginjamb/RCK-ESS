@@ -142,22 +142,13 @@ Yii::$app->session->set('isSupervisor',false);*/
 
                                 <p class="parent"><span>+</span>
 
-
-
                                 </p>
-
-
 
                             </div>
                         </div>
                     </div>
 
-
-
-
                     <?php ActiveForm::end(); ?>
-
-
 
                 </div>
             </div><!--end details card-->
@@ -182,37 +173,34 @@ Yii::$app->session->set('isSupervisor',false);*/
             ])
             ?>
 
-
-
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">   <?= ($model->Status == 'New')? Html::a('<i class="fa fa-plus-square"></i> New Imprest Line',['imprestline/create','Request_No'=>$model->No],['class' => 'add-objective btn btn-outline-info']):'' ?></div>
                 </div>
-
-
-
                 <div class="card-body">
-
-
-
-
-
                     <?php
                     if(is_array($model->getLines($model->No))){ //show Lines ?>
+                    <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
                             <tr>
-                                <td><b>Transaction Type</b></td>
-                                <td><b>Account No</b></td>
-                                <td><b>Account Name</b></td>
+                                <td><b>Line No</b></td>
+                                <td><b>Transaction_Type</b></td>
+                                <td><b>Account_No</b></td>
+                                <td><b>Account_Name</b></td>
                                 <td><b>Description</b></td>
                                 <td><b>Amount</b></td>
-                                <td><b>Amount LCY</b></td>
-                                <td><b>Budgeted Amount</b></td>
-                                <td><b>Balance Before Entry</b></td>
-                                <td><b>Total Expenditure</b></td>
-                                <td><b>Balance Less Entry</b></td>
-                                <td><b>Unbudgeted?</b></td>
+                                <td><b>Amount_LCY</b></td>
+                                <td><b>Global_Dimension_1_Code</b></td>
+                                <td><b>Global_Dimension_2_Code</b></td>
+                                <td><b>Donor_No</b></td>
+                                <td><b>Donor_Name</b></td>
+                                <td><b>Objective_Code</b></td>
+                                <td><b>Output_Code</b></td>
+                                <td><b>Outcome_Code</b></td>
+                                <td><b>Activity_Code</b></td>
+                                <td><b>Partner_Code</b></td>
+                                
                                 <td><b>Actions</b></td>
 
 
@@ -228,22 +216,29 @@ Yii::$app->session->set('isSupervisor',false);*/
                                 ?>
                                 <tr>
 
+                                    <td><?= !empty($obj->Line_No)?$obj->Line_No:'Not Set' ?></td>
                                     <td><?= !empty($obj->Transaction_Type)?$obj->Transaction_Type:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Account_No)?$obj->Account_No:'Not Set' ?></td>
                                     <td><?= !empty($obj->Account_Name)?$obj->Account_Name:'Not Set' ?></td>
                                     <td><?= !empty($obj->Description)?$obj->Description:'Not Set' ?></td>
                                     <td><?= !empty($obj->Amount)?$obj->Amount:'Not Set' ?></td>
                                     <td><?= !empty($obj->Amount_LCY)?$obj->Amount_LCY:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Budgeted_Amount)?$obj->Budgeted_Amount:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Balance_Before_Entry)?$obj->Balance_Before_Entry:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Total_Expenditure)?$obj->Total_Expenditure:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Balance_Less_Entry)?$obj->Balance_Less_Entry:'Not Set' ?></td>
-                                    <td><?= Html::checkbox('Unbudgeted',$obj->Unbudgeted) ?></td>
+                                    <td><?= !empty($obj->Global_Dimension_1_Code)?$obj->Global_Dimension_1_Code:'Not Set' ?></td>
+                                    <td><?= !empty($obj->Global_Dimension_2_Code)?$obj->Global_Dimension_2_Code:'Not Set' ?></td>
+                                    <td><?= !empty($obj->Donor_No)?$obj->Donor_No:'Not Set' ?></td>
+                                    <td><?= !empty($obj->Donor_Name)?$obj->Donor_Name:'Not Set' ?></td>
+                                    <td><?= !empty($obj->Objective_Code)?$obj->Objective_Code:'Not Set' ?></td>
+                                    <td><?= !empty($obj->Output_Code)?$obj->Output_Code:'Not Set' ?></td>
+                                    <td><?= !empty($obj->Outcome_Code)?$obj->Outcome_Code:'Not Set' ?></td>
+                                    <td><?= !empty($obj->Activity_Code)?$obj->Activity_Code:'Not Set' ?></td>
+                                    <td><?= !empty($obj->Partner_Code)?$obj->Partner_Code:'Not Set' ?></td>
+                                    
                                     <td><?= $updateLink.'|'.$deleteLink ?></td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>
                         </table>
+
+                    </div>
                     <?php } ?>
                 </div>
             </div>
