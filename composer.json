@@ -23,7 +23,8 @@
         "kartik-v/yii2-widget-timepicker": "dev-master",
         "janisto/yii2-timepicker": "*",
         "yiithings/yii2-dotenv": "*",
-        "vgrem/php-spo": "^2.5"
+        "vgrem/php-spo": "^2.5",
+        "yiisoft/yii2-bootstrap4": "^2.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

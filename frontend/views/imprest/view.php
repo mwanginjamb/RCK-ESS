@@ -105,10 +105,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                     ?>
                 </div>
                 <div class="card-body">
-
-
                     <?php $form = ActiveForm::begin(); ?>
-
 
                     <div class="row">
                         <div class=" row col-md-12">

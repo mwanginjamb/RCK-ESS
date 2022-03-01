@@ -29,7 +29,8 @@ $model->isNewRecord = true;
         'subOffices' => $subOffices,
         'programCodes' => $programCodes,
         'jobs' =>  $jobs,
-        'jobTasks' => $jobTasks
+        'jobTasks' => $jobTasks,
+        'donors' => $donors
     ]) ?>
 
 </div>

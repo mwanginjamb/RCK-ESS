@@ -31,12 +31,14 @@ public $Output_Code;
 public $Outcome_Code;
 public $Activity_Code;
 public $Partner_Code;
+public $isNewRecord;
+public $Request_No;
 
 
     public function rules()
     {
         return [
-            [['Transaction_Type', 'Description', 'Amount'], 'required'],
+            [['Transaction_Type', 'Description', 'Amount','Donor_No'], 'required'],
         ];
     }
 

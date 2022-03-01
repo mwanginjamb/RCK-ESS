@@ -88,7 +88,8 @@ class ImprestlineController extends Controller
                 'subOffices' => $this->getDimension(1),
                 'programCodes' => $this->getDimension(2),
                 'jobs' =>  $this->getJob(),
-                'jobTasks' => $this->getJobTask()
+                'jobTasks' => $this->getJobTask(),
+                'donors' => Yii::$app->navhelper->dropdown('CustomerLookup','No','Name')
             ]);
 
         }
@@ -121,7 +122,8 @@ class ImprestlineController extends Controller
                 'subOffices' => $this->getDimension(1),
                 'programCodes' => $this->getDimension(2),
                 'jobs' =>  $this->getJob(),
-                'jobTasks' => $this->getJobTask()
+                'jobTasks' => $this->getJobTask(),
+                'donors' => Yii::$app->navhelper->dropdown('CustomerLookup','No','Name')
             ]);
         }
 
@@ -230,7 +232,8 @@ class ImprestlineController extends Controller
                 'subOffices' => $this->getDimension(1),
                 'programCodes' => $this->getDimension(2),
                 'jobs' =>  $this->getJob(),
-                'jobTasks' => $this->getJobTask()
+                'jobTasks' => $this->getJobTask(),
+                'donors' => Yii::$app->navhelper->dropdown('CustomerLookup','No','Name')
             ]);
         }
 

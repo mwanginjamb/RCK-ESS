@@ -179,10 +179,6 @@ if(Yii::$app->session->hasFlash('success')){
 
             <div class="card-body">
 
-
-
-
-
                 <?php if(is_array($model->getLines($model->No))){ //show Lines ?>
 
                     <div class="table-responsive">

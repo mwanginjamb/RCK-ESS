@@ -6,7 +6,7 @@
  * Time: 12:13 PM
  */
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap4\ActiveForm;
 $absoluteUrl = \yii\helpers\Url::home(true);
 ?>
 
@@ -17,15 +17,8 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                 <h3 class="card-title"><?= Html::encode($this->title) ?></h3>
             </div>
             <div class="card-body">
-
-
-
                     <?php
-
-
-
-
-                    $form = ActiveForm::begin(); ?>
+                    $form = ActiveForm::begin(['id' => 'imprestLine']); ?>
                 <div class="row">
                         <div class=" row col-md-12">
                             <div class="col-md-6">
@@ -42,16 +35,8 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                             <div class="col-md-6">
                                 <?= $form->field($model, 'Global_Dimension_1_Code')->dropDownList($subOffices, ['prompt' => 'Select Program...']) ?>
                                 <?= $form->field($model, 'Global_Dimension_2_Code')->dropDownList($programCodes, ['prompt' => 'Select Sub office...']) ?>
-                                <?= $form->field($model, 'Job_No')->dropDownList($jobs, ['prompt' => 'Select...']) ?>
-                                <?= $form->field($model, 'Job_Task_No')->dropDownList($jobTasks, [
-                                    'prompt' => 'Select ...',
-                                    'onchange' => '$.post("../imprestline/planning-dd?task_no="+$(this).val()+"&job_no="+$("#imprestline-job_no").val(), (data) => {
-                        
-                                        $("select#imprestline-job_planning_line_no").html( data );
-                                        
-                                    })'
-                                    ]) ?>
-                                <?= $form->field($model, 'Job_Planning_Line_No')->dropDownList([], ['prompt' => 'Select Item...']) ?>
+                                <?= $form->field($model, 'Donor_No')->dropDownList($donors,['prompt' => 'Select...']) ?>
+                               
                             </div>
 
                         </div>
@@ -137,6 +122,10 @@ $script = <<<JS
 
     $('#imprestline-global_dimension_2_code').change((e) => {
         globalFieldUpdate('Imprestline',false,'Global_Dimension_2_Code', e);
+    });
+
+    $('#imprestline-donor_no').change((e) => {
+        globalFieldUpdate('Imprestline',false,'Donor_No', e);
     });
 
      function updateField(entity,fieldName, ev) {
