@@ -233,7 +233,14 @@ class ImprestlineController extends Controller
                 'programCodes' => $this->getDimension(2),
                 'jobs' =>  $this->getJob(),
                 'jobTasks' => $this->getJobTask(),
-                'donors' => Yii::$app->navhelper->dropdown('CustomerLookup','No','Name')
+                'donors' => Yii::$app->navhelper->dropdown('CustomerLookup','No','Name'),
+                'grants' => Yii::$app->navhelper->dropdown('GrantLookUp','No','Title'),
+                'objectiveCode' => Yii::$app->navhelper->dropdown('GrantLinesLookUp','Code','Description',['Line_Type' => 'Objective']),
+                'outputCode' => Yii::$app->navhelper->dropdown('GrantLinesLookUp','Code','Description',['Line_Type' => 'Output']),
+                'outcomeCode' => Yii::$app->navhelper->dropdown('GrantLinesLookUp','Code','Description',['Line_Type' => 'Outcome']),
+                'activityCode' => Yii::$app->navhelper->dropdown('GrantLinesLookUp','Code','Description',['Line_Type' => 'Activity']),
+                'partnerCode' => Yii::$app->navhelper->dropdown('GrantDetailLines','G_L_Account_No','Activity_Description'),
+
             ]);
         }
 
@@ -245,30 +252,214 @@ class ImprestlineController extends Controller
     }
 
 
-    /* Get Dimension 3*/
+    // Get Filtered Objectives
 
-    public function getStudents(){
-        $service = Yii::$app->params['ServiceName']['DimensionValueList'];
-
-        $filter = [
-            'Global_Dimension_No' => 3
-        ];
-        $result = \Yii::$app->navhelper->getData($service, $filter);
-        //return ArrayHelper::map($result,'Code','Name');
-        //return Yii::$app->navhelper->refactorArray($result,'Code','Name');
-          $arr = [];
-        $i = 0;
-        foreach($result as $res){
-            if(!empty($res->Code) && !empty($res->Name)){
-                ++$i;
-                $arr[$i] = [
-                    'Code' => $res->Code,
-                    'Name' => $res->Name.' - '.$res->Code
-                ];
+    public function actionObjectives($Grant_No)
+    {
+            ob_start();
+            $service = Yii::$app->params['ServiceName']['GrantLinesLookUp'];
+            $filter = [
+                'Grant_No' => $Grant_No,
+                'Line_Type' => 'Objective'
+            ];
+            $result = \Yii::$app->navhelper->getData($service, $filter);
+            $arr = [];
+           
+            foreach($result as $res)
+            {
+                if(!empty($res->Code) && !empty($res->Description))
+                {
+                    $arr[] = [
+                        'Code' => $res->Code,
+                        'Description' => $res->Code.' - '.$res->Description
+                    ];
+                }
             }
-        }
+            $data = ArrayHelper::map($arr,'Code','Description'); 
+            ksort($data);
+            if(count($data) )
+            {
+                
+                echo '<option value="0">Select...</option>';
+                foreach($data  as $k => $v )
+                {
+                    echo "<option value='$k'>".$v."</option>";
+                    $listData = ob_get_contents();
+                }
+                ob_end_clean();
+                echo $listData;
+                exit;
+            }else{
+                echo "<option value=''>No data Available</option>";
+            }
+    }
 
-        return ArrayHelper::map($arr,'Code','Name');
+   
+    // Get Filtered Outputs
+
+    public function actionOutputs($Grant_No)
+    {
+            ob_start();
+            $service = Yii::$app->params['ServiceName']['GrantLinesLookUp'];
+            $filter = [
+                'Grant_No' => $Grant_No,
+                'Line_Type' => 'Output'
+            ];
+            $result = \Yii::$app->navhelper->getData($service, $filter);
+            $arr = [];
+           
+            foreach($result as $res)
+            {
+                if(!empty($res->Code) && !empty($res->Description))
+                {
+                    $arr[] = [
+                        'Code' => $res->Code,
+                        'Description' => $res->Code.' - '.$res->Description
+                    ];
+                }
+            }
+            $data = ArrayHelper::map($arr,'Code','Description'); 
+            ksort($data);
+            if(count($data) )
+            {
+                
+                echo '<option value="0">Select...</option>';
+                foreach($data  as $k => $v )
+                {
+                    echo "<option value='$k'>".$v."</option>";
+                    $listData = ob_get_contents();
+                }
+                ob_end_clean();
+                echo $listData;
+                exit;
+            }else{
+                echo "<option value=''>No data Available</option>";
+            }
+    }
+
+    // Get Filtered OutCome
+
+    public function actionOutcome($Grant_No)
+    {
+            ob_start();
+            $service = Yii::$app->params['ServiceName']['GrantLinesLookUp'];
+            $filter = [
+                'Grant_No' => $Grant_No,
+                'Line_Type' => 'Outcome'
+            ];
+            $result = \Yii::$app->navhelper->getData($service, $filter);
+            $arr = [];
+           
+            foreach($result as $res)
+            {
+                if(!empty($res->Code) && !empty($res->Description))
+                {
+                    $arr[] = [
+                        'Code' => $res->Code,
+                        'Description' => $res->Code.' - '.$res->Description
+                    ];
+                }
+            }
+            $data = ArrayHelper::map($arr,'Code','Description'); 
+            ksort($data);
+            if(count($data) )
+            {
+                
+                echo '<option value="0">Select...</option>';
+                foreach($data  as $k => $v )
+                {
+                    echo "<option value='$k'>".$v."</option>";
+                    $listData = ob_get_contents();
+                }
+                ob_end_clean();
+                echo $listData;
+                exit;
+            }else{
+                echo "<option value=''>No data Available</option>";
+            }
+    }
+
+    // Get Filterd Activities
+
+    public function actionActivities($Grant_No)
+    {
+            ob_start();
+            $service = Yii::$app->params['ServiceName']['GrantLinesLookUp'];
+            $filter = [
+                'Grant_No' => $Grant_No,
+                'Line_Type' => 'Activity'
+            ];
+            $result = \Yii::$app->navhelper->getData($service, $filter);
+            $arr = [];
+           
+            foreach($result as $res)
+            {
+                if(!empty($res->Code) && !empty($res->Description))
+                {
+                    $arr[] = [
+                        'Code' => $res->Code,
+                        'Description' => $res->Code.' - '.$res->Description
+                    ];
+                }
+            }
+            $data = ArrayHelper::map($arr,'Code','Description'); 
+            ksort($data);
+            if(count($data) )
+            {
+                
+                echo '<option value="0">Select...</option>';
+                foreach($data  as $k => $v )
+                {
+                    echo "<option value='$k'>".$v."</option>";
+                    $listData = ob_get_contents();
+                }
+                ob_end_clean();
+                echo $listData;
+                exit;
+            }else{
+                echo "<option value=''>No data Available</option>";
+            }
+    }
+
+    // Filtered Partners
+
+    public function actionPartners($Grant_No)
+    {
+            ob_start();
+            $service = Yii::$app->params['ServiceName']['GrantDetailLines'];
+            $filter = [
+                'Grant_Code' => $Grant_No
+            ];
+            $result = \Yii::$app->navhelper->getData($service, $filter);
+            $arr = [];
+           
+            foreach($result as $res)
+            {
+                if(!empty($res->G_L_Account_No) && !empty($res->Activity_Description))
+                {
+                    $arr[] = [
+                        'Code' => $res->G_L_Account_No,
+                        'Description' => $res->G_L_Account_No.' - '.$res->Activity_Description
+                    ];
+                }
+            }
+            $data = ArrayHelper::map($arr,'Code','Description'); 
+            ksort($data);
+            if(count($data) )
+            {
+                
+                echo '<option value="0">Select...</option>';
+                foreach($data  as $k => $v )
+                {
+                    echo "<option value='$k'>".$v."</option>";
+                    $listData = ob_get_contents();
+                }
+                ob_end_clean();
+                echo $listData;
+                exit;
+            }else{
+                echo "<option value=''>No data Available</option>";
+            }
     }
 
     public function actionDelete(){
@@ -394,7 +585,7 @@ class ImprestlineController extends Controller
 
     /** Updates a single field */
     public function actionSetfield($field){
-        $service = 'ImprestRequestSubformPortal';
+        $service = 'ImprestRequestLine';
         $value = Yii::$app->request->post('fieldValue');
        
         $result = Yii::$app->navhelper->Commit($service,[$field => $value],Yii::$app->request->post('Key'));

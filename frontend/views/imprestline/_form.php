@@ -7,6 +7,8 @@
  */
 use yii\helpers\Html;
 use yii\bootstrap4\ActiveForm;
+use yii\helpers\Url;
+
 $absoluteUrl = \yii\helpers\Url::home(true);
 ?>
 
@@ -23,19 +25,87 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                         <div class=" row col-md-12">
                             <div class="col-md-6">
                                 <?= $form->field($model, 'Line_No')->hiddenInput(['readonly' => true])->label(false) ?>
+                                
                                 <?= $form->field($model, 'Request_No')->hiddenInput(['readonly' => true,'disabled'=>true])->label(false) ?>
                                 <?= $form->field($model, 'Key')->hiddenInput(['readonly'=> true])->label(false) ?>
                                 <?= $form->field($model, 'Transaction_Type')->
                                 dropDownList($transactionTypes,['prompt' => 'Select Transaction Type ..',
                                     'required'=> true, 'required' => true]) ?>
 
-                                    <?= $form->field($model, 'Description')->textarea(['rows' => 3,'required' => true]) ?>
+                                    <?= $form->field($model, 'Description')->textarea(['rows' => 1,'required' => true]) ?>
                                     <?= $form->field($model, 'Amount')->textInput(['type' => 'number','required' => true]) ?>
+
+
+                                    <?= $form->field($model, 'Objective_Code')->dropDownList(
+                                    $objectiveCode,
+                                    [
+                                        'prompt' => 'Select...',
+                                        'onchange' => '
+                                            $.post( "' . Yii::$app->urlManager->createUrl('imprestline/outputs?Grant_No=') . '"+$("#imprestline-grant_no").val(), function( data ) {
+
+                                                $( "select#imprestline-output_code" ).html(data);
+                                            });
+                                        '
+                                        ]) ?>
+
+                                <?= $form->field($model, 'Outcome_Code')->dropDownList(
+                                    $outcomeCode,
+                                    [
+                                        'prompt' => 'Select...',
+                                        'onchange' => '
+                                            $.post( "' . Yii::$app->urlManager->createUrl('imprestline/activities?Grant_No=') . '"+$("#imprestline-grant_no").val(), function( data ) {
+
+                                                $( "select#imprestline-activity_code" ).html(data);
+                                            });
+                                        '
+                                        ]) ?>
+
+
+
+                                    <?= $form->field($model, 'Activity_Code')->dropDownList(
+                                    $activityCode,[
+                                        'prompt' => 'Select...',
+                                        'onchange' => '
+                                                $.post( "' . Yii::$app->urlManager->createUrl('imprestline/partners?Grant_No=') . '"+$("#imprestline-grant_no").val(), function( data ) {
+
+                                                    $( "select#imprestline-partner_code" ).html(data);
+                                                });
+                                        '
+                                        ]) ?>
                             </div>
                             <div class="col-md-6">
                                 <?= $form->field($model, 'Global_Dimension_1_Code')->dropDownList($subOffices, ['prompt' => 'Select Program...']) ?>
                                 <?= $form->field($model, 'Global_Dimension_2_Code')->dropDownList($programCodes, ['prompt' => 'Select Sub office...']) ?>
-                                <?= $form->field($model, 'Donor_No')->dropDownList($donors,['prompt' => 'Select...']) ?>
+                                <?= $form->field($model, 'Donor_No')->dropDownList($donors,[
+                                    'prompt' => 'Select...'
+                                    ]) ?>
+                                <?= $form->field($model, 'Grant_No')->dropDownList($grants,[
+                                    'prompt' => 'Select...',
+                                    'onchange' => '
+                                            $.post( "' . Yii::$app->urlManager->createUrl('imprestline/objectives?Grant_No=') . '"+$(this).val(), function( data ) {
+
+                                                $( "select#imprestline-objective_code" ).html( data );
+                                            });
+                                   '
+                                    ]) ?>
+                                
+                                <?= $form->field($model, 'Output_Code')->dropDownList(
+                                    $outputCode,
+                                    [
+                                        'prompt' => 'Select...',
+                                        'onchange' => '
+                                            $.post( "' . Yii::$app->urlManager->createUrl('imprestline/outcome?Grant_No=') . '"+$("#imprestline-grant_no").val(), function( data ) {
+
+                                                $( "select#imprestline-outcome_code" ).html(data);
+                                            });
+                                        '
+                                        ]) ?>
+                               
+                                
+                               
+                                <?= $form->field($model, 'Partner_Code')->dropDownList($partnerCode,['prompt' => 'Select...']) ?>
+                                
+
                                
                             </div>
 
@@ -125,8 +195,35 @@ $script = <<<JS
     });
 
     $('#imprestline-donor_no').change((e) => {
-        globalFieldUpdate('Imprestline',false,'Donor_No', e);
+        globalFieldUpdate('Imprestline',false,'Donor_No', e,['Donor_No']);
     });
+
+
+    $('#imprestline-objective_code').change((e) => {
+        globalFieldUpdate('Imprestline',false,'Objective_Code', e);
+    });
+
+    $('#imprestline-outcome_code').change((e) => {
+        globalFieldUpdate('Imprestline',false,'Outcome_Code', e);
+    });
+
+    $('#imprestline-activity_code').change((e) => {
+        globalFieldUpdate('Imprestline',false,'Activity_Code', e);
+    });
+
+    $('#imprestline-output_code').change((e) => {
+        globalFieldUpdate('Imprestline',false,'Output_Code', e);
+    });
+
+    $('#imprestline-partner_code').change((e) => {
+        globalFieldUpdate('Imprestline',false,'Partner_Code', e);
+    });
+
+    $('#imprestline-grant_no').change((e) => {
+        globalFieldUpdate('Imprestline',false,'Grant_No', e);
+    });
+
+
 
      function updateField(entity,fieldName, ev) {
                 const model = entity.toLowerCase();

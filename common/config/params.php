@@ -467,6 +467,9 @@ return [
          /********************GRANTS SERVICE***************************************/
 
          'GrantList' => 'GrantList', // 60054
+         'GrantLookUp' => 'GrantLookUp', // 90205
+         'GrantLinesLookUp' => 'GrantLinesLookUp', //90204
+         'GrantDetailLines' => 'GrantDetailLines', //90203
 
         /********************CODE UNITS SERVICES***************************************/
         'PortalFactory' => 'PortalFactory', //Code Unit 50062

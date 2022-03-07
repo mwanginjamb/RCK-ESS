@@ -187,20 +187,20 @@ if(Yii::$app->session->hasFlash('success')){
                             <tr>
                                     <td><b>Line No</b></td>
                                     <td><b>Transaction_Type</b></td>
-                                    <td><b>Account_No</b></td>
+                                
                                     <td><b>Account_Name</b></td>
                                     <td><b>Description</b></td>
                                     <td><b>Amount</b></td>
                                     <td><b>Amount_LCY</b></td>
-                                    <td><b>Global_Dimension_1_Code</b></td>
-                                    <td><b>Global_Dimension_2_Code</b></td>
-                                    <td><b>Donor_No</b></td>
-                                    <td><b>Donor_Name</b></td>
-                                    <td><b>Objective_Code</b></td>
-                                    <td><b>Output_Code</b></td>
-                                    <td><b>Outcome_Code</b></td>
-                                    <td><b>Activity_Code</b></td>
-                                    <td><b>Partner_Code</b></td>
+                                    <td><b>Program</b></td>
+                                    <td><b>Department</b></td>
+                                   
+                                    <td><b>Donor Name</b></td>
+                                    <td><b>Objective Code</b></td>
+                                    <td><b>Output Code</b></td>
+                                    <td><b>Outcome Code</b></td>
+                                    <td><b>Activity Code</b></td>
+                                    <td><b>Partner Code</b></td>
                                     
                                     <td><b>Actions</b></td>
     
@@ -226,7 +226,7 @@ if(Yii::$app->session->hasFlash('success')){
                                         <td><?= !empty($obj->Amount_LCY)?$obj->Amount_LCY:'Not Set' ?></td>
                                         <td><?= !empty($obj->Global_Dimension_1_Code)?$obj->Global_Dimension_1_Code:'Not Set' ?></td>
                                         <td><?= !empty($obj->Global_Dimension_2_Code)?$obj->Global_Dimension_2_Code:'Not Set' ?></td>
-                                        <td><?= !empty($obj->Donor_No)?$obj->Donor_No:'Not Set' ?></td>
+                                        
                                         <td><?= !empty($obj->Donor_Name)?$obj->Donor_Name:'Not Set' ?></td>
                                         <td><?= !empty($obj->Objective_Code)?$obj->Objective_Code:'Not Set' ?></td>
                                         <td><?= !empty($obj->Output_Code)?$obj->Output_Code:'Not Set' ?></td>
