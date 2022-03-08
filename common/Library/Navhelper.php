@@ -3,6 +3,7 @@ namespace common\library;
 use yii;
 use yii\base\Component;
 use common\models\Services;
+use yii\helpers\ArrayHelper;
 use yii\web\Response;
 //http://app-svr.rbss.com:7047/BC130/WS/RBA UAT/Page/Recruitment_Needs
 
@@ -1621,11 +1622,15 @@ class Navhelper extends Component{
         if(count($filterValues) && is_array($filterValues))
         {
             foreach($filterValues  as $key => $value){
-                $filter = [$key => $value];  
+                $filter = [$key => $value]; 
+                
             }
+           
         }else {
             $filter = [];
         }
+
+        // Yii::$app->recruitment->printrr($filter);
 
         $result = \Yii::$app->navhelper->getData($service, $filter);
         return Yii::$app->navhelper->refactorArray($result,$from,$to);

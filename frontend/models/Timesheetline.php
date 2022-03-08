@@ -15,18 +15,20 @@ use yii\base\Model;
 class Timesheetline extends Model
 {
 
-public $Key;
-public $Date;
-  public $Start_Time;
-  public $End_Time;
-  public $Percentage;
-  public $Hours_Worked;
-  public $Activity_Description;
-  public $Grant;
-  public $Supervisor_Comments;
-  public $Application_No;
-  public $Line_No;
-  public $Employee_No;
+    public $Key;
+    public $Date;
+    public $Start_Time;
+    public $End_Time;
+    public $Percentage;
+    public $Hours_Worked;
+    public $Activity_Description;
+    public $Shared_Task;
+    public $Grant;
+    public $Grant_Name;
+    public $Supervisor_Comments;
+    public $Application_No;
+    public $Employee_No;
+    public $Line_No;
 
 public $isNewRecord;
 
