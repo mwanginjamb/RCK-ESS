@@ -36,7 +36,16 @@ public $Vendor_Name;
     public function rules()
     {
         return [
-
+            [[
+                'Donor_No',
+                'Objective_Code',
+                'Output_Code',
+                'Activity_Code',
+                'Partner_Code',
+                'Outcome_Code',
+                'Grant_No'
+    
+            ], 'required'],
         ];
     }
 
