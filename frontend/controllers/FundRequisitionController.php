@@ -165,8 +165,9 @@ class FundRequisitionController extends Controller
                 'employees' => $this->getEmployees(),
                 'programs' => $this->getPrograms(),
                 'departments' => $this->getDepartments(),
-                'currencies' => $this->getCurrencies(),
-                'document' => $result
+                'currencies' => Yii::$app->navhelper->dropdown('Currencies','Code','Description'),
+                'document' => $result,
+                'donors' => Yii::$app->navhelper->dropdown('CustomerLookup','No','Name')
             ]);
         }
 
@@ -175,7 +176,7 @@ class FundRequisitionController extends Controller
             'employees' => $this->getEmployees(),
             'programs' => $this->getPrograms(),
             'departments' => $this->getDepartments(),
-            'currencies' => $this->getCurrencies(),
+            'currencies' => Yii::$app->navhelper->dropdown('Currencies','Code','Description'),
             'document' => $result
         ]);
     }
@@ -227,7 +228,7 @@ class FundRequisitionController extends Controller
             'employees' => $this->getEmployees(),
             'programs' => $this->getPrograms(),
             'departments' => $this->getDepartments(),
-            'currencies' => $this->getCurrencies()
+            'currencies' => Yii::$app->navhelper->dropdown('Currencies','Code','Description')
         ]);
     }
 

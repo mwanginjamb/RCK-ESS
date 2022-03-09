@@ -51,21 +51,100 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                             </div>
 
                             <div class="col-md-6">
-                                <?= $form->field($model, 'Employee_Name')->textInput(['readonly' => true,'disabled' => true]) ?>
-                                <?= $form->field($model, 'No_of_Days')->textInput(['type' => 'number']) ?>
-                                <?= $form->field($model, 'Daily_Rate')->textInput(['type' => 'number']) ?>
-                                <?= $form->field($model, 'Global_Dimension_1_Code')->dropDownList($subOffices, ['prompt' => 'Select Program...']) ?>
-                                <?= $form->field($model, 'Global_Dimension_2_Code')->dropDownList($programCodes, ['prompt' => 'Select Sub office...']) ?>
-                                <?= $form->field($model, 'Job_No')->dropDownList($jobs, ['prompt' => 'Select...']) ?>
-                                <?= $form->field($model, 'Job_Task_No')->dropDownList($jobTasks, [
-                                    'prompt' => 'Select ...',
-                                    'onchange' => '$.post("../fundsrequisitionline/planning-dd?task_no="+$(this).val()+"&job_no="+$("#fundsrequisitionline-job_no").val(), (data) => {
-                        
-                                        $("select#fundsrequisitionline-job_planning_line_no").html( data );
-                                        
-                                    })'
-                                    ]) ?>
-                                <?= $form->field($model, 'Job_Planning_Line_No')->dropDownList([], ['prompt' => 'Select Item...']) ?>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <?= $form->field($model, 'Employee_Name')->textInput(['readonly' => true,'disabled' => true]) ?>
+                                        <?= $form->field($model, 'No_of_Days')->textInput(['type' => 'number']) ?>
+                                        <?= $form->field($model, 'Daily_Rate')->textInput(['type' => 'number']) ?>
+                                        <?= $form->field($model, 'Global_Dimension_1_Code')->dropDownList($subOffices, ['prompt' => 'Select Program...']) ?>
+                                        <?= $form->field($model, 'Global_Dimension_2_Code')->dropDownList($programCodes, ['prompt' => 'Select Sub office...']) ?>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                       
+                                       <?= $form->field($model, 'Donor_No')->dropDownList($donors,[
+                                        'prompt' => 'Select...'
+                                        ]) ?>
+
+                                        <?= $form->field($model, 'Grant_No')->dropDownList($grants,[
+                                            'prompt' => 'Select...',
+                                            'onchange' => '
+                                                    $.post( "' . Yii::$app->urlManager->createUrl('imprestline/objectives?Grant_No=') . '"+$(this).val(), function( data ) {
+
+                                                        $( "select#fundsrequisitionline-objective_code" ).html( data );
+                                                    });
+                                        '
+                                            ]) ?>
+
+<?= $form->field($model, 'Objective_Code')->dropDownList(
+                                    $objectiveCode,
+                                    [
+                                        'prompt' => 'Select...',
+                                        'onchange' => '
+                                            $.post( "' . Yii::$app->urlManager->createUrl('imprestline/outputs?Grant_No=') . '"+$("#imprestline-grant_no").val(), function( data ) {
+
+                                                $( "select#fundsrequisitionline-output_code" ).html(data);
+                                            });
+                                        '
+                                        ]) ?>
+
+
+
+<?= $form->field($model, 'Output_Code')->dropDownList(
+                                    $outputCode,
+                                    [
+                                        'prompt' => 'Select...',
+                                        'onchange' => '
+                                            $.post( "' . Yii::$app->urlManager->createUrl('imprestline/outcome?Grant_No=') . '"+$("#imprestline-grant_no").val(), function( data ) {
+
+                                                $( "select#fundsrequisitionline-outcome_code" ).html(data);
+                                            });
+                                        '
+                                        ]) ?>
+
+
+<?= $form->field($model, 'Outcome_Code')->dropDownList(
+                                    $outcomeCode,
+                                    [
+                                        'prompt' => 'Select...',
+                                        'onchange' => '
+                                            $.post( "' . Yii::$app->urlManager->createUrl('imprestline/activities?Grant_No=') . '"+$("#imprestline-grant_no").val(), function( data ) {
+
+                                                $( "select#fundsrequisitionline-activity_code" ).html(data);
+                                            });
+                                        '
+                                        ]) ?>
+
+
+<?= $form->field($model, 'Activity_Code')->dropDownList(
+                                    $activityCode,[
+                                        'prompt' => 'Select...',
+                                        'onchange' => '
+                                                $.post( "' . Yii::$app->urlManager->createUrl('imprestline/partners?Grant_No=') . '"+$("#imprestline-grant_no").val(), function( data ) {
+
+                                                    $( "select#fundsrequisitionline-partner_code" ).html(data);
+                                                });
+                                        '
+                                        ]) ?>
+
+
+<?= $form->field($model, 'Partner_Code')->dropDownList($partnerCode,['prompt' => 'Select...']) ?>
+
+
+
+
+
+
+                                    
+
+
+
+
+
+
+                                    </div>
+                                </div>
+                               
                             </div>
 
                             
@@ -174,6 +253,38 @@ $script = <<<JS
         $('#fundsrequisitionline-job_planning_line_no').change((e) => {
             globalFieldUpdate('fundsrequisitionline',false,'job_planning_line_no', e);
         });
+
+        /**Grants Fields */
+
+        $('#fundsrequisitionline-donor_no').change((e) => {
+        globalFieldUpdate('fundsrequisitionline',false,'Donor_No', e,['Donor_No']);
+    });
+
+
+    $('#fundsrequisitionline-objective_code').change((e) => {
+        globalFieldUpdate('fundsrequisitionline',false,'Objective_Code', e);
+    });
+
+    $('#fundsrequisitionline-outcome_code').change((e) => {
+        globalFieldUpdate('fundsrequisitionline',false,'Outcome_Code', e);
+    });
+
+    $('#fundsrequisitionline-activity_code').change((e) => {
+        globalFieldUpdate('fundsrequisitionline',false,'Activity_Code', e);
+    });
+
+    $('#fundsrequisitionline-output_code').change((e) => {
+        globalFieldUpdate('fundsrequisitionline',false,'Output_Code', e);
+    });
+
+    $('#fundsrequisitionline-partner_code').change((e) => {
+        globalFieldUpdate('fundsrequisitionline',false,'Partner_Code', e);
+    });
+
+    $('#fundsrequisitionline-grant_no').change((e) => {
+        globalFieldUpdate('fundsrequisitionline',false,'Grant_No', e);
+    });
+
 
         
          

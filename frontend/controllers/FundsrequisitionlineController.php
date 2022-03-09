@@ -174,7 +174,14 @@ class FundsrequisitionlineController extends Controller
                 'jobTasks' => $this->getJobTask(),
                 'accounts' => $this->getGlaccounts(),
                 'transactionTypes' => $this->getRates(),
-                'employees' => $this->getEmployees()
+                'employees' => $this->getEmployees(),
+                'donors' => Yii::$app->navhelper->dropdown('CustomerLookup','No','Name'),
+                'grants' => Yii::$app->navhelper->dropdown('GrantLookUp','No','Title'),
+                'objectiveCode' => Yii::$app->navhelper->dropdown('GrantLinesLookUp','Code','Description',['Line_Type' => 'Objective']),
+                'outputCode' => Yii::$app->navhelper->dropdown('GrantLinesLookUp','Code','Description',['Line_Type' => 'Output']),
+                'outcomeCode' => Yii::$app->navhelper->dropdown('GrantLinesLookUp','Code','Description',['Line_Type' => 'Outcome']),
+                'activityCode' => Yii::$app->navhelper->dropdown('GrantLinesLookUp','Code','Description',['Line_Type' => 'Activity']),
+                'partnerCode' => Yii::$app->navhelper->dropdown('GrantDetailLines','G_L_Account_No','Activity_Description'),
             ]);
         }
 

@@ -31,7 +31,9 @@ $model->isNewRecord = true;
         'jobs' =>  $jobs,
         'jobTasks' => $jobTasks,
         'accounts' => $accounts,
-        'employees' => $employees
+        'employees' => $employees,
+        'donors' => $donors
+
     ]) ?>
 
 </div>

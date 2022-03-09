@@ -30,7 +30,14 @@ $this->title = 'Update Fund Requisition Line.';
         'jobs' =>  $jobs,
         'jobTasks' => $jobTasks,
         'accounts' => $accounts,
-        'employees' => $employees
+        'employees' => $employees,
+        'donors' =>  $donors,
+        'grants' => $grants,
+        'objectiveCode' => $objectiveCode,
+        'outputCode' => $outputCode,
+        'outcomeCode' => $outcomeCode,
+        'activityCode' => $activityCode,
+        'partnerCode' => $partnerCode
     ]) ?>
 
 </div>

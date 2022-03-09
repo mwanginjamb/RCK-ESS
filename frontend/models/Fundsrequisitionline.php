@@ -33,11 +33,14 @@ public $Net_Allowance_Amount;
 public $Unbudgeted;
 public $Global_Dimension_1_Code;
 public $Global_Dimension_2_Code;
-public $Donor_Code;
-public $Project_Code;
-public $Job_No;
-public $Job_Task_No;
-public $Job_Planning_Line_No;
+public $Donor_No;
+public $Donor_Name;
+public $Grant_No;
+public $Objective_Code;
+public $Output_Code;
+public $Outcome_Code;
+public $Activity_Code;
+public $Partner_Code;
 public $Request_No;
 public $Line_No;
 public $isNewRecord;
@@ -45,7 +48,19 @@ public $isNewRecord;
     public function rules()
     {
         return [
-            [['Employee_No', 'Description', 'No_of_Days'], 'required'],
+            [[
+            'Employee_No', 
+            'Description', 
+            'No_of_Days',
+            'Donor_No',
+            'Objective_Code',
+            'Output_Code',
+            'Activity_Code',
+            'Partner_Code',
+            'Outcome_Code',
+            'Grant_No'
+
+        ], 'required'],
             [['No_of_Days'],'integer','min' => 1]
         ];
     }
