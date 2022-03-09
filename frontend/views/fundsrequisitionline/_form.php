@@ -81,7 +81,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                     [
                                         'prompt' => 'Select...',
                                         'onchange' => '
-                                            $.post( "' . Yii::$app->urlManager->createUrl('imprestline/outputs?Grant_No=') . '"+$("#imprestline-grant_no").val(), function( data ) {
+                                            $.post( "' . Yii::$app->urlManager->createUrl('imprestline/outputs?Grant_No=') . '"+$("#fundsrequisitionline-grant_no").val(), function( data ) {
 
                                                 $( "select#fundsrequisitionline-output_code" ).html(data);
                                             });
@@ -95,7 +95,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                     [
                                         'prompt' => 'Select...',
                                         'onchange' => '
-                                            $.post( "' . Yii::$app->urlManager->createUrl('imprestline/outcome?Grant_No=') . '"+$("#imprestline-grant_no").val(), function( data ) {
+                                            $.post( "' . Yii::$app->urlManager->createUrl('imprestline/outcome?Grant_No=') . '"+$("#fundsrequisitionline-grant_no").val(), function( data ) {
 
                                                 $( "select#fundsrequisitionline-outcome_code" ).html(data);
                                             });
@@ -108,7 +108,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                     [
                                         'prompt' => 'Select...',
                                         'onchange' => '
-                                            $.post( "' . Yii::$app->urlManager->createUrl('imprestline/activities?Grant_No=') . '"+$("#imprestline-grant_no").val(), function( data ) {
+                                            $.post( "' . Yii::$app->urlManager->createUrl('imprestline/activities?Grant_No=') . '"+$("#fundsrequisitionline-grant_no").val(), function( data ) {
 
                                                 $( "select#fundsrequisitionline-activity_code" ).html(data);
                                             });
@@ -120,7 +120,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                     $activityCode,[
                                         'prompt' => 'Select...',
                                         'onchange' => '
-                                                $.post( "' . Yii::$app->urlManager->createUrl('imprestline/partners?Grant_No=') . '"+$("#imprestline-grant_no").val(), function( data ) {
+                                                $.post( "' . Yii::$app->urlManager->createUrl('imprestline/partners?Grant_No=') . '"+$("#fundsrequisitionline-grant_no").val(), function( data ) {
 
                                                     $( "select#fundsrequisitionline-partner_code" ).html(data);
                                                 });
