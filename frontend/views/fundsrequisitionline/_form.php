@@ -76,71 +76,59 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                         '
                                             ]) ?>
 
-<?= $form->field($model, 'Objective_Code')->dropDownList(
-                                    $objectiveCode,
-                                    [
-                                        'prompt' => 'Select...',
-                                        'onchange' => '
-                                            $.post( "' . Yii::$app->urlManager->createUrl('imprestline/outputs?Grant_No=') . '"+$("#fundsrequisitionline-grant_no").val(), function( data ) {
+                                        <?= $form->field($model, 'Objective_Code')->dropDownList(
+                                            $objectiveCode,
+                                            [
+                                                'prompt' => 'Select...',
+                                                'onchange' => '
+                                                    $.post( "' . Yii::$app->urlManager->createUrl('imprestline/outputs?Grant_No=') . '"+$("#fundsrequisitionline-grant_no").val(), function( data ) {
 
-                                                $( "select#fundsrequisitionline-output_code" ).html(data);
-                                            });
-                                        '
-                                        ]) ?>
-
-
-
-<?= $form->field($model, 'Output_Code')->dropDownList(
-                                    $outputCode,
-                                    [
-                                        'prompt' => 'Select...',
-                                        'onchange' => '
-                                            $.post( "' . Yii::$app->urlManager->createUrl('imprestline/outcome?Grant_No=') . '"+$("#fundsrequisitionline-grant_no").val(), function( data ) {
-
-                                                $( "select#fundsrequisitionline-outcome_code" ).html(data);
-                                            });
-                                        '
-                                        ]) ?>
-
-
-<?= $form->field($model, 'Outcome_Code')->dropDownList(
-                                    $outcomeCode,
-                                    [
-                                        'prompt' => 'Select...',
-                                        'onchange' => '
-                                            $.post( "' . Yii::$app->urlManager->createUrl('imprestline/activities?Grant_No=') . '"+$("#fundsrequisitionline-grant_no").val(), function( data ) {
-
-                                                $( "select#fundsrequisitionline-activity_code" ).html(data);
-                                            });
-                                        '
-                                        ]) ?>
-
-
-<?= $form->field($model, 'Activity_Code')->dropDownList(
-                                    $activityCode,[
-                                        'prompt' => 'Select...',
-                                        'onchange' => '
-                                                $.post( "' . Yii::$app->urlManager->createUrl('imprestline/partners?Grant_No=') . '"+$("#fundsrequisitionline-grant_no").val(), function( data ) {
-
-                                                    $( "select#fundsrequisitionline-partner_code" ).html(data);
-                                                });
-                                        '
-                                        ]) ?>
-
-
-<?= $form->field($model, 'Partner_Code')->dropDownList($partnerCode,['prompt' => 'Select...']) ?>
+                                                        $( "select#fundsrequisitionline-output_code" ).html(data);
+                                                    });
+                                                '
+                                                ]) ?>
 
 
 
+                                                <?= $form->field($model, 'Output_Code')->dropDownList(
+                                                                                    $outputCode,
+                                                                                    [
+                                                                                        'prompt' => 'Select...',
+                                                                                        'onchange' => '
+                                                                                            $.post( "' . Yii::$app->urlManager->createUrl('imprestline/outcome?Grant_No=') . '"+$("#fundsrequisitionline-grant_no").val(), function( data ) {
+
+                                                                                                $( "select#fundsrequisitionline-outcome_code" ).html(data);
+                                                                                            });
+                                                                                        '
+                                                    ]) ?>
 
 
+                                                <?= $form->field($model, 'Outcome_Code')->dropDownList(
+                                                    $outcomeCode,
+                                                    [
+                                                        'prompt' => 'Select...',
+                                                        'onchange' => '
+                                                            $.post( "' . Yii::$app->urlManager->createUrl('imprestline/activities?Grant_No=') . '"+$("#fundsrequisitionline-grant_no").val(), function( data ) {
 
-                                    
+                                                                $( "select#fundsrequisitionline-activity_code" ).html(data);
+                                                            });
+                                                        '
+                                                ]) ?>
 
 
+                                        <?= $form->field($model, 'Activity_Code')->dropDownList(
+                                            $activityCode,[
+                                                'prompt' => 'Select...',
+                                                'onchange' => '
+                                                        $.post( "' . Yii::$app->urlManager->createUrl('imprestline/partners?Grant_No=') . '"+$("#fundsrequisitionline-grant_no").val(), function( data ) {
+
+                                                            $( "select#fundsrequisitionline-partner_code" ).html(data);
+                                                        });
+                                                '
+                                         ]) ?>
 
 
-
+                                        <?= $form->field($model, 'Partner_Code')->dropDownList($partnerCode,['prompt' => 'Select...']) ?>
 
                                     </div>
                                 </div>

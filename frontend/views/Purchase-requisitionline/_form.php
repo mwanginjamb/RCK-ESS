@@ -89,7 +89,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                                         'onchange' => '
                                                                 $.post( "' . Yii::$app->urlManager->createUrl('imprestline/objectives?Grant_No=') . '"+$(this).val(), function( data ) {
 
-                                                                    $( "select#fundsrequisitionline-objective_code" ).html( data );
+                                                                    $( "select#purchaserequisitionline-objective_code" ).html( data );
                                                                 });
                                                     '
                                                         ]) ?>
@@ -99,9 +99,9 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                                         [
                                                             'prompt' => 'Select...',
                                                             'onchange' => '
-                                                                $.post( "' . Yii::$app->urlManager->createUrl('imprestline/outputs?Grant_No=') . '"+$("#fundsrequisitionline-grant_no").val(), function( data ) {
+                                                                $.post( "' . Yii::$app->urlManager->createUrl('imprestline/outputs?Grant_No=') . '"+$("#purchaserequisitionline-grant_no").val(), function( data ) {
 
-                                                                    $( "select#fundsrequisitionline-output_code" ).html(data);
+                                                                    $( "select#purchaserequisitionline-output_code" ).html(data);
                                                                 });
                                                             '
                                                             ]) ?>
@@ -113,9 +113,9 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                                                                                 [
                                                                                                     'prompt' => 'Select...',
                                                                                                     'onchange' => '
-                                                                                                        $.post( "' . Yii::$app->urlManager->createUrl('imprestline/outcome?Grant_No=') . '"+$("#fundsrequisitionline-grant_no").val(), function( data ) {
+                                                                                                        $.post( "' . Yii::$app->urlManager->createUrl('imprestline/outcome?Grant_No=') . '"+$("#purchaserequisitionline-grant_no").val(), function( data ) {
 
-                                                                                                            $( "select#fundsrequisitionline-outcome_code" ).html(data);
+                                                                                                            $( "select#purchaserequisitionline-outcome_code" ).html(data);
                                                                                                         });
                                                                                                     '
                                                                 ]) ?>
@@ -126,9 +126,9 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                                                 [
                                                                     'prompt' => 'Select...',
                                                                     'onchange' => '
-                                                                        $.post( "' . Yii::$app->urlManager->createUrl('imprestline/activities?Grant_No=') . '"+$("#fundsrequisitionline-grant_no").val(), function( data ) {
+                                                                        $.post( "' . Yii::$app->urlManager->createUrl('imprestline/activities?Grant_No=') . '"+$("#purchaserequisitionline-grant_no").val(), function( data ) {
 
-                                                                            $( "select#fundsrequisitionline-activity_code" ).html(data);
+                                                                            $( "select#purchaserequisitionline-activity_code" ).html(data);
                                                                         });
                                                                     '
                                                             ]) ?>
@@ -138,9 +138,9 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                                         $activityCode,[
                                                             'prompt' => 'Select...',
                                                             'onchange' => '
-                                                                    $.post( "' . Yii::$app->urlManager->createUrl('imprestline/partners?Grant_No=') . '"+$("#fundsrequisitionline-grant_no").val(), function( data ) {
+                                                                    $.post( "' . Yii::$app->urlManager->createUrl('imprestline/partners?Grant_No=') . '"+$("#purchaserequisitionline-grant_no").val(), function( data ) {
 
-                                                                        $( "select#fundsrequisitionline-partner_code" ).html(data);
+                                                                        $( "select#purchaserequisitionline-partner_code" ).html(data);
                                                                     });
                                                             '
                                                     ]) ?>
@@ -181,33 +181,33 @@ $script = <<<JS
 
   /**Grants Fields */
 
-  $('#fundsrequisitionline-donor_no').change((e) => {
-        globalFieldUpdate('fundsrequisitionline',false,'Donor_No', e,['Donor_No']);
+  $('#purchaserequisitionline-donor_no').change((e) => {
+        globalFieldUpdate('purchaserequisitionline',false,'Donor_No', e,['Donor_No']);
     });
 
 
-    $('#fundsrequisitionline-objective_code').change((e) => {
-        globalFieldUpdate('fundsrequisitionline',false,'Objective_Code', e);
+    $('#purchaserequisitionline-objective_code').change((e) => {
+        globalFieldUpdate('purchaserequisitionline',false,'Objective_Code', e);
     });
 
-    $('#fundsrequisitionline-outcome_code').change((e) => {
-        globalFieldUpdate('fundsrequisitionline',false,'Outcome_Code', e);
+    $('#purchaserequisitionline-outcome_code').change((e) => {
+        globalFieldUpdate('purchaserequisitionline',false,'Outcome_Code', e);
     });
 
-    $('#fundsrequisitionline-activity_code').change((e) => {
-        globalFieldUpdate('fundsrequisitionline',false,'Activity_Code', e);
+    $('#purchaserequisitionline-activity_code').change((e) => {
+        globalFieldUpdate('purchaserequisitionline',false,'Activity_Code', e);
     });
 
-    $('#fundsrequisitionline-output_code').change((e) => {
-        globalFieldUpdate('fundsrequisitionline',false,'Output_Code', e);
+    $('#purchaserequisitionline-output_code').change((e) => {
+        globalFieldUpdate('purchaserequisitionline',false,'Output_Code', e);
     });
 
-    $('#fundsrequisitionline-partner_code').change((e) => {
-        globalFieldUpdate('fundsrequisitionline',false,'Partner_Code', e);
+    $('#purchaserequisitionline-partner_code').change((e) => {
+        globalFieldUpdate('purchaserequisitionline',false,'Partner_Code', e);
     });
 
-    $('#fundsrequisitionline-grant_no').change((e) => {
-        globalFieldUpdate('fundsrequisitionline',false,'Grant_No', e);
+    $('#purchaserequisitionline-grant_no').change((e) => {
+        globalFieldUpdate('purchaserequisitionline',false,'Grant_No', e);
     });
 JS;
 

@@ -42,7 +42,7 @@ class Purchaserequisitionline extends Model
     public $ShortcutDimCode_x005B_8_x005D_;
     public $Requisition_No;
     public $Line_No;
-public $isNewRecord;
+    public $isNewRecord;
 
     /*public function __construct(array $config = [])
     {
