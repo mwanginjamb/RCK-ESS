@@ -38,9 +38,9 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                          ]); ?>
                                     <?= $form->field($model, 'No')->dropDownList([], ['prompt' => 'Select Item...']) ?>
                                     <?= $form->field($model, 'Name')->textInput(['disabled' => true, 'readonly' => true]) ?>
+                                    <?= $form->field($model, 'Location')->dropDownList($locations, ['prompt' => 'Select Location...']) ?>
 
                                     <?= $form->field($model, 'Quantity')->textInput(['type' => 'number']) ?>
-                                    <?= $form->field($model, 'Location')->dropDownList($locations, ['prompt' => 'Select Location...']) ?>
                                     
                                     <?= $form->field($model, 'Estimate_Unit_Price')->textInput() ?>
                                    

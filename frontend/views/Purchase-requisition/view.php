@@ -158,8 +158,7 @@ if(Yii::$app->session->hasFlash('success')){
                                     <td><b>Procurement Method</b></td>
                                     <td><b>Sub Office</b></td>
                                     <td><b>Program Code</b></td>
-                                    <td><b>Job No.</b></td>
-                                    <td><b>Job Task No.</b></td>
+                                    
                                     
 
 
@@ -188,9 +187,7 @@ if(Yii::$app->session->hasFlash('success')){
                                         <td><?= !empty($obj->Procurement_Method)?$obj->Procurement_Method:'Not Set' ?></td>
                                         <td><?= !empty($obj->Global_Dimension_1_Code)?$obj->Global_Dimension_1_Code:'Not Set' ?></td>
                                         <td><?= !empty($obj->Global_Dimension_2_Code)?$obj->Global_Dimension_2_Code:'Not Set' ?></td>
-                                        <td><?= !empty($obj->Job_No)?$obj->Job_No:'Not Set' ?></td>
-                                        <td><?= !empty($obj->Job_Task_No)?$obj->Job_Task_No:'Not Set' ?></td>
-
+                                       
                                         
                                         <td><?= $updateLink.'|'.$deleteLink ?></td>
 
