@@ -56,24 +56,101 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                             </div>
 
                             <div class="col-md-6">
-                                <?= $form->field($model, 'Global_Dimension_1_Code')->dropDownList($subOffices, ['prompt' => 'Select ...']) ?>
-                                <?= $form->field($model, 'Global_Dimension_2_Code')->dropDownList($programCodes, ['prompt' => 'Select ...']) ?>
-                                <?= $form->field($model, 'Job_No')->dropDownList($jobs, [
-                                    'prompt' => 'Select ...',
-                                    'onchange' => '$.post("../purchase-requisitionline/tasks-dd?job_no="+$(this).val(), (data) => {
-                                        $("select#purchaserequisitionline-job_task_no").html( data );
-                                    })'
-                                    ]) ?>
-                                <?= $form->field($model, 'Job_Task_No')->dropDownList($jobTasks, [
-                                    'prompt' => 'Select ...',
-                                    'onchange' => '$.post("../purchase-requisitionline/planning-dd?task_no="+$(this).val()+"&job_no="+$("#purchaserequisitionline-job_no").val(), (data) => {
-                                        $("select#purchaserequisitionline-job_planning_line_no").html( data );
-                                    })'
-                                    ]) ?>
-                                <?= $form->field($model, 'Job_Planning_Line_No')->dropDownList([], ['prompt' => 'Select Item...']) ?>
 
-                                <?= $form->field($model, 'Estimate_Total_Amount')->textInput(['readonly' => true, 'disabled' =>  true]) ?>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                                <?= $form->field($model, 'Global_Dimension_1_Code')->dropDownList($subOffices, ['prompt' => 'Select ...']) ?>
+                                                <?= $form->field($model, 'Global_Dimension_2_Code')->dropDownList($programCodes, ['prompt' => 'Select ...']) ?>
+                                                <?= $form->field($model, 'Job_No')->dropDownList($jobs, [
+                                                    'prompt' => 'Select ...',
+                                                    'onchange' => '$.post("../purchase-requisitionline/tasks-dd?job_no="+$(this).val(), (data) => {
+                                                        $("select#purchaserequisitionline-job_task_no").html( data );
+                                                    })'
+                                                    ]) ?>
+                                                <?= $form->field($model, 'Job_Task_No')->dropDownList($jobTasks, [
+                                                    'prompt' => 'Select ...',
+                                                    'onchange' => '$.post("../purchase-requisitionline/planning-dd?task_no="+$(this).val()+"&job_no="+$("#purchaserequisitionline-job_no").val(), (data) => {
+                                                        $("select#purchaserequisitionline-job_planning_line_no").html( data );
+                                                    })'
+                                                    ]) ?>
+                                                <?= $form->field($model, 'Job_Planning_Line_No')->dropDownList([], ['prompt' => 'Select Item...']) ?>
+
+                                                <?= $form->field($model, 'Estimate_Total_Amount')->textInput(['readonly' => true, 'disabled' =>  true]) ?>
                                
+                                        </div>
+                                        <div class="col-md-6">
+
+                                                    <?= $form->field($model, 'Donor_No')->dropDownList($donors,[
+                                                    'prompt' => 'Select...'
+                                                    ]) ?>
+
+                                                    <?= $form->field($model, 'Grant_No')->dropDownList($grants,[
+                                                        'prompt' => 'Select...',
+                                                        'onchange' => '
+                                                                $.post( "' . Yii::$app->urlManager->createUrl('imprestline/objectives?Grant_No=') . '"+$(this).val(), function( data ) {
+
+                                                                    $( "select#fundsrequisitionline-objective_code" ).html( data );
+                                                                });
+                                                    '
+                                                        ]) ?>
+
+                                                    <?= $form->field($model, 'Objective_Code')->dropDownList(
+                                                        $objectiveCode,
+                                                        [
+                                                            'prompt' => 'Select...',
+                                                            'onchange' => '
+                                                                $.post( "' . Yii::$app->urlManager->createUrl('imprestline/outputs?Grant_No=') . '"+$("#fundsrequisitionline-grant_no").val(), function( data ) {
+
+                                                                    $( "select#fundsrequisitionline-output_code" ).html(data);
+                                                                });
+                                                            '
+                                                            ]) ?>
+
+
+
+                                                            <?= $form->field($model, 'Output_Code')->dropDownList(
+                                                                                                $outputCode,
+                                                                                                [
+                                                                                                    'prompt' => 'Select...',
+                                                                                                    'onchange' => '
+                                                                                                        $.post( "' . Yii::$app->urlManager->createUrl('imprestline/outcome?Grant_No=') . '"+$("#fundsrequisitionline-grant_no").val(), function( data ) {
+
+                                                                                                            $( "select#fundsrequisitionline-outcome_code" ).html(data);
+                                                                                                        });
+                                                                                                    '
+                                                                ]) ?>
+
+
+                                                            <?= $form->field($model, 'Outcome_Code')->dropDownList(
+                                                                $outcomeCode,
+                                                                [
+                                                                    'prompt' => 'Select...',
+                                                                    'onchange' => '
+                                                                        $.post( "' . Yii::$app->urlManager->createUrl('imprestline/activities?Grant_No=') . '"+$("#fundsrequisitionline-grant_no").val(), function( data ) {
+
+                                                                            $( "select#fundsrequisitionline-activity_code" ).html(data);
+                                                                        });
+                                                                    '
+                                                            ]) ?>
+
+
+                                                    <?= $form->field($model, 'Activity_Code')->dropDownList(
+                                                        $activityCode,[
+                                                            'prompt' => 'Select...',
+                                                            'onchange' => '
+                                                                    $.post( "' . Yii::$app->urlManager->createUrl('imprestline/partners?Grant_No=') . '"+$("#fundsrequisitionline-grant_no").val(), function( data ) {
+
+                                                                        $( "select#fundsrequisitionline-partner_code" ).html(data);
+                                                                    });
+                                                            '
+                                                    ]) ?>
+
+
+                                                    <?= $form->field($model, 'Partner_Code')->dropDownList($partnerCode,['prompt' => 'Select...']) ?>
+
+                                        </div>
+                                    </div>
+                                
 
                             </div>
 
@@ -102,240 +179,36 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 <?php
 $script = <<<JS
 
- //$('#purchaserequisitionline-no').select2();
+  /**Grants Fields */
 
- //Submit form and get results in json    
-        $('form').on('submit', function(e){
-            e.preventDefault()
-            const data = $(this).serialize();
-            const url = $(this).attr('action');
-            $.post(url,data).done(function(msg){
-                    $('.modal').modal('show')
-                    .find('.modal-body')
-                    .html(msg.note);
-        
-                },'json');
-        });
-
-        // Searchable dropdown Test
-
-        // $('#purchaserequisitionline-no').select2();
-
-        /*Commit Type */
-        
-        $('#purchaserequisitionline-type').on('change', function(e){
-            e.preventDefault();
-                  
-            const Type = e.target.value;
-            const Line_No = $('#purchaserequisitionline-line_no').val();
-            
-            
-            const url = $('input[name="absolute"]').val()+'purchase-requisitionline/set-type';
-            $.post(url,{'Type': Type,'Line_No': Line_No}).done(function(msg){
-                   //populate empty form fields with new data
-                    console.log(typeof msg);
-                    console.table(msg);
-                    if((typeof msg) === 'string') { // A string is an error
-                        const parent = document.querySelector('.field-purchaserequisitionline-type');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = msg;
-                        disableSubmit();
-                    }else{ // An object represents correct details
-                        const parent = document.querySelector('.field-purchaserequisitionline-no');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = ''; 
-                        enableSubmit();
-                    }
-                    $('#purchaserequisitionline-key').val(msg.Key);
-                    $('#purchaserequisitionline-estimate_unit_price').val(msg.Estimate_Unit_Price);
-                    $('#purchaserequisitionline-estimate_total_amount').val(msg.Estimate_Total_Amount);
-                   
-                    
-                },'json');
-        });
+  $('#fundsrequisitionline-donor_no').change((e) => {
+        globalFieldUpdate('fundsrequisitionline',false,'Donor_No', e,['Donor_No']);
+    });
 
 
+    $('#fundsrequisitionline-objective_code').change((e) => {
+        globalFieldUpdate('fundsrequisitionline',false,'Objective_Code', e);
+    });
 
-        // Commit GL account No
+    $('#fundsrequisitionline-outcome_code').change((e) => {
+        globalFieldUpdate('fundsrequisitionline',false,'Outcome_Code', e);
+    });
 
-        $('#purchaserequisitionline-no').on('change', function(e){
-            e.preventDefault();
-                  
-            const No = e.target.value;
-            const Line_No = $('#purchaserequisitionline-line_no').val();
-            
-            
-            const url = $('input[name="absolute"]').val()+'purchase-requisitionline/set-no';
-            $.post(url,{'No': No,'Line_No': Line_No}).done(function(msg){
-                   //populate empty form fields with new data
-                    console.log(typeof msg);
-                    console.table(msg);
-                    if((typeof msg) === 'string') { // A string is an error
-                        const parent = document.querySelector('.field-purchaserequisitionline-no');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = msg;
-                        disableSubmit();
-                    }else{ // An object represents correct details
-                        const parent = document.querySelector('.field-purchaserequisitionline-no');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = ''; 
-                        enableSubmit();
-                    }
-                    $('#purchaserequisitionline-key').val(msg.Key);
-                    $('#purchaserequisitionline-name').val(msg.Name);
-                
-                },'json');
-        });
+    $('#fundsrequisitionline-activity_code').change((e) => {
+        globalFieldUpdate('fundsrequisitionline',false,'Activity_Code', e);
+    });
 
+    $('#fundsrequisitionline-output_code').change((e) => {
+        globalFieldUpdate('fundsrequisitionline',false,'Output_Code', e);
+    });
 
+    $('#fundsrequisitionline-partner_code').change((e) => {
+        globalFieldUpdate('fundsrequisitionline',false,'Partner_Code', e);
+    });
 
-        /*Commit Item */
-
-         $('#purchaserequisitionline-no').on('change', function(e){
-            e.preventDefault();
-                  
-            const No = e.target.value;
-            const Line_No = $('#purchaserequisitionline-line_no').val();
-            
-            
-            const url = $('input[name="absolute"]').val()+'purchase-requisitionline/setitem';
-            $.post(url,{'No': No,'Line_No': Line_No}).done(function(msg){
-                   //populate empty form fields with new data
-                    console.log(typeof msg);
-                    console.table(msg);
-                    if((typeof msg) === 'string') { // A string is an error
-                        const parent = document.querySelector('.field-purchaserequisitionline-no');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = msg;
-                        disableSubmit();
-                    }else{ // An object represents correct details
-                        const parent = document.querySelector('.field-purchaserequisitionline-no');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = ''; 
-                        enableSubmit();
-                    }
-                    $('#purchaserequisitionline-key').val(msg.Key);
-                    $('#purchaserequisitionline-estimate_unit_price').val(msg.Estimate_Unit_Price);
-                    $('#purchaserequisitionline-estimate_total_amount').val(msg.Estimate_Total_Amount);
-                   
-                    
-                },'json');
-        });
-         
-         
-         /*Commit Unit Price */
-         
-         
-           $('#purchaserequisitionline-estimate_unit_price').on('blur', function(e){
-            e.preventDefault();
-                  
-            const Line_No = $('#purchaserequisitionline-line_no').val();
-            
-            
-            const url = $('input[name="absolute"]').val()+'purchase-requisitionline/setprice';
-            $.post(url,{'Line_No': Line_No,'Estimate_Unit_Price': $(this).val()}).done(function(msg){
-                   //populate empty form fields with new data
-                    console.log(typeof msg);
-                    console.table(msg);
-                    if((typeof msg) === 'string'){ // A string is an error
-                        const parent = document.querySelector('.field-purchaserequisitionline-estimate_unit_price');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = msg;
-                        disableSubmit();
-                    }else{ // An object represents correct details
-                        const parent = document.querySelector('.field-purchaserequisitionline-estimate_unit_price');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = ''; 
-                        enableSubmit();
-                    }
-                    $('#purchaserequisitionline-key').val(msg.Key);
-                    $('#purchaserequisitionline-estimate_unit_price').val(msg.Estimate_Unit_Price);
-                    $('#purchaserequisitionline-estimate_total_amount').val(msg.Estimate_Total_Amount);
-                                        
-                },'json');
-        });
-         
-         
-         
-         
-         $('#purchaserequisitionline-quantity').on('change', function(e){
-            e.preventDefault();
-                  
-            const Line_No = $('#purchaserequisitionline-line_no').val();
-            
-            
-            const url = $('input[name="absolute"]').val()+'purchase-requisitionline/setquantity';
-            $.post(url,{'Line_No': Line_No,'Quantity': $(this).val()}).done(function(msg){
-                   //populate empty form fields with new data
-                    console.log(typeof msg);
-                    console.table(msg);
-                    if((typeof msg) === 'string'){ // A string is an error
-                        const parent = document.querySelector('.field-purchaserequisitionline-quantity');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = msg;
-                        disableSubmit();
-                    }else{ // An object represents correct details
-                        const parent = document.querySelector('.field-purchaserequisitionline-quantity');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = ''; 
-                        enableSubmit();
-                    }
-                    $('#purchaserequisitionline-key').val(msg.Key);
-                    // $('#purchaserequisitionline-estimate_unit_price').val(msg.Estimate_Unit_Price);
-                    $('#purchaserequisitionline-estimate_total_amount').val(msg.Estimate_Total_Amount);
-                                        
-                },'json');
-        });
-         
-         
-         
-         // Set Location
-         
-         $('#purchaserequisitionline-location').on('change', function(e){
-            e.preventDefault();
-                  
-            const No = $('#purchaserequisitionline-line_no').val();
-            const Location = $('#purchaserequisitionline-location').val();
-            
-            
-            const url = $('input[name="absolute"]').val()+'purchase-requisitionline/setlocation';
-            $.post(url,{'Line_No': No,'Location': Location}).done(function(msg){
-                   //populate empty form fields with new data
-                    console.log(typeof msg);
-                    console.table(msg);
-                    if((typeof msg) === 'string') { // A string is an error
-                        const parent = document.querySelector('.field-purchaserequisitionline-no');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = msg;
-                        disableSubmit();
-                    }else{ // An object represents correct details
-                        const parent = document.querySelector('.field-purchaserequisitionline-no');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = ''; 
-                        enableSubmit();
-                    }
-                    $('#purchaserequisitionline-key').val(msg.Key);
-                   // $('#purchaserequisitionline-available_quantity').val(msg.Available_Quantity);
-                    $('#purchaserequisitionline-estimate_unit_price').val(msg.Estimate_Unit_Price);
-                    $('#purchaserequisitionline-estimate_total_amount').val(msg.Estimate_Total_Amount);
-                   
-                    
-                },'json');
-        });
-         
-         
-         
-         
-         
-         
-         function disableSubmit(){
-             document.getElementById('submit').setAttribute("disabled", "true");
-        }
-        
-        function enableSubmit(){
-            document.getElementById('submit').removeAttribute("disabled");
-        
-        }
+    $('#fundsrequisitionline-grant_no').change((e) => {
+        globalFieldUpdate('fundsrequisitionline',false,'Grant_No', e);
+    });
 JS;
 
 $this->registerJs($script);
