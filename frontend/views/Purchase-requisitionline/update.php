@@ -25,8 +25,13 @@ $this->title = 'Update Line.';
             'locations' => $locations,
             'subOffices' => $subOffices,
             'programCodes' => $programCodes,
-            'jobs' =>  $jobs,
-            'jobTasks' => $jobTasks
+            'donors' =>  $donors,
+            'grants' => $grants,
+            'objectiveCode' => $objectiveCode,
+            'outputCode' => $outputCode,
+            'outcomeCode' => $outcomeCode,
+            'activityCode' => $activityCode,
+            'partnerCode' => $partnerCode
             
         ]) ?>
     </div>

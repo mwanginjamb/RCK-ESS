@@ -33,51 +33,41 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                                 'prompt' => 'Select Type ...',
                                                 'onchange' => '$.post("../purchase-requisitionline/no-dd?type="+$(this).val(), (data) => {
                                                 $("select#purchaserequisitionline-no").html( data );
+                                                    
                                             })'
                                          ]); ?>
                                     <?= $form->field($model, 'No')->dropDownList([], ['prompt' => 'Select Item...']) ?>
                                     <?= $form->field($model, 'Name')->textInput(['disabled' => true, 'readonly' => true]) ?>
 
-                                    <?= $form->field($model, 'Location')->dropDownList($locations, ['prompt' => 'Select Location...']) ?>
-                                    <?= $form->field($model, 'Estimate_Unit_Price')->textInput() ?>
-                                    <?= $form->field($model, 'Procurement_Method')->dropDownList([
-                                        '_blank_' => '_blank_',
-                                        'Tender' => 'Tender',
-                                        'RFQ' => 'RFQ',
-                                        'Direct_Procurement' => 'Direct_Procurement',
-                                        'RFP' => 'RFP',
-                                    ],['prompt' => 'Select ...']) ?>
-                                    <?= $form->field($model, 'Description')->textarea(['rows' => 2, 'required'=> true]) ?>
                                     <?= $form->field($model, 'Quantity')->textInput(['type' => 'number']) ?>
-
-                                    <?= $form->field($model, 'Requisition_No')->textInput(['readonly' => true]) ?>
+                                    <?= $form->field($model, 'Location')->dropDownList($locations, ['prompt' => 'Select Location...']) ?>
                                     
+                                    <?= $form->field($model, 'Estimate_Unit_Price')->textInput() ?>
+                                   
+                                   
 
-                            </div>
-
-                            <div class="col-md-6">
-
+                                    
+                                    
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    
                                     <div class="row">
                                         <div class="col-md-6">
-                                                <?= $form->field($model, 'Global_Dimension_1_Code')->dropDownList($subOffices, ['prompt' => 'Select ...']) ?>
-                                                <?= $form->field($model, 'Global_Dimension_2_Code')->dropDownList($programCodes, ['prompt' => 'Select ...']) ?>
-                                                <?= $form->field($model, 'Job_No')->dropDownList($jobs, [
-                                                    'prompt' => 'Select ...',
-                                                    'onchange' => '$.post("../purchase-requisitionline/tasks-dd?job_no="+$(this).val(), (data) => {
-                                                        $("select#purchaserequisitionline-job_task_no").html( data );
-                                                    })'
-                                                    ]) ?>
-                                                <?= $form->field($model, 'Job_Task_No')->dropDownList($jobTasks, [
-                                                    'prompt' => 'Select ...',
-                                                    'onchange' => '$.post("../purchase-requisitionline/planning-dd?task_no="+$(this).val()+"&job_no="+$("#purchaserequisitionline-job_no").val(), (data) => {
-                                                        $("select#purchaserequisitionline-job_planning_line_no").html( data );
-                                                    })'
-                                                    ]) ?>
-                                                <?= $form->field($model, 'Job_Planning_Line_No')->dropDownList([], ['prompt' => 'Select Item...']) ?>
-
-                                                <?= $form->field($model, 'Estimate_Total_Amount')->textInput(['readonly' => true, 'disabled' =>  true]) ?>
-                               
-                                        </div>
+                                            <?= $form->field($model, 'Global_Dimension_1_Code')->dropDownList($subOffices, ['prompt' => 'Select ...']) ?>
+                                            <?= $form->field($model, 'Global_Dimension_2_Code')->dropDownList($programCodes, ['prompt' => 'Select ...']) ?>
+                                            
+                                            <?= $form->field($model, 'Estimate_Total_Amount')->textInput(['readonly' => true, 'disabled' =>  true]) ?>
+                                            <?= $form->field($model, 'Procurement_Method')->dropDownList([
+                                                '_blank_' => '_blank_',
+                                                'Tender' => 'Tender',
+                                                'RFQ' => 'RFQ',
+                                                'Direct_Procurement' => 'Direct_Procurement',
+                                                'RFP' => 'RFP',
+                                            ],['prompt' => 'Select ...']) ?>
+                                    <?= $form->field($model, 'Description')->textarea(['rows' => 2, 'required'=> true]) ?>
+                                    <?= $form->field($model, 'Requisition_No')->textInput(['readonly' => true]) ?>
+                                </div>
                                         <div class="col-md-6">
 
                                                     <?= $form->field($model, 'Donor_No')->dropDownList($donors,[
@@ -165,7 +155,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                 <div class="row">
 
                     <div class="form-group">
-                        <?= Html::submitButton(($model->isNewRecord)?'Save':'Update', ['class' => 'btn btn-success','id'=>'submit']) ?>
+                        <?php Html::submitButton(($model->isNewRecord)?'Save':'Update', ['class' => 'btn btn-success','id'=>'submit']) ?>
                     </div>
 
 
@@ -179,35 +169,75 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 <?php
 $script = <<<JS
 
+    $('#purchaserequisitionline-type').blur((e) => {
+        globalFieldUpdate('purchaserequisitionline','purchase-requisitionline','Type', e);
+    }); 
+    
+    $('#purchaserequisitionline-no').change((e) => {
+        globalFieldUpdate('purchaserequisitionline','purchase-requisitionline','No', e,['Name']);
+    });  
+    
+    $('#purchaserequisitionline-location').change((e) => {
+        globalFieldUpdate('purchaserequisitionline','purchase-requisitionline','Location', e);
+    });
+
+    $('#purchaserequisitionline-quantity').change((e) => {
+        globalFieldUpdate('purchaserequisitionline','purchase-requisitionline','Quantity', e);
+    });
+
+    $('#purchaserequisitionline-estimate_unit_price').change((e) => {
+        globalFieldUpdate('purchaserequisitionline','purchase-requisitionline','Estimate_Unit_Price', e,['Estimate_Total_Amount']);
+    });
+
+    $('#purchaserequisitionline-procurement_method').change((e) => {
+        globalFieldUpdate('purchaserequisitionline','purchase-requisitionline','Procurement_Method', e);
+    });
+
+    $('#purchaserequisitionline-description').change((e) => {
+        globalFieldUpdate('purchaserequisitionline','purchase-requisitionline','Description', e);
+    });
+
+    $('#purchaserequisitionline-quantity').change((e) => {
+        globalFieldUpdate('purchaserequisitionline','purchase-requisitionline','Quantity', e);
+    });
+
+    $('#purchaserequisitionline-global_dimension_1_code').change((e) => {
+        globalFieldUpdate('purchaserequisitionline','purchase-requisitionline','Global_Dimension_1_Code', e);
+    });
+
+    $('#purchaserequisitionline-global_dimension_2_code').change((e) => {
+        globalFieldUpdate('purchaserequisitionline','purchase-requisitionline','Global_Dimension_2_Code', e);
+    });
+
   /**Grants Fields */
 
   $('#purchaserequisitionline-donor_no').change((e) => {
-        globalFieldUpdate('purchaserequisitionline',false,'Donor_No', e,['Donor_No']);
+        globalFieldUpdate('purchaserequisitionline','purchase-requisitionline','Donor_No', e);
     });
 
 
     $('#purchaserequisitionline-objective_code').change((e) => {
-        globalFieldUpdate('purchaserequisitionline',false,'Objective_Code', e);
+        globalFieldUpdate('purchaserequisitionline','purchase-requisitionline','Objective_Code', e);
     });
 
     $('#purchaserequisitionline-outcome_code').change((e) => {
-        globalFieldUpdate('purchaserequisitionline',false,'Outcome_Code', e);
+        globalFieldUpdate('purchaserequisitionline','purchase-requisitionline','Outcome_Code', e);
     });
 
     $('#purchaserequisitionline-activity_code').change((e) => {
-        globalFieldUpdate('purchaserequisitionline',false,'Activity_Code', e);
+        globalFieldUpdate('purchaserequisitionline','purchase-requisitionline','Activity_Code', e);
     });
 
     $('#purchaserequisitionline-output_code').change((e) => {
-        globalFieldUpdate('purchaserequisitionline',false,'Output_Code', e);
+        globalFieldUpdate('purchaserequisitionline','purchase-requisitionline','Output_Code', e);
     });
 
     $('#purchaserequisitionline-partner_code').change((e) => {
-        globalFieldUpdate('purchaserequisitionline',false,'Partner_Code', e);
+        globalFieldUpdate('purchaserequisitionline','purchase-requisitionline','Partner_Code', e);
     });
 
     $('#purchaserequisitionline-grant_no').change((e) => {
-        globalFieldUpdate('purchaserequisitionline',false,'Grant_No', e);
+        globalFieldUpdate('purchaserequisitionline','purchase-requisitionline','Grant_No', e);
     });
 JS;
 

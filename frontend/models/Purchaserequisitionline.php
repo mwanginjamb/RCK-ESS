@@ -28,6 +28,7 @@ class Purchaserequisitionline extends Model
     public $Global_Dimension_1_Code;
     public $Global_Dimension_2_Code;
     public $Project_Code;
+    public $Donor_No;
     public $Grant_No;
     public $Objective_Code;
     public $Output_Code;

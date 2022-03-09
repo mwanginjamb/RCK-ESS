@@ -112,8 +112,13 @@ class PurchaseRequisitionlineController extends Controller
                 'items' => $this->getItems(),
                 'subOffices' => $this->getDimension(1),
                 'programCodes' => $this->getDimension(2),
-                'jobs' =>  $this->getJob(),
-                'jobTasks' => $this->getJobTask()
+                'donors' => Yii::$app->navhelper->dropdown('CustomerLookup','No','Name'),
+                'grants' => Yii::$app->navhelper->dropdown('GrantLookUp','No','Title'),
+                'objectiveCode' => Yii::$app->navhelper->dropdown('GrantLinesLookUp','Code','Description',['Line_Type' => 'Objective']),
+                'outputCode' => Yii::$app->navhelper->dropdown('GrantLinesLookUp','Code','Description',['Line_Type' => 'Output']),
+                'outcomeCode' => Yii::$app->navhelper->dropdown('GrantLinesLookUp','Code','Description',['Line_Type' => 'Outcome']),
+                'activityCode' => Yii::$app->navhelper->dropdown('GrantLinesLookUp','Code','Description',['Line_Type' => 'Activity']),
+                'partnerCode' => Yii::$app->navhelper->dropdown('GrantDetailLines','G_L_Account_No','Activity_Description'),
             ]);
         }
 
@@ -168,8 +173,14 @@ class PurchaseRequisitionlineController extends Controller
                 'items' => $this->getItems(),
                 'subOffices' => $this->getDimension(1),
                 'programCodes' => $this->getDimension(2),
-                'jobs' =>  $this->getJob(),
-                'jobTasks' => $this->getJobTask()
+                'donors' => Yii::$app->navhelper->dropdown('CustomerLookup','No','Name'),
+                'grants' => Yii::$app->navhelper->dropdown('GrantLookUp','No','Title'),
+                'objectiveCode' => Yii::$app->navhelper->dropdown('GrantLinesLookUp','Code','Description',['Line_Type' => 'Objective']),
+                'outputCode' => Yii::$app->navhelper->dropdown('GrantLinesLookUp','Code','Description',['Line_Type' => 'Output']),
+                'outcomeCode' => Yii::$app->navhelper->dropdown('GrantLinesLookUp','Code','Description',['Line_Type' => 'Outcome']),
+                'activityCode' => Yii::$app->navhelper->dropdown('GrantLinesLookUp','Code','Description',['Line_Type' => 'Activity']),
+                'partnerCode' => Yii::$app->navhelper->dropdown('GrantDetailLines','G_L_Account_No','Activity_Description'),
+                
             ]);
         }
 
@@ -578,11 +589,6 @@ class PurchaseRequisitionlineController extends Controller
         }
     }
 
-  
-
-
-
-
 
     public function actionView($ApplicationNo){
         $service = Yii::$app->params['ServiceName']['leaveApplicationCard'];
@@ -643,6 +649,18 @@ class PurchaseRequisitionlineController extends Controller
 
         return $model;
     }
+
+
+         /** Updates a single field */
+         public function actionSetfield($field){
+            $service = 'PurchaseRequisitionLine';
+            $value = Yii::$app->request->post('fieldValue');
+           
+            $result = Yii::$app->navhelper->Commit($service,[$field => $value],Yii::$app->request->post('Key'));
+            Yii::$app->response->format = \yii\web\response::FORMAT_JSON;
+            return $result;
+              
+        }
 
 
 }
