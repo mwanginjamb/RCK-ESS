@@ -23,6 +23,7 @@ public $Created_Time;
 public $Employee_No;
 public $Employee_Name;
 public $Status;
+public $Approvals;
 public $isNewRecord;
 
 
