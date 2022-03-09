@@ -68,7 +68,8 @@ public $isNewRecord;
     public function attributeLabels()
     {
         return [
-
+            'Global_Dimension_1_Code' => 'Sub Office',
+            'Global_Dimension_2_Code' => 'Program Code',
         ];
     }
 }

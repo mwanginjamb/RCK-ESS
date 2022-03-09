@@ -32,7 +32,13 @@ $model->isNewRecord = true;
         'jobTasks' => $jobTasks,
         'accounts' => $accounts,
         'employees' => $employees,
-        'donors' => $donors
+        'donors' =>  $donors,
+        'grants' => $grants,
+        'objectiveCode' => $objectiveCode,
+        'outputCode' => $outputCode,
+        'outcomeCode' => $outcomeCode,
+        'activityCode' => $activityCode,
+        'partnerCode' => $partnerCode
 
     ]) ?>
 

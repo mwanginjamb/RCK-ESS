@@ -176,7 +176,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                                 <td><b>Daily Rate</b></td>
                                 <td><b>No_of_Days</b></td>
                                 <td><b>Amount LCY</b></td>
-                                <td><b>Unbudgeted?</b></td>
+                                <!-- <td><b>Unbudgeted?</b></td> -->
                             <?php if($model->Status == 'New'): ?>
                                 <td><b>Actions</b></td>
                             <?php endif; ?>
@@ -197,7 +197,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                                     <td><?= !empty($obj->Daily_Rate)?$obj->Daily_Rate:'Not Set' ?></td>
                                     <td><?= !empty($obj->No_of_Days)?$obj->No_of_Days:'Not Set' ?></td>
                                     <td><?= !empty($obj->Amount)?$obj->Amount:'Not Set' ?></td>
-                                    <td><?= Html::checkbox('Unbudgeted',$obj->Unbudgeted) ?></td>
+                                    <!-- <td><?= Html::checkbox('Unbudgeted',$obj->Unbudgeted) ?></td> -->
                                     <?php if($model->Status == 'New'): ?>
                                     <td><?= $updateLink.'|'.$deleteLink ?></td>
                                     <?php endif; ?>
