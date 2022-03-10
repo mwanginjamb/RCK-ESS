@@ -357,13 +357,7 @@ class ImprestController extends Controller
             $model = Yii::$app->navhelper->loadmodel($result,$model) ;//$this->loadtomodeEmployee_Nol($result[0],$Expmodel);
         }else{
             Yii::$app->session->setFlash('error','Error : '.$result );
-                return $this->render('update',[
-                    'model' => $model,
-                    'employees' => $this->getEmployees(),
-                    'programs' => $this->getPrograms(),
-                    'departments' => $this->getDepartments(),
-                    'currencies' => Yii::$app->navhelper->dropdown('Currencies','Code','Description')
-                ]);
+            return $this->redirect(['index']);
         }
 
 
@@ -375,6 +369,7 @@ class ImprestController extends Controller
 
                 return $this->render('update',[
                     'model' => $model,
+                    'document' => $result,
                     'employees' => $this->getEmployees(),
                     'programs' => $this->getPrograms(),
                     'departments' => $this->getDepartments(),
@@ -386,6 +381,7 @@ class ImprestController extends Controller
                 Yii::$app->session->setFlash('error','Error : '.$result );
                 return $this->render('update',[
                     'model' => $model,
+                    'document' => $result,
                     'employees' => $this->getEmployees(),
                     'programs' => $this->getPrograms(),
                     'departments' => $this->getDepartments(),
@@ -400,6 +396,7 @@ class ImprestController extends Controller
         if(Yii::$app->request->isAjax){
             return $this->renderAjax('update', [
                 'model' => $model,
+                'document' => $result,
                 'employees' => $this->getEmployees(),
                 'programs' => $this->getPrograms(),
                 'departments' => $this->getDepartments(),
@@ -410,6 +407,7 @@ class ImprestController extends Controller
 
         return $this->render('update',[
             'model' => $model,
+            'document' => $result,
             'employees' => $this->getEmployees(),
             'programs' => $this->getPrograms(),
             'departments' => $this->getDepartments(),
@@ -430,7 +428,7 @@ class ImprestController extends Controller
     }
 
     public function actionView($No="",$DocNo=''){
-        $service = Yii::$app->params['ServiceName']['ImprestRequestCardPortal'];
+        $service = Yii::$app->params['ServiceName']['ImprestRequestCard'];
 
 
         if(!empty($DocNo))
@@ -452,6 +450,7 @@ class ImprestController extends Controller
 
         return $this->render('view',[
             'model' => $model,
+            'document' => $result
         ]);
     }
 

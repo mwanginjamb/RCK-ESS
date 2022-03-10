@@ -8,7 +8,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 $absoluteUrl = \yii\helpers\Url::home(true);
-
+//Yii::$app->recruitment->printrr($document);
 
 if(Yii::$app->session->hasFlash('success')){
     print ' <div class="alert alert-success alert-dismissable">
@@ -179,7 +179,7 @@ if(Yii::$app->session->hasFlash('success')){
 
             <div class="card-body">
 
-                <?php if(is_array($model->getLines($model->No))){ //show Lines ?>
+                <?php if(property_exists($document->Imprest_Request_Subform_Portal, 'Imprest_Request_Subform_Portal')){ //show Lines ?>
 
                     <div class="table-responsive">
                         <table class="table table-bordered">
@@ -212,27 +212,27 @@ if(Yii::$app->session->hasFlash('success')){
                             <?php
                             // print '<pre>'; print_r($model->getObjectives()); exit;
     
-                            foreach($model->getLines($model->No) as $obj):
+                            foreach($document->Imprest_Request_Subform_Portal->Imprest_Request_Subform_Portal as $obj):
                                 $updateLink = Html::a('<i class="fa fa-edit"></i>',['imprestline/update','Key'=> $obj->Key],['class' => 'update-objective btn btn-outline-info btn-xs']);
                                 $deleteLink = Html::a('<i class="fa fa-trash"></i>',['imprestline/delete','Key'=> $obj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
                                 ?>
                                 <tr>
     
-                                <td><?= !empty($obj->Line_No)?$obj->Line_No:'Not Set' ?></td>
-                                        <td><?= !empty($obj->Transaction_Type)?$obj->Transaction_Type:'Not Set' ?></td>
-                                        <td><?= !empty($obj->Account_Name)?$obj->Account_Name:'Not Set' ?></td>
-                                        <td><?= !empty($obj->Description)?$obj->Description:'Not Set' ?></td>
-                                        <td><?= !empty($obj->Amount)?$obj->Amount:'Not Set' ?></td>
-                                        <td><?= !empty($obj->Amount_LCY)?$obj->Amount_LCY:'Not Set' ?></td>
-                                        <td><?= !empty($obj->Global_Dimension_1_Code)?$obj->Global_Dimension_1_Code:'Not Set' ?></td>
-                                        <td><?= !empty($obj->Global_Dimension_2_Code)?$obj->Global_Dimension_2_Code:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Line_No)?$obj->Line_No:'' ?></td>
+                                        <td><?= !empty($obj->Transaction_Type)?$obj->Transaction_Type:'' ?></td>
+                                        <td><?= !empty($obj->Account_Name)?$obj->Account_Name:'' ?></td>
+                                        <td><?= !empty($obj->Description)?$obj->Description:'' ?></td>
+                                        <td><?= !empty($obj->Amount)?$obj->Amount:'' ?></td>
+                                        <td><?= !empty($obj->Amount_LCY)?$obj->Amount_LCY:'' ?></td>
+                                        <td><?= !empty($obj->Global_Dimension_1_Code)?$obj->Global_Dimension_1_Code:'' ?></td>
+                                        <td><?= !empty($obj->Global_Dimension_2_Code)?$obj->Global_Dimension_2_Code:'' ?></td>
                                         
-                                        <td><?= !empty($obj->Donor_Name)?$obj->Donor_Name:'Not Set' ?></td>
-                                        <td><?= !empty($obj->Objective_Code)?$obj->Objective_Code:'Not Set' ?></td>
-                                        <td><?= !empty($obj->Output_Code)?$obj->Output_Code:'Not Set' ?></td>
-                                        <td><?= !empty($obj->Outcome_Code)?$obj->Outcome_Code:'Not Set' ?></td>
-                                        <td><?= !empty($obj->Activity_Code)?$obj->Activity_Code:'Not Set' ?></td>
-                                        <td><?= !empty($obj->Partner_Code)?$obj->Partner_Code:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Donor_Name)?$obj->Donor_Name:'' ?></td>
+                                        <td><?= !empty($obj->Objective_Code)?$obj->Objective_Code:'' ?></td>
+                                        <td><?= !empty($obj->Output_Code)?$obj->Output_Code:'' ?></td>
+                                        <td><?= !empty($obj->Outcome_Code)?$obj->Outcome_Code:'' ?></td>
+                                        <td><?= !empty($obj->Activity_Code)?$obj->Activity_Code:'' ?></td>
+                                        <td><?= !empty($obj->Partner_Code)?$obj->Partner_Code:'' ?></td>
                                         <td><?= $updateLink.'|'.$deleteLink ?></td>
                                     </tr>
                             <?php endforeach; ?>

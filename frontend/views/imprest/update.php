@@ -23,6 +23,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Update Imprest Request', 'url' => 
 
     <?= $this->render('_form',[
         'model' => $model,
+        'document' =>  $document,
         'employees' => $employees,
         'programs' => $programs,
         'departments' => $departments,
