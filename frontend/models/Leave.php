@@ -11,6 +11,7 @@ use common\models\User;
 use Yii;
 use yii\base\Model;
 use yii\web\UploadedFile;
+use yii\helpers\Url;
 
 
 class Leave extends Model
@@ -93,12 +94,32 @@ public $isNewRecord;
             $imageId = Yii::$app->security->generateRandomString(8);
             $this->attachment->saveAs('leave_attachments/'.$imageId. '.' . $this->attachment->extension);
             $this->Attachement_Path = \yii\helpers\Url::home(true).'leave_attachments/'.$imageId.'.'.$this->attachment->extension;
-            $locaPath = 'leave_attachments/'.$imageId. '.' . $this->attachment->extension;
+            $localPath = 'leave_attachments/'.$imageId. '.' . $this->attachment->extension;
             //You can then attach to sharepoint and unlink the resource on local file system
 
             // var_dump( $this->attachment); exit;
 
-            Yii::$app->recruitment->sharepoint_attach($locaPath);
+            Yii::$app->recruitment->sharepoint_attach($localPath);
+
+            //Save upload record to Nav
+            $Name = basename($localPath);
+            $DocNo = $this->Application_No;
+            $File_path = Url::home(true).$localPath;
+
+            $attachmentService = Yii::$app->params['ServiceName']['LeaveAttachments'];
+            $payload = [
+                'Document_No' => $DocNo,
+                'Name' => $Name,
+                'File_path' => $File_path
+            ];
+
+           $result = Yii::$app->navhelper->postData($attachmentService, $payload);
+           if(!is_object($result))
+           {
+               Yii::$app->recruitment->printrr($result);
+           }
+
+
             return true;
         } else {
 

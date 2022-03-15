@@ -421,6 +421,37 @@ class Recruitment extends Component
         Yii::$app->session->remove('metadata');
     }
 
+    public function actionFetchdocument($id)
+    {
+        $Url = Yii::$app->params['sharepointUrl'];//"http://rbadev-shrpnt";
+        $username = Yii::$app->params['sharepointUsername'];//'rbadev\administrator';
+        $password = Yii::$app->params['sharepointPassword']; //'rba123!!';
+
+        $authCtx = new NetworkCredentialContext($username, $password);
+
+        $authCtx->AuthType = CURLAUTH_NTLM; //NTML Auth schema
+        $ctx = new ClientContext($Url, $authCtx);
+
+        // Fetch Doc Name by ID
+        $model = '';
+        if (!empty($model)) {
+            return $this->downloadFile($ctx, \Yii::$app->params['library'] . $model->FileName);
+        } else {
+            return '';
+        }
+    }
+
+    function downloadFile(ClientRuntimeContext $ctx, $fileUrl)
+    {
+        try {
+            $fileContent = \Office365\sharePoint\File::openBinary($ctx, $fileUrl);
+            return "data:application/pdf;base64," . base64_encode($fileContent);
+        } catch (\Exception $e) {
+            //  print "File download failed:\r\n";
+            return '';
+        }
+    }
+
     public static function ensureList(Web $web, $listTitle, $type, $clearItems = true)
     {
         $ctx = $web->getContext();
@@ -465,33 +496,7 @@ class Recruitment extends Component
         $ctx->executeQuery();
     }
 
-    function downloadFile(ClientRuntimeContext $ctx, $fileUrl, $targetFilePath){
-
-        try {
-
-            /*Test
-            $files = $ctx->getWeb()->getFolderByServerRelativeUrl('Portal')->getFiles();
-
-            $ctx->load($files);
-            $ctx->executeQuery();
-
-            //print files info
-
-            foreach ($files->getData() as $file) {
-                print "File name: '{$file->getProperty("ServerRelativeUrl")}'\r\n";
-            }
-            exit;
-            /*End Test*/
-
-
-
-            $fileContent = File::openBinary($ctx, $fileUrl);
-            //file_put_contents($targetFilePath, $fileContent);
-            return base64_encode($fileContent);
-        } catch (\Exception $e) {
-            print "File download failed:\r\n";
-        }
-    }
+    
 
     /*Sharepoint Authentication Context methods */
 
