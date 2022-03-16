@@ -190,8 +190,8 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                         <td class="text-center"><?= !empty($line->Request_No)? $line->Request_No : '' ?></td>
                                         <td class="text-center"><?= Html::checkbox('Surrender',$line->Surrender) ?></td>
                                         
-                                        <td data-key="<?= $line->Key ?>" data-name="Donor_No" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'donors',{'Grant_No': 'grant','Amount':'amount'})"  class="text-center"><?= !empty($line->Donor_No)? $line->Donor_No : '' ?></td>
-                                        <td class="text-center"><?= !empty($line->Donor_Name)? $line->Donor_Name : '' ?></td>
+                                        <td data-key="<?= $line->Key ?>" data-name="Donor_No" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'donors',{'Grant_No': 'grant','Amount':'amount'})"  data-validate="Donor_Name" class="text-center"><?= !empty($line->Donor_No)? $line->Donor_No : '' ?></td>
+                                        <td class="text-center" id="Donor_Name"><?= !empty($line->Donor_Name)? $line->Donor_Name : '' ?></td>
                                         <td data-key="<?= $line->Key ?>" data-name="Grant_No" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'grants')"  class="text-center grant"><?= !empty($line->Grant_No)? $line->Grant_No : '' ?></td>
                                         <td data-key="<?= $line->Key ?>" data-name="Objective_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'objectives',{'Grant_No': 'grant'})"><?= !empty($line->Objective_Code)?$line->Objective_Code:'' ?></td>
                                         <td data-key="<?= $line->Key ?>" data-name="Output_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'outputs',{'Grant_No': 'grant'})"><?= !empty($line->Output_Code)?$line->Output_Code:'' ?></td>

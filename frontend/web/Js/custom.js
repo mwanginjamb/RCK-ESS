@@ -53,13 +53,14 @@ const Toast = Swal.mixin({
     if(data.validate) // Custom Grid Error Reporting
     {
       const DataKey = data.validate;
-      field.innerText = typeof(msg) === 'string'? msg : msg[data.name];
+      field.innerText = typeof(msg) === 'string'? msg : msg[DataKey];
     }
 
    
     // Toasting The Outcome
     typemsg = typeof msg;
     console.log(typemsg);
+    console.log('');
     if(typeof(msg) === 'string')
     {
       console.log(msg);
