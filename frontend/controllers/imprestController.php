@@ -598,9 +598,9 @@ class ImprestController extends Controller
     public function actionGetimprestsurrenders(){
         $service = Yii::$app->params['ServiceName']['ImprestSurrenderList'];
         $filter = [
-            'Employee_No' => Yii::$app->user->identity->{'Employee_No'},
+            'Employee_No' => Yii::$app->user->identity->{'Employee No_'},
         ];
-        //Yii::$app->recruitment->printrr( );
+        // Yii::$app->recruitment->printrr( $filter);
         $results = \Yii::$app->navhelper->getData($service,$filter);
         $result = [];
 
