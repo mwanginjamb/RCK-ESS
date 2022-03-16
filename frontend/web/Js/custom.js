@@ -19,6 +19,8 @@ const Toast = Swal.mixin({
   /** Handle Checkbox state */
   var child = td.children[0];
 
+  
+
   if(child.type == 'checkbox'){
     value = (child.checked)? true: false;
   }
@@ -36,7 +38,17 @@ const Toast = Swal.mixin({
   field = document.querySelector(`#${data.validate}`);
   $.post('./commit',{'key':data.key,'name': data.name, 'no': data.no,'filterKey': data.filterField,'service': data.service, 'value': value }).done(function(msg){
     
-    console.log(`Committing Data....`);
+     // Update all key dataset values
+     if(msg.Key)
+     {
+      document.querySelectorAll('[data-key]').forEach(elem => elem.dataset.key = msg.Key);
+     }
+   
+
+
+    console.log(`Committing Data....Below is the new Key`);
+    //console.table(msg.Key);
+
 
     if(data.validate) // Custom Grid Error Reporting
     {
@@ -99,15 +111,39 @@ function addInput(elm,type = false, field = false ) {
   input.focus();
 }
 
-async function addDropDown(elm,resource) {
+// Get Drop Down Filters
+
+function extractFilters(elm,ClassName)
+{
+  let parent = elm.parentNode;
+  let filterValue = parent.querySelector('.'+ClassName).innerText;
+  console.log(`Subject Parent Value`);
+  console.log(filterValue);
+  return filterValue;
+}
+
+async function addDropDown(elm,resource,filters={}) {
   if (elm.getElementsByTagName('input').length > 0) return;
+
+ 
+  let Fls = {};
+  if(Object.entries(filters).length)
+  {
+
+    Fls = Object.entries(filters).map(([key, value]) => `${key}:${extractFilters(elm,value)}`);
+    processedFilters = Fls;    
+  }
+
+  console.log(`Processed filters....`);
+  console.log(processedFilters);
+ 
 
   var value = elm.innerHTML;
   elm.innerHTML = '';
 
-  const ddContent = await getData(resource);
-
-  //console.table(ddContent);
+  const ddContent = await getData(resource,processedFilters);
+  console.log(`DD Content:`);
+  console.log(ddContent);
 
 
   var select = document.createElement('select');
@@ -134,12 +170,15 @@ async function addDropDown(elm,resource) {
 }
 
 
-async function getData(resource)
+async function getData(resource, filters)
 {
   const res = await fetch(`./${resource}`,{
+  method: 'POST',
   headers: new Headers({
-    Origin: 'http://localhost:2026/'
-  })
+    Origin: 'http://localhost:2026/',
+    "Content-Type": 'application/json',
+  }),
+  body: filters
 });
   const data = await res.json();
 

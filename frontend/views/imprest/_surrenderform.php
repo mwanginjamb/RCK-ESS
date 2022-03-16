@@ -169,9 +169,14 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                 <td class="text-center text-bold">Surrendered </td>
                                 
                                 <td class="text-center text-bold">Donor Code</td>
-                                <td class="text-center text-bold">Job No</td>
-                                <td class="text-center text-bold">Job Task No</td>
-                                <td class="text-center text-bold">Job Planning Line No"</td>
+                                <td class="text-center text-bold">Donor Name</td>
+                                <td class="text-center text-bold">Grant Name</td>
+                                <td class="text-center text-bold"><b>Objective Code</b></td>
+                                <td class="text-center text-bold"><b>Output Code</b></td>
+                                <td class="text-center text-bold"><b>Outcome Code</b></td>
+                                <td class="text-center text-bold"><b>Activity Code</b></td>
+                                <td class="text-center text-bold"><b>Partner Code</b></td>
+                               
                                
                                 
                             </thead>
@@ -181,14 +186,19 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                         <td class="text-center"><?= !empty($line->Account_Name)? $line->Account_Name : '' ?></td>
                                         <td class="text-center"><?= !empty($line->Description)? $line->Description : '' ?></td>
                                         <td data-key="<?= $line->Key ?>" data-name="Amount" data-service="ImprestSurrenderLine" ondblclick="addInput(this,'number')"><?= !empty($line->Amount)?$line->Amount:'' ?></td>
-                                        <td class="text-center"><?= !empty($line->Imprest_Amount)? $line->Imprest_Amount : '' ?></td>
+                                        <td class="text-center amount"><?= !empty($line->Imprest_Amount)? $line->Imprest_Amount : '' ?></td>
                                         <td class="text-center"><?= !empty($line->Request_No)? $line->Request_No : '' ?></td>
                                         <td class="text-center"><?= Html::checkbox('Surrender',$line->Surrender) ?></td>
                                         
-                                        <td class="text-center"><?= !empty($line->Donor_Code)? $line->Donor_Code : '' ?></td>
-                                        <td class="text-center"><?= !empty($line->Job_No)? $line->Job_No : '' ?></td>
-                                        <td class="text-center"><?= !empty($line->Job_Task_No)? $line->Job_Task_No : '' ?></td>
-                                        <td class="text-center"><?= !empty($line->Job_Planning_Line_No)? $line->Job_Planning_Line_No : '' ?></td>
+                                        <td data-key="<?= $line->Key ?>" data-name="Donor_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'donors',{'Grant_No': 'grant','Amount':'amount'})"  class="text-center"><?= !empty($line->Donor_No)? $line->Donor_No : '' ?></td>
+                                        <td class="text-center"><?= !empty($line->Donor_Name)? $line->Donor_Name : '' ?></td>
+                                        <td data-key="<?= $line->Key ?>" data-name="Grant_No" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'grants')"  class="text-center grant"><?= !empty($line->Grant_No)? $line->Grant_No : '' ?></td>
+                                        <td data-key="<?= $line->Key ?>" data-name="Objective_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'objectives',{'Grant_No': 'grant'})"><?= !empty($line->Objective_Code)?$line->Objective_Code:'' ?></td>
+                                        <td data-key="<?= $line->Key ?>" data-name="Output_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'outputs',{'Grant_No': 'grant'})"><?= !empty($line->Output_Code)?$line->Output_Code:'' ?></td>
+                                        <td data-key="<?= $line->Key ?>" data-name="Outcome_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'outcome',{'Grant_No': 'grant'})"><?= !empty($line->Outcome_Code)?$line->Outcome_Code:'' ?></td>
+                                        <td data-key="<?= $line->Key ?>" data-name="Activity_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'activities',{'Grant_No': 'grant'})"><?= !empty($line->Activity_Code)?$line->Activity_Code:'' ?></td>
+                                        <td data-key="<?= $line->Key ?>" data-name="Partner_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'partners',{'Grant_No': 'grant'})"><?= !empty($line->Partner_Code)?$line->Partner_Code:'' ?></td>
+                                        
                                        
                                     </tr>
                                 <?php endforeach; ?>
@@ -240,7 +250,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
             </div>
         </div>
     </div>
-<input type="hidden" name="url" value="<?= $absoluteUrl ?>">
+<input type="hidden" name="absolute" value="<?= $absoluteUrl ?>">
 <?php
 $script = <<<JS
  //Submit Rejection form and get results in json    

@@ -68,6 +68,18 @@ class ImprestController extends Controller
         ];
     }
 
+    public function beforeAction($action)
+    {
+
+        $ExceptedActions = ['grants','objectives','outputs','outcome','activities','partners','donors'];
+
+        if (in_array($action->id , $ExceptedActions) ) {
+            $this->enableCsrfValidation = false;
+        }
+
+        return parent::beforeAction($action);
+    }
+
     public function actionIndex(){
 
         return $this->render('index');
@@ -261,6 +273,7 @@ class ImprestController extends Controller
         
        //  $result = Yii::$app->navhelper->findOne($service,'No', Yii::$app->request->get('No'));
        $result = Yii::$app->navhelper->readByKey($service, $No);
+       //Yii::$app->recruitment->printrr($result);
 
         if(!is_string($result)){
             //load nav result to model
@@ -357,13 +370,7 @@ class ImprestController extends Controller
             $model = Yii::$app->navhelper->loadmodel($result,$model) ;//$this->loadtomodeEmployee_Nol($result[0],$Expmodel);
         }else{
             Yii::$app->session->setFlash('error','Error : '.$result );
-                return $this->render('update',[
-                    'model' => $model,
-                    'employees' => $this->getEmployees(),
-                    'programs' => $this->getPrograms(),
-                    'departments' => $this->getDepartments(),
-                    'currencies' => Yii::$app->navhelper->dropdown('Currencies','Code','Description')
-                ]);
+            return $this->redirect(['index']);
         }
 
 
@@ -375,6 +382,7 @@ class ImprestController extends Controller
 
                 return $this->render('update',[
                     'model' => $model,
+                    'document' => $result,
                     'employees' => $this->getEmployees(),
                     'programs' => $this->getPrograms(),
                     'departments' => $this->getDepartments(),
@@ -386,6 +394,7 @@ class ImprestController extends Controller
                 Yii::$app->session->setFlash('error','Error : '.$result );
                 return $this->render('update',[
                     'model' => $model,
+                    'document' => $result,
                     'employees' => $this->getEmployees(),
                     'programs' => $this->getPrograms(),
                     'departments' => $this->getDepartments(),
@@ -400,6 +409,7 @@ class ImprestController extends Controller
         if(Yii::$app->request->isAjax){
             return $this->renderAjax('update', [
                 'model' => $model,
+                'document' => $result,
                 'employees' => $this->getEmployees(),
                 'programs' => $this->getPrograms(),
                 'departments' => $this->getDepartments(),
@@ -410,6 +420,7 @@ class ImprestController extends Controller
 
         return $this->render('update',[
             'model' => $model,
+            'document' => $result,
             'employees' => $this->getEmployees(),
             'programs' => $this->getPrograms(),
             'departments' => $this->getDepartments(),
@@ -430,7 +441,7 @@ class ImprestController extends Controller
     }
 
     public function actionView($No="",$DocNo=''){
-        $service = Yii::$app->params['ServiceName']['ImprestRequestCardPortal'];
+        $service = Yii::$app->params['ServiceName']['ImprestRequestCard'];
 
 
         if(!empty($DocNo))
@@ -452,6 +463,7 @@ class ImprestController extends Controller
 
         return $this->render('view',[
             'model' => $model,
+            'document' => $result
         ]);
     }
 
@@ -641,7 +653,7 @@ class ImprestController extends Controller
             'Status' => 'Approved',
             'Posted' =>  true,
             'Surrendered' => false,
-            'Surrender_Booked' => false          
+            'Surrender_Booked' => false         
         ];
 
         $results = \Yii::$app->navhelper->getData($service,$filter);
@@ -924,9 +936,205 @@ class ImprestController extends Controller
 
     }
 
+    // Get Donors
 
-    
+    public function actionDonors()
+    {
+          
+            $service = Yii::$app->params['ServiceName']['CustomerLookup'];
+            $filter = [
+               
+            ];
+            $result = \Yii::$app->navhelper->getData($service, $filter);
+            $arr = [];
+           
+            foreach($result as $res)
+            {
+                if(!empty($res->No) && !empty($res->Name))
+                {
+                    $arr[] = [
+                        'Code' => $res->No,
+                        'Description' => $res->No.' - '.$res->Name
+                    ];
+                }
+            }
+            $data = ArrayHelper::map($arr,'Code','Description'); 
+            ksort($data);
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return $data;       
+    }
 
 
+    // Get Grants
+
+    public function actionGrants()
+    {
+          
+            $service = Yii::$app->params['ServiceName']['GrantLookUp'];
+            $filter = [
+               
+            ];
+            $result = \Yii::$app->navhelper->getData($service, $filter);
+            $arr = [];
+           
+            foreach($result as $res)
+            {
+                if(!empty($res->No) && !empty($res->Title))
+                {
+                    $arr[] = [
+                        'Code' => $res->No,
+                        'Description' => $res->No.' - '.$res->Title
+                    ];
+                }
+            }
+            $data = ArrayHelper::map($arr,'Code','Description'); 
+            ksort($data);
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return $data;       
+    }
+
+    // Get Filtered Objectives
+
+    public function actionObjectives()
+    {
+          
+            $service = Yii::$app->params['ServiceName']['GrantLinesLookUp'];
+            $filter = [
+                'Grant_No' => Yii::$app->request->post('Grant_No'),
+                'Line_Type' => 'Objective'
+            ];
+            $result = \Yii::$app->navhelper->getData($service, $filter);
+            $arr = [];
+           
+            foreach($result as $res)
+            {
+                if(!empty($res->Code) && !empty($res->Description))
+                {
+                    $arr[] = [
+                        'Code' => $res->Code,
+                        'Description' => $res->Code.' - '.$res->Description
+                    ];
+                }
+            }
+            $data = ArrayHelper::map($arr,'Code','Description'); 
+            ksort($data);
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return $data;       
+    }
+
+     // Get Filtered Outputs
+
+     public function actionOutputs()
+     {
+             $service = Yii::$app->params['ServiceName']['GrantLinesLookUp'];
+             $filter = [
+                 'Grant_No' => Yii::$app->request->post('Grant_No'),
+                 'Line_Type' => 'Output'
+             ];
+             $result = \Yii::$app->navhelper->getData($service, $filter);
+             $arr = [];
+            
+             foreach($result as $res)
+             {
+                 if(!empty($res->Code) && !empty($res->Description))
+                 {
+                     $arr[] = [
+                         'Code' => $res->Code,
+                         'Description' => $res->Code.' - '.$res->Description
+                     ];
+                 }
+             }
+             $data = ArrayHelper::map($arr,'Code','Description'); 
+             ksort($data);
+             Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+             return $data;    
+     }
+
+
+     // Get Filtered OutCome
+
+    public function actionOutcome()
+    {
+            $service = Yii::$app->params['ServiceName']['GrantLinesLookUp'];
+            $filter = [
+                'Grant_No' => Yii::$app->request->post('Grant_No'),
+                'Line_Type' => 'Outcome'
+            ];
+            $result = \Yii::$app->navhelper->getData($service, $filter);
+            $arr = [];
+           
+            foreach($result as $res)
+            {
+                if(!empty($res->Code) && !empty($res->Description))
+                {
+                    $arr[] = [
+                        'Code' => $res->Code,
+                        'Description' => $res->Code.' - '.$res->Description
+                    ];
+                }
+            }
+            $data = ArrayHelper::map($arr,'Code','Description'); 
+            ksort($data);
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return $data;
+    }
+
+
+    // Get Filterd Activities
+
+    public function actionActivities()
+    {
+           
+            $service = Yii::$app->params['ServiceName']['GrantLinesLookUp'];
+            $filter = [
+                'Grant_No' => Yii::$app->request->post('Grant_No'),
+                'Line_Type' => 'Activity'
+            ];
+            $result = \Yii::$app->navhelper->getData($service, $filter);
+            $arr = [];
+           
+            foreach($result as $res)
+            {
+                if(!empty($res->Code) && !empty($res->Description))
+                {
+                    $arr[] = [
+                        'Code' => $res->Code,
+                        'Description' => $res->Code.' - '.$res->Description
+                    ];
+                }
+            }
+            $data = ArrayHelper::map($arr,'Code','Description'); 
+            ksort($data);
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return $data;
+    }
+
+    public function actionPartners()
+    {
+            
+            $service = Yii::$app->params['ServiceName']['GrantDetailLines'];
+            $filter = [
+                'Grant_Code' => Yii::$app->request->post('Grant_No')
+            ];
+            $result = \Yii::$app->navhelper->getData($service, $filter);
+            $arr = [];
+           
+            foreach($result as $res)
+            {
+                if(!empty($res->G_L_Account_No) && !empty($res->Activity_Description))
+                {
+                    $arr[] = [
+                        'Code' => $res->G_L_Account_No,
+                        'Description' => $res->G_L_Account_No.' - '.$res->Activity_Description
+                    ];
+                }
+            }
+            $data = ArrayHelper::map($arr,'Code','Description'); 
+            ksort($data);
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return $data;
+    }
+
+ 
 
 }
