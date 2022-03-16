@@ -184,10 +184,14 @@ Yii::$app->session->set('isSupervisor',false);*/
                                                     <td class="text-center text-bold">Imprest Amount</td>
                                                     <td class="text-center text-bold">Request No</td>
                                                     <td class="text-center text-bold">Surrender</td>
-                                                    <td class="text-center text-bold">Donor Code</td>
-                                                    <td class="text-center text-bold">Job No</td>
-                                                    <td class="text-center text-bold">Job Task No</td>
-                                                    <td class="text-center text-bold">Job Planning Line No"</td>
+                                                    <td class="text-center text-bold ">Donor Code</td>
+                                                    <td class="text-center text-bold">Donor Name</td>
+                                                    <td class="text-center text-bold" >Grant Name</td>
+                                                    <td class="text-center text-bold"><b>Objective Code</b></td>
+                                                    <td class="text-center text-bold"><b>Output Code</b></td>
+                                                    <td class="text-center text-bold"><b>Outcome Code</b></td>
+                                                    <td class="text-center text-bold"><b>Activity Code</b></td>
+                                                    <td class="text-center text-bold"><b>Partner Code</b></td>
                                                     
 
 
@@ -207,10 +211,14 @@ Yii::$app->session->set('isSupervisor',false);*/
                                                             <td class="text-center"><?= !empty($line->Imprest_Amount)? $line->Imprest_Amount : '' ?></td>
                                                             <td class="text-center"><?= !empty($line->Request_No)? $line->Request_No : '' ?></td>
                                                             <td class="text-center"><?= Html::checkbox('Surrender',$line->Surrender) ?></td>
-                                                            <td class="text-center"><?= !empty($line->Donor_Code)? $line->Donor_Code : '' ?></td>
-                                                            <td class="text-center"><?= !empty($line->Job_No)? $line->Job_No : '' ?></td>
-                                                            <td class="text-center"><?= !empty($line->Job_Task_No)? $line->Job_Task_No : '' ?></td>
-                                                            <td class="text-center"><?= !empty($line->Job_Planning_Line_No)? $line->Job_Planning_Line_No : '' ?></td>
+                                                            <td data-key="<?= $line->Key ?>" data-name="Donor_No" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'donors',{'Grant_No': 'grant','Amount':'amount'})"  class="text-center"><?= !empty($line->Donor_No)? $line->Donor_No : '' ?></td>
+                                                            <td class="text-center"><?= !empty($line->Donor_Name)? $line->Donor_Name : '' ?></td>
+                                                            <td data-key="<?= $line->Key ?>"   class="text-center grant"><?= !empty($line->Grant_No)? $line->Grant_No : '' ?></td>
+                                                            <td data-key="<?= $line->Key ?>" ><?= !empty($line->Objective_Code)?$line->Objective_Code:'' ?></td>
+                                                            <td data-key="<?= $line->Key ?>" ><?= !empty($line->Output_Code)?$line->Output_Code:'' ?></td>
+                                                            <td data-key="<?= $line->Key ?>" ><?= !empty($line->Outcome_Code)?$line->Outcome_Code:'' ?></td>
+                                                            <td data-key="<?= $line->Key ?>" ><?= !empty($line->Activity_Code)?$line->Activity_Code:'' ?></td>
+                                                            <td data-key="<?= $line->Key ?>" ><?= !empty($line->Partner_Code)?$line->Partner_Code:'' ?></td>
                                                             
                                                     </tr>
                                                 <?php endforeach; ?>
