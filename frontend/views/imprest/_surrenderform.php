@@ -163,19 +163,19 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                             <thead>
                                 <td class="text-center text-bold">Account_Name</td>
                                 <td class="text-center text-bold">Description</td>
-                                <td class="text-center text-bold">Actual Spend</td>
-                                <td class="text-center text-bold">Imprest Amount</td>
+                                <td class="text-center text-bold border border-info">Actual Spend</td>
+                                <td class="text-center text-bold ">Imprest Amount</td>
                                 <td class="text-center text-bold">Request No</td>
                                 <td class="text-center text-bold">Surrendered </td>
                                 
-                                <td class="text-center text-bold">Donor Code</td>
+                                <td class="text-center text-bold border border-info">Donor Code</td>
                                 <td class="text-center text-bold">Donor Name</td>
-                                <td class="text-center text-bold">Grant Name</td>
-                                <td class="text-center text-bold"><b>Objective Code</b></td>
-                                <td class="text-center text-bold"><b>Output Code</b></td>
-                                <td class="text-center text-bold"><b>Outcome Code</b></td>
-                                <td class="text-center text-bold"><b>Activity Code</b></td>
-                                <td class="text-center text-bold"><b>Partner Code</b></td>
+                                <td class="text-center text-bold border border-info" >Grant Name</td>
+                                <td class="text-center text-bold border border-info"><b>Objective Code</b></td>
+                                <td class="text-center text-bold border border-info"><b>Output Code</b></td>
+                                <td class="text-center text-bold border border-info"><b>Outcome Code</b></td>
+                                <td class="text-center text-bold border border-info"><b>Activity Code</b></td>
+                                <td class="text-center text-bold border border-info"><b>Partner Code</b></td>
                                
                                
                                 
@@ -190,7 +190,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                         <td class="text-center"><?= !empty($line->Request_No)? $line->Request_No : '' ?></td>
                                         <td class="text-center"><?= Html::checkbox('Surrender',$line->Surrender) ?></td>
                                         
-                                        <td data-key="<?= $line->Key ?>" data-name="Donor_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'donors',{'Grant_No': 'grant','Amount':'amount'})"  class="text-center"><?= !empty($line->Donor_No)? $line->Donor_No : '' ?></td>
+                                        <td data-key="<?= $line->Key ?>" data-name="Donor_No" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'donors',{'Grant_No': 'grant','Amount':'amount'})"  class="text-center"><?= !empty($line->Donor_No)? $line->Donor_No : '' ?></td>
                                         <td class="text-center"><?= !empty($line->Donor_Name)? $line->Donor_Name : '' ?></td>
                                         <td data-key="<?= $line->Key ?>" data-name="Grant_No" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'grants')"  class="text-center grant"><?= !empty($line->Grant_No)? $line->Grant_No : '' ?></td>
                                         <td data-key="<?= $line->Key ?>" data-name="Objective_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'objectives',{'Grant_No': 'grant'})"><?= !empty($line->Objective_Code)?$line->Objective_Code:'' ?></td>

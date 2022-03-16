@@ -31,7 +31,7 @@ const Toast = Swal.mixin({
 
   const data = td.dataset;
 
-  console.log(`The Data Set`);
+  console.log(`The Data Set.........................................................`);
   console.table(data);
  
   // Post Changes
