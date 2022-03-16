@@ -176,9 +176,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                 <td class="text-center text-bold border border-info"><b>Outcome Code</b></td>
                                 <td class="text-center text-bold border border-info"><b>Activity Code</b></td>
                                 <td class="text-center text-bold border border-info"><b>Partner Code</b></td>
-                               
-                               
-                                
+                                     
                             </thead>
                             <tbody>
                                 <?php foreach($surrender->Imprest_Surrender_Line->Imprest_Surrender_Line as $line) :?>
@@ -198,8 +196,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                         <td data-key="<?= $line->Key ?>" data-name="Outcome_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'outcome',{'Grant_No': 'grant'})"><?= !empty($line->Outcome_Code)?$line->Outcome_Code:'' ?></td>
                                         <td data-key="<?= $line->Key ?>" data-name="Activity_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'activities',{'Grant_No': 'grant'})"><?= !empty($line->Activity_Code)?$line->Activity_Code:'' ?></td>
                                         <td data-key="<?= $line->Key ?>" data-name="Partner_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'partners',{'Grant_No': 'grant'})"><?= !empty($line->Partner_Code)?$line->Partner_Code:'' ?></td>
-                                        
-                                       
+                                     
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
