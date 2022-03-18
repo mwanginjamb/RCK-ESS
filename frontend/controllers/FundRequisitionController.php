@@ -88,7 +88,7 @@ class FundRequisitionController extends Controller
          /*Do initial request */
         
             $model->Employee_No = Yii::$app->user->identity->{'Employee No_'};
-            $model->Currency_Code = 'KES';
+           // $model->Currency_Code = 'KES';
             $request = Yii::$app->navhelper->postData($service,$model);
             if(is_object($request) )
             {
@@ -275,7 +275,7 @@ class FundRequisitionController extends Controller
     public function actionGetrequests(){
         $service = Yii::$app->params['ServiceName']['AllowanceRequestList'];
         $filter = [
-            'Employee_No' => Yii::$app->user->identity->{'Employee_No'},
+            'Employee_No' => Yii::$app->user->identity->{'Employee No_'},
         ];
         //Yii::$app->recruitment->printrr( );
         $results = \Yii::$app->navhelper->getData($service,$filter);
@@ -285,6 +285,12 @@ class FundRequisitionController extends Controller
         if(is_array($result))
         {
             foreach($results as $item){
+
+                if(empty($item->No))
+                {
+                    continue;
+                }
+
                 $link = $updateLink = $deleteLink =  '';
                 $Viewlink = Html::a('<i class="fas fa-eye"></i>',['view','No'=> $item->No ],['class'=>'btn btn-outline-primary btn-xs']);
                 if($item->Status == 'New'){
