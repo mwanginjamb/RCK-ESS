@@ -71,7 +71,7 @@ class ImprestController extends Controller
     public function beforeAction($action)
     {
 
-        $ExceptedActions = ['grants','objectives','outputs','outcome','activities','partners','donors'];
+        $ExceptedActions = ['dimension1','dimension2','transactiontypes','grants','objectives','outputs','outcome','activities','partners','donors'];
 
         if (in_array($action->id , $ExceptedActions) ) {
             $this->enableCsrfValidation = false;
@@ -359,12 +359,12 @@ class ImprestController extends Controller
 
     public function actionUpdate($No){
         $model = new Imprestcard() ;
-        $service = Yii::$app->params['ServiceName']['ImprestRequestCardPortal'];
+        $service = Yii::$app->params['ServiceName']['ImprestRequestCard'];
         $model->isNewRecord = false;
 
         
         $result = Yii::$app->navhelper->readByKey($service,$No);
-
+        //Yii::$app->recruitment->printrr($result);
         if(!is_string($result)){
             //load nav result to model
             $model = Yii::$app->navhelper->loadmodel($result,$model) ;//$this->loadtomodeEmployee_Nol($result[0],$Expmodel);
@@ -641,7 +641,7 @@ class ImprestController extends Controller
         $service = Yii::$app->params['ServiceName']['Employees'];
 
         $employees = \Yii::$app->navhelper->getData($service);
-        return ArrayHelper::map($employees,'No','FullName');
+        return Yii::$app->navhelper->refactorArray($service,'No','FullName');
     }
 
     /* My Imprests*/
@@ -936,6 +936,62 @@ class ImprestController extends Controller
 
     }
 
+    public function actionAddLine($Service,$Document_No)
+    {
+        $service = Yii::$app->params['ServiceName'][$Service];
+        $data = [
+            'Request_No' => $Document_No,
+            'Line_No' => time()
+        ];
+
+        // Insert Record
+
+        $result = Yii::$app->navhelper->postData($service, $data);
+
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        if(is_object($result))
+        {
+            return [
+                'note' => 'Record Created Successfully.',
+                'result' => $result
+            ];
+        }else{
+            return ['note' => $result];
+        }
+    }
+    
+    public function getDimension($value)
+     {
+         $service = Yii::$app->params['ServiceName']['DimensionValueList'];
+         $filter = ['Global_Dimension_No' => $value];
+         $result = \Yii::$app->navhelper->getData($service, $filter);
+         
+         return Yii::$app->navhelper->refactorArray($result,'Code','Name');
+     }
+
+     public function actionDimension1()
+     {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+         return $this->getDimension(1);
+     }
+
+     public function actionDimension2()
+     {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+         return $this->getDimension(2);
+     }
+
+
+    // Get Transaction Types
+
+    public function actionTransactiontypes()
+    {
+        $data = Yii::$app->navhelper->dropdown('PaymentTypes','Code','Description');
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $data;
+    }
+
+
     // Get Donors
 
     public function actionDonors()
@@ -997,22 +1053,25 @@ class ImprestController extends Controller
 
     public function actionObjectives()
     {
-          
+            $data = file_get_contents('php://input');
+            $params = json_decode($data);
             $service = Yii::$app->params['ServiceName']['GrantLinesLookUp'];
             $filter = [
-                'Grant_No' => Yii::$app->request->post('Grant_No'),
+                'Grant_No' => $params->Grant_No,
                 'Line_Type' => 'Objective'
             ];
+            
             $result = \Yii::$app->navhelper->getData($service, $filter);
+            //Yii::$app->recruitment->printrr($result);
             $arr = [];
            
             foreach($result as $res)
             {
-                if(!empty($res->Code) && !empty($res->Description))
+                if(!empty($res->Code))
                 {
                     $arr[] = [
                         'Code' => $res->Code,
-                        'Description' => $res->Code.' - '.$res->Description
+                        'Description' => $res->Code
                     ];
                 }
             }
@@ -1026,25 +1085,17 @@ class ImprestController extends Controller
 
      public function actionOutputs()
      {
+            $data = file_get_contents('php://input');
+            $params = json_decode($data);
              $service = Yii::$app->params['ServiceName']['GrantLinesLookUp'];
              $filter = [
-                 'Grant_No' => Yii::$app->request->post('Grant_No'),
+                 'Grant_No' => $params->Grant_No,
                  'Line_Type' => 'Output'
              ];
              $result = \Yii::$app->navhelper->getData($service, $filter);
-             $arr = [];
+             //Yii::$app->recruitment->printrr($result);
             
-             foreach($result as $res)
-             {
-                 if(!empty($res->Code) && !empty($res->Description))
-                 {
-                     $arr[] = [
-                         'Code' => $res->Code,
-                         'Description' => $res->Code.' - '.$res->Description
-                     ];
-                 }
-             }
-             $data = ArrayHelper::map($arr,'Code','Description'); 
+             $data = Yii::$app->navhelper->refactorArray($result,'Code','Code'); 
              ksort($data);
              Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
              return $data;    
@@ -1055,25 +1106,15 @@ class ImprestController extends Controller
 
     public function actionOutcome()
     {
+            $data = file_get_contents('php://input');
+            $params = json_decode($data);
             $service = Yii::$app->params['ServiceName']['GrantLinesLookUp'];
             $filter = [
-                'Grant_No' => Yii::$app->request->post('Grant_No'),
+                'Grant_No' => $params->Grant_No,
                 'Line_Type' => 'Outcome'
             ];
             $result = \Yii::$app->navhelper->getData($service, $filter);
-            $arr = [];
-           
-            foreach($result as $res)
-            {
-                if(!empty($res->Code) && !empty($res->Description))
-                {
-                    $arr[] = [
-                        'Code' => $res->Code,
-                        'Description' => $res->Code.' - '.$res->Description
-                    ];
-                }
-            }
-            $data = ArrayHelper::map($arr,'Code','Description'); 
+            $data = Yii::$app->navhelper->refactorArray($result,'Code','Code'); 
             ksort($data);
             Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             return $data;
@@ -1085,25 +1126,15 @@ class ImprestController extends Controller
     public function actionActivities()
     {
            
+            $data = file_get_contents('php://input');
+            $params = json_decode($data);
             $service = Yii::$app->params['ServiceName']['GrantLinesLookUp'];
             $filter = [
-                'Grant_No' => Yii::$app->request->post('Grant_No'),
+                'Grant_No' => $params->Grant_No,
                 'Line_Type' => 'Activity'
             ];
             $result = \Yii::$app->navhelper->getData($service, $filter);
-            $arr = [];
-           
-            foreach($result as $res)
-            {
-                if(!empty($res->Code) && !empty($res->Description))
-                {
-                    $arr[] = [
-                        'Code' => $res->Code,
-                        'Description' => $res->Code.' - '.$res->Description
-                    ];
-                }
-            }
-            $data = ArrayHelper::map($arr,'Code','Description'); 
+            $data = Yii::$app->navhelper->refactorArray($result,'Code','Code'); 
             ksort($data);
             Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             return $data;
@@ -1111,10 +1142,11 @@ class ImprestController extends Controller
 
     public function actionPartners()
     {
-            
+            $data = file_get_contents('php://input');
+            $params = json_decode($data);
             $service = Yii::$app->params['ServiceName']['GrantDetailLines'];
             $filter = [
-                'Grant_Code' => Yii::$app->request->post('Grant_No')
+                'Grant_Code' => $params->Grant_No
             ];
             $result = \Yii::$app->navhelper->getData($service, $filter);
             $arr = [];

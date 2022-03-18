@@ -119,12 +119,12 @@ if(Yii::$app->session->hasFlash('success')){
                                                                 <?= $form->field($model, 'Imprest_Type')->dropDownList(['Local' => 'Local', 'International' => 'International'],['prompt' => 'Select ...']) ?>
 
 
-                                                                <?php if($model->Imprest_Type == 'International'): ?>
+                                                                
 
                                                                     <?= $form->field($model, 'Currency_Code')->dropDownList($currencies,['prompt' => 'Select ...','required' => true]) ?>
-                                                                    <?= $form->field($model, 'Exchange_Rate')->textInput(['type'=> 'number','required' => true]) ?>
+                                                                    <?php $form->field($model, 'Exchange_Rate')->textInput(['type'=> 'number','required' => true]) ?>
 
-                                                                <?php endif; ?>
+                                                                
 
                                     <!--                            <p class="parent"><span>+</span>-->
 
@@ -171,36 +171,46 @@ if(Yii::$app->session->hasFlash('success')){
 
         <div class="card">
             <div class="card-header">
-                <div class="card-title">
-                    <?= ($model->Status == 'New')?Html::a('<i class="fa fa-plus-square"></i> New Imprest Line',['imprestline/create','Request_No'=>$model->No],['class' => 'add-line btn btn-outline-info',
+                
+                    <?= ($model->Status == 'New')?Html::a('<i class="fa fa-plus-square"></i> New Imprest Line',['add-line'],
+                    [
+                        'class' => 'add btn btn-outline-info',
+                        'data-no' => $model->No,
+                        'data-service' => 'ImprestRequestLine'
                     ]):'' ?>
+                
+
+                <div class="card-tools my-2 px-3">
+                    <span class="text text-info border border-info p-2 rounded">To Update line values,  double click on cells whose column headers are colored blue.</span>
                 </div>
             </div>
 
             <div class="card-body">
 
-                <?php if(property_exists($document->Imprest_Request_Subform_Portal, 'Imprest_Request_Subform_Portal')){ //show Lines ?>
+                <?php if(property_exists($document->Imprest_Request_Line, 'Imprest_Request_Line')){ //show Lines ?>
 
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
                             <tr>
                                     <td><b>Line No</b></td>
-                                    <td><b>Transaction_Type</b></td>
+                                    <td class="text-info"><b>Transaction_Type</b></td>
                                 
                                     <td><b>Account_Name</b></td>
                                     <td><b>Description</b></td>
-                                    <td><b>Amount</b></td>
+                                    <td class="text-info"><b>Amount</b></td>
                                     <td><b>Amount_LCY</b></td>
-                                    <td><b>Program</b></td>
-                                    <td><b>Department</b></td>
+                                    <td class="text-info"><b>Program</b></td>
+                                    <td class="text-info"><b>Department</b></td>
                                    
-                                    <td><b>Donor Name</b></td>
-                                    <td><b>Objective Code</b></td>
-                                    <td><b>Output Code</b></td>
-                                    <td><b>Outcome Code</b></td>
-                                    <td><b>Activity Code</b></td>
-                                    <td><b>Partner Code</b></td>
+                                <td class="text-info text-center text-bold border border-info">Donor_Code</td>
+                                <td class="text-center text-bold">Donor Name</td>
+                                <td class="text-info text-center text-bold border border-info" >Grant_Name</td>
+                                <td class="text-info text-center text-bold border border-info"><b>Objective_Code</b></td>
+                                <td class="text-info text-center text-bold border border-info"><b>Output_Code</b></td>
+                                <td class="text-info text-center text-bold border border-info"><b>Outcome_Code</b></td>
+                                <td class="text-info text-center text-bold border border-info"><b>Activity_Code</b></td>
+                                <td class="text-info text-center text-bold border border-info"><b>Partner_Code</b></td>
                                     
                                     <td><b>Actions</b></td>
     
@@ -212,27 +222,29 @@ if(Yii::$app->session->hasFlash('success')){
                             <?php
                             // print '<pre>'; print_r($model->getObjectives()); exit;
     
-                            foreach($document->Imprest_Request_Subform_Portal->Imprest_Request_Subform_Portal as $obj):
+                            foreach($document->Imprest_Request_Line->Imprest_Request_Line   as $obj):
                                 $updateLink = Html::a('<i class="fa fa-edit"></i>',['imprestline/update','Key'=> $obj->Key],['class' => 'update-objective btn btn-outline-info btn-xs']);
                                 $deleteLink = Html::a('<i class="fa fa-trash"></i>',['imprestline/delete','Key'=> $obj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
                                 ?>
                                 <tr>
     
                                         <td><?= !empty($obj->Line_No)?$obj->Line_No:'' ?></td>
-                                        <td><?= !empty($obj->Transaction_Type)?$obj->Transaction_Type:'' ?></td>
-                                        <td><?= !empty($obj->Account_Name)?$obj->Account_Name:'' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="Transaction_Type" data-service="ImprestRequestLine" ondblclick="addDropDown(this,'transactiontypes')" data-validate="Account_Name"><?= !empty($obj->Transaction_Type)?$obj->Transaction_Type:'' ?></td>
+                                        <td class="Account_Name"><?= !empty($obj->Account_Name)?$obj->Account_Name:'' ?></td>
                                         <td><?= !empty($obj->Description)?$obj->Description:'' ?></td>
-                                        <td><?= !empty($obj->Amount)?$obj->Amount:'' ?></td>
-                                        <td><?= !empty($obj->Amount_LCY)?$obj->Amount_LCY:'' ?></td>
-                                        <td><?= !empty($obj->Global_Dimension_1_Code)?$obj->Global_Dimension_1_Code:'' ?></td>
-                                        <td><?= !empty($obj->Global_Dimension_2_Code)?$obj->Global_Dimension_2_Code:'' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="Amount" data-service="ImprestRequestLine" ondblclick="addInput(this,'number')" data-validate="Amount_LCY"><?= !empty($obj->Amount)?$obj->Amount:'' ?></td>
+                                        <td class="Amount_LCY"><?= !empty($obj->Amount_LCY)?$obj->Amount_LCY:'' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="Global_Dimension_1_Code" data-service="ImprestRequestLine" ondblclick="addDropDown(this,'dimension1')"><?= !empty($obj->Global_Dimension_1_Code)?$obj->Global_Dimension_1_Code:'' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="Global_Dimension_2_Code" data-service="ImprestRequestLine" ondblclick="addDropDown(this,'dimension2')"><?= !empty($obj->Global_Dimension_2_Code)?$obj->Global_Dimension_2_Code:'' ?></td>
                                         
-                                        <td><?= !empty($obj->Donor_Name)?$obj->Donor_Name:'' ?></td>
-                                        <td><?= !empty($obj->Objective_Code)?$obj->Objective_Code:'' ?></td>
-                                        <td><?= !empty($obj->Output_Code)?$obj->Output_Code:'' ?></td>
-                                        <td><?= !empty($obj->Outcome_Code)?$obj->Outcome_Code:'' ?></td>
-                                        <td><?= !empty($obj->Activity_Code)?$obj->Activity_Code:'' ?></td>
-                                        <td><?= !empty($obj->Partner_Code)?$obj->Partner_Code:'' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="Donor_No" data-service="ImprestRequestLine" ondblclick="addDropDown(this,'donors',{'Grant_No': 'grant'})"  data-validate="Donor_Name" class="text-center"><?= !empty($obj->Donor_No)? $obj->Donor_No : '' ?></td>
+                                        <td class="text-center Donor_Name"><?= !empty($obj->Donor_Name)? $obj->Donor_Name : '' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="Grant_No" data-service="ImprestRequestLine" ondblclick="addDropDown(this,'grants')"  class="text-center grant"><?= !empty($obj->Grant_No)? $obj->Grant_No : '' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="Objective_Code" data-service="ImprestRequestLine" ondblclick="addDropDown(this,'objectives',{'Grant_No': 'grant'})"><?= !empty($obj->Objective_Code)?$obj->Objective_Code:'' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="Output_Code" data-service="ImprestRequestLine" ondblclick="addDropDown(this,'outputs',{'Grant_No': 'grant'})"><?= !empty($obj->Output_Code)?$obj->Output_Code:'' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="Outcome_Code" data-service="ImprestRequestLine" ondblclick="addDropDown(this,'outcome',{'Grant_No': 'grant'})"><?= !empty($obj->Outcome_Code)?$obj->Outcome_Code:'' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="Activity_Code" data-service="ImprestRequestLine" ondblclick="addDropDown(this,'activities',{'Grant_No': 'grant'})"><?= !empty($obj->Activity_Code)?$obj->Activity_Code:'' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="Partner_Code" data-service="ImprestRequestLine" ondblclick="addDropDown(this,'partners',{'Grant_No': 'grant'})"><?= !empty($obj->Partner_Code)?$obj->Partner_Code:'' ?></td>
                                         <td><?= $updateLink.'|'.$deleteLink ?></td>
                                     </tr>
                             <?php endforeach; ?>
@@ -278,22 +290,112 @@ if(Yii::$app->session->hasFlash('success')){
             </div>
         </div>
     </div>
-<input type="hidden" name="url" value="<?= $absoluteUrl ?>">
+<input type="hidden" name="absolute" value="<?= $absoluteUrl ?>">
 <?php
 $script = <<<JS
- //Submit Rejection form and get results in json    
-       /* $('form').on('submit', function(e){
-            e.preventDefault()
-            const data = $(this).serialize();
-            const url = $(this).attr('action');
-            $.post(url,data).done(function(msg){
-                    $('.modal').modal('show')
-                    .find('.modal-body')
-                    .html(msg.note);
-        
-                },'json');
-        });*/
+  // Trigger Creation of a line
+  $('.add').on('click',function(e){
+            e.preventDefault();
+            let url = $(this).attr('href');
+           
+            let data = $(this).data();
+            const payload = {
+                'Document_No': data.no,
+                'Service': data.service
+            };
+            //console.log(payload);
+            //return;
+            $('a.add').text('Inserting...');
+            $('a.add').attr('disabled', true);
+            $.get(url, payload).done((msg) => {
+                console.log(msg);
+                setTimeout(() => {
+                    location.reload(true);
+                },1500);
+            });
+        });
+    
+     
+    
+  
+    $('.del').on('click',function(e){
+            e.preventDefault();
+            if(confirm('Are you sure about deleting this record?'))
+            {
+                let data = $(this).data();
+                let url = $(this).attr('href');
+                let Key = data.key;
+                let Service = data.service;
+                const payload = {
+                    'Key': Key,
+                    'Service': Service
+                };
+                $(this).text('Deleting...');
+                $(this).attr('disabled', true);
+                $.get(url, payload).done((msg) => {
+                    console.log(msg);
+                    setTimeout(() => {
+                        location.reload(true);
+                    },3000);
+                });
+            }
+            
+    });
+   
+        // Set other Employee
+  
+     $('#imprestcard-employee_no').change((e) => {
+        globalFieldUpdate('Imprestcard','imprest','Employee_No', e);
+    });
 
+
+    // Set Currency
+
+    $('#imprestcard-currency_code').change((e) => {
+        globalFieldUpdate('Imprestcard','imprest','Currency_Code', e);
+    });
+
+
+     
+     /*Set Program  */
+    
+
+     $('#imprestcard-global_dimension_1_code').change((e) => {
+        globalFieldUpdate('Imprestcard','imprest','Global_Dimension_1_Code', e);
+    });
+     
+     
+     /* set department */
+     
+     $('#imprestcard-global_dimension_2_code').change((e) => {
+        globalFieldUpdate('Imprestcard','imprest','Global_Dimension_2_Code', e);
+    });
+
+    /**Update Purpose */
+
+    $('#imprestcard-purpose').change((e) => {
+        globalFieldUpdate('Imprestcard','imprest','Purpose', e);
+    }); 
+     
+     
+     /*Set Imprest Type*/
+     
+
+     $('#imprestcard-imprest_type').change((e) => {
+        globalFieldUpdate('Imprestcard','imprest','Imprest_Type', e);
+    });
+
+    
+      /* Add Line */
+      $('.add-line, .update-objective').on('click', function(e){
+             e.preventDefault();
+            var url = $(this).attr('href');
+            console.log(url);
+            $('.modal').modal('show')
+                            .find('.modal-body')
+                            .load(url); 
+
+        });
 
         $('.delete, .delete-objective').on('click',function(e){
          e.preventDefault();
@@ -309,94 +411,7 @@ $script = <<<JS
                     .html(msg.note);
          },'json');
      });
-
-        // Set other Employee
-  
-     $('#imprestcard-employee_no').change((e) => {
-        updateField('Imprestcard','Employee_No', e);
-    });
-
-
      
-     /*Set Program  */
-    
-
-     $('#imprestcard-global_dimension_1_code').change((e) => {
-        updateField('Imprestcard','Global_Dimension_1_Code', e);
-    });
-     
-     
-     /* set department */
-     
-     $('#imprestcard-global_dimension_2_code').change((e) => {
-        updateField('Imprestcard','Global_Dimension_2_Code', e);
-    });
-
-    /**Update Purpose */
-
-    $('#imprestcard-purpose').change((e) => {
-        updateField('Imprestcard','Purpose', e);
-    }); 
-     
-     
-     /*Set Imprest Type*/
-     
-
-     $('#imprestcard-imprest_type').change((e) => {
-        updateField('Imprestcard','Imprest_Type', e);
-    });
-
-     function updateField(entity,fieldName, ev) {
-                const model = entity.toLowerCase();
-                const field = fieldName.toLowerCase();
-                const formField = '.field-'+model+'-'+fieldName.toLowerCase();
-                const keyField ='#'+model+'-key'; 
-                const targetField = '#'+model+'-'.field;
-                const tget = '#'+model+'-'+field;
-
-
-                const fieldValue = ev.target.value;
-                const Key = $(keyField).val();
-                //alert(Key);
-                if(Key.length){
-                    const url = $('input[name=url]').val()+'imprest'+'/setfield?field='+fieldName;
-                    $.post(url,{ fieldValue:fieldValue,'Key': Key}).done(function(msg){
-                        
-                            // Populate relevant Fields
-                                                       
-                            $(keyField).val(msg.Key);
-                            $(targetField).val(msg[fieldName]);
-
-                           
-                            if((typeof msg) === 'string') { // A string is an error
-                                console.log(formField);
-                                const parent = document.querySelector(formField);
-                                const helpbBlock = parent.children[2];
-                                helpbBlock.innerText = msg;
-                                
-                            }else{ // An object represents correct details
-
-                                const parent = document.querySelector(formField);
-                                const helpbBlock = parent.children[2];
-                                helpbBlock.innerText = '';
-                                
-                            }   
-                        },'json');
-                }
-            
-     }
-     
-     
-     /* Add Line */
-     $('.add-line, .update-objective').on('click', function(e){
-             e.preventDefault();
-            var url = $(this).attr('href');
-            console.log(url);
-            $('.modal').modal('show')
-                            .find('.modal-body')
-                            .load(url); 
-
-        });
      
      /*Handle modal dismissal event  */
     $('.modal').on('hidden.bs.modal',function(){

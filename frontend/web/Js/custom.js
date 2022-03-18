@@ -46,14 +46,18 @@ const Toast = Swal.mixin({
    
 
 
-    console.log(`Committing Data....Below is the new Key`);
-    //console.table(msg.Key);
+    console.log(`Committing Data.... Result`);
+    console.table(msg);
 
 
     if(data.validate) // Custom Grid Error Reporting
     {
+      let parent = td.parentNode;
+      console.log(`Parent to be validated ....`);
+      let ClassName =  data.validate;
+      let validatedElement = parent.querySelector('.'+ClassName);
       const DataKey = data.validate;
-      field.innerText = typeof(msg) === 'string'? msg : msg[DataKey];
+      validatedElement.innerText = typeof(msg) === 'string'? msg : msg[DataKey];
     }
 
    
@@ -127,25 +131,24 @@ async function addDropDown(elm,resource,filters={}) {
   if (elm.getElementsByTagName('input').length > 0) return;
 
  
-  let Fls = {};
+  let processedFilters = null;
   if(Object.entries(filters).length)
   {
+    const content = Object.entries(filters);
+    processedFilters = Object.assign(...content.map(([key, val]) => ({[key]: extractFilters(elm,val)})));
 
-    Fls = Object.entries(filters).map(([key, value]) => `${key}:${extractFilters(elm,value)}`);
-    processedFilters = Fls;    
+    console.log('Extracted Filters.....................');
+    console.log(processedFilters); 
+    console.log(typeof processedFilters);  
   }
+  
 
-  console.log(`Processed filters....`);
-  console.log(processedFilters);
- 
-
-  var value = elm.innerHTML;
-  elm.innerHTML = '';
+  elm.innerHTML = 'Processing ......';
 
   const ddContent = await getData(resource,processedFilters);
   console.log(`DD Content:`);
   console.log(ddContent);
-
+  elm.innerHTML = '';
 
   var select = document.createElement('select');
   const InitialOption = document.createElement('option');
@@ -173,16 +176,17 @@ async function addDropDown(elm,resource,filters={}) {
 
 async function getData(resource, filters)
 {
+  payload = JSON.stringify({... filters});
   const res = await fetch(`./${resource}`,{
-  method: 'POST',
-  headers: new Headers({
-    Origin: 'http://localhost:2026/',
-    "Content-Type": 'application/json',
-  }),
-  body: filters
-});
+    method: 'POST',
+    headers: new Headers({
+      Origin: 'http://localhost:2026/',
+      "Content-Type": 'application/json',
+      //'Content-Type': 'application/x-www-form-urlencoded'
+    }),
+    body: payload
+  });
   const data = await res.json();
-
   return data;
 }
 
