@@ -1205,15 +1205,15 @@ class ImprestController extends Controller
                     ];
                 }
             Yii::$app->session->set('metadata',$metadata); 
-            // Upload to sharepoint
-            $spResult = Yii::$app->recruitment->sharepoint_attach($targetPath);
+           
 
             $file = $_FILES['attachment']['tmp_name'];
             //Return JSON
             Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             if(move_uploaded_file($file,$targetPath))
             {
-
+                 // Upload to sharepoint
+                $spResult = Yii::$app->recruitment->sharepoint_attach($targetPath);
                 return [
                     'status' => 'success',
                     'message' => 'File Uploaded Successfully'.$spResult,
