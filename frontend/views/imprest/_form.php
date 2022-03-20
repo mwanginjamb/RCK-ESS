@@ -105,12 +105,12 @@ if(Yii::$app->session->hasFlash('success')){
                                                                 <?= $form->field($model, 'Purpose')->textInput() ?>
                                                                 <?= '<p><span>Employee Balance</span> '.Html::a($model->Employee_Balance,'#'); '</p>' ?>
                                                                 <?= '<p><span>Imprest Amount</span> '.Html::a($model->Imprest_Amount,'#'); '</p>'?>
-
-
-
+                                                                
+                                                                
                                                             </div>
-
+                                                            
                                                             <div class="col-md-6">
+                                                                <?= $form->field($model, 'attachment')->fileInput(['accept' => 'application/pdf']) ?>
                                                                 <?= '<p><span> Amount LCY</span> '.Html::a($model->Amount_LCY,'#'); '</p>'?>
                                                                 <?= $form->field($model, 'Status')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                                                 <?= $form->field($model, 'Global_Dimension_1_Code')->dropDownList($programs,['prompt' => 'Select ..']) ?>
@@ -383,6 +383,12 @@ $script = <<<JS
 
      $('#imprestcard-imprest_type').change((e) => {
         globalFieldUpdate('Imprestcard','imprest','Imprest_Type', e);
+    });
+
+    //Upload Damn File
+
+    $('#imprestcard-attachment').change(function(e){
+          globalUpload('LeaveAttachments','Imprestcard','attachment','ImprestRequestCard');
     });
 
     

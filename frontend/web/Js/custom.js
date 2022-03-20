@@ -38,10 +38,11 @@ const Toast = Swal.mixin({
   field = document.querySelector(`#${data.validate}`);
   $.post('./commit',{'key':data.key,'name': data.name, 'no': data.no,'filterKey': data.filterField,'service': data.service, 'value': value }).done(function(msg){
     
-     // Update all key dataset values
+     // Update all key dataset values for the row
      if(msg.Key)
      {
-      document.querySelectorAll('[data-key]').forEach(elem => elem.dataset.key = msg.Key);
+      let parent = td.parentNode;
+      parent.querySelectorAll('[data-key]').forEach(elem => elem.dataset.key = msg.Key);
      }
    
 
@@ -100,7 +101,7 @@ function addInput(elm,type = false, field = false ) {
     input.setAttribute('type', 'text');
   }
 
-  input.setAttribute('value', value);
+  input.setAttribute('placeholder', value);// use placeholder instead of value attribute
 
   if(type === 'checkbox')
   {
@@ -324,7 +325,7 @@ function requestStateUpdater(fieldParentNode, notificationType, msg = '' ) {
 
 // Global Uploader
 
-async function globalUpload(service, entity, fieldName) {
+async function globalUpload(attachmentService, entity, fieldName, documentService = false) {
  
  const model = entity.toLowerCase(); 
   const key = document.querySelector(`#${model}-key`).value;
@@ -332,11 +333,15 @@ async function globalUpload(service, entity, fieldName) {
   let endPoint = './upload/';
   const navPayload = {
     "Key" : key,
-    "Service": service
+    "Service": attachmentService,
+    "documentService": documentService
   }
 
   const formData = new FormData();
   formData.append("attachment", fileInput.files[0]);
+  formData.append("Key", key);
+  formData.append("DocumentService", documentService);
+
 
   console.log(fileInput.files);
 
@@ -347,7 +352,7 @@ async function globalUpload(service, entity, fieldName) {
         method: "POST",
         body: formData,
         headers: new Headers({
-          Origin: 'http://localhost:8047/'
+          Origin: 'http://localhost:2026/'
         })
       });
 
@@ -360,11 +365,11 @@ async function globalUpload(service, entity, fieldName) {
 
 
     // Do a Nav Request
-   endPoint = `${endPoint}?Key=${navPayload.Key}&Service=${navPayload.Service}&filePath=${filePath}`
+   endPoint = `${endPoint}?Key=${navPayload.Key}&Service=${navPayload.Service}&filePath=${filePath}&documentService=${navPayload.documentService}`
     const navReq = await  fetch(endPoint,{
       method: "GET",
       headers: new Headers({
-        Origin: 'http://localhost:8047/'
+        Origin: 'http://localhost:80/'
       })
     });
 

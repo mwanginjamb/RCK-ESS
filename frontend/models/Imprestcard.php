@@ -48,6 +48,8 @@ public $isNewRecord;
 public $M_PESA_Withdrawal_Fee;
 public $Rejection_Reason;
 
+public  $attachment;
+
     /*public function __construct(array $config = [])
     {
         return $this->getLines($this->No);
@@ -57,6 +59,8 @@ public $Rejection_Reason;
     {
         return [
             ['Purpose', 'required'],
+            [['attachment'],'file','mimeTypes' => ['application/pdf']],
+            [['attachment'],'file','maxSize' => '15728640'], //15mb
         ];
     }
 

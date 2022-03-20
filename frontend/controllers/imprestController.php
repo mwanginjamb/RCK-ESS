@@ -28,6 +28,7 @@ use frontend\models\Leave;
 use yii\web\Response;
 use kartik\mpdf\Pdf;
 use stdClass;
+use yii\helpers\FileHelper;
 
 class ImprestController extends Controller
 {
@@ -71,7 +72,10 @@ class ImprestController extends Controller
     public function beforeAction($action)
     {
 
-        $ExceptedActions = ['dimension1','dimension2','transactiontypes','grants','objectives','outputs','outcome','activities','partners','donors'];
+        $ExceptedActions = [
+            'dimension1','dimension2','transactiontypes',
+            'grants','objectives','outputs','outcome',
+            'activities','partners','donors','upload'];
 
         if (in_array($action->id , $ExceptedActions) ) {
             $this->enableCsrfValidation = false;
@@ -1165,6 +1169,99 @@ class ImprestController extends Controller
             ksort($data);
             Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             return $data;
+    }
+
+
+    public function actionUpload()
+    {
+        
+       
+            
+        $targetPath = '';
+        if($_FILES)
+        {
+            $targetPath = './uploads/'.Yii::$app->security->generateRandomString(5).$_FILES['attachment']['name']; // Upload file
+
+            // Create upload directory if it dnt exist.
+            if(!is_dir(dirname($targetPath))){
+                FileHelper::createDirectory(dirname($targetPath));
+                chmod(dirname($targetPath),0755);
+            }
+        }
+       
+        // Upload
+        if(Yii::$app->request->isPost)
+        {
+            $DocumentService = Yii::$app->params['ServiceName'][Yii::$app->request->post('DocumentService')];
+            $parentDocument = Yii::$app->navhelper->readByKey($DocumentService, Yii::$app->request->post('Key'));
+    
+                $metadata = [];
+                if(is_object($parentDocument) && isset($parentDocument->Key))
+                {
+                    $metadata = [
+                        'Application' => $parentDocument->No,
+                        'Employee' => $parentDocument->Employee_No,
+                        'Leavetype' => 'Imprest - '.$parentDocument->Purpose,
+                    ];
+                }
+            Yii::$app->session->set('metadata',$metadata); 
+            // Upload to sharepoint
+            $spResult = Yii::$app->recruitment->sharepoint_attach($targetPath);
+
+            $file = $_FILES['attachment']['tmp_name'];
+            //Return JSON
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            if(move_uploaded_file($file,$targetPath))
+            {
+
+                return [
+                    'status' => 'success',
+                    'message' => 'File Uploaded Successfully'.$spResult,
+                    'filePath' => $targetPath
+                ];
+               
+
+            }else 
+            {
+                return [
+                    'status' => 'error',
+                    'message' => 'Could not upload file at the moment.'
+                ];
+            }
+        }
+        
+
+        // Update Nav -  Get Request
+        if(Yii::$app->request->isGet) 
+        {
+            $fileName = basename(Yii::$app->request->get('filePath'));
+            
+            $DocumentService = Yii::$app->params['ServiceName'][Yii::$app->request->get('documentService')];
+            $AttachmentService = Yii::$app->params['ServiceName'][Yii::$app->request->get('Service')];
+            $Document = Yii::$app->navhelper->readByKey($DocumentService, Yii::$app->request->get('Key'));
+
+            $data = [];
+            if(is_object($Document) && isset($Document->No))
+            {
+                $data = [
+                    'Document_No' => $Document->No,
+                    'Name' => $fileName ,
+                    'File_path' => \yii\helpers\Url::home(true).'uploads/'.$fileName,
+                ];
+            }
+           
+            // Update Nav
+            $result = Yii::$app->navhelper->postData($AttachmentService, $data);
+
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            if(is_object($result))
+            {
+                return $result;
+            }else {
+                return $result;
+            }
+            
+        }
     }
 
  
