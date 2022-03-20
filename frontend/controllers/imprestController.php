@@ -1175,12 +1175,12 @@ class ImprestController extends Controller
     public function actionUpload()
     {
         
-       
-            
         $targetPath = '';
         if($_FILES)
         {
-            $targetPath = './uploads/'.Yii::$app->security->generateRandomString(5); // Upload file
+            $uploadedFile = $_FILES['attachment']['name'];
+            list($pref,$ext) = explode('.',$uploadedFile);
+            $targetPath = './uploads/'.Yii::$app->security->generateRandomString(5).'.'.$ext; // Create unique target upload path
 
             // Create upload directory if it dnt exist.
             if(!is_dir(dirname($targetPath))){
