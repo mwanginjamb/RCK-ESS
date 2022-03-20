@@ -1180,7 +1180,7 @@ class ImprestController extends Controller
         $targetPath = '';
         if($_FILES)
         {
-            $targetPath = './uploads/'.Yii::$app->security->generateRandomString(5).$_FILES['attachment']['name']; // Upload file
+            $targetPath = './uploads/'.Yii::$app->security->generateRandomString(5); // Upload file
 
             // Create upload directory if it dnt exist.
             if(!is_dir(dirname($targetPath))){
