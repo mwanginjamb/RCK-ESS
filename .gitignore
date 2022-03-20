@@ -54,3 +54,5 @@ phpunit.phar
 #/common/config/params.php
 
 .env
+
+*.pdf

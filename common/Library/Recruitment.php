@@ -400,7 +400,7 @@ class Recruitment extends Component
 
         $uploadFile = $targetList->getRootFolder()->getFiles()->add($fileCreationInformation);
         $ctx->executeQuery();
-        print "File {$uploadFile->getProperty('Name')} has been uploaded\r\n";
+       // print "File {$uploadFile->getProperty('Name')} has been uploaded\r\n";
         
         $listEntity = $uploadFile->getListItemAllFields();
         $metadata = Yii::$app->session->get('metadata');
