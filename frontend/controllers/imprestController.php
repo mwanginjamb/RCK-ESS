@@ -467,7 +467,24 @@ class ImprestController extends Controller
 
         return $this->render('view',[
             'model' => $model,
-            'document' => $result
+            'document' => $result,
+            'attachments' => Yii::$app->navhelper->getData(Yii::$app->params['ServiceName']['LeaveAttachments'],['Document_No' => $model->No]),
+           
+        ]);
+    }
+
+    // File reader action
+
+    public function actionRead()
+    {
+        $path = Yii::$app->request->post('path');
+        $No = Yii::$app->request->post('No');
+        $binary = file_get_contents($path);
+        $content = chunk_split(base64_encode($binary));
+        return $this->render('read',[
+            'path' => $path,
+            'No' => $No,
+            'content' => $content
         ]);
     }
 
