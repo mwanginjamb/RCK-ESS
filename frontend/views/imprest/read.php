@@ -43,11 +43,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Attachment', 'url' => ['print-impr
     </div>
 
 <?php
-$script  = <<<JS
-    $('select[name="payperiods"]').select2();
-JS;
 
-$this->registerJs($script, yii\web\View::POS_READY);
 
 
 
