@@ -43,10 +43,10 @@ class Navhelper extends Component{
             return [];
 
         }
-        // Yii::$app->recruitment->printrr($creds);
+        
         //add the filter
         $results = Yii::$app->navision->readEntries($creds, $soapWsdl,$filter);
-
+        // Yii::$app->recruitment->printrr($results);
 
         //return array of object
         if(is_object($results->ReadMultiple_Result) && property_exists($results->ReadMultiple_Result, $service)){

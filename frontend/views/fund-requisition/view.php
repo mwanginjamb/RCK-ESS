@@ -165,46 +165,65 @@ Yii::$app->session->set('isSupervisor',false);*/
                 <div class="card-body">
                     <?php
                     if(property_exists($document->Allowance_Request_Line,'Allowance_Request_Line')){ //show Lines ?>
-                        <table class="table table-bordered">
-                            <thead>
-                            <tr>
-                                <td><b>Employee Name</b></td>
-                                <td><b>Transaction Type</b></td>
-                                <td><b>Account No</b></td>
-                                <td><b>Account Name</b></td>
-                                <td><b>Description</b></td>
-                                <td><b>Daily Rate</b></td>
-                                <td><b>No_of_Days</b></td>
-                                <td><b>Amount LCY</b></td>
-                                <!-- <td><b>Unbudgeted?</b></td> -->
-                            <?php if($model->Status == 'New'): ?>
-                                <td><b>Actions</b></td>
-                            <?php endif; ?>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                            foreach($document->Allowance_Request_Line->Allowance_Request_Line as $obj):
-                                $updateLink = Html::a('<i class="fa fa-edit"></i>',['fundsrequisitionline/update','Key'=> $obj->Key, 'Request_No' => $model->No],['class' => 'update-objective btn btn-outline-info btn-xs']);
-                                $deleteLink = Html::a('<i class="fa fa-trash"></i>',['fundsrequisitionline/delete','Key'=> $obj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
-                                ?>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
                                 <tr>
-                                    <td><?= !empty($obj->Employee_Name)?$obj->Employee_Name:'Not Set' ?></td>
-                                    <td><?= !empty($obj->PD_Transaction_Code)?$obj->PD_Transaction_Code:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Account_No)?$obj->Account_No:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Account_Name)?$obj->Account_Name:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Description)?$obj->Description:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Daily_Rate)?$obj->Daily_Rate:'Not Set' ?></td>
-                                    <td><?= !empty($obj->No_of_Days)?$obj->No_of_Days:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Amount)?$obj->Amount:'Not Set' ?></td>
-                                    <!-- <td><?= Html::checkbox('Unbudgeted',$obj->Unbudgeted) ?></td> -->
-                                    <?php if($model->Status == 'New'): ?>
-                                    <td><?= $updateLink.'|'.$deleteLink ?></td>
-                                    <?php endif; ?>
+                                    <td><b>Employee Name</b></td>
+                                    <td><b>Transaction Type</b></td>
+                                    <td><b>Account No</b></td>
+                                    <td><b>Account Name</b></td>
+                                    <td><b>Description</b></td>
+                                    <td><b>Daily Rate</b></td>
+                                    <td><b>No_of_Days</b></td>
+                                    <td><b>Amount </b></td>
+                                    <td><b>Amount_LCY</b></td>
+                                    
+                                    <td><b>Donor Name</b></td>
+                                    <td><b>Objective Code</b></td>
+                                    <td><b>Output Code</b></td>
+                                    <td><b>Outcome Code</b></td>
+                                    <td><b>Activity Code</b></td>
+                                    <td><b>Partner Code</b></td>
+                                <?php if($model->Status == 'New'): ?>
+                                    <td><b>Actions</b></td>
+                                <?php endif; ?>
                                 </tr>
-                            <?php endforeach; ?>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                <?php
+                                foreach($document->Allowance_Request_Line->Allowance_Request_Line as $obj):
+                                    $updateLink = Html::a('<i class="fa fa-edit"></i>',['fundsrequisitionline/update','Key'=> $obj->Key, 'Request_No' => $model->No],['class' => 'update-objective btn btn-outline-info btn-xs']);
+                                    $deleteLink = Html::a('<i class="fa fa-trash"></i>',['fundsrequisitionline/delete','Key'=> $obj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
+                                    ?>
+                                    <tr>
+                                        <td><?= !empty($obj->Employee_Name)?$obj->Employee_Name:'Not Set' ?></td>
+                                        <td><?= !empty($obj->PD_Transaction_Code)?$obj->PD_Transaction_Code:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Account_No)?$obj->Account_No:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Account_Name)?$obj->Account_Name:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Description)?$obj->Description:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Daily_Rate)?$obj->Daily_Rate:'Not Set' ?></td>
+                                        <td><?= !empty($obj->No_of_Days)?$obj->No_of_Days:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Amount)?$obj->Amount:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Amount_LCY)?$obj->Amount_LCY:'' ?></td>
+    
+                                        <td><?= !empty($obj->Donor_Name)?$obj->Donor_Name:'' ?></td>
+                                        <td><?= !empty($obj->Objective_Code)?$obj->Objective_Code:'' ?></td>
+                                        <td><?= !empty($obj->Output_Code)?$obj->Output_Code:'' ?></td>
+                                        <td><?= !empty($obj->Outcome_Code)?$obj->Outcome_Code:'' ?></td>
+                                        <td><?= !empty($obj->Activity_Code)?$obj->Activity_Code:'' ?></td>
+                                        <td><?= !empty($obj->Partner_Code)?$obj->Partner_Code:'' ?></td>
+                                       
+                                        <?php if($model->Status == 'New'): ?>
+                                        <td><?= $updateLink.'|'.$deleteLink ?></td>
+                                        <?php endif; ?>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <!-- /Table responsive -->
                     <?php } ?>
                 </div>
             </div>

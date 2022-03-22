@@ -42,6 +42,7 @@ class Imprestsurrendercard extends Model
     public $isNewRecord;
 
     public $Request_For;
+    public  $attachment;
 
     /*public function __construct(array $config = [])
     {
@@ -51,7 +52,8 @@ class Imprestsurrendercard extends Model
     public function rules()
     {
         return [
-
+            [['attachment'],'file','mimeTypes' => ['application/pdf']],
+            [['attachment'],'file','maxSize' => '15728640'], //15mb
         ];
     }
 

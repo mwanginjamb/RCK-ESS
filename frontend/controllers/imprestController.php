@@ -473,7 +473,7 @@ class ImprestController extends Controller
         ]);
     }
 
-    // File reader action
+    // File reader action -- Model Neutral Function --Ooh shit, @francnjamb
 
     public function actionRead()
     {
@@ -561,7 +561,8 @@ class ImprestController extends Controller
 
         return $this->render('viewsurrender',[
             'model' => $model,
-            'surrender' => $result
+            'surrender' => $result,
+            'attachments' => Yii::$app->navhelper->getData(Yii::$app->params['ServiceName']['LeaveAttachments'],['Document_No' => $model->No]),
         ]);
     }
 
@@ -1164,12 +1165,15 @@ class ImprestController extends Controller
     public function actionPartners()
     {
             $data = file_get_contents('php://input');
-            $params = json_decode($data);
+           
+            $jsonParams = json_decode($data);
             $service = Yii::$app->params['ServiceName']['GrantDetailLines'];
             $filter = [
-                'Grant_Code' => $params->Grant_No
+                'Grant_Code' => $jsonParams->Grant_No
             ];
+           
             $result = \Yii::$app->navhelper->getData($service, $filter);
+            // Yii::$app->recruitment->printrr($result);
             $arr = [];
            
             foreach($result as $res)

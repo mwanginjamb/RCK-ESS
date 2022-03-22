@@ -118,51 +118,95 @@ $absoluteUrl = \yii\helpers\Url::home(true);
          <!-- Lines-->
          <div class="card">
                 <div class="card-header">
-                    <div class="card-title">   <?= Html::a('<i class="fa fa-plus-square"></i> New Funds Requisition Line',['fundsrequisitionline/create','Request_No'=>$model->No],['class' => 'add-objective btn btn-outline-info']) ?></div>
+                    <div class="card-title">   <?= Html::a('<i class="fa fa-plus-square"></i> New Funds Requisition Line',['add-line'],
+                    [
+                        'class' => 'add btn btn-outline-info',
+                        'data-no' => $model->No,
+                        'data-service' => 'AllowanceRequestLine'
+                    ]) ?></div>
+
+
+                <div class="card-tools my-2 px-3">
+                    <span class="text text-info border border-info p-2 rounded">To Update line values,  double click on cells whose column headers are colored blue.</span>
+                </div>
+
+
                 </div>
                 <div class="card-body">
                     <?php
                     if(property_exists($document->Allowance_Request_Line,'Allowance_Request_Line')){ //show Lines ?>
-                        <table class="table table-bordered">
-                            <thead>
-                            <tr>
-                                <td><b>Employee Name</b></td>
-                                <td><b>Transaction Type</b></td>
-                                <td><b>Account No</b></td>
-                                <td><b>Account Name</b></td>
-                                <td><b>Description</b></td>
-                                <td><b>Daily Rate</b></td>
-                                <td><b>No_of_Days</b></td>
-                                <td><b>Amount LCY</b></td>
-                                <!-- <td><b>Unbudgeted?</b></td> -->
-                            <?php if($model->Status == 'New'): ?>
-                                <td><b>Actions</b></td>
-                            <?php endif; ?>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                            foreach($document->Allowance_Request_Line->Allowance_Request_Line as $obj):
-                                $updateLink = Html::a('<i class="fa fa-edit"></i>',['fundsrequisitionline/update','Key'=> $obj->Key, 'Request_No' => $model->No],['class' => 'update-objective btn btn-outline-info btn-xs']);
-                                $deleteLink = Html::a('<i class="fa fa-trash"></i>',['fundsrequisitionline/delete','Key'=> $obj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
-                                ?>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
                                 <tr>
-                                    <td><?= !empty($obj->Employee_Name)?$obj->Employee_Name:'Not Set' ?></td>
-                                    <td><?= !empty($obj->PD_Transaction_Code)?$obj->PD_Transaction_Code:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Account_No)?$obj->Account_No:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Account_Name)?$obj->Account_Name:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Description)?$obj->Description:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Daily_Rate)?$obj->Daily_Rate:'Not Set' ?></td>
-                                    <td><?= !empty($obj->No_of_Days)?$obj->No_of_Days:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Amount)?$obj->Amount:'Not Set' ?></td>
-                                    <!-- <td><?= Html::checkbox('Unbudgeted',$obj->Unbudgeted) ?></td> -->
-                                    <?php if($model->Status == 'New'): ?>
-                                    <td><?= $updateLink.'|'.$deleteLink ?></td>
-                                    <?php endif; ?>
+                                    <td><b>Employee Name</b></td>
+                                    <td  class="text-info"><b>Transaction Type</b></td>
+                                    <td class="text-info"><b>Account No</b></td>
+                                    <td><b>Account Name</b></td>
+                                    <td><b>Description</b></td>
+                                    <td class="text-info"><b>Daily_Rate</b></td>
+                                    <td class="text-info"><b>No_of_Days</b></td>
+                                    <td ><b>Amount</b></td>
+                                    <td><b>Amount LCY</b></td>
+                                   
+                                    <td class="text-info"><b>Program</b></td>
+                                    <td class="text-info"><b>Department</b></td>
+                                       
+                                    <td class="text-info text-center text-bold border border-info">Donor_Code</td>
+                                    <td class="text-center text-bold">Donor Name</td>
+                                    <td class="text-info text-center text-bold border border-info" >Grant_Name</td>
+                                    <td class="text-info text-center text-bold border border-info"><b>Objective_Code</b></td>
+                                    <td class="text-info text-center text-bold border border-info"><b>Output_Code</b></td>
+                                    <td class="text-info text-center text-bold border border-info"><b>Outcome_Code</b></td>
+                                    <td class="text-info text-center text-bold border border-info"><b>Activity_Code</b></td>
+                                    <td class="text-info text-center text-bold border border-info"><b>Partner_Code</b></td>
+    
+    
+    
+                                <?php if($model->Status == 'New'): ?>
+                                    <td><b>Actions</b></td>
+                                <?php endif; ?>
                                 </tr>
-                            <?php endforeach; ?>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                <?php
+                                foreach($document->Allowance_Request_Line->Allowance_Request_Line as $obj):
+                                    $updateLink = Html::a('<i class="fa fa-edit"></i>',['fundsrequisitionline/update','Key'=> $obj->Key, 'Request_No' => $model->No],['class' => 'update-objective btn btn-outline-info btn-xs']);
+                                    $deleteLink = Html::a('<i class="fa fa-trash"></i>',['fundsrequisitionline/delete','Key'=> $obj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
+                                    ?>
+                                    <tr>
+                                        <td><?= !empty($obj->Employee_Name)?$obj->Employee_Name:'Not Set' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="PD_Transaction_Code" data-service="AllowanceRequestLine" ondblclick="addDropDown(this,'rates')"><?= !empty($obj->PD_Transaction_Code)?$obj->PD_Transaction_Code:'Not Set' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="PD_Transaction_Code" data-service="AllowanceRequestLine" ondblclick="addDropDown(this,'accounts')" data-validate="Account_Name"><?= !empty($obj->Account_No)?$obj->Account_No:'Not Set' ?></td>
+                                        <td class="Account_Name"><?= !empty($obj->Account_Name)?$obj->Account_Name:'Not Set' ?></td>
+                                        <td><?= !empty($obj->Description)?$obj->Description:'Not Set' ?></td>
+                                       
+                                        <td data-key="<?= $obj->Key ?>" data-name="Daily_Rate" data-service="AllowanceRequestLine" ondblclick="addInput(this,'number')"><?= !empty($obj->Daily_Rate)?$obj->Daily_Rate:'' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="No_of_Days" data-service="AllowanceRequestLine" ondblclick="addInput(this,'number')" data-validate="Amount"><?= !empty($obj->No_of_Days)?$obj->No_of_Days:'' ?></td>
+                                        <td class="Amount" data-key="<?= $obj->Key ?>" data-name="Amount" data-service="AllowanceRequestLine" ><?= !empty($obj->Amount)?$obj->Amount:'' ?></td>
+                                        <td class="Amount_LCY"><?= !empty($obj->Amount_LCY)?$obj->Amount_LCY:'' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="Global_Dimension_1_Code" data-service="AllowanceRequestLine" ondblclick="addDropDown(this,'dimension1')" data-validate="Amount_LCY"><?= !empty($obj->Global_Dimension_1_Code)?$obj->Global_Dimension_1_Code:'' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="Global_Dimension_2_Code" data-service="AllowanceRequestLine" ondblclick="addDropDown(this,'dimension2')"><?= !empty($obj->Global_Dimension_2_Code)?$obj->Global_Dimension_2_Code:'' ?></td>
+                                       
+    
+                                        <td data-key="<?= $obj->Key ?>" data-name="Donor_No" data-service="AllowanceRequestLine" ondblclick="addDropDown(this,'donors',{'Grant_No': 'grant'})"  data-validate="Donor_Name" class="text-center"><?= !empty($obj->Donor_No)? $obj->Donor_No : '' ?></td>
+                                        <td class="text-center Donor_Name"><?= !empty($obj->Donor_Name)? $obj->Donor_Name : '' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="Grant_No" data-service="AllowanceRequestLine" ondblclick="addDropDown(this,'grants')"  class="text-center grant"><?= !empty($obj->Grant_No)? $obj->Grant_No : '' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="Objective_Code" data-service="AllowanceRequestLine" ondblclick="addDropDown(this,'objectives',{'Grant_No': 'grant'})"><?= !empty($obj->Objective_Code)?$obj->Objective_Code:'' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="Output_Code" data-service="AllowanceRequestLine" ondblclick="addDropDown(this,'outputs',{'Grant_No': 'grant'})"><?= !empty($obj->Output_Code)?$obj->Output_Code:'' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="Outcome_Code" data-service="AllowanceRequestLine" ondblclick="addDropDown(this,'outcome',{'Grant_No': 'grant'})"><?= !empty($obj->Outcome_Code)?$obj->Outcome_Code:'' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="Activity_Code" data-service="AllowanceRequestLine" ondblclick="addDropDown(this,'activities',{'Grant_No': 'grant'})"><?= !empty($obj->Activity_Code)?$obj->Activity_Code:'' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="Partner_Code" data-service="AllowanceRequestLine" ondblclick="addDropDown(this,'partners',{'Grant_No': 'grant'})"><?= !empty($obj->Partner_Code)?$obj->Partner_Code:'' ?></td>
+    
+                                        <?php if($model->Status == 'New'): ?>
+                                        <td><?= $updateLink.'|'.$deleteLink ?></td>
+                                        <?php endif; ?>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+
+                        </div>
                     <?php } ?>
                 </div>
             </div>
@@ -204,7 +248,27 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 <?php
 $script = <<<JS
  
-
+// Trigger Creation of a line
+$('.add').on('click',function(e){
+            e.preventDefault();
+            let url = $(this).attr('href');
+           
+            let data = $(this).data();
+            const payload = {
+                'Document_No': data.no,
+                'Service': data.service
+            };
+            //console.log(payload);
+            //return;
+            $('a.add').text('Inserting...');
+            $('a.add').attr('disabled', true);
+            $.get(url, payload).done((msg) => {
+                console.log(msg);
+                setTimeout(() => {
+                    location.reload(true);
+                },1500);
+            });
+        });
     /*Deleting Records*/
      
     $('.delete, .delete-objective').on('click',function(e){

@@ -82,6 +82,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                             <?= $form->field($model, 'Employee_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                             <?= $form->field($model, 'Imprest_No')->dropDownList($imprests,['prompt' => 'select..']) ?>
                             <?= $form->field($model, 'Purpose')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'attachment')->fileInput(['accept' => 'application/pdf']) ?>
                             <?= '<p><span>Employee Balance</span> '.Html::a($model->Employee_Balance,'#'); '</p>' ?>
                             <?= '<p><span>Imprest Amount</span> '.Html::a($model->Surrender_Amount,'#'); '</p>'?>
                             <?= '<p><span> Amount LCY</span> '.Html::a($model->Claim_Amount,'#'); '</p>'?>
@@ -262,6 +263,12 @@ $script = <<<JS
         
                 },'json');
         });*/
+
+        //Upload Damn File
+
+    $('#imprestsurrendercard-attachment').change(function(e){
+          globalUpload('LeaveAttachments','Imprestsurrendercard','attachment','ImprestSurrenderCard');
+    });
 
         // Set Imprest No to surrender
         
