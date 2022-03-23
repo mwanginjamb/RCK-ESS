@@ -41,6 +41,9 @@ public $EFT_No;
 public $Allowance_Request_Line;
 public $isNewRecord;
 
+
+public  $attachment;
+
     /*public function __construct(array $config = [])
     {
         return $this->getLines($this->No);
@@ -50,6 +53,8 @@ public $isNewRecord;
     {
         return [
             [['Purpose','Global_Dimension_1_Code','Global_Dimension_2_Code'], 'required'],
+            [['attachment'],'file','mimeTypes' => ['application/pdf']],
+            [['attachment'],'file','maxSize' => '15728640'], //15mb
         ];
     }
 

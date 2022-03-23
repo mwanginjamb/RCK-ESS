@@ -81,6 +81,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                             <?= $form->field($model, 'Employee_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                             <?= $form->field($model, 'Employee_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                             <?= $form->field($model, 'Purpose')->textInput(['required' => true]) ?>
+                                            <?= $form->field($model, 'attachment')->fileInput(['accept' => 'application/pdf']) ?>
                                             <?= '<p><span>Gross Allowance</span> '.Html::a($model->Gross_Amount,'#',['id'=>'Gross_Allowance']); '</p>' ?>
                                             <?= '<p><span>Net Allowance LCY</span> '.Html::a($model->Net_Allowance_LCY,'#',['id' => 'Net_Allowance_LCY']); '</p>'?>
                                         </div>
@@ -285,33 +286,30 @@ $('.add').on('click',function(e){
                     .html(msg.note);
          },'json');
      });
+
+     //Upload Damn File
+
+    $('#fundrequisition-attachment').change(function(e){
+          globalUpload('LeaveAttachments','fundrequisition','attachment','AllowanceRequestCard');
+    });
       
 
-        //Add a training plan
-    
-     $('.add-objective, .update-objective').on('click',function(e){
-        e.preventDefault();
-        var url = $(this).attr('href');
-        console.log('clicking...');
-        $('.modal').modal('show')
-                        .find('.modal-body')
-                        .load(url); 
 
-     });
+    // Set Purpose
 
-        // Set Purpose
 
-         $('#fundrequisition-purpose').change((e) => {
-            globalFieldUpdate('fundrequisition','fund-requisition','Purpose', e);
-            location.reload(true);
-        });
+    $('#fundrequisition-purpose').change((e) => {
+        globalFieldUpdate('fundrequisition','fund-requisition','Purpose', e);
+    });
+
+         
         
     
-         // Set Currency
+    // Set Currency
 
-         $('#fundrequisition-currency_code').change((e) => {
-            globalFieldUpdate('fundrequisition','fund-requisition','Currency_Code', e,['Exchange_Rate']);
-        });
+    $('#fundrequisition-currency_code').change((e) => {
+        globalFieldUpdate('fundrequisition','fund-requisition','Currency_Code', e,['Exchange_Rate']);
+    });
     
      
      

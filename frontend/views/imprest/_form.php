@@ -7,6 +7,11 @@
  */
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+
+
+$this->title = 'Imprest - '.$model->No;
+
+
 $absoluteUrl = \yii\helpers\Url::home(true);
 //Yii::$app->recruitment->printrr($document);
 
@@ -212,7 +217,7 @@ if(Yii::$app->session->hasFlash('success')){
                                 <td class="text-info text-center text-bold border border-info"><b>Activity_Code</b></td>
                                 <td class="text-info text-center text-bold border border-info"><b>Partner_Code</b></td>
                                     
-                                    <td><b>Actions</b></td>
+                                <td><b>Actions</b></td>
     
     
     
