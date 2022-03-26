@@ -540,7 +540,7 @@ class PurchaseRequisitionController extends Controller
      
     /** Updates a single field on a form */
     public function actionSetfield($field){
-        $service = 'ImprestRequestCardPortal';
+        $service = 'PurchaseRequisitionCard';
         $value = Yii::$app->request->post('fieldValue');
        
         $result = Yii::$app->navhelper->Commit($service,[$field => $value],Yii::$app->request->post('Key'));

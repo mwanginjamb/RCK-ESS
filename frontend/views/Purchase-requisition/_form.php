@@ -255,6 +255,16 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 <?php
 $script = <<<JS
 
+    $('#purchaserequisition-title').change((e) => {
+        globalFieldUpdate('purchaserequisition','purchase-requisition','Title', e);
+    });
+    $('#purchaserequisition-requested_delivery_date').change((e) => {
+        globalFieldUpdate('purchaserequisition','purchase-requisition','Requested_Delivery_Date', e);
+    });
+    $('#purchaserequisition-global_dimension_2_code').change((e) => {
+        globalFieldUpdate('purchaserequisition','purchase-requisition','Global_Dimension_2_Code', e);
+    });
+
  // Trigger Creation of a line
   $('.add').on('click',function(e){
             e.preventDefault();
