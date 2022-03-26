@@ -184,6 +184,12 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 <?php
 $script = <<<JS
     $('.leave_attachment').hide();
+
+
+
+    requiresAttachment();
+
+
         // Set Leave Type
         
      $('#leave-leave_code').change(function(e){
@@ -224,7 +230,16 @@ $script = <<<JS
          e.preventDefault();
           const Leave_Code = e.target.value;
           // Check if leave required an attachment or not
-            const Vurl = $('input[name=url]').val()+'leave/requiresattachment?Code='+Leave_Code;
+            requiresAttachment();
+         
+     });
+
+
+
+
+     function requiresAttachment() {
+        const Leave_Code = $('#leave-leave_code').val();
+        const Vurl = $('input[name=url]').val()+'leave/requiresattachment?Code='+Leave_Code;
             $.post(Vurl).done(function(msg){
                 console.log(msg);
                 if(msg.Requires_Attachment){
@@ -233,8 +248,10 @@ $script = <<<JS
                     $('.leave_attachment').hide();
                 }
             });
-         
-     });
+     }
+
+
+
      /*Set Start Date*/
      
       $('#leave-start_date').blur(function(e){
