@@ -243,7 +243,7 @@ Yii::$app->session->set('isSupervisor',false);*/
             <!--/Lines card -->
 
 
-            <!-- Attachments -->
+        <!-- Attachments -->
         <?php if(is_array($attachments) && count($attachments)):  //Yii::$app->recruitment->printrr($attachments); ?>
             <div class="card card-info">
                 <div class="card-header">

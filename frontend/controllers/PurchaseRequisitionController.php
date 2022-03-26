@@ -18,6 +18,7 @@ use yii\web\Controller;
 use yii\web\BadRequestHttpException;
 use yii\web\Response;
 use kartik\mpdf\Pdf;
+use yii\helpers\FileHelper;
 
 class PurchaseRequisitionController extends Controller
 {
@@ -56,6 +57,21 @@ class PurchaseRequisitionController extends Controller
                 ],
             ]
         ];
+    }
+
+    public function beforeAction($action)
+    {
+
+        $ExceptedActions = [
+            'dimension1','dimension2','types','no',
+            'grants','objectives','outputs','outcome','procurement-methods',
+            'activities','partners','donors','upload','locations'];
+
+        if (in_array($action->id , $ExceptedActions) ) {
+            $this->enableCsrfValidation = false;
+        }
+
+        return parent::beforeAction($action);
     }
 
     public function actionIndex(){
@@ -513,6 +529,466 @@ class PurchaseRequisitionController extends Controller
             Yii::$app->session->setFlash('error', 'Error Cancelling Approval Approval Request.  : '. $result);
             return $this->redirect(['index']);
 
+        }
+    }
+
+
+    /**
+     * Some utility Functions for controllers
+     */
+
+     
+    /** Updates a single field on a form */
+    public function actionSetfield($field){
+        $service = 'ImprestRequestCardPortal';
+        $value = Yii::$app->request->post('fieldValue');
+       
+        $result = Yii::$app->navhelper->Commit($service,[$field => $value],Yii::$app->request->post('Key'));
+        Yii::$app->response->format = \yii\web\response::FORMAT_JSON;
+        return $result;
+          
+    }
+
+ 
+    public function actionCommit(){
+        $commitService = Yii::$app->request->post('service');
+        $key = Yii::$app->request->post('key');
+        $name = Yii::$app->request->post('name');
+        $value = Yii::$app->request->post('value');
+
+        $service = Yii::$app->params['ServiceName'][$commitService];
+        $request = Yii::$app->navhelper->readByKey($service, $key);
+        $data = [];
+        if(is_object($request)){
+            $data = [
+                'Key' => $request->Key,
+                $name => $value
+            ];
+        }else{
+            Yii::$app->response->format = \yii\web\response::FORMAT_JSON;
+            return ['error' => $request];
+        }
+
+        $result = Yii::$app->navhelper->updateData($service,$data);
+        Yii::$app->response->format = \yii\web\response::FORMAT_JSON;
+        return $result;
+
+    }
+
+    public function actionAddLine($Service,$Document_No)
+    {
+        $service = Yii::$app->params['ServiceName'][$Service];
+        $data = [
+            'Requisition_No' => $Document_No,
+            'Line_No' => time()
+        ];
+
+        // Insert Record
+
+        $result = Yii::$app->navhelper->postData($service, $data);
+
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        if(is_object($result))
+        {
+            return [
+                'note' => 'Record Created Successfully.',
+                'result' => $result
+            ];
+        }else{
+            return ['note' => $result];
+        }
+    }
+
+    public function actionDeleteLine($Service,$Key)
+    {
+        $service = Yii::$app->params['ServiceName'][$Service];
+        $result = Yii::$app->navhelper->deleteData($service,Yii::$app->request->get('Key')); 
+        Yii::$app->session->setFlash('success','Record Deleted Successfully.', true);
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        if(!is_string($result))
+        {    
+            return [
+                'note' => 'Record Deleted Successfully.',
+                'result' => $result
+            ];
+        }else{
+            return ['note' => $result];
+        }
+    }
+
+
+    public function getDimension($value)
+     {
+         $service = Yii::$app->params['ServiceName']['DimensionValueList'];
+         $filter = ['Global_Dimension_No' => $value];
+         $result = \Yii::$app->navhelper->getData($service, $filter);
+         
+         return Yii::$app->navhelper->refactorArray($result,'Code','Name');
+     }
+
+     public function actionDimension1()
+     {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+         return $this->getDimension(1);
+     }
+
+     public function actionDimension2()
+     {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+         return $this->getDimension(2);
+     }
+
+
+    // Get Transaction Types
+
+    public function actionTypes()
+    {
+        $data = [
+            'G_L_Account'=> 'G_L_Account',
+            'Fixed_Asset' => 'Fixed_Asset',
+            'Item' => 'Item'
+        ];
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $data;
+    }
+
+
+
+
+    // Get Donors
+
+    public function actionDonors()
+    {
+          
+            $service = Yii::$app->params['ServiceName']['CustomerLookup'];
+            $filter = [
+               
+            ];
+            $result = \Yii::$app->navhelper->getData($service, $filter);
+            $arr = [];
+           
+            foreach($result as $res)
+            {
+                if(!empty($res->No) && !empty($res->Name))
+                {
+                    $arr[] = [
+                        'Code' => $res->No,
+                        'Description' => $res->No.' - '.$res->Name
+                    ];
+                }
+            }
+            $data = ArrayHelper::map($arr,'Code','Description'); 
+            ksort($data);
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return $data;       
+    }
+
+
+    // Get Grants
+
+    public function actionGrants()
+    {
+          
+            $service = Yii::$app->params['ServiceName']['GrantLookUp'];
+            $filter = [
+               
+            ];
+            $result = \Yii::$app->navhelper->getData($service, $filter);
+            $arr = [];
+           
+            foreach($result as $res)
+            {
+                if(!empty($res->No) && !empty($res->Title))
+                {
+                    $arr[] = [
+                        'Code' => $res->No,
+                        'Description' => $res->No.' - '.$res->Title
+                    ];
+                }
+            }
+            $data = ArrayHelper::map($arr,'Code','Description'); 
+            ksort($data);
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return $data;       
+    }
+
+    // Get Filtered Objectives
+
+    public function actionObjectives()
+    {
+            $data = file_get_contents('php://input');
+            $params = json_decode($data);
+            $service = Yii::$app->params['ServiceName']['GrantLinesLookUp'];
+            $filter = [
+                'Grant_No' => $params->Grant_No,
+                'Line_Type' => 'Objective'
+            ];
+            
+            $result = \Yii::$app->navhelper->getData($service, $filter);
+            //Yii::$app->recruitment->printrr($result);
+            $arr = [];
+           
+            foreach($result as $res)
+            {
+                if(!empty($res->Code))
+                {
+                    $arr[] = [
+                        'Code' => $res->Code,
+                        'Description' => $res->Code
+                    ];
+                }
+            }
+            $data = ArrayHelper::map($arr,'Code','Description'); 
+            ksort($data);
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return $data;       
+    }
+
+     // Get Filtered Outputs
+
+     public function actionOutputs()
+     {
+            $data = file_get_contents('php://input');
+            $params = json_decode($data);
+             $service = Yii::$app->params['ServiceName']['GrantLinesLookUp'];
+             $filter = [
+                 'Grant_No' => $params->Grant_No,
+                 'Line_Type' => 'Output'
+             ];
+             $result = \Yii::$app->navhelper->getData($service, $filter);
+             //Yii::$app->recruitment->printrr($result);
+            
+             $data = Yii::$app->navhelper->refactorArray($result,'Code','Code'); 
+             ksort($data);
+             Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+             return $data;    
+     }
+
+
+     // Get Filtered OutCome
+
+    public function actionOutcome()
+    {
+            $data = file_get_contents('php://input');
+            $params = json_decode($data);
+            $service = Yii::$app->params['ServiceName']['GrantLinesLookUp'];
+            $filter = [
+                'Grant_No' => $params->Grant_No,
+                'Line_Type' => 'Outcome'
+            ];
+            $result = \Yii::$app->navhelper->getData($service, $filter);
+            $data = Yii::$app->navhelper->refactorArray($result,'Code','Code'); 
+            ksort($data);
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return $data;
+    }
+
+
+    // Get Filterd Activities
+
+    public function actionActivities()
+    {
+           
+            $data = file_get_contents('php://input');
+            $params = json_decode($data);
+            $service = Yii::$app->params['ServiceName']['GrantLinesLookUp'];
+            $filter = [
+                'Grant_No' => $params->Grant_No,
+                'Line_Type' => 'Activity'
+            ];
+            $result = \Yii::$app->navhelper->getData($service, $filter);
+            $data = Yii::$app->navhelper->refactorArray($result,'Code','Code'); 
+            ksort($data);
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return $data;
+    }
+
+    public function actionPartners()
+    {
+            $data = file_get_contents('php://input');
+           
+            $jsonParams = json_decode($data);
+            $service = Yii::$app->params['ServiceName']['GrantDetailLines'];
+            $filter = [
+                'Grant_Code' => $jsonParams->Grant_No
+            ];
+           
+            $result = \Yii::$app->navhelper->getData($service, $filter);
+            // Yii::$app->recruitment->printrr($result);
+            $arr = [];
+           
+            foreach($result as $res)
+            {
+                if(!empty($res->G_L_Account_No) && !empty($res->Activity_Description))
+                {
+                    $arr[] = [
+                        'Code' => $res->G_L_Account_No,
+                        'Description' => $res->G_L_Account_No.' - '.$res->Activity_Description
+                    ];
+                }
+            }
+            $data = ArrayHelper::map($arr,'Code','Description'); 
+            ksort($data);
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return $data;
+    }
+
+    public function actionNo()
+    {
+        $data = file_get_contents('php://input');
+        $jsonParams = json_decode($data);
+        $type = $jsonParams->Type;
+
+        if($type == 'G_L_Account')
+        {
+            $service = Yii::$app->params['ServiceName']['GLAccountList'];
+            $filter = [
+                'Direct_Posting' => true,
+                'Income_Balance' => 'Income_Statement'
+            ];
+            $result = \Yii::$app->navhelper->getData($service, $filter);
+            $data =  Yii::$app->navhelper->refactorArray($result,'No','No');
+
+        }elseif($type == 'Item')
+        {
+            $service = Yii::$app->params['ServiceName']['Items'];
+            $filter = [];
+            $Items = \Yii::$app->navhelper->getData($service, $filter);
+            $arr = [];
+           
+            foreach($Items as $r){
+                if(empty($r->No) ||  empty($r->Description) ){
+                    continue;
+                }
+                $arr[] = ['No' => $r->No, 'Description' => $r->Description. ' - '. $r->No];
+               
+            }
+           
+            $data =  ArrayHelper::map($arr,'No','Description');
+            krsort($data);
+          
+        }
+        elseif($type == 'Fixed_Asset')
+        {
+           $data = Yii::$app->navhelper->dropDown('FixedAssets','No','Description');
+           krsort($data);
+        }
+       
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $data;
+       
+    }
+
+    public function actionLocations(){
+        $data = Yii::$app->navhelper->dropDown('Locations','Code','Name');
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $data;
+        
+    }
+
+    public function actionProcurementMethods()
+    {
+        $data = [
+            '_blank_'=> '_blank_',
+            'Tender' => 'Tender',
+            'RFQ' => 'RFQ',
+            'Direct_Procurement' => 'Direct_Procurement',
+            'RFP' => 'RFP'
+        ];
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $data;
+    }
+
+
+    public function actionUpload()
+    {
+        
+        $targetPath = '';
+        if($_FILES)
+        {
+            $uploadedFile = $_FILES['attachment']['name'];
+            list($pref,$ext) = explode('.',$uploadedFile);
+            $targetPath = './uploads/'.Yii::$app->security->generateRandomString(5).'.'.$ext; // Create unique target upload path
+
+            // Create upload directory if it dnt exist.
+            if(!is_dir(dirname($targetPath))){
+                FileHelper::createDirectory(dirname($targetPath));
+                chmod(dirname($targetPath),0755);
+            }
+        }
+       
+        // Upload
+        if(Yii::$app->request->isPost)
+        {
+            $DocumentService = Yii::$app->params['ServiceName'][Yii::$app->request->post('DocumentService')];
+            $parentDocument = Yii::$app->navhelper->readByKey($DocumentService, Yii::$app->request->post('Key'));
+    
+                $metadata = [];
+                if(is_object($parentDocument) && isset($parentDocument->Key))
+                {
+                    $metadata = [
+                        'Application' => $parentDocument->No,
+                        'Employee' => $parentDocument->Employee_No,
+                        'Leavetype' => 'Imprest - '.$parentDocument->Purpose,
+                    ];
+                }
+            Yii::$app->session->set('metadata',$metadata); 
+           
+
+            $file = $_FILES['attachment']['tmp_name'];
+            //Return JSON
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            if(move_uploaded_file($file,$targetPath))
+            {
+                 // Upload to sharepoint
+                $spResult = Yii::$app->recruitment->sharepoint_attach($targetPath);
+                return [
+                    'status' => 'success',
+                    'message' => 'File Uploaded Successfully'.$spResult,
+                    'filePath' => $targetPath
+                ];
+               
+
+            }else 
+            {
+                return [
+                    'status' => 'error',
+                    'message' => 'Could not upload file at the moment.'
+                ];
+            }
+        }
+        
+
+        // Update Nav -  Get Request
+        if(Yii::$app->request->isGet) 
+        {
+            $fileName = basename(Yii::$app->request->get('filePath'));
+            
+            $DocumentService = Yii::$app->params['ServiceName'][Yii::$app->request->get('documentService')];
+            $AttachmentService = Yii::$app->params['ServiceName'][Yii::$app->request->get('Service')];
+            $Document = Yii::$app->navhelper->readByKey($DocumentService, Yii::$app->request->get('Key'));
+
+            $data = [];
+            if(is_object($Document) && isset($Document->No))
+            {
+                $data = [
+                    'Document_No' => $Document->No,
+                    'Name' => $fileName ,
+                    'File_path' => \yii\helpers\Url::home(true).'uploads/'.$fileName,
+                ];
+            }
+           
+            // Update Nav
+            $result = Yii::$app->navhelper->postData($AttachmentService, $data);
+
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            if(is_object($result))
+            {
+                return $result;
+            }else {
+                return $result;
+            }
+            
         }
     }
 
