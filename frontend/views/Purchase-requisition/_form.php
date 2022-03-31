@@ -158,8 +158,8 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                         <td class="text text-info"><b>Sub Office</b></td>
                                         <td class="text text-info"><b>Program Code</b></td>
                                     
-                                        <!-- <td class="text text-info"><b>Donor No</b></td>
-                                        <td class=""><b>Donor Name</b></td> -->
+                                        <td class="text text-info"><b>Donor No</b></td>
+                                        <!-- <td class=""><b>Donor Name</b></td> -->
                                         <td class="text text-info"><b>Grant_No</b></td>
                                         <td class="text text-info"><b>Objective Code</b></td>
                                         <td class="text text-info"><b>Output Code</b></td>
@@ -201,8 +201,8 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                         <td data-key="<?= $obj->Key ?>" data-name="Global_Dimension_1_Code" data-service="PurchaseRequisitionLine" ondblclick="addDropDown(this,'dimension1')"><?= !empty($obj->Global_Dimension_1_Code)?$obj->Global_Dimension_1_Code:'' ?></td>
                                         <td data-key="<?= $obj->Key ?>" data-name="Global_Dimension_2_Code" data-service="PurchaseRequisitionLine" ondblclick="addDropDown(this,'dimension2')"><?= !empty($obj->Global_Dimension_2_Code)?$obj->Global_Dimension_2_Code:'' ?></td>
                                         
-                                        <!-- <td data-key="<?= $obj->Key ?>" data-name="Donor_No" data-service="PurchaseRequisitionLine" ondblclick="addDropDown(this,'donors')"  data-validate="Donor_Name" class="text-center"><?= !empty($obj->Donor_No)? $obj->Donor_No : '' ?></td>
-                                        <td class="Donor_Name"><?= !empty($obj->Donor_Name)?$obj->Donor_Name:'' ?></td> -->
+                                        <td data-key="<?= $obj->Key ?>" data-name="Donor_Code" data-service="PurchaseRequisitionLine" ondblclick="addDropDown(this,'donors')"  class="text-center"><?= !empty($obj->Donor_Code)? $obj->Donor_Code : '' ?></td>
+                                        <!-- <td class="Donor_Name"><?php //!empty($obj->Donor_Name)?$obj->Donor_Name:'' ?></td> -->
                                         <td data-key="<?= $obj->Key ?>" data-name="Grant_No" data-service="PurchaseRequisitionLine" ondblclick="addDropDown(this,'grants')"  class="text-center grant"><?= !empty($obj->Grant_No)? $obj->Grant_No : '' ?></td>
                                         <td data-key="<?= $obj->Key ?>" data-name="Objective_Code" data-service="PurchaseRequisitionLine" ondblclick="addDropDown(this,'objectives',{'Grant_No': 'grant'})"><?= !empty($obj->Objective_Code)?$obj->Objective_Code:'' ?></td>
                                         <td data-key="<?= $obj->Key ?>" data-name="Output_Code" data-service="PurchaseRequisitionLine" ondblclick="addDropDown(this,'outputs',{'Grant_No': 'grant'})"><?= !empty($obj->Output_Code)?$obj->Output_Code:'' ?></td>
