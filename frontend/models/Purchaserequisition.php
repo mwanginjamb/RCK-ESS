@@ -29,25 +29,25 @@ public $Status;
 public $Purchase_Requisition_Line;
 public $Approval_Entries;
 public $isNewRecord;
+public  $attachment;
 
-    /*public function __construct(array $config = [])
-    {
-        return $this->getLines($this->No);
-    }*/
 
     public function rules()
     {
         return [
                 [['Title','No','Requested_Delivery_Date'], 'required'],
                 ['Title', 'string','max' => 250],
-                ['Requested_Delivery_Date', 'safe']
+                ['Requested_Delivery_Date', 'safe'],
+                [['attachment'],'file','mimeTypes' => ['application/pdf']],
+                [['attachment'],'file','maxSize' => '15728640'], //15mb
         ];
     }
 
     public function attributeLabels()
     {
         return [
-            'Global_Dimension_2_Code' => 'Program Code',
+            'Global_Dimension_1_Code' => 'Program',
+            'Global_Dimension_2_Code' => 'Department'
         ];
     }
 

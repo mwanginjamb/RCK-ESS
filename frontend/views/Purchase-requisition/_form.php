@@ -93,6 +93,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                         </div>
 
                         <div class="col-md-6">
+                        <?= $form->field($model, 'attachment')->fileInput(['accept' => 'application/pdf']) ?>
                             <?= $form->field($model, 'Global_Dimension_2_Code')->dropDownList($departments,['prompt' => 'Select Department']) ?>
                             
                             <?= $form->field($model, 'Status')->textInput(['readonly'=> true,'disabled'=> true]) ?>
@@ -258,11 +259,17 @@ $script = <<<JS
     $('#purchaserequisition-title').change((e) => {
         globalFieldUpdate('purchaserequisition','purchase-requisition','Title', e);
     });
-    $('#purchaserequisition-requested_delivery_date').change((e) => {
+    $('#purchaserequisition-requested_delivery_date').blur((e) => {
         globalFieldUpdate('purchaserequisition','purchase-requisition','Requested_Delivery_Date', e);
     });
     $('#purchaserequisition-global_dimension_2_code').change((e) => {
         globalFieldUpdate('purchaserequisition','purchase-requisition','Global_Dimension_2_Code', e);
+    });
+
+    //Upload Damn File
+    $('#purchaserequisition-attachment').change(function(e){
+          globalUpload('LeaveAttachments','purchaserequisition','attachment','PurchaseRequisitionCard');
+         
     });
 
  // Trigger Creation of a line

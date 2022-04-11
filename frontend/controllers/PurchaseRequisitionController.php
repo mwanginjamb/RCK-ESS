@@ -108,17 +108,13 @@ class PurchaseRequisitionController extends Controller
         if(!isset(Yii::$app->request->post()['Purchaserequisition'])){
             $model->Employee_No = Yii::$app->user->identity->{'Employee No_'};
             $request = Yii::$app->navhelper->postData($service, $model);
-            if(!is_string($request) )
+            if(is_object($request) )
             {
-                Yii::$app->navhelper->loadmodel($request,$model);
+                $model = Yii::$app->navhelper->loadmodel($request,$model);
+                return $this->redirect(['update','No' => $request->No]);
             }else{
-                // Yii::$app->recruitment->printrr($request);
-                Yii::$app->session->setFlash('error',$request);
-                 return $this->render('create',[
-                    'model' => $model,
-                    'programs' => $this->getPrograms(),
-                    'departments' => $this->getDepartments(),
-                ]);
+                Yii::$app->session->setFlash('error', $request);
+                $this->redirect(['index']);
             }
         }
 
@@ -238,6 +234,20 @@ class PurchaseRequisitionController extends Controller
 
         return $this->render('view',[
             'model' => $model,
+            'attachments' => Yii::$app->navhelper->getData(Yii::$app->params['ServiceName']['LeaveAttachments'],['Document_No' => $model->No]),
+        ]);
+    }
+
+    public function actionRead()
+    {
+        $path = Yii::$app->request->post('path');
+        $No = Yii::$app->request->post('No');
+        $binary = file_get_contents($path);
+        $content = chunk_split(base64_encode($binary));
+        return $this->render('read',[
+            'path' => $path,
+            'No' => $No,
+            'content' => $content
         ]);
     }
 
@@ -929,11 +939,10 @@ class PurchaseRequisitionController extends Controller
                     $metadata = [
                         'Application' => $parentDocument->No,
                         'Employee' => $parentDocument->Employee_No,
-                        'Leavetype' => 'Imprest - '.$parentDocument->Purpose,
+                        'Leavetype' => 'Purchase Requisition - '.$parentDocument->Title,
                     ];
                 }
-            Yii::$app->session->set('metadata',$metadata); 
-           
+            Yii::$app->session->set('metadata',$metadata);          
 
             $file = $_FILES['attachment']['tmp_name'];
             //Return JSON

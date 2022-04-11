@@ -115,15 +115,11 @@ class ImprestController extends Controller
                 $model->Key = $request->Key;
                 $model->Imprest_Type = 'Local';
                 $request = Yii::$app->navhelper->updateData($service, $model);
-
                 $model = Yii::$app->navhelper->loadmodel($request,$model);
-
-
-                return $this->redirect(['update','No' => $model->Key]);
-
-
-
-                if(is_string($request)){
+                if(is_object($request)){
+                    return $this->redirect(['update','No' => $model->Key]);
+                }
+               else{
                     Yii::$app->session->setFlash('error', $request);
                     $this->redirect(['index']);
                 }

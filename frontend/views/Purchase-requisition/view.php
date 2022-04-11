@@ -6,6 +6,7 @@
  * Time: 6:09 PM
  */
 
+use yii\bootstrap4\Html as Bootstrap4Html;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -99,7 +100,7 @@ if(Yii::$app->session->hasFlash('success')){
                                 <?= $form->field($model, 'Key')->hiddenInput()->label(false) ?>
                                 <?= $form->field($model, 'Employee_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                 <?= $form->field($model, 'Employee_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, 'Title')->textInput(['maxlength'=> 250]) ?>
+                                <?= $form->field($model, 'Title')->textInput(['maxlength'=> 250,'readonly' => true]) ?>
                                 <?= $form->field($model, 'Requested_Delivery_Date')->textInput(['type'=> 'date','readonly'=> true, 'disabled'=>true]) ?>
 
                             </div>
@@ -131,7 +132,7 @@ if(Yii::$app->session->hasFlash('success')){
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">
-                        <?=($model->Status == 'New')?Html::a('<i class="fa fa-plus-square"></i> Add Line',['purchase-requisitionline/create','No'=>$model->No],['class' => 'add-line btn btn-outline-info',
+                        <?php ($model->Status == 'New')?Html::a('<i class="fa fa-plus-square"></i> Add Line',['purchase-requisitionline/create','No'=>$model->No],['class' => 'add-line btn btn-outline-info',
                         ]):'' ?>
                     </div>
                 </div>
@@ -162,7 +163,7 @@ if(Yii::$app->session->hasFlash('success')){
                                     
 
 
-                                    <td><b>Action</b></td>
+                                    <!-- <td><b>Action</b></td> -->
 
                                 </tr>
                                 </thead>
@@ -189,7 +190,7 @@ if(Yii::$app->session->hasFlash('success')){
                                         <td><?= !empty($obj->Global_Dimension_2_Code)?$obj->Global_Dimension_2_Code:'Not Set' ?></td>
                                        
                                         
-                                        <td><?= $updateLink.'|'.$deleteLink ?></td>
+                                        <!-- <td><?= $updateLink.'|'.$deleteLink ?></td> -->
 
                                     </tr>
                                 <?php endforeach; ?>
@@ -202,6 +203,38 @@ if(Yii::$app->session->hasFlash('success')){
             </div>
 
             <!--End Lines -->
+
+             <!-- Attachments -->
+        <?php if(is_array($attachments) && count($attachments)):  //Yii::$app->recruitment->printrr($attachments); ?>
+            <div class="card card-info">
+                <div class="card-header">
+                    <h3 class="card-title">Files Attachments</h3>
+                </div>
+                <div class="card-body">
+                    <?php $i = 0; foreach($attachments as $file): ++$i; ?>
+                        
+
+                        <div class="my-2 file border border-info d-flex justify-content-around align-items-center rounded p-3">
+                            <p class="my-auto border rounded border-info bg-info p-2">Attachment <?= $i ?></p>
+                            <?= Bootstrap4Html::a('<i class="fas fa-file"></i> Open',['read'],[
+                                'class' => 'btn btn-info',
+                                'data' => [
+                                    'params' => [
+                                        'path' => $file->File_path,
+                                        'No' => $model->No
+                                    ],
+                                    'method' => 'POST'
+                                ]
+                            ]) ?>
+                        </div>
+
+
+                    <?php endforeach; ?>
+                </div>
+                                
+            </div>
+        <?php endif; ?>
+            <!-- / Attachments -->
 
     </div>
 
