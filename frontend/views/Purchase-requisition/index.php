@@ -79,6 +79,7 @@ $script = <<<JS
             paging: true,
             columns: [
                 { title: 'No' ,data: 'No'},
+                { title: 'Title' ,data: 'Title'},
                 { title: 'Employee No' ,data: 'Employee_No'},
                 { title: 'Employee Name' ,data: 'Employee_Name'},
                 { title: 'Program' ,data: 'Global_Dimension_1_Code'},               

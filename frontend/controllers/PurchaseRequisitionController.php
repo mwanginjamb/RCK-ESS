@@ -278,6 +278,7 @@ class PurchaseRequisitionController extends Controller
                 $result['data'][] = [
                     'Key' => $item->Key,
                     'No' => $item->No,
+                    'Title' => !empty($item->Title)?$item->Title:'',
                     'Employee_No' => !empty($item->Employee_No)?$item->Employee_No:'',
                     'Employee_Name' => !empty($item->Employee_Name)?$item->Employee_Name:'',
                     'Global_Dimension_1_Code' => !empty($item->Global_Dimension_1_Code)?$item->Global_Dimension_1_Code:'',
