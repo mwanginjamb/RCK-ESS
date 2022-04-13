@@ -75,7 +75,7 @@ class FundRequisitionController extends Controller
         $ExceptedActions = [
             'dimension1','dimension2','transactiontypes',
             'grants','objectives','outputs','outcome',
-            'activities','partners','donors','upload','accounts','rates'];
+            'activities','partners','donors','upload','accounts','rates','employees'];
 
         if (in_array($action->id , $ExceptedActions) ) {
             $this->enableCsrfValidation = false;
@@ -710,6 +710,13 @@ class FundRequisitionController extends Controller
      {
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
          return $this->getDimension(2);
+     }
+
+     public function actionEmployees()
+     {
+         $data = Yii::$app->navhelper->dropdown('EmployeesUnfiltered','No','Full_Name');
+         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+         return $data;
      }
 
 

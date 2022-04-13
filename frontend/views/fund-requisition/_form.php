@@ -140,9 +140,10 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
+                                    <td class="text-info text-center text-bold">Employee_No</td>
                                     <td><b>Employee Name</b></td>
                                     <td  class="text-info"><b>Transaction Type</b></td>
-                                    <td class="text-info"><b>Account No</b></td>
+                                    <td><b>Account No</b></td>
                                     <td><b>Account Name</b></td>
                                     <td><b>Description</b></td>
                                     <td class="text-info"><b>Daily_Rate</b></td>
@@ -176,9 +177,10 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                     $deleteLink = Html::a('<i class="fa fa-trash"></i>',['fundsrequisitionline/delete','Key'=> $obj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
                                     ?>
                                     <tr>
-                                        <td><?= !empty($obj->Employee_Name)?$obj->Employee_Name:'Not Set' ?></td>
-                                        <td data-key="<?= $obj->Key ?>" data-name="PD_Transaction_Code" data-service="AllowanceRequestLine" ondblclick="addDropDown(this,'rates')"><?= !empty($obj->PD_Transaction_Code)?$obj->PD_Transaction_Code:'Not Set' ?></td>
-                                        <td data-key="<?= $obj->Key ?>" data-name="PD_Transaction_Code" data-service="AllowanceRequestLine" ondblclick="addDropDown(this,'accounts')" data-validate="Account_Name"><?= !empty($obj->Account_No)?$obj->Account_No:'Not Set' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="Employee_No" data-service="AllowanceRequestLine" ondblclick="addDropDown(this,'employees')" data-validate="Employee_Name"><?= !empty($obj->Employee_No)?$obj->Employee_No:'' ?></td>
+                                        <td class="Employee_Name"><?= !empty($obj->Employee_Name)?$obj->Employee_Name:'Not Set' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="PD_Transaction_Code" data-service="AllowanceRequestLine" ondblclick="addDropDown(this,'rates')" data-validate="Account_Name"><?= !empty($obj->PD_Transaction_Code)?$obj->PD_Transaction_Code:'Not Set' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" ><?= !empty($obj->Account_No)?$obj->Account_No:'Not Set' ?></td>
                                         <td class="Account_Name"><?= !empty($obj->Account_Name)?$obj->Account_Name:'Not Set' ?></td>
                                         <td><?= !empty($obj->Description)?$obj->Description:'Not Set' ?></td>
                                        
