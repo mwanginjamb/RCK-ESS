@@ -359,15 +359,17 @@ class ImprestController extends Controller
 
     public function actionUpdate($No){
         $model = new Imprestcard() ;
-        $service = Yii::$app->params['ServiceName']['ImprestRequestCard'];
+        $Documentservice = Yii::$app->params['ServiceName']['ImprestRequestCard'];
+        $service = Yii::$app->params['ServiceName']['ImprestRequestCardPortal'];
         $model->isNewRecord = false;
 
         
-        $result = Yii::$app->navhelper->readByKey($service,$No);
+        $result = Yii::$app->navhelper->readByKey($Documentservice,$No);
+        $res = Yii::$app->navhelper->readByKey($service,$No);
         //Yii::$app->recruitment->printrr($result);
-        if(!is_string($result)){
+        if(!is_string($res)){
             //load nav result to model
-            $model = Yii::$app->navhelper->loadmodel($result,$model) ;//$this->loadtomodeEmployee_Nol($result[0],$Expmodel);
+            $model = Yii::$app->navhelper->loadmodel($res,$model) ;//$this->loadtomodeEmployee_Nol($result[0],$Expmodel);
         }else{
             Yii::$app->session->setFlash('error','Error : '.$result );
             return $this->redirect(['index']);
@@ -380,26 +382,12 @@ class ImprestController extends Controller
 
                 Yii::$app->session->setFlash('success','Imprest Request Updated Successfully.' );
 
-                return $this->render('update',[
-                    'model' => $model,
-                    'document' => $result,
-                    'employees' => $this->getEmployees(),
-                    'programs' => $this->getPrograms(),
-                    'departments' => $this->getDepartments(),
-                    'currencies' => Yii::$app->navhelper->dropdown('Currencies','Code','Description')
-                ]);
+                return $this->redirect(['index']);
 
             }else{
 
                 Yii::$app->session->setFlash('error','Error : '.$result );
-                return $this->render('update',[
-                    'model' => $model,
-                    'document' => $result,
-                    'employees' => $this->getEmployees(),
-                    'programs' => $this->getPrograms(),
-                    'departments' => $this->getDepartments(),
-                    'currencies' => Yii::$app->navhelper->dropdown('Currencies','Code','Description')
-                ]);
+                return $this->redirect(['index']);
             }
 
         }
@@ -656,10 +644,8 @@ class ImprestController extends Controller
 
 
     public function getEmployees(){
-        $service = Yii::$app->params['ServiceName']['Employees'];
-
-        $employees = \Yii::$app->navhelper->getData($service);
-        return Yii::$app->navhelper->refactorArray($service,'No','FullName');
+       
+        return Yii::$app->navhelper->dropdown('EmployeesUnfiltered','No','FullName');
     }
 
     /* My Imprests*/

@@ -100,12 +100,11 @@ if(Yii::$app->session->hasFlash('success')){
 
                                                                 <?= $form->field($model, 'No')->textInput(['readonly'=> true]) ?>
                                                                 <?= $form->field($model, 'Key')->hiddenInput()->label(false) ?>
-
-                                                                <?php if($model->Request_For == 'Self'): ?>
-                                                                    <?= $form->field($model, 'Employee_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                                                <?php else: ?>
-                                                                    <?= $form->field($model, 'Employee_No')->dropDownList($employees,['prompt'=> 'Select Employee']) ?>
-                                                                <?php endif; ?>
+                                                                <?= $form->field($model, 'Request_For')->dropDownList(['Self' => 'Self','Other' => 'Other'],['prompt'=> 'Select ...']) ?>
+                                                                
+                                                                    
+                                                                <?= $form->field($model, 'Employee_No')->dropDownList($employees,['prompt'=> 'Select Employee']) ?>
+                                                                
                                                                 <?= $form->field($model, 'Employee_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                                                 <?= $form->field($model, 'Purpose')->textInput() ?>
                                                                 <?= '<p><span>Employee Balance</span> '.Html::a($model->Employee_Balance,'#'); '</p>' ?>
@@ -346,8 +345,41 @@ $script = <<<JS
             }
             
     });
+
+
+    $('#imprestcard-employee_no').select2();
+
+    // Initially Hide Employee DD
+
+    $('.field-imprestcard-employee_no').hide();
+
+    // Check Req for state
+    let ReqFor = $('#imprestcard-request_for').val();
+    if(ReqFor == 'Other'){
+        $('.field-imprestcard-employee_no').show();
+    }else {
+        $('.field-imprestcard-employee_no').hide();
+    }
+
+    // Display Employee No Field based on a change event on Req For
+
+    $('#imprestcard-request_for').change((e) => {
+        let selected = e.target.value;
+        if(selected == 'Self'){
+            $('.field-imprestcard-employee_no').hide();
+        }else if(selected == 'Other') {
+            $('.field-imprestcard-employee_no').show();
+        }
+        console.log(selected);
+    });
+
+    // Set Req_For
+
+    $('#imprestcard-request_for').blur((e) => {
+        globalFieldUpdate('Imprestcard','imprest','Request_For', e);
+    });
    
-        // Set other Employee
+    // Set other Employee
   
      $('#imprestcard-employee_no').change((e) => {
         globalFieldUpdate('Imprestcard','imprest','Employee_No', e);
