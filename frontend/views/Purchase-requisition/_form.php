@@ -151,6 +151,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                         <td><b>Name</b></td>
                                         <td><b>Unit of Measure</b></td>
                                         
+                                        <td class="text text-info"><b>Description</b></td>
                                         <td class="text text-info"><b>Quantity</b></td>
                                         <td class="text text-info"><b>Location</b></td>
                                         <td class="text text-info"><b>Estimate Unit Price</b></td>
@@ -194,6 +195,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                         <td data-key="<?= $obj->Key ?>" data-validate="Name" data-name="No" data-service="PurchaseRequisitionLine" ondblclick="addDropDown(this,'no',{'Type': 'type'})"><?= !empty($obj->No)?$obj->No:'' ?></td>
                                         <td class="Name"><?= !empty($obj->Name)?$obj->Name:'' ?></td>
                                         <td class="Unit_of_Measure"><?= !empty($obj->Unit_of_Measure)?$obj->Unit_of_Measure:'' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="Description" data-service="PurchaseRequisitionLine" ondblclick="addTextarea(this)"><?= !empty($obj->Description)?$obj->Description:'' ?></td>
                                         <td data-validate="Unit_of_Measure" data-key="<?= $obj->Key ?>" data-name="Quantity" data-service="PurchaseRequisitionLine" ondblclick="addInput(this,'number')"><?= !empty($obj->Quantity)?$obj->Quantity:'' ?></td>
                                         <td data-key="<?= $obj->Key ?>"  data-name="Location" data-service="PurchaseRequisitionLine" ondblclick="addDropDown(this,'locations')"><?= !empty($obj->Location)?$obj->Location:'' ?></td>
                                         <td data-key="<?= $obj->Key ?>" data-validate="Estimate_Total_Amount" data-name="Estimate_Unit_Price" data-service="PurchaseRequisitionLine" ondblclick="addInput(this,'number')"><?= !empty($obj->Estimate_Unit_Price)?$obj->Estimate_Unit_Price:'' ?></td>

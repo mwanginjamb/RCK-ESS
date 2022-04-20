@@ -87,9 +87,7 @@ const Toast = Swal.mixin({
 }
 
 function addInput(elm,type = false, field = false ) {
-  if (elm.getElementsByTagName('input').length > 0) return;
-
-   
+  if (elm.getElementsByTagName('input').length > 0) return;   
 
   var value = elm.innerHTML;
    elm.innerHTML = '';
@@ -101,7 +99,7 @@ function addInput(elm,type = false, field = false ) {
     input.setAttribute('type', 'text');
   }
 
-  input.setAttribute('placeholder', value);// use placeholder instead of value attribute
+  input.setAttribute('value', value);// use placeholder instead of value attribute
 
   if(type === 'checkbox')
   {
@@ -111,6 +109,22 @@ function addInput(elm,type = false, field = false ) {
 
 
   
+  input.setAttribute('class','form-control');
+  input.setAttribute('onBlur', 'closeInput(this)');
+  elm.appendChild(input);
+  input.focus();
+}
+
+function addTextarea(elm) {
+  if (elm.getElementsByTagName('textarea').length > 0) return;   
+
+   var value = elm.textContent;  
+   elm.innerHTML = '';
+
+  var input = document.createElement('textarea');
+  input.setAttribute('rows', 2);
+  //input.setAttribute('value', value);// use placeholder instead of value attribute  
+  input.innerText = value;
   input.setAttribute('class','form-control');
   input.setAttribute('onBlur', 'closeInput(this)');
   elm.appendChild(input);
