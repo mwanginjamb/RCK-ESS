@@ -34,16 +34,16 @@ return [
         ],
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'sqlsrv:server=DB-Server-01;database=RCK',
-            'username' => 'sa', //'ess',
-            'password' => 'Dyn@mics@2021', //'ess123',
+            'dsn' => 'sqlsrv:server='.env('DB_INSTANCE').';database='.env('DB_NAME'),
+            'username' => env('DB_USER'),
+            'password' => env('DB_PWD'),
             'charset' => 'utf8',
         ],
         'nav' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'sqlsrv:server=DB-Server-01;database=RCK',
-            'username' => 'sa',
-            'password' => 'Dyn@mics@2021',
+            'dsn' => 'sqlsrv:server='.env('DB_INSTANCE').';database='.env('DB_NAME'),
+            'username' => env('DB_USER'),
+            'password' => env('DB_PWD'),
             'charset' => 'utf8',
         ],
         'assetManager' => [
