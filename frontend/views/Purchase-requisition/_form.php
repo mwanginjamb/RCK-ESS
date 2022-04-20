@@ -191,7 +191,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                  ?>
                                 <tr>
 
-                                        <td data-key="<?= $obj->Key ?>" data-name="Type" data-service="PurchaseRequisitionLine" ondblclick="addDropDown(this,'types')" class="type"><?= !empty($obj->Type)?$obj->Type:'' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-reload="true" data-name="Type" data-service="PurchaseRequisitionLine" ondblclick="addDropDown(this,'types')" class="type"><?= !empty($obj->Type)?$obj->Type:'' ?></td>
                                         <td data-key="<?= $obj->Key ?>" data-validate="Name" data-name="No" data-service="PurchaseRequisitionLine" ondblclick="addDropDown(this,'no',{'Type': 'type'})"><?= !empty($obj->No)?$obj->No:'' ?></td>
                                         <td class="Name"><?= !empty($obj->Name)?$obj->Name:'' ?></td>
                                         <td class="Unit_of_Measure"><?= !empty($obj->Unit_of_Measure)?$obj->Unit_of_Measure:'' ?></td>

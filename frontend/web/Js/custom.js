@@ -84,6 +84,16 @@ const Toast = Swal.mixin({
     }
 
   });
+
+  // Check if the is a request to reload dom
+
+  if(data.reload)
+  {
+    setTimeout(()=> {
+      location.reload(true);
+    }, 500);
+  }
+
 }
 
 function addInput(elm,type = false, field = false ) {
