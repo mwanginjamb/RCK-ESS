@@ -1495,10 +1495,11 @@ class Navhelper extends Component
                 if (count($extraFields) > 0) {
                     foreach ($extraFields as $exfield) {
                         if (property_exists($item, $exfield)) {
-                            $valid[] = $exfield;
+                            $valid[] = $item->$exfield;
                         }
                     }
                 }
+
                 $ValuesToAppend = '';
                 if (count($valid)) {
                     $ValuesToAppend = implode(' - ', $valid);
@@ -1506,7 +1507,7 @@ class Navhelper extends Component
                 if (!empty($item->$from) && !empty($item->$to)) {
                     $list[] = [
                         $from => $item->$from,
-                        $to => $item->$to . ' ' . $ValuesToAppend
+                        $to => $item->$to . ' - ' . $ValuesToAppend
                     ];
                 }
             }
@@ -1519,7 +1520,7 @@ class Navhelper extends Component
 
 
 
-    public function dropdown($service, $from, $to, $filterValues = [])
+    public function dropdown($service, $from, $to, $filterValues = [], $extraFields)
     {
 
         $service = Yii::$app->params['ServiceName'][$service];
@@ -1536,6 +1537,6 @@ class Navhelper extends Component
         // Yii::$app->recruitment->printrr($filter);
 
         $result = \Yii::$app->navhelper->getData($service, $filter);
-        return Yii::$app->navhelper->refactorArray($result, $from, $to);
+        return Yii::$app->navhelper->refactorArray($result, $from, $to, $extraFields);
     }
 }

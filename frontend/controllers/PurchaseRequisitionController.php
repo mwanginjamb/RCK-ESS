@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: HP ELITEBOOK 840 G5
@@ -7,6 +8,7 @@
  */
 
 namespace frontend\controllers;
+
 use frontend\models\Purchaserequisition;
 use Yii;
 use yii\filters\AccessControl;
@@ -27,7 +29,7 @@ class PurchaseRequisitionController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout','signup','index','list','create','update','delete','view','list-pending','list-approved','approved','pending','list-initiated', 'initiated'],
+                'only' => ['logout', 'signup', 'index', 'list', 'create', 'update', 'delete', 'view', 'list-pending', 'list-approved', 'approved', 'pending', 'list-initiated', 'initiated'],
                 'rules' => [
                     [
                         'actions' => ['signup'],
@@ -35,7 +37,7 @@ class PurchaseRequisitionController extends Controller
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout','index','list','create','update','delete','view','list-pending','list-approved','approved','pending','list-initiated', 'initiated'],
+                        'actions' => ['logout', 'index', 'list', 'create', 'update', 'delete', 'view', 'list-pending', 'list-approved', 'approved', 'pending', 'list-initiated', 'initiated'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -47,9 +49,9 @@ class PurchaseRequisitionController extends Controller
                     'logout' => ['post'],
                 ],
             ],
-            'contentNegotiator' =>[
+            'contentNegotiator' => [
                 'class' => ContentNegotiator::class,
-                'only' => ['list','list-pending','list-approved','list-initiated'],
+                'only' => ['list', 'list-pending', 'list-approved', 'list-initiated'],
                 'formatParam' => '_format',
                 'formats' => [
                     'application/json' => Response::FORMAT_JSON,
@@ -63,83 +65,81 @@ class PurchaseRequisitionController extends Controller
     {
 
         $ExceptedActions = [
-            'dimension1','dimension2','types','no',
-            'grants','objectives','outputs','outcome','procurement-methods',
-            'activities','partners','donors','upload','locations'];
+            'dimension1', 'dimension2', 'types', 'no',
+            'grants', 'objectives', 'outputs', 'outcome', 'procurement-methods',
+            'activities', 'partners', 'donors', 'upload', 'locations'
+        ];
 
-        if (in_array($action->id , $ExceptedActions) ) {
+        if (in_array($action->id, $ExceptedActions)) {
             $this->enableCsrfValidation = false;
         }
 
         return parent::beforeAction($action);
     }
 
-    public function actionIndex(){
+    public function actionIndex()
+    {
 
         return $this->render('index');
-
     }
 
-    public function actionPending(){
+    public function actionPending()
+    {
 
         return $this->render('pending');
-
     }
 
-    public function actionApproved(){
+    public function actionApproved()
+    {
 
         return $this->render('approved');
-
     }
 
-    public function actionInitiated(){
+    public function actionInitiated()
+    {
 
         return $this->render('initiated');
-
     }
 
 
-    public function actionCreate(){
+    public function actionCreate()
+    {
 
         $model = new Purchaserequisition();
         $service = Yii::$app->params['ServiceName']['PurchaseRequisitionCard'];
 
         /*Do initial request */
-        if(!isset(Yii::$app->request->post()['Purchaserequisition'])){
+        if (!isset(Yii::$app->request->post()['Purchaserequisition'])) {
             $model->Employee_No = Yii::$app->user->identity->{'Employee No_'};
             $request = Yii::$app->navhelper->postData($service, $model);
-            if(is_object($request) )
-            {
-                $model = Yii::$app->navhelper->loadmodel($request,$model);
-                return $this->redirect(['update','No' => $request->No]);
-            }else{
+            if (is_object($request)) {
+                $model = Yii::$app->navhelper->loadmodel($request, $model);
+                return $this->redirect(['update', 'No' => $request->No]);
+            } else {
                 Yii::$app->session->setFlash('error', $request);
                 $this->redirect(['index']);
             }
         }
 
-        $model->Requested_Delivery_Date = ($model->Requested_Delivery_Date == '0001-01-01')?date('Y-m-d'):$model->Requested_Delivery_Date;
-        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Purchaserequisition'],$model) ){
+        $model->Requested_Delivery_Date = ($model->Requested_Delivery_Date == '0001-01-01') ? date('Y-m-d') : $model->Requested_Delivery_Date;
+        if (Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Purchaserequisition'], $model)) {
 
 
-            $result = Yii::$app->navhelper->updateData($service,$model);
-            if(!is_string($result)){
+            $result = Yii::$app->navhelper->updateData($service, $model);
+            if (!is_string($result)) {
 
-                Yii::$app->session->setFlash('success','Request Created Successfully.' );
-                return $this->redirect(['view','No' => $result->No]);
-
-            }else{
-                Yii::$app->session->setFlash('error','Error Creating Request '.$result );
+                Yii::$app->session->setFlash('success', 'Request Created Successfully.');
+                return $this->redirect(['view', 'No' => $result->No]);
+            } else {
+                Yii::$app->session->setFlash('error', 'Error Creating Request ' . $result);
                 return $this->redirect(['index']);
-
             }
-
         }
 
 
         //Yii::$app->recruitment->printrr($model);
 
-        return $this->render('create',[
+        return $this->render('create', [
             'model' => $model,
             'programs' => $this->getPrograms(),
             'departments' => $this->getDepartments(),
@@ -149,7 +149,8 @@ class PurchaseRequisitionController extends Controller
 
 
 
-    public function actionUpdate($No){
+    public function actionUpdate($No)
+    {
         $model = new Purchaserequisition();
         $service = Yii::$app->params['ServiceName']['PurchaseRequisitionCard'];
         $model->isNewRecord = false;
@@ -157,37 +158,34 @@ class PurchaseRequisitionController extends Controller
         $filter = [
             'No' => $No,
         ];
-        $result = Yii::$app->navhelper->getData($service,$filter);
+        $result = Yii::$app->navhelper->getData($service, $filter);
 
-        if(is_array($result)){
+        if (is_array($result)) {
             //load nav result to model
-            $model = Yii::$app->navhelper->loadmodel($result[0],$model) ;
-        }else{
+            $model = Yii::$app->navhelper->loadmodel($result[0], $model);
+        } else {
             Yii::$app->recruitment->printrr($result);
         }
 
 
-        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Purchaserequisition'],$model) ){
+        if (Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Purchaserequisition'], $model)) {
 
-            $result = Yii::$app->navhelper->updateData($service,$model);
+            $result = Yii::$app->navhelper->updateData($service, $model);
 
-            if(!is_string($result)){
-                Yii::$app->session->setFlash('success','Document Updated Successfully.' );
-                return $this->redirect(['view','No' => $result->No]);
-
-            }else{
-                Yii::$app->session->setFlash('success','Error Updating Document'.$result );
-                return $this->render('update',[
+            if (!is_string($result)) {
+                Yii::$app->session->setFlash('success', 'Document Updated Successfully.');
+                return $this->redirect(['view', 'No' => $result->No]);
+            } else {
+                Yii::$app->session->setFlash('success', 'Error Updating Document' . $result);
+                return $this->render('update', [
                     'model' => $model,
                 ]);
-
             }
-
         }
 
 
         // Yii::$app->recruitment->printrr($model);
-        if(Yii::$app->request->isAjax){
+        if (Yii::$app->request->isAjax) {
             return $this->renderAjax('update', [
                 'model' => $model,
                 'programs' => $this->getPrograms(),
@@ -197,7 +195,7 @@ class PurchaseRequisitionController extends Controller
             ]);
         }
 
-        return $this->render('update',[
+        return $this->render('update', [
             'model' => $model,
             'programs' => $this->getPrograms(),
             'departments' => $this->getDepartments(),
@@ -205,19 +203,21 @@ class PurchaseRequisitionController extends Controller
         ]);
     }
 
-    public function actionDelete(){
+    public function actionDelete()
+    {
         $service = Yii::$app->params['ServiceName']['PurchaseRequisitionCard'];
-        $result = Yii::$app->navhelper->deleteData($service,Yii::$app->request->get('Key'));
+        $result = Yii::$app->navhelper->deleteData($service, Yii::$app->request->get('Key'));
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        if(!is_string($result)){
+        if (!is_string($result)) {
 
             return ['note' => '<div class="alert alert-success">Record Purged Successfully</div>'];
-        }else{
-            return ['note' => '<div class="alert alert-danger">Error Purging Record: '.$result.'</div>' ];
+        } else {
+            return ['note' => '<div class="alert alert-danger">Error Purging Record: ' . $result . '</div>'];
         }
     }
 
-    public function actionView($No){
+    public function actionView($No)
+    {
         $model = new Purchaserequisition();
         $service = Yii::$app->params['ServiceName']['PurchaseRequisitionCard'];
 
@@ -228,13 +228,13 @@ class PurchaseRequisitionController extends Controller
         $result = Yii::$app->navhelper->getData($service, $filter);
 
         //load nav result to model
-        $model = Yii::$app->navhelper->loadmodel($result[0],$model) ;
+        $model = Yii::$app->navhelper->loadmodel($result[0], $model);
 
         //Yii::$app->recruitment->printrr($model);
 
-        return $this->render('view',[
+        return $this->render('view', [
             'model' => $model,
-            'attachments' => Yii::$app->navhelper->getData(Yii::$app->params['ServiceName']['LeaveAttachments'],['Document_No' => $model->No]),
+            'attachments' => Yii::$app->navhelper->getData(Yii::$app->params['ServiceName']['LeaveAttachments'], ['Document_No' => $model->No]),
         ]);
     }
 
@@ -244,50 +244,49 @@ class PurchaseRequisitionController extends Controller
         $No = Yii::$app->request->post('No');
         $binary = file_get_contents($path);
         $content = chunk_split(base64_encode($binary));
-        return $this->render('read',[
+        return $this->render('read', [
             'path' => $path,
             'No' => $No,
             'content' => $content
         ]);
     }
 
-   // Get list
+    // Get list
 
-    public function actionList(){
+    public function actionList()
+    {
         $service = Yii::$app->params['ServiceName']['PurchaseRequisitionList'];
         $filter = [
             'Employee_No' => Yii::$app->user->identity->{'Employee No_'},
         ];
 
-        $results = \Yii::$app->navhelper->getData($service,$filter);
+        $results = \Yii::$app->navhelper->getData($service, $filter);
         //Yii::$app->recruitment->printrr($filter);
         $result = [];
-        foreach($results as $item){
+        foreach ($results as $item) {
 
-            if(!empty($item->No ))
-            {
+            if (!empty($item->No)) {
                 $link = $updateLink = $deleteLink =  '';
-                $Viewlink = Html::a('<i class="fas fa-eye"></i>',['view','No'=> $item->No ],['class'=>'btn btn-outline-primary btn-xs','title' => 'View Request.' ]);
-                if($item->Status == 'New'){
-                    $link = Html::a('<i class="fas fa-paper-plane"></i>',['send-for-approval','No'=> $item->No ],['title'=>'Send Approval Request','class'=>'btn btn-primary btn-xs']);
-                    $updateLink = Html::a('<i class="far fa-edit"></i>',['update','No'=> $item->No ],['class'=>'btn btn-info btn-xs','title' => 'Update Request']);
-                }else if($item->Status == 'Pending_Approval'){
-                    $link = Html::a('<i class="fas fa-times"></i>',['cancel-request','No'=> $item->No ],['title'=>'Cancel Approval Request','class'=>'btn btn-warning btn-xs']);
+                $Viewlink = Html::a('<i class="fas fa-eye"></i>', ['view', 'No' => $item->No], ['class' => 'btn btn-outline-primary btn-xs', 'title' => 'View Request.']);
+                if ($item->Status == 'New') {
+                    $link = Html::a('<i class="fas fa-paper-plane"></i>', ['send-for-approval', 'No' => $item->No], ['title' => 'Send Approval Request', 'class' => 'btn btn-primary btn-xs']);
+                    $updateLink = Html::a('<i class="far fa-edit"></i>', ['update', 'No' => $item->No], ['class' => 'btn btn-info btn-xs', 'title' => 'Update Request']);
+                } else if ($item->Status == 'Pending_Approval') {
+                    $link = Html::a('<i class="fas fa-times"></i>', ['cancel-request', 'No' => $item->No], ['title' => 'Cancel Approval Request', 'class' => 'btn btn-warning btn-xs']);
                 }
 
                 $result['data'][] = [
                     'Key' => $item->Key,
                     'No' => $item->No,
-                    'Title' => !empty($item->Title)?$item->Title:'',
-                    'Employee_No' => !empty($item->Employee_No)?$item->Employee_No:'',
-                    'Employee_Name' => !empty($item->Employee_Name)?$item->Employee_Name:'',
-                    'Global_Dimension_1_Code' => !empty($item->Global_Dimension_1_Code)?$item->Global_Dimension_1_Code:'',
+                    'Title' => !empty($item->Title) ? $item->Title : '',
+                    'Employee_No' => !empty($item->Employee_No) ? $item->Employee_No : '',
+                    'Employee_Name' => !empty($item->Employee_Name) ? $item->Employee_Name : '',
+                    'Global_Dimension_1_Code' => !empty($item->Global_Dimension_1_Code) ? $item->Global_Dimension_1_Code : '',
                     'Status' => $item->Status,
-                    'Action' => $link.' '. $updateLink.' '.$Viewlink ,
+                    'Action' => $link . ' ' . $updateLink . ' ' . $Viewlink,
 
                 ];
             }
-
         }
 
         return $result;
@@ -295,122 +294,119 @@ class PurchaseRequisitionController extends Controller
 
     // Pending Requests
 
-    public function actionListPending(){
+    public function actionListPending()
+    {
         $service = Yii::$app->params['ServiceName']['PRPendingApproval'];
         $filter = [
             'Employee_No' => Yii::$app->user->identity->{'Employee No_'},
         ];
 
-        $results = \Yii::$app->navhelper->getData($service,$filter);
+        $results = \Yii::$app->navhelper->getData($service, $filter);
         //Yii::$app->recruitment->printrr($results);
         $result = [];
-        foreach($results as $item){
+        foreach ($results as $item) {
 
-            if(!empty($item->No ))
-            {
+            if (!empty($item->No)) {
                 $link = $updateLink = $deleteLink =  '';
-                $Viewlink = Html::a('<i class="fas fa-eye"></i>',['view','No'=> $item->No ],['class'=>'btn btn-outline-primary btn-xs','title' => 'View Request.' ]);
-                if($item->Status == 'New'){
-                    $link = Html::a('<i class="fas fa-paper-plane"></i>',['send-for-approval','No'=> $item->No ],['title'=>'Send Approval Request','class'=>'btn btn-primary btn-xs']);
-                    $updateLink = Html::a('<i class="far fa-edit"></i>',['update','No'=> $item->No ],['class'=>'btn btn-info btn-xs','title' => 'Update Request']);
-                }else if($item->Status == 'Pending_Approval'){
-                    $link = Html::a('<i class="fas fa-times"></i>',['cancel-request','No'=> $item->No ],['title'=>'Cancel Approval Request','class'=>'btn btn-warning btn-xs']);
+                $Viewlink = Html::a('<i class="fas fa-eye"></i>', ['view', 'No' => $item->No], ['class' => 'btn btn-outline-primary btn-xs', 'title' => 'View Request.']);
+                if ($item->Status == 'New') {
+                    $link = Html::a('<i class="fas fa-paper-plane"></i>', ['send-for-approval', 'No' => $item->No], ['title' => 'Send Approval Request', 'class' => 'btn btn-primary btn-xs']);
+                    $updateLink = Html::a('<i class="far fa-edit"></i>', ['update', 'No' => $item->No], ['class' => 'btn btn-info btn-xs', 'title' => 'Update Request']);
+                } else if ($item->Status == 'Pending_Approval') {
+                    $link = Html::a('<i class="fas fa-times"></i>', ['cancel-request', 'No' => $item->No], ['title' => 'Cancel Approval Request', 'class' => 'btn btn-warning btn-xs']);
                 }
 
                 $result['data'][] = [
                     'Key' => $item->Key,
                     'No' => $item->No,
-                    'Employee_No' => !empty($item->Employee_No)?$item->Employee_No:'',
-                    'Employee_Name' => !empty($item->Employee_Name)?$item->Employee_Name:'',
-                    'Global_Dimension_1_Code' => !empty($item->Global_Dimension_1_Code)?$item->Global_Dimension_1_Code:'',
+                    'Employee_No' => !empty($item->Employee_No) ? $item->Employee_No : '',
+                    'Employee_Name' => !empty($item->Employee_Name) ? $item->Employee_Name : '',
+                    'Global_Dimension_1_Code' => !empty($item->Global_Dimension_1_Code) ? $item->Global_Dimension_1_Code : '',
                     'Status' => $item->Status,
-                    'Action' => $Viewlink ,
+                    'Action' => $Viewlink,
 
                 ];
             }
-
         }
 
         return $result;
     }
 
-    public function actionListApproved(){
+    public function actionListApproved()
+    {
         $service = Yii::$app->params['ServiceName']['PRApproved'];
         $filter = [
             'Employee_No' => Yii::$app->user->identity->{'Employee No_'},
         ];
 
-        $results = \Yii::$app->navhelper->getData($service,$filter);
+        $results = \Yii::$app->navhelper->getData($service, $filter);
         //Yii::$app->recruitment->printrr($results);
         $result = [];
-        foreach($results as $item){
+        foreach ($results as $item) {
 
-            if(!empty($item->No ))
-            {
+            if (!empty($item->No)) {
                 $link = $updateLink = $deleteLink =  '';
-                $Viewlink = Html::a('<i class="fas fa-eye"></i>',['view','No'=> $item->No ],['class'=>'btn btn-outline-primary btn-xs','title' => 'View Request.' ]);
-                if($item->Status == 'New'){
-                    $link = Html::a('<i class="fas fa-paper-plane"></i>',['send-for-approval','No'=> $item->No ],['title'=>'Send Approval Request','class'=>'btn btn-primary btn-xs']);
-                    $updateLink = Html::a('<i class="far fa-edit"></i>',['update','No'=> $item->No ],['class'=>'btn btn-info btn-xs','title' => 'Update Request']);
-                }else if($item->Status == 'Pending_Approval'){
-                    $link = Html::a('<i class="fas fa-times"></i>',['cancel-request','No'=> $item->No ],['title'=>'Cancel Approval Request','class'=>'btn btn-warning btn-xs']);
+                $Viewlink = Html::a('<i class="fas fa-eye"></i>', ['view', 'No' => $item->No], ['class' => 'btn btn-outline-primary btn-xs', 'title' => 'View Request.']);
+                if ($item->Status == 'New') {
+                    $link = Html::a('<i class="fas fa-paper-plane"></i>', ['send-for-approval', 'No' => $item->No], ['title' => 'Send Approval Request', 'class' => 'btn btn-primary btn-xs']);
+                    $updateLink = Html::a('<i class="far fa-edit"></i>', ['update', 'No' => $item->No], ['class' => 'btn btn-info btn-xs', 'title' => 'Update Request']);
+                } else if ($item->Status == 'Pending_Approval') {
+                    $link = Html::a('<i class="fas fa-times"></i>', ['cancel-request', 'No' => $item->No], ['title' => 'Cancel Approval Request', 'class' => 'btn btn-warning btn-xs']);
                 }
 
                 $result['data'][] = [
                     'Key' => $item->Key,
                     'No' => $item->No,
-                    'Employee_No' => !empty($item->Employee_No)?$item->Employee_No:'',
-                    'Employee_Name' => !empty($item->Employee_Name)?$item->Employee_Name:'',
-                    'Global_Dimension_1_Code' => !empty($item->Global_Dimension_1_Code)?$item->Global_Dimension_1_Code:'',
+                    'Employee_No' => !empty($item->Employee_No) ? $item->Employee_No : '',
+                    'Employee_Name' => !empty($item->Employee_Name) ? $item->Employee_Name : '',
+                    'Global_Dimension_1_Code' => !empty($item->Global_Dimension_1_Code) ? $item->Global_Dimension_1_Code : '',
                     'Status' => $item->Status,
-                    'Action' => $Viewlink ,
+                    'Action' => $Viewlink,
 
                 ];
             }
-
         }
 
         return $result;
     }
 
 
-    public function actionListInitiated(){
+    public function actionListInitiated()
+    {
         $service = Yii::$app->params['ServiceName']['ProcurementInitiated'];
         $filter = [
             'Employee_No' => Yii::$app->user->identity->{'Employee No_'},
         ];
 
-        $results = \Yii::$app->navhelper->getData($service,$filter);
+        $results = \Yii::$app->navhelper->getData($service, $filter);
         //Yii::$app->recruitment->printrr($results);
         $result = [];
-        foreach($results as $item){
+        foreach ($results as $item) {
 
-            if(!empty($item->No ))
-            {
+            if (!empty($item->No)) {
                 $link = $updateLink = $deleteLink =  '';
-                $Viewlink = Html::a('<i class="fas fa-eye"></i>',['view','No'=> $item->No ],['class'=>'btn btn-outline-primary btn-xs','title' => 'View Request.' ]);
-                if($item->Status == 'New'){
-                    $link = Html::a('<i class="fas fa-paper-plane"></i>',['send-for-approval','No'=> $item->No ],['title'=>'Send Approval Request','class'=>'btn btn-primary btn-xs']);
-                    $updateLink = Html::a('<i class="far fa-edit"></i>',['update','No'=> $item->No ],['class'=>'btn btn-info btn-xs','title' => 'Update Request']);
-                }else if($item->Status == 'Pending_Approval'){
-                    $link = Html::a('<i class="fas fa-times"></i>',['cancel-request','No'=> $item->No ],['title'=>'Cancel Approval Request','class'=>'btn btn-warning btn-xs']);
+                $Viewlink = Html::a('<i class="fas fa-eye"></i>', ['view', 'No' => $item->No], ['class' => 'btn btn-outline-primary btn-xs', 'title' => 'View Request.']);
+                if ($item->Status == 'New') {
+                    $link = Html::a('<i class="fas fa-paper-plane"></i>', ['send-for-approval', 'No' => $item->No], ['title' => 'Send Approval Request', 'class' => 'btn btn-primary btn-xs']);
+                    $updateLink = Html::a('<i class="far fa-edit"></i>', ['update', 'No' => $item->No], ['class' => 'btn btn-info btn-xs', 'title' => 'Update Request']);
+                } else if ($item->Status == 'Pending_Approval') {
+                    $link = Html::a('<i class="fas fa-times"></i>', ['cancel-request', 'No' => $item->No], ['title' => 'Cancel Approval Request', 'class' => 'btn btn-warning btn-xs']);
                 }
 
                 $result['data'][] = [
                     'Key' => $item->Key,
                     'No' => $item->No,
-                    'Employee_No' => !empty($item->Employee_No)?$item->Employee_No:'',
-                    'Employee_Name' => !empty($item->Employee_Name)?$item->Employee_Name:'',
-                    'Global_Dimension_1_Code' => !empty($item->Global_Dimension_1_Code)?$item->Global_Dimension_1_Code:'',
-                    'Global_Dimension_2_Code' => !empty($item->Global_Dimension_2_Code)?$item->Global_Dimension_2_Code:'',
-                    'Global_Dimension_3_Code' => !empty($item->Global_Dimension_3_Code)?$item->Global_Dimension_3_Code:'',
-                    'Created_On' => !empty($item->Created_On)?$item->Created_On:'',
+                    'Employee_No' => !empty($item->Employee_No) ? $item->Employee_No : '',
+                    'Employee_Name' => !empty($item->Employee_Name) ? $item->Employee_Name : '',
+                    'Global_Dimension_1_Code' => !empty($item->Global_Dimension_1_Code) ? $item->Global_Dimension_1_Code : '',
+                    'Global_Dimension_2_Code' => !empty($item->Global_Dimension_2_Code) ? $item->Global_Dimension_2_Code : '',
+                    'Global_Dimension_3_Code' => !empty($item->Global_Dimension_3_Code) ? $item->Global_Dimension_3_Code : '',
+                    'Created_On' => !empty($item->Created_On) ? $item->Created_On : '',
                     'Status' => $item->Status,
-                    'Action' => $Viewlink ,
+                    'Action' => $Viewlink,
 
                 ];
             }
-
         }
 
         return $result;
@@ -418,7 +414,8 @@ class PurchaseRequisitionController extends Controller
 
     /*Get Programs */
 
-    public function getPrograms(){
+    public function getPrograms()
+    {
         $service = Yii::$app->params['ServiceName']['DimensionValueList'];
 
         $filter = [
@@ -426,60 +423,59 @@ class PurchaseRequisitionController extends Controller
         ];
 
         $result = \Yii::$app->navhelper->getData($service, $filter);
-        return ArrayHelper::map($result,'Code','Name');
+        return ArrayHelper::map($result, 'Code', 'Name');
     }
 
     /* Get Department*/
 
-    public function getDepartments(){
+    public function getDepartments()
+    {
         $service = Yii::$app->params['ServiceName']['DimensionValueList'];
 
         $filter = [
             'Global_Dimension_No' => 2
         ];
         $result = \Yii::$app->navhelper->getData($service, $filter);
-        return ArrayHelper::map($result,'Code','Name');
+        return ArrayHelper::map($result, 'Code', 'Name');
     }
 
     /* Get Dimension 3*/
 
-    public function getD3(){
+    public function getD3()
+    {
         $service = Yii::$app->params['ServiceName']['DimensionValueList'];
 
         $filter = [
             'Global_Dimension_No' => 3
         ];
         $result = \Yii::$app->navhelper->getData($service, $filter);
-        return ArrayHelper::map($result,'Code','Name');
+        return ArrayHelper::map($result, 'Code', 'Name');
     }
 
-    
 
 
 
 
 
-    public function getEmployees(){
+
+    public function getEmployees()
+    {
         $service = Yii::$app->params['ServiceName']['Employees'];
 
         $employees = \Yii::$app->navhelper->getData($service);
         $data = [];
         $i = 0;
-        if(is_array($employees)){
+        if (is_array($employees)) {
 
-            foreach($employees as  $emp){
+            foreach ($employees as  $emp) {
                 $i++;
-                if(!empty($emp->Full_Name) && !empty($emp->No)){
+                if (!empty($emp->Full_Name) && !empty($emp->No)) {
                     $data[$i] = [
                         'No' => $emp->No,
                         'Full_Name' => $emp->Full_Name
                     ];
                 }
-
             }
-
-
-
         }
 
         return $data;
@@ -506,16 +502,15 @@ class PurchaseRequisitionController extends Controller
         ];
 
 
-        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanSendRequisitionHeaderForApproval');
+        $result = Yii::$app->navhelper->PortalWorkFlows($service, $data, 'IanSendRequisitionHeaderForApproval');
 
-        if(!is_string($result)){
+        if (!is_string($result)) {
             Yii::$app->session->setFlash('success', 'Approval Request Sent to Supervisor Successfully.', true);
             return $this->redirect(['index']);
-        }else{
+        } else {
 
-            Yii::$app->session->setFlash('error', 'Error Sending Approval Request for Approval  : '. $result);
+            Yii::$app->session->setFlash('error', 'Error Sending Approval Request for Approval  : ' . $result);
             return $this->redirect(['index']);
-
         }
     }
 
@@ -530,16 +525,15 @@ class PurchaseRequisitionController extends Controller
         ];
 
 
-        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanCancelRequisitionHeaderApprovalRequest');
+        $result = Yii::$app->navhelper->PortalWorkFlows($service, $data, 'IanCancelRequisitionHeaderApprovalRequest');
 
-        if(!is_string($result)){
+        if (!is_string($result)) {
             Yii::$app->session->setFlash('success', 'Approval Request Cancelled Successfully.', true);
             return $this->redirect(['index']);
-        }else{
+        } else {
 
-            Yii::$app->session->setFlash('error', 'Error Cancelling Approval Approval Request.  : '. $result);
+            Yii::$app->session->setFlash('error', 'Error Cancelling Approval Approval Request.  : ' . $result);
             return $this->redirect(['index']);
-
         }
     }
 
@@ -548,20 +542,21 @@ class PurchaseRequisitionController extends Controller
      * Some utility Functions for controllers
      */
 
-     
+
     /** Updates a single field on a form */
-    public function actionSetfield($field){
+    public function actionSetfield($field)
+    {
         $service = 'PurchaseRequisitionCard';
         $value = Yii::$app->request->post('fieldValue');
-       
-        $result = Yii::$app->navhelper->Commit($service,[$field => $value],Yii::$app->request->post('Key'));
+
+        $result = Yii::$app->navhelper->Commit($service, [$field => $value], Yii::$app->request->post('Key'));
         Yii::$app->response->format = \yii\web\response::FORMAT_JSON;
         return $result;
-          
     }
 
- 
-    public function actionCommit(){
+
+    public function actionCommit()
+    {
         $commitService = Yii::$app->request->post('service');
         $key = Yii::$app->request->post('key');
         $name = Yii::$app->request->post('name');
@@ -570,23 +565,22 @@ class PurchaseRequisitionController extends Controller
         $service = Yii::$app->params['ServiceName'][$commitService];
         $request = Yii::$app->navhelper->readByKey($service, $key);
         $data = [];
-        if(is_object($request)){
+        if (is_object($request)) {
             $data = [
                 'Key' => $request->Key,
                 $name => $value
             ];
-        }else{
+        } else {
             Yii::$app->response->format = \yii\web\response::FORMAT_JSON;
             return ['error' => $request];
         }
 
-        $result = Yii::$app->navhelper->updateData($service,$data);
+        $result = Yii::$app->navhelper->updateData($service, $data);
         Yii::$app->response->format = \yii\web\response::FORMAT_JSON;
         return $result;
-
     }
 
-    public function actionAddLine($Service,$Document_No)
+    public function actionAddLine($Service, $Document_No)
     {
         $service = Yii::$app->params['ServiceName'][$Service];
         $data = [
@@ -599,55 +593,53 @@ class PurchaseRequisitionController extends Controller
         $result = Yii::$app->navhelper->postData($service, $data);
 
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        if(is_object($result))
-        {
+        if (is_object($result)) {
             return [
                 'note' => 'Record Created Successfully.',
                 'result' => $result
             ];
-        }else{
+        } else {
             return ['note' => $result];
         }
     }
 
-    public function actionDeleteLine($Service,$Key)
+    public function actionDeleteLine($Service, $Key)
     {
         $service = Yii::$app->params['ServiceName'][$Service];
-        $result = Yii::$app->navhelper->deleteData($service,Yii::$app->request->get('Key')); 
-        Yii::$app->session->setFlash('success','Record Deleted Successfully.', true);
+        $result = Yii::$app->navhelper->deleteData($service, Yii::$app->request->get('Key'));
+        Yii::$app->session->setFlash('success', 'Record Deleted Successfully.', true);
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        if(!is_string($result))
-        {    
+        if (!is_string($result)) {
             return [
                 'note' => 'Record Deleted Successfully.',
                 'result' => $result
             ];
-        }else{
+        } else {
             return ['note' => $result];
         }
     }
 
 
     public function getDimension($value)
-     {
-         $service = Yii::$app->params['ServiceName']['DimensionValueList'];
-         $filter = ['Global_Dimension_No' => $value];
-         $result = \Yii::$app->navhelper->getData($service, $filter);
-         
-         return Yii::$app->navhelper->refactorArray($result,'Code','Name');
-     }
+    {
+        $service = Yii::$app->params['ServiceName']['DimensionValueList'];
+        $filter = ['Global_Dimension_No' => $value];
+        $result = \Yii::$app->navhelper->getData($service, $filter);
 
-     public function actionDimension1()
-     {
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-         return $this->getDimension(1);
-     }
+        return Yii::$app->navhelper->refactorArray($result, 'Code', 'Name');
+    }
 
-     public function actionDimension2()
-     {
+    public function actionDimension1()
+    {
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-         return $this->getDimension(2);
-     }
+        return $this->getDimension(1);
+    }
+
+    public function actionDimension2()
+    {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $this->getDimension(2);
+    }
 
 
     // Get Transaction Types
@@ -655,7 +647,7 @@ class PurchaseRequisitionController extends Controller
     public function actionTypes()
     {
         $data = [
-            'G_L_Account'=> 'G_L_Account',
+            'G_L_Account' => 'G_L_Account',
             'Fixed_Asset' => 'Fixed_Asset',
             'Item' => 'Item'
         ];
@@ -670,28 +662,24 @@ class PurchaseRequisitionController extends Controller
 
     public function actionDonors()
     {
-          
-            $service = Yii::$app->params['ServiceName']['CustomerLookup'];
-            $filter = [
-               
-            ];
-            $result = \Yii::$app->navhelper->getData($service, $filter);
-            $arr = [];
-           
-            foreach($result as $res)
-            {
-                if(!empty($res->No) && !empty($res->Name))
-                {
-                    $arr[] = [
-                        'Code' => $res->No,
-                        'Description' => $res->No.' - '.$res->Name
-                    ];
-                }
+
+        $service = Yii::$app->params['ServiceName']['CustomerLookup'];
+        $filter = [];
+        $result = \Yii::$app->navhelper->getData($service, $filter);
+        $arr = [];
+
+        foreach ($result as $res) {
+            if (!empty($res->No) && !empty($res->Name)) {
+                $arr[] = [
+                    'Code' => $res->No,
+                    'Description' => $res->No . ' - ' . $res->Name
+                ];
             }
-            $data = ArrayHelper::map($arr,'Code','Description'); 
-            ksort($data);
-            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            return $data;       
+        }
+        $data = ArrayHelper::map($arr, 'Code', 'Description');
+        ksort($data);
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $data;
     }
 
 
@@ -699,99 +687,93 @@ class PurchaseRequisitionController extends Controller
 
     public function actionGrants()
     {
-          
-            $service = Yii::$app->params['ServiceName']['GrantLookUp'];
-            $filter = [
-               
-            ];
-            $result = \Yii::$app->navhelper->getData($service, $filter);
-            $arr = [];
-           
-            foreach($result as $res)
-            {
-                if(!empty($res->No) && !empty($res->Title))
-                {
-                    $arr[] = [
-                        'Code' => $res->No,
-                        'Description' => $res->No.' - '.$res->Title
-                    ];
-                }
+
+        $service = Yii::$app->params['ServiceName']['GrantLookUp'];
+        $filter = [];
+        $result = \Yii::$app->navhelper->getData($service, $filter);
+        $arr = [];
+
+        foreach ($result as $res) {
+            if (!empty($res->No) && !empty($res->Title)) {
+                $arr[] = [
+                    'Code' => $res->No,
+                    'Description' => $res->No . ' - ' . $res->Title
+                ];
             }
-            $data = ArrayHelper::map($arr,'Code','Description'); 
-            ksort($data);
-            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            return $data;       
+        }
+        $data = ArrayHelper::map($arr, 'Code', 'Description');
+        ksort($data);
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $data;
     }
 
     // Get Filtered Objectives
 
     public function actionObjectives()
     {
-            $data = file_get_contents('php://input');
-            $params = json_decode($data);
-            $service = Yii::$app->params['ServiceName']['GrantLinesLookUp'];
-            $filter = [
-                'Grant_No' => $params->Grant_No,
-                'Line_Type' => 'Objective'
-            ];
-            
-            $result = \Yii::$app->navhelper->getData($service, $filter);
-            //Yii::$app->recruitment->printrr($result);
-            $arr = [];
-           
-            foreach($result as $res)
-            {
-                if(!empty($res->Code))
-                {
-                    $arr[] = [
-                        'Code' => $res->Code,
-                        'Description' => $res->Code
-                    ];
-                }
+        $data = file_get_contents('php://input');
+        $params = json_decode($data);
+        $service = Yii::$app->params['ServiceName']['GrantLinesLookUp'];
+        $filter = [
+            'Grant_No' => $params->Grant_No,
+            'Line_Type' => 'Objective'
+        ];
+
+        $result = \Yii::$app->navhelper->getData($service, $filter);
+        //Yii::$app->recruitment->printrr($result);
+        $arr = [];
+
+        foreach ($result as $res) {
+            if (!empty($res->Code)) {
+                $arr[] = [
+                    'Code' => $res->Code,
+                    'Description' => $res->Code
+                ];
             }
-            $data = ArrayHelper::map($arr,'Code','Description'); 
-            ksort($data);
-            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            return $data;       
+        }
+        $data = ArrayHelper::map($arr, 'Code', 'Description');
+        ksort($data);
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $data;
     }
 
-     // Get Filtered Outputs
+    // Get Filtered Outputs
 
-     public function actionOutputs()
-     {
-            $data = file_get_contents('php://input');
-            $params = json_decode($data);
-             $service = Yii::$app->params['ServiceName']['GrantLinesLookUp'];
-             $filter = [
-                 'Grant_No' => $params->Grant_No,
-                 'Line_Type' => 'Output'
-             ];
-             $result = \Yii::$app->navhelper->getData($service, $filter);
-             //Yii::$app->recruitment->printrr($result);
-            
-             $data = Yii::$app->navhelper->refactorArray($result,'Code','Code'); 
-             ksort($data);
-             Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-             return $data;    
-     }
+    public function actionOutputs()
+    {
+        $data = file_get_contents('php://input');
+        $params = json_decode($data);
+        $service = Yii::$app->params['ServiceName']['GrantLinesLookUp'];
+        $filter = [
+            'Grant_No' => $params->Grant_No,
+            'Line_Type' => 'Output'
+        ];
+        $result = \Yii::$app->navhelper->getData($service, $filter);
+        //Yii::$app->recruitment->printrr($result);
+
+        $data = Yii::$app->navhelper->refactorArray($result, 'Code', 'Code');
+        ksort($data);
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $data;
+    }
 
 
-     // Get Filtered OutCome
+    // Get Filtered OutCome
 
     public function actionOutcome()
     {
-            $data = file_get_contents('php://input');
-            $params = json_decode($data);
-            $service = Yii::$app->params['ServiceName']['GrantLinesLookUp'];
-            $filter = [
-                'Grant_No' => $params->Grant_No,
-                'Line_Type' => 'Outcome'
-            ];
-            $result = \Yii::$app->navhelper->getData($service, $filter);
-            $data = Yii::$app->navhelper->refactorArray($result,'Code','Code'); 
-            ksort($data);
-            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            return $data;
+        $data = file_get_contents('php://input');
+        $params = json_decode($data);
+        $service = Yii::$app->params['ServiceName']['GrantLinesLookUp'];
+        $filter = [
+            'Grant_No' => $params->Grant_No,
+            'Line_Type' => 'Outcome'
+        ];
+        $result = \Yii::$app->navhelper->getData($service, $filter);
+        $data = Yii::$app->navhelper->refactorArray($result, 'Code', 'Code');
+        ksort($data);
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $data;
     }
 
 
@@ -799,49 +781,47 @@ class PurchaseRequisitionController extends Controller
 
     public function actionActivities()
     {
-           
-            $data = file_get_contents('php://input');
-            $params = json_decode($data);
-            $service = Yii::$app->params['ServiceName']['GrantLinesLookUp'];
-            $filter = [
-                'Grant_No' => $params->Grant_No,
-                'Line_Type' => 'Activity'
-            ];
-            $result = \Yii::$app->navhelper->getData($service, $filter);
-            $data = Yii::$app->navhelper->refactorArray($result,'Code','Code'); 
-            ksort($data);
-            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            return $data;
+
+        $data = file_get_contents('php://input');
+        $params = json_decode($data);
+        $service = Yii::$app->params['ServiceName']['GrantLinesLookUp'];
+        $filter = [
+            'Grant_No' => $params->Grant_No,
+            'Line_Type' => 'Activity'
+        ];
+        $result = \Yii::$app->navhelper->getData($service, $filter);
+        $data = Yii::$app->navhelper->refactorArray($result, 'Code', 'Code', ['Description']);
+        ksort($data);
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $data;
     }
 
     public function actionPartners()
     {
-            $data = file_get_contents('php://input');
-           
-            $jsonParams = json_decode($data);
-            $service = Yii::$app->params['ServiceName']['GrantDetailLines'];
-            $filter = [
-                'Grant_Code' => $jsonParams->Grant_No
-            ];
-           
-            $result = \Yii::$app->navhelper->getData($service, $filter);
-            // Yii::$app->recruitment->printrr($result);
-            $arr = [];
-           
-            foreach($result as $res)
-            {
-                if(!empty($res->G_L_Account_No) && !empty($res->Activity_Description))
-                {
-                    $arr[] = [
-                        'Code' => $res->G_L_Account_No,
-                        'Description' => $res->G_L_Account_No.' - '.$res->Activity_Description
-                    ];
-                }
+        $data = file_get_contents('php://input');
+
+        $jsonParams = json_decode($data);
+        $service = Yii::$app->params['ServiceName']['GrantDetailLines'];
+        $filter = [
+            'Grant_Code' => $jsonParams->Grant_No
+        ];
+
+        $result = \Yii::$app->navhelper->getData($service, $filter);
+        // Yii::$app->recruitment->printrr($result);
+        $arr = [];
+
+        foreach ($result as $res) {
+            if (!empty($res->G_L_Account_No) && !empty($res->Activity_Description)) {
+                $arr[] = [
+                    'Code' => $res->G_L_Account_No,
+                    'Description' => $res->G_L_Account_No . ' - ' . $res->Activity_Description
+                ];
             }
-            $data = ArrayHelper::map($arr,'Code','Description'); 
-            ksort($data);
-            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            return $data;
+        }
+        $data = ArrayHelper::map($arr, 'Code', 'Description');
+        ksort($data);
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $data;
     }
 
     public function actionNo()
@@ -850,57 +830,49 @@ class PurchaseRequisitionController extends Controller
         $jsonParams = json_decode($data);
         $type = $jsonParams->Type;
 
-        if($type == 'G_L_Account')
-        {
+        if ($type == 'G_L_Account') {
             $service = Yii::$app->params['ServiceName']['GLAccountList'];
             $filter = [
                 'Direct_Posting' => true,
                 'Income_Balance' => 'Income_Statement'
             ];
             $result = \Yii::$app->navhelper->getData($service, $filter);
-            $data =  Yii::$app->navhelper->refactorArray($result,'No','No');
-
-        }elseif($type == 'Item')
-        {
+            $data =  Yii::$app->navhelper->refactorArray($result, 'No', 'No');
+        } elseif ($type == 'Item') {
             $service = Yii::$app->params['ServiceName']['Items'];
             $filter = [];
             $Items = \Yii::$app->navhelper->getData($service, $filter);
             $arr = [];
-           
-            foreach($Items as $r){
-                if(empty($r->No) ||  empty($r->Description) ){
+
+            foreach ($Items as $r) {
+                if (empty($r->No) ||  empty($r->Description)) {
                     continue;
                 }
-                $arr[] = ['No' => $r->No, 'Description' => $r->Description. ' - '. $r->No];
-               
+                $arr[] = ['No' => $r->No, 'Description' => $r->Description . ' - ' . $r->No];
             }
-           
-            $data =  ArrayHelper::map($arr,'No','Description');
+
+            $data =  ArrayHelper::map($arr, 'No', 'Description');
             krsort($data);
-          
+        } elseif ($type == 'Fixed_Asset') {
+            $data = Yii::$app->navhelper->dropDown('FixedAssets', 'No', 'Description');
+            krsort($data);
         }
-        elseif($type == 'Fixed_Asset')
-        {
-           $data = Yii::$app->navhelper->dropDown('FixedAssets','No','Description');
-           krsort($data);
-        }
-       
+
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $data;
-       
     }
 
-    public function actionLocations(){
-        $data = Yii::$app->navhelper->dropDown('Locations','Code','Name');
+    public function actionLocations()
+    {
+        $data = Yii::$app->navhelper->dropDown('Locations', 'Code', 'Name');
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $data;
-        
     }
 
     public function actionProcurementMethods()
     {
         $data = [
-            '_blank_'=> '_blank_',
+            '_blank_' => '_blank_',
             'Tender' => 'Tender',
             'RFQ' => 'RFQ',
             'Direct_Procurement' => 'Direct_Procurement',
@@ -913,95 +885,81 @@ class PurchaseRequisitionController extends Controller
 
     public function actionUpload()
     {
-        
+
         $targetPath = '';
-        if($_FILES)
-        {
+        if ($_FILES) {
             $uploadedFile = $_FILES['attachment']['name'];
-            list($pref,$ext) = explode('.',$uploadedFile);
-            $targetPath = './uploads/'.Yii::$app->security->generateRandomString(5).'.'.$ext; // Create unique target upload path
+            list($pref, $ext) = explode('.', $uploadedFile);
+            $targetPath = './uploads/' . Yii::$app->security->generateRandomString(5) . '.' . $ext; // Create unique target upload path
 
             // Create upload directory if it dnt exist.
-            if(!is_dir(dirname($targetPath))){
+            if (!is_dir(dirname($targetPath))) {
                 FileHelper::createDirectory(dirname($targetPath));
-                chmod(dirname($targetPath),0755);
+                chmod(dirname($targetPath), 0755);
             }
         }
-       
+
         // Upload
-        if(Yii::$app->request->isPost)
-        {
+        if (Yii::$app->request->isPost) {
             $DocumentService = Yii::$app->params['ServiceName'][Yii::$app->request->post('DocumentService')];
             $parentDocument = Yii::$app->navhelper->readByKey($DocumentService, Yii::$app->request->post('Key'));
-    
-                $metadata = [];
-                if(is_object($parentDocument) && isset($parentDocument->Key))
-                {
-                    $metadata = [
-                        'Application' => $parentDocument->No,
-                        'Employee' => $parentDocument->Employee_No,
-                        'Leavetype' => 'Purchase Requisition - '.$parentDocument->Title,
-                    ];
-                }
-            Yii::$app->session->set('metadata',$metadata);          
+
+            $metadata = [];
+            if (is_object($parentDocument) && isset($parentDocument->Key)) {
+                $metadata = [
+                    'Application' => $parentDocument->No,
+                    'Employee' => $parentDocument->Employee_No,
+                    'Leavetype' => 'Purchase Requisition - ' . $parentDocument->Title,
+                ];
+            }
+            Yii::$app->session->set('metadata', $metadata);
 
             $file = $_FILES['attachment']['tmp_name'];
             //Return JSON
             Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            if(move_uploaded_file($file,$targetPath))
-            {
-                 // Upload to sharepoint
+            if (move_uploaded_file($file, $targetPath)) {
+                // Upload to sharepoint
                 $spResult = Yii::$app->recruitment->sharepoint_attach($targetPath);
                 return [
                     'status' => 'success',
-                    'message' => 'File Uploaded Successfully'.$spResult,
+                    'message' => 'File Uploaded Successfully' . $spResult,
                     'filePath' => $targetPath
                 ];
-               
-
-            }else 
-            {
+            } else {
                 return [
                     'status' => 'error',
                     'message' => 'Could not upload file at the moment.'
                 ];
             }
         }
-        
+
 
         // Update Nav -  Get Request
-        if(Yii::$app->request->isGet) 
-        {
+        if (Yii::$app->request->isGet) {
             $fileName = basename(Yii::$app->request->get('filePath'));
-            
+
             $DocumentService = Yii::$app->params['ServiceName'][Yii::$app->request->get('documentService')];
             $AttachmentService = Yii::$app->params['ServiceName'][Yii::$app->request->get('Service')];
             $Document = Yii::$app->navhelper->readByKey($DocumentService, Yii::$app->request->get('Key'));
 
             $data = [];
-            if(is_object($Document) && isset($Document->No))
-            {
+            if (is_object($Document) && isset($Document->No)) {
                 $data = [
                     'Document_No' => $Document->No,
-                    'Name' => $fileName ,
-                    'File_path' => \yii\helpers\Url::home(true).'uploads/'.$fileName,
+                    'Name' => $fileName,
+                    'File_path' => \yii\helpers\Url::home(true) . 'uploads/' . $fileName,
                 ];
             }
-           
+
             // Update Nav
             $result = Yii::$app->navhelper->postData($AttachmentService, $data);
 
             Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            if(is_object($result))
-            {
+            if (is_object($result)) {
                 return $result;
-            }else {
+            } else {
                 return $result;
             }
-            
         }
     }
-
-
-
 }
