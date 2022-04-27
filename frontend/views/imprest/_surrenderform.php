@@ -270,7 +270,7 @@ $script = <<<JS
           globalUpload('LeaveAttachments','Imprestsurrendercard','attachment','ImprestSurrenderCard');
     });
 
-    $('#imprestsurrendercard-imprest_no').blur((e) => {
+    $('#imprestsurrendercard-imprest_no').change((e) => {
         globalFieldUpdate('Imprestsurrendercard','imprest','Imprest_No', e,[],'ImprestSurrenderCard');
         setTimeout(() => {
             location.reload(true);
