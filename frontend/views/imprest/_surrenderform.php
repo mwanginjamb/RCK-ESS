@@ -1,61 +1,67 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: HP ELITEBOOK 840 G5
  * Date: 2/24/2020
  * Time: 12:13 PM
  */
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+
 $absoluteUrl = \yii\helpers\Url::home(true);
 ?>
 
-<?php if($model->Imprest_No && property_exists($surrender->Imprest_Surrender_Line, 'Imprest_Surrender_Line')): ?>
+<?php if ($model->Imprest_No && property_exists($surrender->Imprest_Surrender_Line, 'Imprest_Surrender_Line')) : ?>
 
-<div class="row">
-    <div class="col-md-4">
+    <div class="row">
+        <div class="col-md-4">
 
-        <?= ($model->Status == 'New')?Html::a('<i class="fas fa-paper-plane"></i> Send Approval Req',['send-for-approval','employeeNo' => Yii::$app->user->identity->{'Employee_No'}],['class' => 'btn btn-app submitforapproval',
-            'data' => [
-                'confirm' => 'Are you sure you want to send imprest request for approval?',
-                'params'=>[
-                    'No'=> $_GET['No'],
-                    'employeeNo' => Yii::$app->user->identity->{'Employee_No'},
+            <?= ($model->Status == 'New') ? Html::a('<i class="fas fa-paper-plane"></i> Send Approval Req', ['send-for-approval', 'employeeNo' => Yii::$app->user->identity->{'Employee_No'}], [
+                'class' => 'btn btn-app submitforapproval',
+                'data' => [
+                    'confirm' => 'Are you sure you want to send imprest request for approval?',
+                    'params' => [
+                        'No' => $_GET['No'],
+                        'employeeNo' => Yii::$app->user->identity->{'Employee_No'},
+                    ],
+                    'method' => 'get',
                 ],
-                'method' => 'get',
-        ],
-            'title' => 'Submit Imprest Approval'
+                'title' => 'Submit Imprest Approval'
 
-        ]):'' ?>
+            ]) : '' ?>
 
 
-        <?= ($model->Status == 'Pending_Approval')?Html::a('<i class="fas fa-times"></i> Cancel Approval Req.',['cancel-request'],['class' => 'btn btn-app submitforapproval',
-            'data' => [
-            'confirm' => 'Are you sure you want to cancel imprest approval request?',
-            'params'=>[
-                'No'=> $_GET['No'],
-            ],
-            'method' => 'get',
-        ],
-            'title' => 'Cancel Imprest Approval Request'
-
-        ]):'' ?>
-
-
-        <?= Html::a('<i class="fas fa-file-pdf"></i> Print Surrender',['print-surrender'],['class' => 'btn btn-app ',
-            'data' => [
-                'confirm' => 'Print Surrender?',
-                'params'=>[
-                    'No'=> $model->No,
+            <?= ($model->Status == 'Pending_Approval') ? Html::a('<i class="fas fa-times"></i> Cancel Approval Req.', ['cancel-request'], [
+                'class' => 'btn btn-app submitforapproval',
+                'data' => [
+                    'confirm' => 'Are you sure you want to cancel imprest approval request?',
+                    'params' => [
+                        'No' => $_GET['No'],
+                    ],
+                    'method' => 'get',
                 ],
-                'method' => 'get',
-            ],
-            'title' => 'Print Surrender.'
+                'title' => 'Cancel Imprest Approval Request'
 
-        ]) ?>
+            ]) : '' ?>
 
+
+            <?= Html::a('<i class="fas fa-file-pdf"></i> Print Surrender', ['print-surrender'], [
+                'class' => 'btn btn-app ',
+                'data' => [
+                    'confirm' => 'Print Surrender?',
+                    'params' => [
+                        'No' => $model->No,
+                    ],
+                    'method' => 'get',
+                ],
+                'title' => 'Print Surrender.'
+
+            ]) ?>
+
+        </div>
     </div>
-</div>
 
 
 <?php endif; ?>
@@ -70,41 +76,45 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
 
 
-        <?php
+                <?php
 
-            $form = ActiveForm::begin(); ?>
+                $form = ActiveForm::begin(); ?>
                 <div class="row">
                     <div class="row col-md-12">
                         <div class="col-md-6">
 
-                            <?= $form->field($model, 'No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= ($model->Request_For == 'Other')?$form->field($model, 'Employee_No')->dropDownList($employees,['prompt' => 'Select']):'' ?>
-                            <?= $form->field($model, 'Employee_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Imprest_No')->dropDownList($imprests,['prompt' => 'select..']) ?>
-                            <?= $form->field($model, 'Purpose')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'No')->textInput(['readonly' => true, 'disabled' => true]) ?>
+                            <?= ($model->Request_For == 'Other') ? $form->field($model, 'Employee_No')->dropDownList($employees, ['prompt' => 'Select']) : '' ?>
+                            <?= $form->field($model, 'Employee_Name')->textInput(['readonly' => true, 'disabled' => true]) ?>
+                            <?= $form->field($model, 'Imprest_No')->dropDownList($imprests, ['prompt' => 'select..']) ?>
+                            <?= $form->field($model, 'Purpose')->textInput(['readonly' => true, 'disabled' => true]) ?>
                             <?= $form->field($model, 'attachment')->fileInput(['accept' => 'application/pdf']) ?>
-                            <?= '<p><span>Employee Balance</span> '.Html::a($model->Employee_Balance,'#'); '</p>' ?>
-                            <?= '<p><span>Imprest Amount</span> '.Html::a($model->Surrender_Amount,'#'); '</p>'?>
-                            <?= '<p><span> Amount LCY</span> '.Html::a($model->Claim_Amount,'#'); '</p>'?>
+                            <?= '<p><span>Employee Balance</span> ' . Html::a($model->Employee_Balance, '#');
+                            '</p>' ?>
+                            <?= '<p><span>Imprest Amount</span> ' . Html::a($model->Surrender_Amount, '#');
+                            '</p>' ?>
+                            <?= '<p><span> Amount LCY</span> ' . Html::a($model->Claim_Amount, '#');
+                            '</p>' ?>
 
 
 
                         </div>
 
                         <div class="col-md-6">
-                            <?= $form->field($model, 'Status')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Global_Dimension_1_Code')->textInput(['readonly' => true,'disabled' => true]) ?>
+                            <?= $form->field($model, 'Status')->textInput(['readonly' => true, 'disabled' => true]) ?>
+                            <?= $form->field($model, 'Global_Dimension_1_Code')->textInput(['readonly' => true, 'disabled' => true]) ?>
                             <?= $form->field($model, 'Global_Dimension_2_Code')->textInput(['readonly' => true, 'disabled' => true]) ?>
-                            <?= $form->field($model, 'Posting_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Receipt_No')->dropDownList($receipts,['prompt' => 'Select ... ']) ?>
-                            <?= $form->field($model, 'Receipt_Amount')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Posting_Date')->textInput(['readonly' => true, 'disabled' => true]) ?>
+                            <?= $form->field($model, 'Receipt_No')->dropDownList($receipts, ['prompt' => 'Select ... ']) ?>
+                            <?= $form->field($model, 'Receipt_Amount')->textInput(['readonly' => true, 'disabled' => true]) ?>
                             <?= $form->field($model, 'Key')->hiddenInput()->label(false) ?>
-                            <?= '<p><span> Approval Entries </span> '.Html::a($model->Approval_Entries,'#'); '</p>'?>
+                            <?= '<p><span> Approval Entries </span> ' . Html::a($model->Approval_Entries, '#');
+                            '</p>' ?>
 
 
 
 
-<!--                            <p class="parent"><span>+</span>-->
+                            <!--                            <p class="parent"><span>+</span>-->
 
 
 
@@ -157,7 +167,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
             </div>
 
             <div class="card-body">
-                <?php if(property_exists($surrender->Imprest_Surrender_Line, 'Imprest_Surrender_Line')): ?>
+                <?php if (property_exists($surrender->Imprest_Surrender_Line, 'Imprest_Surrender_Line')) : ?>
 
                     <div class="table-responsive">
                         <table class="table table-bordered">
@@ -168,43 +178,43 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                 <td class="text-center text-bold ">Imprest Amount</td>
                                 <td class="text-center text-bold">Request No</td>
                                 <td class="text-center text-bold">Surrendered </td>
-                                
+
                                 <td class="text-center text-bold border border-info">Donor Code</td>
                                 <td class="text-center text-bold">Donor Name</td>
-                                <td class="text-center text-bold border border-info" >Grant Name</td>
+                                <td class="text-center text-bold border border-info">Grant Name</td>
                                 <td class="text-center text-bold border border-info"><b>Objective Code</b></td>
                                 <td class="text-center text-bold border border-info"><b>Output Code</b></td>
                                 <td class="text-center text-bold border border-info"><b>Outcome Code</b></td>
                                 <td class="text-center text-bold border border-info"><b>Activity Code</b></td>
                                 <td class="text-center text-bold border border-info"><b>Partner Code</b></td>
-                                     
+
                             </thead>
                             <tbody>
-                                <?php foreach($surrender->Imprest_Surrender_Line->Imprest_Surrender_Line as $line) :?>
+                                <?php foreach ($surrender->Imprest_Surrender_Line->Imprest_Surrender_Line as $line) : ?>
                                     <tr>
-                                        <td class="text-center"><?= !empty($line->Account_Name)? $line->Account_Name : '' ?></td>
-                                        <td class="text-center"><?= !empty($line->Description)? $line->Description : '' ?></td>
-                                        <td data-key="<?= $line->Key ?>" data-name="Amount" data-service="ImprestSurrenderLine" ondblclick="addInput(this,'number')"><?= !empty($line->Amount)?$line->Amount:'' ?></td>
-                                        <td class="text-center amount"><?= !empty($line->Imprest_Amount)? $line->Imprest_Amount : '' ?></td>
-                                        <td class="text-center"><?= !empty($line->Request_No)? $line->Request_No : '' ?></td>
-                                        <td class="text-center"><?= Html::checkbox('Surrender',$line->Surrender) ?></td>
-                                        
-                                        <td data-key="<?= $line->Key ?>" data-name="Donor_No" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'donors',{'Grant_No': 'grant','Amount':'amount'})"  data-validate="Donor_Name" class="text-center"><?= !empty($line->Donor_No)? $line->Donor_No : '' ?></td>
-                                        <td class="text-center" id="Donor_Name"><?= !empty($line->Donor_Name)? $line->Donor_Name : '' ?></td>
-                                        <td data-key="<?= $line->Key ?>" data-name="Grant_No" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'grants')"  class="text-center grant"><?= !empty($line->Grant_No)? $line->Grant_No : '' ?></td>
-                                        <td data-key="<?= $line->Key ?>" data-name="Objective_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'objectives',{'Grant_No': 'grant'})"><?= !empty($line->Objective_Code)?$line->Objective_Code:'' ?></td>
-                                        <td data-key="<?= $line->Key ?>" data-name="Output_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'outputs',{'Grant_No': 'grant'})"><?= !empty($line->Output_Code)?$line->Output_Code:'' ?></td>
-                                        <td data-key="<?= $line->Key ?>" data-name="Outcome_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'outcome',{'Grant_No': 'grant'})"><?= !empty($line->Outcome_Code)?$line->Outcome_Code:'' ?></td>
-                                        <td data-key="<?= $line->Key ?>" data-name="Activity_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'activities',{'Grant_No': 'grant'})"><?= !empty($line->Activity_Code)?$line->Activity_Code:'' ?></td>
-                                        <td data-key="<?= $line->Key ?>" data-name="Partner_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'partners',{'Grant_No': 'grant'})"><?= !empty($line->Partner_Code)?$line->Partner_Code:'' ?></td>
-                                     
+                                        <td class="text-center"><?= !empty($line->Account_Name) ? $line->Account_Name : '' ?></td>
+                                        <td class="text-center"><?= !empty($line->Description) ? $line->Description : '' ?></td>
+                                        <td data-key="<?= $line->Key ?>" data-name="Amount" data-service="ImprestSurrenderLine" ondblclick="addInput(this,'number')"><?= !empty($line->Amount) ? $line->Amount : '' ?></td>
+                                        <td class="text-center amount"><?= !empty($line->Imprest_Amount) ? $line->Imprest_Amount : '' ?></td>
+                                        <td class="text-center"><?= !empty($line->Request_No) ? $line->Request_No : '' ?></td>
+                                        <td class="text-center"><?= Html::checkbox('Surrender', $line->Surrender) ?></td>
+
+                                        <td data-key="<?= $line->Key ?>" data-name="Donor_No" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'donors',{'Grant_No': 'grant','Amount':'amount'})" data-validate="Donor_Name" class="text-center"><?= !empty($line->Donor_No) ? $line->Donor_No : '' ?></td>
+                                        <td class="text-center" id="Donor_Name"><?= !empty($line->Donor_Name) ? $line->Donor_Name : '' ?></td>
+                                        <td data-key="<?= $line->Key ?>" data-name="Grant_No" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'grants')" class="text-center grant"><?= !empty($line->Grant_No) ? $line->Grant_No : '' ?></td>
+                                        <td data-key="<?= $line->Key ?>" data-name="Objective_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'objectives',{'Grant_No': 'grant'})"><?= !empty($line->Objective_Code) ? $line->Objective_Code : '' ?></td>
+                                        <td data-key="<?= $line->Key ?>" data-name="Output_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'outputs',{'Grant_No': 'grant'})"><?= !empty($line->Output_Code) ? $line->Output_Code : '' ?></td>
+                                        <td data-key="<?= $line->Key ?>" data-name="Outcome_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'outcome',{'Grant_No': 'grant'})"><?= !empty($line->Outcome_Code) ? $line->Outcome_Code : '' ?></td>
+                                        <td data-key="<?= $line->Key ?>" data-name="Activity_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'activities',{'Grant_No': 'grant'})"><?= !empty($line->Activity_Code) ? $line->Activity_Code : '' ?></td>
+                                        <td data-key="<?= $line->Key ?>" data-name="Partner_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'partners',{'Grant_No': 'grant'})"><?= !empty($line->Partner_Code) ? $line->Partner_Code : '' ?></td>
+
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
 
-                        
+
 
                 <?php endif; ?>
             </div>
@@ -226,28 +236,28 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
 
 
-    <!--My Bs Modal template  --->
+<!--My Bs Modal template  --->
 
-    <div class="modal fade bs-example-modal-lg bs-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
+<div class="modal fade bs-example-modal-lg bs-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
 
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel" style="position: absolute">Imprest Management</h4>
-                </div>
-                <div class="modal-body">
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <!--<button type="button" class="btn btn-primary">Save changes</button>-->
-                </div>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel" style="position: absolute">Imprest Management</h4>
+            </div>
+            <div class="modal-body">
 
             </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+            </div>
+
         </div>
     </div>
+</div>
 <input type="hidden" name="absolute" value="<?= $absoluteUrl ?>">
 <?php
 $script = <<<JS
@@ -270,7 +280,7 @@ $script = <<<JS
           globalUpload('LeaveAttachments','Imprestsurrendercard','attachment','ImprestSurrenderCard');
     });
 
-    $('#imprestsurrendercard-imprest_no').change((e) => {
+    $('#imprestsurrendercard-imprest_no').blur((e) => {
         globalFieldUpdate('Imprestsurrendercard','imprest','Imprest_No', e,[],'ImprestSurrenderCard');
         setTimeout(() => {
             location.reload(true);
