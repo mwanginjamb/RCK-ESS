@@ -1528,7 +1528,7 @@ class Navhelper extends Component
         $filter = [];
         if (count($filterValues) && is_array($filterValues)) {
             foreach ($filterValues  as $key => $value) {
-                $filter = [$key => $value];
+                $filter[] = [$key => $value];
             }
         } else {
             $filter = [];

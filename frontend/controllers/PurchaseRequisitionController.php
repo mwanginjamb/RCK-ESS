@@ -751,7 +751,7 @@ class PurchaseRequisitionController extends Controller
         $result = \Yii::$app->navhelper->getData($service, $filter);
         //Yii::$app->recruitment->printrr($result);
 
-        $data = Yii::$app->navhelper->refactorArray($result, 'Code', 'Code');
+        $data = Yii::$app->navhelper->refactorArray($result, 'Code', 'Description', ['Code']);
         ksort($data);
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $data;
@@ -770,7 +770,7 @@ class PurchaseRequisitionController extends Controller
             'Line_Type' => 'Outcome'
         ];
         $result = \Yii::$app->navhelper->getData($service, $filter);
-        $data = Yii::$app->navhelper->refactorArray($result, 'Code', 'Code');
+        $data = Yii::$app->navhelper->refactorArray($result, 'Code', 'Description', ['Code']);
         ksort($data);
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $data;
