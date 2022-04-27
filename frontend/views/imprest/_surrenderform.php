@@ -270,43 +270,14 @@ $script = <<<JS
           globalUpload('LeaveAttachments','Imprestsurrendercard','attachment','ImprestSurrenderCard');
     });
 
-        // Set Imprest No to surrender
-        
-     $('#imprestsurrendercard-imprest_no').change(function(e){
-        const No = $('#imprestsurrendercard-no').val();
-        const Imprest_No = e.target.value;
-        if(No.length){
-            const url = $('input[name=url]').val()+'imprest/setimpresttosurrender';
-            $.post(url,{'Imprest_No': Imprest_No,'No': No}).done(function(msg){
-                   //populate empty form fields with new data
-                    $('#imprestsurrendercard-global_dimension_1_code').val(msg.Global_Dimension_1_Code);
-                    $('#imprestsurrendercard-global_dimension_2_code').val(msg.Global_Dimension_2_Code);
-                    $('#imprestsurrendercard-purpose').val(msg.Purpose);
-                    if((typeof msg) === 'string') { // A string is an error
-                        console.error(msg);
-                        const parent = document.querySelector('.field-imprestsurrendercard-imprest_no');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = msg;
-                        return;
-                    }else{ // An object represents correct details
-                        console.log('Found...');
-                        console.log(msg.Global_Dimension_1_Code);
-                        const parent = document.querySelector('.field-imprestsurrendercard-imprest_no');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = ''; 
-                        
-                        // Trigger a page reload to display lines and workflow buttons
+    $('#imprestsurrendercard-imprest_no').blur((e) => {
+        globalFieldUpdate('Imprestsurrendercard','imprest','Imprest_No', e,[],'ImprestSurrenderCard');
+        setTimeout(() => {
+            location.reload(true);
+        }, 500);
+    });
 
-                        location.reload(true);
-
-                        console.log('got to reloading....');
-                       
-                        
-                    }
-                    
-                },'json');
-        }
-     });
+   
      
      /*Set Program and Department dimension */
      

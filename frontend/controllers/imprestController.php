@@ -905,7 +905,7 @@ class ImprestController extends Controller
 
     /** Updates a single field */
     public function actionSetfield($field){
-        $service = 'ImprestRequestCardPortal';
+        $service = Yii::$app->request->post('service')?Yii::$app->request->post('service'):'ImprestRequestCardPortal';
         $value = Yii::$app->request->post('fieldValue');
        
         $result = Yii::$app->navhelper->Commit($service,[$field => $value],Yii::$app->request->post('Key'));

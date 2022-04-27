@@ -224,7 +224,7 @@ function JquerifyField(model, fieldName) {
 
 // Function to do ajax field level updating
 
-function globalFieldUpdate(entity,controller = false, fieldName, ev, autoPopulateFields = []) {
+function globalFieldUpdate(entity,controller = false, fieldName, ev, autoPopulateFields = [], service = false) {
   console.log('Global Field Update was invoked');
   const model = entity.toLowerCase();
   const field = fieldName.toLowerCase();
@@ -253,7 +253,7 @@ function globalFieldUpdate(entity,controller = false, fieldName, ev, autoPopulat
 
   if(Key.length){
       const url = $('input[name=absolute]').val()+route+'/setfield?field='+fieldName;
-      $.post(url,{ fieldValue:fieldValue,'Key': Key}).done(function(msg){
+      $.post(url,{ fieldValue:fieldValue,'Key': Key, 'service': service}).done(function(msg){
           
               // Populate relevant Fields
                                          
