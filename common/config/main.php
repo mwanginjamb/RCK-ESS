@@ -1,5 +1,5 @@
 <?php
- //use kartik\mpdf\Pdf;
+//use kartik\mpdf\Pdf;
 return [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -30,18 +30,18 @@ return [
                     ],
                 ],
             ],
-            
+
         ],
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'sqlsrv:server='.env('DB_INSTANCE').';database='.env('DB_NAME'),
+            'dsn' => 'sqlsrv:server=' . env('DB_INSTANCE') . ';database=' . env('DB_NAME'),
             'username' => env('DB_USER'),
             'password' => env('DB_PWD'),
             'charset' => 'utf8',
         ],
         'nav' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'sqlsrv:server='.env('DB_INSTANCE').';database='.env('DB_NAME'),
+            'dsn' => 'sqlsrv:server=' . env('DB_INSTANCE') . ';database=' . env('DB_NAME'),
             'username' => env('DB_USER'),
             'password' => env('DB_PWD'),
             'charset' => 'utf8',
@@ -53,7 +53,7 @@ return [
                     'js' => ['/plugins/jquery/jquery.js'],
                 ]
             ],
-            'appendTimestamp' => true,
+            //'appendTimestamp' => true,
         ],
         'navision' => [
             'class' => 'common\Library\Navision',
@@ -70,7 +70,7 @@ return [
         'dashboard' => [
             'class' => 'common\Library\Dashboard'
         ],
-        
+
     ],
 
 ];
