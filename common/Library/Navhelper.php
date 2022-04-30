@@ -1520,7 +1520,7 @@ class Navhelper extends Component
 
 
 
-    public function dropdown($service, $from, $to, $filterValues = [], $extraFields)
+    public function dropdown($service, $from, $to, $filterValues = [], $extraFields = [])
     {
 
         $service = Yii::$app->params['ServiceName'][$service];
