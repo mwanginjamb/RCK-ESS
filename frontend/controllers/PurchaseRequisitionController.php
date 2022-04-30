@@ -662,21 +662,8 @@ class PurchaseRequisitionController extends Controller
 
     public function actionDonors()
     {
-
-        $service = Yii::$app->params['ServiceName']['CustomerLookup'];
         $filter = [];
-        $result = \Yii::$app->navhelper->getData($service, $filter);
-        $arr = [];
-
-        foreach ($result as $res) {
-            if (!empty($res->No) && !empty($res->Name)) {
-                $arr[] = [
-                    'Code' => $res->No,
-                    'Description' => $res->No . ' - ' . $res->Name
-                ];
-            }
-        }
-        $data = ArrayHelper::map($arr, 'Code', 'Description');
+        $data = Yii::$app->navhelper->dropdown('CustomerLookup', 'No', 'Name', $filter, ['No']);
         ksort($data);
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $data;
@@ -687,21 +674,8 @@ class PurchaseRequisitionController extends Controller
 
     public function actionGrants()
     {
-
-        $service = Yii::$app->params['ServiceName']['GrantLookUp'];
         $filter = [];
-        $result = \Yii::$app->navhelper->getData($service, $filter);
-        $arr = [];
-
-        foreach ($result as $res) {
-            if (!empty($res->No) && !empty($res->Title)) {
-                $arr[] = [
-                    'Code' => $res->No,
-                    'Description' => $res->No . ' - ' . $res->Title
-                ];
-            }
-        }
-        $data = ArrayHelper::map($arr, 'Code', 'Description');
+        $data = Yii::$app->navhelper->dropdown('GrantLookUp', 'No', 'Title', $filter, ['No']);
         ksort($data);
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $data;
@@ -736,10 +710,7 @@ class PurchaseRequisitionController extends Controller
             'Grant_No' => $params->Grant_No,
             'Line_Type' => 'Output'
         ];
-        $result = \Yii::$app->navhelper->getData($service, $filter);
-        //Yii::$app->recruitment->printrr($result);
-
-        $data = Yii::$app->navhelper->refactorArray($result, 'Code', 'Description', ['Code']);
+        $data = Yii::$app->navhelper->dropdown('GrantLinesLookUp', 'Code', 'Description', $filter, ['Code']);
         ksort($data);
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $data;
@@ -752,13 +723,11 @@ class PurchaseRequisitionController extends Controller
     {
         $data = file_get_contents('php://input');
         $params = json_decode($data);
-        $service = Yii::$app->params['ServiceName']['GrantLinesLookUp'];
         $filter = [
             'Grant_No' => $params->Grant_No,
             'Line_Type' => 'Outcome'
         ];
-        $result = \Yii::$app->navhelper->getData($service, $filter);
-        $data = Yii::$app->navhelper->refactorArray($result, 'Code', 'Description', ['Code']);
+        $data = Yii::$app->navhelper->dropdown('GrantLinesLookUp', 'Code', 'Description', $filter, ['Code']);
         ksort($data);
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $data;
@@ -786,15 +755,11 @@ class PurchaseRequisitionController extends Controller
     public function actionPartners()
     {
         $data = file_get_contents('php://input');
-
         $jsonParams = json_decode($data);
-        $service = Yii::$app->params['ServiceName']['GrantDetailLines'];
         $filter = [
             'Grant_Code' => $jsonParams->Grant_No
         ];
-
         $data = Yii::$app->navhelper->dropdown('GrantDetailLines', 'G_L_Account_No', 'Activity_Description', $filter, ['G_L_Account_No']);
-
         ksort($data);
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $data;
