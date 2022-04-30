@@ -807,30 +807,17 @@ class PurchaseRequisitionController extends Controller
         $type = $jsonParams->Type;
 
         if ($type == 'G_L_Account') {
-            $service = Yii::$app->params['ServiceName']['GLAccountList'];
             $filter = [
                 'Direct_Posting' => true,
                 'Income_Balance' => 'Income_Statement'
             ];
-            $result = \Yii::$app->navhelper->getData($service, $filter);
-            $data =  Yii::$app->navhelper->refactorArray($result, 'No', 'No');
+            $data = Yii::$app->navhelper->dropdown('GLAccountList', 'No', 'Name', $filter, ['No']);
         } elseif ($type == 'Item') {
-            $service = Yii::$app->params['ServiceName']['Items'];
             $filter = [];
-            $Items = \Yii::$app->navhelper->getData($service, $filter);
-            $arr = [];
-
-            foreach ($Items as $r) {
-                if (empty($r->No) ||  empty($r->Description)) {
-                    continue;
-                }
-                $arr[] = ['No' => $r->No, 'Description' => $r->Description . ' - ' . $r->No];
-            }
-
-            $data =  ArrayHelper::map($arr, 'No', 'Description');
+            $data = Yii::$app->navhelper->dropdown('Items', 'No', 'Description', $filter, ['No']);
             krsort($data);
         } elseif ($type == 'Fixed_Asset') {
-            $data = Yii::$app->navhelper->dropDown('FixedAssets', 'No', 'Description');
+            $data = Yii::$app->navhelper->dropDown('FixedAssets', 'No', 'Description', [], ['No']);
             krsort($data);
         }
 
@@ -840,7 +827,7 @@ class PurchaseRequisitionController extends Controller
 
     public function actionLocations()
     {
-        $data = Yii::$app->navhelper->dropDown('Locations', 'Code', 'Name');
+        $data = Yii::$app->navhelper->dropdown('Locations', 'Code', 'Name', [], ['Code']);
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $data;
     }
