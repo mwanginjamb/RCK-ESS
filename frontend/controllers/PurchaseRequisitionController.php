@@ -719,19 +719,7 @@ class PurchaseRequisitionController extends Controller
             'Line_Type' => 'Objective'
         ];
 
-        $result = \Yii::$app->navhelper->getData($service, $filter);
-        //Yii::$app->recruitment->printrr($result);
-        $arr = [];
-
-        foreach ($result as $res) {
-            if (!empty($res->Code)) {
-                $arr[] = [
-                    'Code' => $res->Code,
-                    'Description' => $res->Code
-                ];
-            }
-        }
-        $data = ArrayHelper::map($arr, 'Code', 'Description');
+        $data = Yii::$app->navhelper->dropdown('GrantLinesLookUp', 'Code', 'Description', $filter, ['Code']);
         ksort($data);
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $data;
@@ -789,8 +777,7 @@ class PurchaseRequisitionController extends Controller
             'Grant_No' => $params->Grant_No,
             'Line_Type' => 'Activity'
         ];
-        $result = \Yii::$app->navhelper->getData($service, $filter);
-        $data = Yii::$app->navhelper->refactorArray($result, 'Code', 'Code', ['Description']);
+        $data = Yii::$app->navhelper->dropdown('GrantLinesLookUp', 'Code', 'Description', $filter, ['Code']);
         ksort($data);
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $data;
@@ -806,19 +793,8 @@ class PurchaseRequisitionController extends Controller
             'Grant_Code' => $jsonParams->Grant_No
         ];
 
-        $result = \Yii::$app->navhelper->getData($service, $filter);
-        // Yii::$app->recruitment->printrr($result);
-        $arr = [];
+        $data = Yii::$app->navhelper->dropdown('GrantDetailLines', 'G_L_Account_No', 'Activity_Description', $filter, ['G_L_Account_No']);
 
-        foreach ($result as $res) {
-            if (!empty($res->G_L_Account_No) && !empty($res->Activity_Description)) {
-                $arr[] = [
-                    'Code' => $res->G_L_Account_No,
-                    'Description' => $res->G_L_Account_No . ' - ' . $res->Activity_Description
-                ];
-            }
-        }
-        $data = ArrayHelper::map($arr, 'Code', 'Description');
         ksort($data);
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $data;

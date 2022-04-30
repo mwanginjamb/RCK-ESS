@@ -1524,19 +1524,9 @@ class Navhelper extends Component
     {
 
         $service = Yii::$app->params['ServiceName'][$service];
+        //Yii::$app->recruitment->printrr($filterValues);
 
-        $filter = [];
-        if (count($filterValues) && is_array($filterValues)) {
-            foreach ($filterValues  as $key => $value) {
-                $filter[] = [$key => $value];
-            }
-        } else {
-            $filter = [];
-        }
-
-        // Yii::$app->recruitment->printrr($filter);
-
-        $result = \Yii::$app->navhelper->getData($service, $filter);
+        $result = \Yii::$app->navhelper->getData($service, $filterValues);
         return Yii::$app->navhelper->refactorArray($result, $from, $to, $extraFields);
     }
 }

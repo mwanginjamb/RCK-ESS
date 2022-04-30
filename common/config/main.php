@@ -53,7 +53,7 @@ return [
                     'js' => ['/plugins/jquery/jquery.js'],
                 ]
             ],
-            //'appendTimestamp' => true,
+            'appendTimestamp' => true,
         ],
         'navision' => [
             'class' => 'common\Library\Navision',
