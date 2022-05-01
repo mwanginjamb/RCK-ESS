@@ -56,3 +56,5 @@ phpunit.phar
 .env
 
 *.pdf
+
+/uploads
