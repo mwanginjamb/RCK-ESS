@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: HP ELITEBOOK 840 G5
@@ -10,9 +11,9 @@ use yii\bootstrap4\Html as Bootstrap4Html;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-$this->title = 'Imprest - '.$model->No;
+$this->title = 'Imprest - ' . $model->No;
 $this->params['breadcrumbs'][] = ['label' => 'imprest Surrenders', 'url' => ['surrenderlist']];
-$this->params['breadcrumbs'][] = ['label' => 'Imprest Surrender Card', 'url' => ['view-surrender','No'=> $model->No]];
+$this->params['breadcrumbs'][] = ['label' => 'Imprest Surrender Card', 'url' => ['view-surrender', 'No' => $model->No]];
 /** Status Sessions */
 
 
@@ -24,38 +25,41 @@ Yii::$app->session->set('isSupervisor',false);*/
 <div class="row">
     <div class="col-md-4">
 
-        <?= ($model->Status == 'New')?Html::a('<i class="fas fa-paper-plane"></i> Send Approval Req',['send-for-approval','employeeNo' => Yii::$app->user->identity->{'Employee_No'}],['class' => 'btn btn-app submitforapproval',
+        <?= ($model->Status == 'New') ? Html::a('<i class="fas fa-paper-plane"></i> Send Approval Req', ['send-for-approval'], [
+            'class' => 'btn btn-app submitforapproval',
             'data' => [
                 'confirm' => 'Are you sure you want to send imprest request for approval?',
-                'params'=>[
-                    'No'=> $_GET['No'],
+                'params' => [
+                    'No' => $model->No,
                     'employeeNo' => Yii::$app->user->identity->{'Employee_No'},
                 ],
                 'method' => 'get',
-        ],
+            ],
             'title' => 'Submit Imprest Approval'
 
-        ]):'' ?>
+        ]) : '' ?>
 
 
-        <?= ($model->Status == 'Pending_Approval')?Html::a('<i class="fas fa-times"></i> Cancel Approval Req.',['cancel-request'],['class' => 'btn btn-app submitforapproval',
+        <?= ($model->Status == 'Pending_Approval') ? Html::a('<i class="fas fa-times"></i> Cancel Approval Req.', ['cancel-request'], [
+            'class' => 'btn btn-app submitforapproval',
             'data' => [
-            'confirm' => 'Are you sure you want to cancel imprest approval request?',
-            'params'=>[
-                'No'=> $_GET['No'],
+                'confirm' => 'Are you sure you want to cancel imprest approval request?',
+                'params' => [
+                    'No' => $model->No,
+                ],
+                'method' => 'get',
             ],
-            'method' => 'get',
-        ],
             'title' => 'Cancel Imprest Approval Request'
 
-        ]):'' ?>
+        ]) : '' ?>
 
 
-        <?= Html::a('<i class="fas fa-file-pdf"></i> Print Surrender',['print-surrender'],['class' => 'btn btn-app ',
+        <?= Html::a('<i class="fas fa-file-pdf"></i> Print Surrender', ['print-surrender'], [
+            'class' => 'btn btn-app ',
             'data' => [
                 'confirm' => 'Print Surrender?',
-                'params'=>[
-                    'No'=> $model->No,
+                'params' => [
+                    'No' => $model->No,
                 ],
                 'method' => 'get',
             ],
@@ -66,186 +70,194 @@ Yii::$app->session->set('isSupervisor',false);*/
     </div>
 </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card-info">
-                <div class="card-header">
-                    <h3>Imprest Surrender Card </h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card-info">
+            <div class="card-header">
+                <h3>Imprest Surrender Card </h3>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+
+
+
+
+                <h3 class="card-title">Imprest No : <?= $model->No ?></h3>
+
+
+
+                <?php
+                if (Yii::$app->session->hasFlash('success')) {
+                    print ' <div class="alert alert-success alert-dismissable">
+                                 ';
+                    echo Yii::$app->session->getFlash('success');
+                    print '</div>';
+                } else if (Yii::$app->session->hasFlash('error')) {
+                    print ' <div class="alert alert-danger alert-dismissable">
+                                 ';
+                    echo Yii::$app->session->getFlash('error');
+                    print '</div>';
+                }
+                ?>
+            </div>
+            <div class="card-body">
+
+
+                <?php $form = ActiveForm::begin(); ?>
+
+
+                <div class="row">
+                    <div class=" row col-md-12">
+                        <div class="col-md-6">
+
+                            <?= $form->field($model, 'No')->textInput(['readonly' => true, 'disabled' => true]) ?>
+                            <?= $form->field($model, 'Employee_No')->textInput(['readonly' => true, 'disabled' => true]) ?>
+                            <?= $form->field($model, 'Employee_Name')->textInput(['readonly' => true, 'disabled' => true]) ?>
+                            <?= $form->field($model, 'Imprest_No')->textInput(['readonly' => true]) ?>
+                            <?= $form->field($model, 'Purpose')->textInput(['readonly' => true, 'disabled' => true]) ?>
+                            <?= '<p><span>Employee Balance</span> ' . Html::a($model->Employee_Balance, '#');
+                            '</p>' ?>
+                            <?= '<p><span>Imprest Amount</span> ' . Html::a($model->Surrender_Amount, '#');
+                            '</p>' ?>
+                            <?= '<p><span> Amount LCY</span> ' . Html::a($model->Claim_Amount, '#');
+                            '</p>' ?>
+
+
+
+                            <!-- <p class="parent"><span>+</span>-->
+
+
+
+
+                            </p>
+
+
+                        </div>
+                        <div class="col-md-6">
+
+                            <?= $form->field($model, 'Status')->textInput(['readonly' => true, 'disabled' => true]) ?>
+                            <?= $form->field($model, 'Global_Dimension_1_Code')->textInput(['readonly' => true, 'disabled' => true]) ?>
+                            <?= $form->field($model, 'Global_Dimension_2_Code')->textInput(['readonly' => true, 'disabled' => true]) ?>
+                            <?= $form->field($model, 'Posting_Date')->textInput(['readonly' => true, 'disabled' => true]) ?>
+                            <?= $form->field($model, 'Receipt_No')->dropDownList([], ['prompt' => 'Select ... ', 'readonly' => true, 'disabled' => true]) ?>
+                            <?= $form->field($model, 'Receipt_Amount')->textInput(['readonly' => true, 'disabled' => true]) ?>
+                            <?= '<p><span> Approval Entries </span> ' . Html::a($model->Approval_Entries, '#');
+                            '</p>' ?>
+
+                            <!-- <p class="parent"><span>+</span></p>-->
+
+
+
+                        </div>
+                    </div>
                 </div>
+
+
+
+
+                <?php ActiveForm::end(); ?>
 
 
 
             </div>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
+        <!--end details card-->
 
 
+        <!--Imprest Lines -->
 
-
-                    <h3 class="card-title">Imprest No : <?= $model->No?></h3>
-
-
-
-                    <?php
-                    if(Yii::$app->session->hasFlash('success')){
-                        print ' <div class="alert alert-success alert-dismissable">
-                                 ';
-                        echo Yii::$app->session->getFlash('success');
-                        print '</div>';
-                    }else if(Yii::$app->session->hasFlash('error')){
-                        print ' <div class="alert alert-danger alert-dismissable">
-                                 ';
-                        echo Yii::$app->session->getFlash('error');
-                        print '</div>';
-                    }
-                    ?>
-                </div>
-                <div class="card-body">
-
-
-                    <?php $form = ActiveForm::begin(); ?>
-
-
-                    <div class="row">
-                        <div class=" row col-md-12">
-                            <div class="col-md-6">
-
-                                <?= $form->field($model, 'No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, 'Employee_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, 'Employee_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, 'Imprest_No')->textInput(['readonly' => true]) ?>
-                                <?= $form->field($model, 'Purpose')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= '<p><span>Employee Balance</span> '.Html::a($model->Employee_Balance,'#'); '</p>' ?>
-                                <?= '<p><span>Imprest Amount</span> '.Html::a($model->Surrender_Amount,'#'); '</p>'?>
-                                <?= '<p><span> Amount LCY</span> '.Html::a($model->Claim_Amount,'#'); '</p>'?>
-
-
-
-                               <!-- <p class="parent"><span>+</span>-->
-
-
-
-
-                                </p>
-
-
-                            </div>
-                            <div class="col-md-6">
-
-                                <?= $form->field($model, 'Status')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, 'Global_Dimension_1_Code')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, 'Global_Dimension_2_Code')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, 'Posting_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, 'Receipt_No')->dropDownList([],['prompt' => 'Select ... ','readonly'=> true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, 'Receipt_Amount')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= '<p><span> Approval Entries </span> '.Html::a($model->Approval_Entries,'#'); '</p>'?>
-
-                               <!-- <p class="parent"><span>+</span></p>-->
-
-
-
-                            </div>
-                        </div>
-                    </div>
-
-
-
-
-                    <?php ActiveForm::end(); ?>
-
-
-
-                </div>
-            </div><!--end details card-->
-
-
-            <!--Imprest Lines -->
-
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title"> Imprest Surrender Lines  </div>
-                </div>
-
-                <div class="card-body">
-                    <?php
-                    if(property_exists($surrender->Imprest_Surrender_Line, 'Imprest_Surrender_Line')){ //show Lines ?>
-
-                    <div class="table-responsive">
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                <tr>
-                                                    <td class="text-center text-bold">Account_Name</td>
-                                                    <td class="text-center text-bold">Description</td>
-                                                    <td class="text-center text-bold">Actual Spend</td>
-                                                    <td class="text-center text-bold">Imprest Amount</td>
-                                                    <td class="text-center text-bold">Request No</td>
-                                                    <td class="text-center text-bold">Surrender</td>
-                                                    <td class="text-center text-bold ">Donor Code</td>
-                                                    <td class="text-center text-bold">Donor Name</td>
-                                                    <td class="text-center text-bold" >Grant Name</td>
-                                                    <td class="text-center text-bold"><b>Objective Code</b></td>
-                                                    <td class="text-center text-bold"><b>Output Code</b></td>
-                                                    <td class="text-center text-bold"><b>Outcome Code</b></td>
-                                                    <td class="text-center text-bold"><b>Activity Code</b></td>
-                                                    <td class="text-center text-bold"><b>Partner Code</b></td>
-                                                    
-
-
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <?php
-                                                // print '<pre>'; print_r($model->getObjectives()); exit;
-
-                                                foreach($surrender->Imprest_Surrender_Line->Imprest_Surrender_Line as $line):
-                                                ?>
-                                                    <tr>
-
-                                                            <td class="text-center"><?= !empty($line->Account_Name)? $line->Account_Name : '' ?></td>
-                                                            <td class="text-center"><?= !empty($line->Description)? $line->Description : '' ?></td>
-                                                            <td data-key="<?= $line->Key ?>" data-name="Amount" data-service="ImprestSurrenderLine"><?= !empty($line->Amount)?$line->Amount:'' ?></td>
-                                                            <td class="text-center"><?= !empty($line->Imprest_Amount)? $line->Imprest_Amount : '' ?></td>
-                                                            <td class="text-center"><?= !empty($line->Request_No)? $line->Request_No : '' ?></td>
-                                                            <td class="text-center"><?= Html::checkbox('Surrender',$line->Surrender) ?></td>
-                                                            <td data-key="<?= $line->Key ?>" data-name="Donor_No" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'donors',{'Grant_No': 'grant','Amount':'amount'})"  class="text-center"><?= !empty($line->Donor_No)? $line->Donor_No : '' ?></td>
-                                                            <td class="text-center"><?= !empty($line->Donor_Name)? $line->Donor_Name : '' ?></td>
-                                                            <td data-key="<?= $line->Key ?>"   class="text-center grant"><?= !empty($line->Grant_No)? $line->Grant_No : '' ?></td>
-                                                            <td data-key="<?= $line->Key ?>" ><?= !empty($line->Objective_Code)?$line->Objective_Code:'' ?></td>
-                                                            <td data-key="<?= $line->Key ?>" ><?= !empty($line->Output_Code)?$line->Output_Code:'' ?></td>
-                                                            <td data-key="<?= $line->Key ?>" ><?= !empty($line->Outcome_Code)?$line->Outcome_Code:'' ?></td>
-                                                            <td data-key="<?= $line->Key ?>" ><?= !empty($line->Activity_Code)?$line->Activity_Code:'' ?></td>
-                                                            <td data-key="<?= $line->Key ?>" ><?= !empty($line->Partner_Code)?$line->Partner_Code:'' ?></td>
-                                                            
-                                                    </tr>
-                                                <?php endforeach; ?>
-                                                </tbody>
-                                            </table>
-                    </div>
-                    <?php } ?>
-                </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title"> Imprest Surrender Lines </div>
             </div>
 
-            <!-- /Surrender Lines -->
+            <div class="card-body">
+                <?php
+                if (property_exists($surrender->Imprest_Surrender_Line, 'Imprest_Surrender_Line')) { //show Lines 
+                ?>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <td class="text-center text-bold">Account_Name</td>
+                                    <td class="text-center text-bold">Description</td>
+                                    <td class="text-center text-bold">Actual Spend</td>
+                                    <td class="text-center text-bold">Imprest Amount</td>
+                                    <td class="text-center text-bold">Request No</td>
+                                    <td class="text-center text-bold">Surrender</td>
+                                    <td class="text-center text-bold ">Donor Code</td>
+                                    <td class="text-center text-bold">Donor Name</td>
+                                    <td class="text-center text-bold">Grant Name</td>
+                                    <td class="text-center text-bold"><b>Objective Code</b></td>
+                                    <td class="text-center text-bold"><b>Output Code</b></td>
+                                    <td class="text-center text-bold"><b>Outcome Code</b></td>
+                                    <td class="text-center text-bold"><b>Activity Code</b></td>
+                                    <td class="text-center text-bold"><b>Partner Code</b></td>
 
 
-                   <!-- Attachments -->
-        <?php if(is_array($attachments) && count($attachments)):  //Yii::$app->recruitment->printrr($attachments); ?>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                // print '<pre>'; print_r($model->getObjectives()); exit;
+
+                                foreach ($surrender->Imprest_Surrender_Line->Imprest_Surrender_Line as $line) :
+                                ?>
+                                    <tr>
+
+                                        <td class="text-center"><?= !empty($line->Account_Name) ? $line->Account_Name : '' ?></td>
+                                        <td class="text-center"><?= !empty($line->Description) ? $line->Description : '' ?></td>
+                                        <td data-key="<?= $line->Key ?>" data-name="Amount" data-service="ImprestSurrenderLine"><?= !empty($line->Amount) ? $line->Amount : '' ?></td>
+                                        <td class="text-center"><?= !empty($line->Imprest_Amount) ? $line->Imprest_Amount : '' ?></td>
+                                        <td class="text-center"><?= !empty($line->Request_No) ? $line->Request_No : '' ?></td>
+                                        <td class="text-center"><?= Html::checkbox('Surrender', $line->Surrender) ?></td>
+                                        <td data-key="<?= $line->Key ?>" data-name="Donor_No" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'donors',{'Grant_No': 'grant','Amount':'amount'})" class="text-center"><?= !empty($line->Donor_No) ? $line->Donor_No : '' ?></td>
+                                        <td class="text-center"><?= !empty($line->Donor_Name) ? $line->Donor_Name : '' ?></td>
+                                        <td data-key="<?= $line->Key ?>" class="text-center grant"><?= !empty($line->Grant_No) ? $line->Grant_No : '' ?></td>
+                                        <td data-key="<?= $line->Key ?>"><?= !empty($line->Objective_Code) ? $line->Objective_Code : '' ?></td>
+                                        <td data-key="<?= $line->Key ?>"><?= !empty($line->Output_Code) ? $line->Output_Code : '' ?></td>
+                                        <td data-key="<?= $line->Key ?>"><?= !empty($line->Outcome_Code) ? $line->Outcome_Code : '' ?></td>
+                                        <td data-key="<?= $line->Key ?>"><?= !empty($line->Activity_Code) ? $line->Activity_Code : '' ?></td>
+                                        <td data-key="<?= $line->Key ?>"><?= !empty($line->Partner_Code) ? $line->Partner_Code : '' ?></td>
+
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php } ?>
+            </div>
+        </div>
+
+        <!-- /Surrender Lines -->
+
+
+        <!-- Attachments -->
+        <?php if (is_array($attachments) && count($attachments)) :  //Yii::$app->recruitment->printrr($attachments); 
+        ?>
             <div class="card card-info">
                 <div class="card-header">
                     <h3 class="card-title">Files Attachments</h3>
                 </div>
                 <div class="card-body">
-                    <?php $i = 0; foreach($attachments as $file): ++$i; ?>
-                        
+                    <?php $i = 0;
+                    foreach ($attachments as $file) : ++$i; ?>
+
 
                         <div class="my-2 file border border-info d-flex justify-content-around align-items-center rounded p-3">
                             <p class="my-auto border rounded border-info bg-info p-2">Attachment <?= $i ?></p>
-                            <?= Bootstrap4Html::a('<i class="fas fa-file"></i> Open',['read'],[
+                            <?= Bootstrap4Html::a('<i class="fas fa-file"></i> Open', ['read'], [
                                 'class' => 'btn btn-info',
                                 'data' => [
                                     'params' => [
@@ -260,10 +272,10 @@ Yii::$app->session->set('isSupervisor',false);*/
 
                     <?php endforeach; ?>
                 </div>
-                                
+
             </div>
         <?php endif; ?>
-            <!-- / Attachments -->
+        <!-- / Attachments -->
 
 
 
@@ -272,7 +284,7 @@ Yii::$app->session->set('isSupervisor',false);*/
 
 
 
-    
+
     </div>
 
     <!--My Bs Modal template  --->
@@ -299,9 +311,9 @@ Yii::$app->session->set('isSupervisor',false);*/
     </div>
 
 
-<?php
+    <?php
 
-$script = <<<JS
+    $script = <<<JS
 
     $(function(){
       
@@ -513,9 +525,9 @@ $script = <<<JS
         
 JS;
 
-$this->registerJs($script);
+    $this->registerJs($script);
 
-$style = <<<CSS
+    $style = <<<CSS
     p span {
         margin-right: 50%;
         font-weight: bold;
@@ -553,4 +565,4 @@ $style = <<<CSS
     }
 CSS;
 
-$this->registerCss($style);
+    $this->registerCss($style);
