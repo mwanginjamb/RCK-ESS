@@ -514,55 +514,6 @@ async function globalUploadMultiple(attachmentService, entity, route, documentSe
       console.log(e);
     });
 
-
-
-
-
-
-    return false;
-    const Request = await fetch(endPoint,
-      {
-        method: "POST",
-        body: formData,
-        headers: new Headers({
-          Origin: 'http://localhost:2026/'
-        })
-      });
-
-    const Response = await Request.json();
-    console.log(`File Upload Request`);
-    console.log(Response);
-
-    let filePath = Response.filePath;
-
-
-
-    // Do a Nav Request
-    endPoint = `${endPoint}?Key=${navPayload.Key}&Service=${navPayload.Service}&filePath=${filePath}&documentService=${navPayload.documentService}`
-    const navReq = await fetch(endPoint, {
-      method: "GET",
-      headers: new Headers({
-        Origin: 'http://localhost:80/'
-      })
-    });
-
-    const NavResp = await navReq.json();
-    console.log(`Nav Request Response`);
-    console.log(NavResp);
-    console.info(navReq.ok);
-    if (navReq.ok) {
-      Toast.fire({
-        type: 'success',
-        title: 'Attachment uploaded Successfully.'
-      });
-    } else {
-      Toast.fire({
-        type: 'error',
-        title: 'Attachment could not be uploaded.'
-      })
-    }
-
-
   } catch (error) {
     console.log(error);
   }
