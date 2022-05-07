@@ -57,4 +57,4 @@ phpunit.phar
 
 *.pdf
 
-#/uploads
+/uploads
