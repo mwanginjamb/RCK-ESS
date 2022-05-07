@@ -315,7 +315,7 @@ if (Yii::$app->session->hasFlash('success')) {
         </div>
     </div>
 </div>
-<input type="hidden" name="absolute" value="<?= $absoluteUrl ?>">
+<input type="hidden" name="absolute" id="absolute" value="<?= $absoluteUrl ?>">
 <?php
 $script = <<<JS
   // Trigger Creation of a line
@@ -397,20 +397,20 @@ $script = <<<JS
     // Set Req_For
 
     $('#imprestcard-request_for').blur((e) => {
-        globalFieldUpdate('Imprestcard','imprest','Request_For', e);
+        globalFieldUpdate('Imprestcard','imprest','Request_For', e,[],'ImprestRequestCardPortal');
     });
    
     // Set other Employee
   
      $('#imprestcard-employee_no').change((e) => {
-        globalFieldUpdate('Imprestcard','imprest','Employee_No', e);
+        globalFieldUpdate('Imprestcard','imprest','Employee_No', e,[],'ImprestRequestCardPortal');
     });
 
 
     // Set Currency
 
     $('#imprestcard-currency_code').change((e) => {
-        globalFieldUpdate('Imprestcard','imprest','Currency_Code', e);
+        globalFieldUpdate('Imprestcard','imprest','Currency_Code', e,[],'ImprestRequestCardPortal');
     });
 
 
@@ -419,20 +419,20 @@ $script = <<<JS
     
 
      $('#imprestcard-global_dimension_1_code').change((e) => {
-        globalFieldUpdate('Imprestcard','imprest','Global_Dimension_1_Code', e);
+        globalFieldUpdate('Imprestcard','imprest','Global_Dimension_1_Code', e,[],'ImprestRequestCardPortal');
     });
      
      
      /* set department */
      
      $('#imprestcard-global_dimension_2_code').change((e) => {
-        globalFieldUpdate('Imprestcard','imprest','Global_Dimension_2_Code', e);
+        globalFieldUpdate('Imprestcard','imprest','Global_Dimension_2_Code', e,[],'ImprestRequestCardPortal');
     });
 
     /**Update Purpose */
 
     $('#imprestcard-purpose').change((e) => {
-        globalFieldUpdate('Imprestcard','imprest','Purpose', e);
+        globalFieldUpdate('Imprestcard','imprest','Purpose', e,[],'ImprestRequestCardPortal');
     }); 
      
      
@@ -440,7 +440,7 @@ $script = <<<JS
      
 
      $('#imprestcard-imprest_type').change((e) => {
-        globalFieldUpdate('Imprestcard','imprest','Imprest_Type', e);
+        globalFieldUpdate('Imprestcard','imprest','Imprest_Type', e,[],'ImprestRequestCardPortal');
     });
 
     //Upload Damn File
@@ -450,7 +450,7 @@ $script = <<<JS
     });
 
     $('#select_multiple').change(function(e){
-          globalUploadMultiple('LeaveAttachments','Imprestcard','attachment','ImprestRequestCard');
+          globalUploadMultiple('LeaveAttachments','Imprestcard','imprest','ImprestRequestCard');
     });
     
       /* Add Line */

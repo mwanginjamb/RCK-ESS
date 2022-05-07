@@ -240,14 +240,16 @@ function globalFieldUpdate(entity, controller = false, fieldName, ev, autoPopula
   } else {
     route = controller;
   }
-
-  console.log(`route to use is : ${route}`);
+  const url = $('input[name=absolute]').val() + route + '/setfield?field=' + fieldName;
+  console.log(`route to use is : ${url}`);
 
 
   if (Key.length) {
-    const url = $('input[name=absolute]').val() + route + '/setfield?field=' + fieldName;
+
     $.post(url, { fieldValue: fieldValue, 'Key': Key, 'service': service }).done(function (msg) {
 
+      console.log('Result ..................');
+      console.log(msg);
       // Populate relevant Fields
 
       $(keyField).val(msg.Key);
@@ -456,6 +458,10 @@ async function globalUploadMultiple(attachmentService, entity, route, documentSe
     if (error) {
       _('upload-note').innerHTML = error;
       _('select_multiple').value = '';
+      Toast.fire({
+        type: 'error',
+        title: error
+      })
       return;
     }
 
@@ -481,17 +487,35 @@ async function globalUploadMultiple(attachmentService, entity, route, documentSe
       _('select_multiple').value = '';
     });
 
+    /** I did 2 requests since XMLHttpRequest would not send metadata and multipart data simultaneously,
+     * Reason for using fetch was to send attachment metadata like Key, Webservices etc.
+     * XMLHttpRequest has progress and load events while fetch didn't have (Used to measure progress)
+     * If these limitations are addressed in future, please update the code to only use one request.
+     * @francnjamb -  fnjambi@outlook.com
+     */
+    const request = ajax_request.send(formData);
+    const Requesto = await fetch(endPoint,
+      {
+        method: "POST",
+        body: formData,
+        headers: new Headers({
+          Origin: 'http://localhost:2026/'
+        })
+      });
+
+    const res = await Requesto.json();
+
+    console.log(`Data Request......................`);
+    console.log(res);
+
 
     ajax_request.addEventListener('error', (e) => {
       console.log(`Errors...........`);
       console.log(e);
     });
 
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', _('absolute').value + `${route}/upload-multiple`);
-    const request = xhr.send(formData);
-    console.log(`Data Request......................`);
-    console.log(request);
+
+
 
 
 

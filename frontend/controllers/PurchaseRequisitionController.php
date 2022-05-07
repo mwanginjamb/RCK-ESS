@@ -895,49 +895,55 @@ class PurchaseRequisitionController extends Controller
     public function actionUploadMultiple()
     {
 
-        if ($_POST) {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        if ($_POST['Key']) {
             $Key = $_POST['Key'];
             $DocumentService = $_POST['DocumentService'];
             $AttachmentService =  $_POST['attachmentService'];
             $Document = Yii::$app->navhelper->readByKey($DocumentService, $Key);
+            $NavResult = [];
+            for ($i = 0; $i < count($_FILES['attachments']['name']); $i++) {
+                $files[] =  $_FILES['attachments']['name'][$i];
+                list($pref, $ext) = explode('.',  $_FILES['attachments']['name'][$i]);
+                $targetPath = './uploads/' . Yii::$app->security->generateRandomString(5) . '.' . $ext; // Create unique target upload path
 
-            if (isset($_FILES['attachments'])) {
-                for ($i = 0; $i < count($_FILES['attachments']['name']); $i++) {
-                    $extension = pathinfo($_FILES['attachments']['name'][$i], PATHINFO_EXTENSION);
-                    $targetPath = './uploads/' . Yii::$app->security->generateRandomString(5) . '.' . $extension; // Create unique target upload path
+                // Create upload directory if it dnt exist.
+                if (!is_dir(dirname($targetPath))) {
+                    FileHelper::createDirectory(dirname($targetPath));
+                    chmod(dirname($targetPath), 0755);
+                }
 
-                    // Create upload directory if it dnt exist.
-                    if (!is_dir(dirname($targetPath))) {
-                        FileHelper::createDirectory(dirname($targetPath));
-                        chmod(dirname($targetPath), 0755);
-                    }
-                    if (move_uploaded_file($_FILES['attachments']['name'][$i], $targetPath)) {
-                        // Upload to share point
-                        $metadata = [];
-                        if (is_object($Document) && isset($Document->Key)) {
-                            $metadata = [
-                                'Application' => $Document->No,
-                                'Employee' => $Document->Employee_No,
-                                'Leavetype' => 'Imprest - ' . $Document->Purpose,
-                            ];
-                        }
-                        Yii::$app->session->set('metadata', $metadata);
-                        Yii::$app->recruitment->sharepoint_attach($targetPath); // Actual sharepoint upload shit!
-                        // Navision Update
-                        $fileName = basename($targetPath);
-                        $data = [
-                            'Document_No' => $Document->No,
-                            'Name' => $fileName,
-                            'File_path' => \yii\helpers\Url::home(true) . 'uploads/' . $fileName,
-                        ];
-                        // Update Nav
-                        $result = Yii::$app->navhelper->postData($AttachmentService, $data);
-                        print_r('<pre>');
-                        print_r($result);
-                    }
+                if (move_uploaded_file($_FILES['attachments']['tmp_name'][$i], $targetPath)) {
+                    // Upload to sharepoint
+                    $metadata = [
+                        'Application' => $Document->No,
+                        'Employee' => $Document->Employee_No,
+                        'Leavetype' => 'Purchase Requisition - ' . $Document->Title,
+                    ];
+
+                    Yii::$app->session->set('metadata', $metadata);
+                    $spResult = Yii::$app->recruitment->sharepoint_attach($targetPath);
+
+                    // Update Nav Attachment Table
+                    $data = [
+                        'Document_No' => $Document->No,
+                        'Name' => basename($targetPath),
+                        'File_path' => \yii\helpers\Url::home(true) . 'uploads/' . basename($targetPath),
+                    ];
+                    $NavResult[] = Yii::$app->navhelper->postData($AttachmentService, $data);
                 }
             }
-            return true;
+
+            return [
+                'status' =>  true,
+                'data' => $_REQUEST,
+                'files' => $_FILES,
+                'extract' =>  $files,
+                'parentDocument' => $Document,
+                'sharepointResult' => $spResult,
+                'NavAttachmentResults' => $NavResult
+            ];
         }
     }
 }
