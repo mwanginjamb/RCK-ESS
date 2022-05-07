@@ -77,7 +77,7 @@ class ImprestController extends Controller
         $ExceptedActions = [
             'dimension1', 'dimension2', 'transactiontypes',
             'grants', 'objectives', 'outputs', 'outcome',
-            'activities', 'partners', 'donors', 'upload'
+            'activities', 'partners', 'donors', 'upload', 'upload-multiple'
         ];
 
         if (in_array($action->id, $ExceptedActions)) {
@@ -1173,6 +1173,57 @@ class ImprestController extends Controller
             } else {
                 return $result;
             }
+        }
+    }
+
+    // Upload Multiple
+
+    public function actionUploadMultiple()
+    {
+
+        if ($_POST) {
+            $Key = $_POST['Key'];
+            $DocumentService = $_POST['DocumentService'];
+            $AttachmentService =  $_POST['attachmentService'];
+            $Document = Yii::$app->navhelper->readByKey($DocumentService, $Key);
+
+            if (isset($_FILES['attachments'])) {
+                for ($i = 0; $i < count($_FILES['attachments']['name']); $i++) {
+                    $extension = pathinfo($_FILES['attachments']['name'][$i], PATHINFO_EXTENSION);
+                    $targetPath = './uploads/' . Yii::$app->security->generateRandomString(5) . '.' . $ext; // Create unique target upload path
+
+                    // Create upload directory if it dnt exist.
+                    if (!is_dir(dirname($targetPath))) {
+                        FileHelper::createDirectory(dirname($targetPath));
+                        chmod(dirname($targetPath), 0755);
+                    }
+                    if (move_uploaded_file($_FILES['attachments']['name'][$i], $targetPath)) {
+                        // Upload to share point
+                        $metadata = [];
+                        if (is_object($Document) && isset($Document->Key)) {
+                            $metadata = [
+                                'Application' => $Document->No,
+                                'Employee' => $Document->Employee_No,
+                                'Leavetype' => 'Imprest - ' . $Document->Purpose,
+                            ];
+                        }
+                        Yii::$app->session->set('metadata', $metadata);
+                        Yii::$app->recruitment->sharepoint_attach($targetPath); // Actual sharepoint upload shit!
+                        // Navision Update
+                        $fileName = basename($targetPath);
+                        $data = [
+                            'Document_No' => $Document->No,
+                            'Name' => $fileName,
+                            'File_path' => \yii\helpers\Url::home(true) . 'uploads/' . $fileName,
+                        ];
+                        // Update Nav
+                        $result = Yii::$app->navhelper->postData($AttachmentService, $data);
+                        print_r('<pre>');
+                        print_r($result);
+                    }
+                }
+            }
+            return true;
         }
     }
 }
