@@ -222,7 +222,7 @@ if (Yii::$app->session->hasFlash('success')) {
                                     <td class="text-info"><b>Transaction_Type</b></td>
 
                                     <td><b>Account_Name</b></td>
-                                    <td><b>Description</b></td>
+                                    <td class="text-info"><b>Description</b></td>
                                     <td class="text-info"><b>Amount</b></td>
                                     <td><b>Amount_LCY</b></td>
                                     <td class="text-info"><b>Program</b></td>
@@ -256,7 +256,7 @@ if (Yii::$app->session->hasFlash('success')) {
                                         <td><?= !empty($obj->Line_No) ? $obj->Line_No : '' ?></td>
                                         <td data-key="<?= $obj->Key ?>" data-name="Transaction_Type" data-service="ImprestRequestLine" ondblclick="addDropDown(this,'transactiontypes')" data-validate="Account_Name"><?= !empty($obj->Transaction_Type) ? $obj->Transaction_Type : '' ?></td>
                                         <td class="Account_Name"><?= !empty($obj->Account_Name) ? $obj->Account_Name : '' ?></td>
-                                        <td><?= !empty($obj->Description) ? $obj->Description : '' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="Description" data-service="ImprestRequestLine" ondblclick="addTextarea(this)"><?= !empty($obj->Description) ? $obj->Description : '' ?></td>
                                         <td data-key="<?= $obj->Key ?>" data-name="Amount" data-service="ImprestRequestLine" ondblclick="addInput(this,'number')" data-validate="Amount_LCY"><?= !empty($obj->Amount) ? $obj->Amount : '' ?></td>
                                         <td class="Amount_LCY"><?= !empty($obj->Amount_LCY) ? $obj->Amount_LCY : '' ?></td>
                                         <td data-key="<?= $obj->Key ?>" data-name="Global_Dimension_1_Code" data-service="ImprestRequestLine" ondblclick="addDropDown(this,'dimension1')"><?= !empty($obj->Global_Dimension_1_Code) ? $obj->Global_Dimension_1_Code : '' ?></td>
@@ -270,7 +270,7 @@ if (Yii::$app->session->hasFlash('success')) {
                                         <td data-key="<?= $obj->Key ?>" data-name="Outcome_Code" data-service="ImprestRequestLine" ondblclick="addDropDown(this,'outcome',{'Grant_No': 'grant'})"><?= !empty($obj->Outcome_Code) ? $obj->Outcome_Code : '' ?></td>
                                         <td data-key="<?= $obj->Key ?>" data-name="Activity_Code" data-service="ImprestRequestLine" ondblclick="addDropDown(this,'activities',{'Grant_No': 'grant'})"><?= !empty($obj->Activity_Code) ? $obj->Activity_Code : '' ?></td>
                                         <td data-key="<?= $obj->Key ?>" data-name="Partner_Code" data-service="ImprestRequestLine" ondblclick="addDropDown(this,'partners',{'Grant_No': 'grant'})"><?= !empty($obj->Partner_Code) ? $obj->Partner_Code : '' ?></td>
-                                        <td><?= $updateLink . '|' . $deleteLink ?></td>
+                                        <td><?= $deleteLink ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
