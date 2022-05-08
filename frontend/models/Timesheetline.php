@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: HP ELITEBOOK 840 G5
@@ -7,6 +8,7 @@
  */
 
 namespace frontend\models;
+
 use common\models\User;
 use Yii;
 use yii\base\Model;
@@ -30,7 +32,9 @@ class Timesheetline extends Model
     public $Employee_No;
     public $Line_No;
 
-public $isNewRecord;
+    public $isNewRecord;
+
+
 
     /*public function __construct(array $config = [])
     {       
@@ -40,19 +44,12 @@ public $isNewRecord;
     public function rules()
     {
         return [
-            [['Grant','Start_Time','End_Time','Activity_Description'], 'required']
+            [['Grant', 'Start_Time', 'End_Time', 'Activity_Description'], 'required']
         ];
     }
 
     public function attributeLabels()
     {
-        return [
-
-        ];
+        return [];
     }
-
-
-
-
-
 }

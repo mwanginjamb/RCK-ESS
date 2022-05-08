@@ -214,6 +214,13 @@ function JquerifyField(model, fieldName) {
   const selector = '#' + model + '-' + field;
   return selector;
 }
+function sanitizeTime(timeString) {
+  let timeParts = timeString.split(":");
+  let res = Number(timeParts[0]) + ":" + Number(timeParts[1]);
+  console.log('Converted times : ');
+  console.log(res);
+  return res;
+}
 
 // Function to do ajax field level updating
 
@@ -248,10 +255,14 @@ function globalFieldUpdate(entity, controller = false, fieldName, ev, autoPopula
 
     $.post(url, { fieldValue: fieldValue, 'Key': Key, 'service': service }).done(function (msg) {
 
-      console.log('Result ..................');
+      console.log('Original Result ..................');
       console.log(msg);
-      // Populate relevant Fields
 
+      if (msg.Start_Time || msg.End_Time) {
+        msg = { ...msg, Start_Time: sanitizeTime(msg.Start_Time), End_Time: sanitizeTime(msg.End_Time) };
+      }
+
+      // Populate relevant Fields
       $(keyField).val(msg.Key);
       $(targetField).val(msg[fieldName]);
 
