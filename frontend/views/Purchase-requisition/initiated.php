@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: HP ELITEBOOK 840 G5
@@ -20,10 +21,10 @@ $url = \yii\helpers\Url::home(true);
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-        <?= \yii\helpers\Html::a('New Purchase Requisition',['create'],['class' => 'btn btn-info push-right', 'data' => [
-            'confirm' => 'Are you sure you want to create a new Request?',
-            'method' => 'get',
-        ],]) ?>
+                <?= \yii\helpers\Html::a('New Purchase Requisition', ['create'], ['class' => 'btn btn-info push-right', 'data' => [
+                    'confirm' => 'Are you sure you want to create a new Request?',
+                    'method' => 'get',
+                ],]) ?>
             </div>
         </div>
     </div>
@@ -31,14 +32,14 @@ $url = \yii\helpers\Url::home(true);
 
 
 <?php
-if(Yii::$app->session->hasFlash('success')){
+if (Yii::$app->session->hasFlash('success')) {
     print ' <div class="alert alert-success alert-dismissable">
                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                                     <h5><i class="icon fas fa-check"></i> Success!</h5>
  ';
     echo Yii::$app->session->getFlash('success');
     print '</div>';
-}else if(Yii::$app->session->hasFlash('error')){
+} else if (Yii::$app->session->hasFlash('error')) {
     print ' <div class="alert alert-danger alert-dismissable">
                                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                                     <h5><i class="icon fas fa-check"></i> Error!</h5>
@@ -62,7 +63,7 @@ if(Yii::$app->session->hasFlash('success')){
     </div>
 </div>
 
-    <input type="hidden" value="<?= $url ?>" id="url" />
+<input type="hidden" value="<?= $url ?>" id="url" />
 <?php
 
 $script = <<<JS
@@ -80,6 +81,7 @@ $script = <<<JS
             paging: true,
             columns: [
                 { title: 'No' ,data: 'No'},
+                { title: 'Title' ,data: 'Title'},
                 { title: 'Employee No' ,data: 'Employee_No'},
                 { title: 'Employee Name' ,data: 'Employee_Name'},
                 { title: 'Sub Office Code' ,data: 'Global_Dimension_1_Code'},               
@@ -119,10 +121,3 @@ $style = <<<CSS
 CSS;
 
 $this->registerCss($style);
-
-
-
-
-
-
-
