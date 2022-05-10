@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: HP ELITEBOOK 840 G5
@@ -7,6 +8,7 @@
  */
 
 namespace frontend\models;
+
 use common\models\User;
 use Yii;
 use yii\base\Model;
@@ -15,18 +17,19 @@ use yii\base\Model;
 class Storerequisition extends Model
 {
 
-public $Key;
-public $No;
-public $Employee_No;
-public $Employee_Name;
-public $Global_Dimension_1_Code;
-public $Global_Dimension_2_Code;
-public $Global_Dimension_3_Code;
-public $Status;
-public $Posting_Date;
-public $Approval_Entries;
-public $Store_Location;
-public $isNewRecord;
+    public $Key;
+    public $No;
+    public $Employee_No;
+    public $Employee_Name;
+    public $Created_On;
+    public $Global_Dimension_1_Code;
+    public $Global_Dimension_2_Code;
+    public $Status;
+    public $Global_Dimension_3_Code;
+    public $Posting_Date;
+    public $Approval_Entries;
+    public $Store_Location;
+    public $isNewRecord;
 
     /*public function __construct(array $config = [])
     {
@@ -36,7 +39,7 @@ public $isNewRecord;
     public function rules()
     {
         return [
-            ['Store_Location','required'],
+            ['Store_Location', 'required'],
         ];
     }
 
@@ -49,7 +52,8 @@ public $isNewRecord;
         ];
     }
 
-    public function getLines(){
+    public function getLines()
+    {
         $service = Yii::$app->params['ServiceName']['StoreRequisitionLine'];
         $filter = [
             'Requisition_No' => $this->No,
@@ -57,9 +61,5 @@ public $isNewRecord;
 
         $lines = Yii::$app->navhelper->getData($service, $filter);
         return $lines;
-
     }
-
-
-
 }
