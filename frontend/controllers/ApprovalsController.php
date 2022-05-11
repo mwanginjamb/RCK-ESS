@@ -403,7 +403,7 @@ class ApprovalsController extends Controller
                 } elseif ($app->Document_Type == 'Salary_Advance') {
                     $detailsLink = Html::a('View Details', ['salaryadvance/view', 'No' => $app->Document_No, 'Approval' => true], ['class' => 'btn btn-outline-info btn-xs', 'target' => '_blank']);
                 } elseif ($app->Document_Type == 'Overtime_Application') {
-                    $detailsLink = Html::a('View Details', ['timesheet/view', 'DocNo' => $app->Document_No, 'Approval' => true], ['class' => 'btn btn-outline-info btn-xs', 'target' => '_blank']);
+                    $detailsLink = Html::a('View Details', ['timesheet/view', 'No' => $app->Document_No, 'Approval' => true], ['class' => 'btn btn-outline-info btn-xs', 'target' => '_blank']);
                 } elseif ($app->Document_Type == 'Taxi_Request') {
                     $detailsLink = Html::a('View Details', ['taxie/view', 'No' => $app->Document_No, 'Approval' => true], ['class' => 'btn btn-outline-info btn-xs', 'target' => '_blank']);
                 } else { //Employee_Exit
@@ -773,9 +773,9 @@ class ApprovalsController extends Controller
                 } elseif ($app->Document_Type == 'Salary_Advance') {
                     $detailsLink = Html::a('View Details', ['salaryadvance/view', 'No' => $app->Document_No, 'Approval' => true], ['class' => 'btn btn-outline-info btn-xs', 'target' => '_blank']);
                 } elseif ($app->Document_Type == 'Overtime_Application') {
-                    $detailsLink = Html::a('View Details', ['timesheet/view', 'DocNo' => $app->Document_No, 'Approval' => true], ['class' => 'btn btn-outline-info btn-xs', 'target' => '_blank']);
+                    $detailsLink = Html::a('View Details', ['timesheet/view', 'No' => $app->Document_No, 'Approval' => true], ['class' => 'btn btn-outline-info btn-xs', 'target' => '_blank']);
                 } elseif ($app->Document_Type == 'Taxi_Request') {
-                    $detailsLink = Html::a('View Details', ['taxie/view', 'No' => $app->Document_No, 'Approval' => true], ['class' => 'btn btn-outline-info btn-xs', 'target' => '_blank']);
+                    $detailsLink = Html::a('View Details', ['taxie/view', 'No' => $app->Document_No], ['class' => 'btn btn-outline-info btn-xs', 'target' => '_blank']);
                 } else { //Employee_Exit
                     $detailsLink = '';
                 }
@@ -993,7 +993,7 @@ class ApprovalsController extends Controller
                 } elseif ($app->Document_Type == 'Salary_Advance') {
                     $detailsLink = Html::a('View Details', ['salaryadvance/view', 'No' => $app->Document_No, 'Approval' => true], ['class' => 'btn btn-outline-info btn-xs', 'target' => '_blank']);
                 } elseif ($app->Document_Type == 'Overtime_Application') {
-                    $detailsLink = Html::a('View Details', ['timesheet/view', 'DocNo' => $app->Document_No, 'Approval' => true], ['class' => 'btn btn-outline-info btn-xs', 'target' => '_blank']);
+                    $detailsLink = Html::a('View Details', ['timesheet/view', 'No' => $app->Document_No, 'Approval' => true], ['class' => 'btn btn-outline-info btn-xs', 'target' => '_blank']);
                 } elseif ($app->Document_Type == 'Taxi_Request') {
                     $detailsLink = Html::a('View Details', ['taxie/view', 'No' => $app->Document_No, 'Approval' => true], ['class' => 'btn btn-outline-info btn-xs', 'target' => '_blank']);
                 } else { //Employee_Exit
