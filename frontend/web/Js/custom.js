@@ -222,6 +222,32 @@ function sanitizeTime(timeString) {
   return res;
 }
 
+function notifySuccess(parentClassField, message) {
+  let parent = document.querySelector(parentClassField);
+
+  console.log('Parent to report success to.....................');
+  console.dir(parent);
+  let span = document.createElement('span');
+  span.classList.add('text');
+  span.classList.add('text-success');
+  span.classList.add('small');
+  span.innerText = message;
+
+  parent.append(span);
+}
+
+function notifyError(parentClassField, message) {
+  let parent = document.querySelector(parentClassField);
+
+  let span = document.createElement('span');
+  span.classList.add('text');
+  span.classList.add('text-danger');
+  span.classList.add('small');
+  span.innerText = message;
+
+  parent.append(span);
+}
+
 // Function to do ajax field level updating
 
 function globalFieldUpdate(entity, controller = false, fieldName, ev, autoPopulateFields = [], service = false) {
@@ -284,9 +310,8 @@ function globalFieldUpdate(entity, controller = false, fieldName, ev, autoPopula
         console.log(`Form Field is: ${formField}`);
         const parent = document.querySelector(formField);
 
-        // Update Request Status from Server
-        requestStateUpdater(parent, 'error', msg);
-
+        //Inline status notifier
+        notifyError(formField, msg);
         // Fire a sweet alert if you can
 
         Toast.fire({
@@ -295,13 +320,10 @@ function globalFieldUpdate(entity, controller = false, fieldName, ev, autoPopula
         })
 
       } else { // An object represents correct details
-
         const parent = document.querySelector(formField);
-
-        // Update Request Status from Server
-        requestStateUpdater(parent, 'success');
-
-        // If you can Fire a sweet alert                  
+        //Inline status notifier
+        notifySuccess(formField, `${field} Saved Successfully.`);
+        // If you can Fire a sweet alert                 
 
         Toast.fire({
           type: 'success',
