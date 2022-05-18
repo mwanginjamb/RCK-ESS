@@ -1,4 +1,5 @@
 <?php
+
 namespace frontend\controllers;
 
 use frontend\models\ResendVerificationEmailForm;
@@ -34,15 +35,15 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['logout', 'signup','index','getemployee','reset-password'],
+                'only' => ['logout', 'signup', 'index', 'getemployee', 'reset-password'],
                 'rules' => [
                     [
-                        'actions' => ['signup','reset-password'],
+                        'actions' => ['signup', 'reset-password'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout','index','getemployee'],
+                        'actions' => ['logout', 'index', 'getemployee'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -87,30 +88,29 @@ class SiteController extends Controller
     {
         // Yii::$app->recruitment->printrr(Yii::$app->user->identity);
 
-       if(!is_array($this->actionGetemployee()))
-       {
-           Yii::$app->session->setFlash('error','You are not assigned to an existing employee.');
-           return $this->redirect(['logout']);
-       }
+        if (!is_array($this->actionGetemployee())) {
+            Yii::$app->session->setFlash('error', 'You are not assigned to an existing employee.');
+            return $this->redirect(['logout']);
+        }
 
 
-        if(is_array($this->actionGetemployee()) && count($this->actionGetemployee()) ){
-                $employee = $this->actionGetemployee()[0];
-                $supervisor = isset($employee->Supervisor_Code)?$this->getSupervisor($employee->Supervisor_Code):'';
-        }else{
+        if (is_array($this->actionGetemployee()) && count($this->actionGetemployee())) {
+            $employee = $this->actionGetemployee()[0];
+            $supervisor = isset($employee->Supervisor_Code) ? $this->getSupervisor($employee->Supervisor_Code) : '';
+        } else {
             $employee = [];
             $supervisor = '';
         }
-        
+
         $balances = $this->Getleavebalance();
 
         //print '<pre>'; print_r($balances); exit;
 
-        return $this->render('index',[
+        return $this->render('index', [
             'employee' => $employee,
             'supervisor' => $supervisor,
             'balances' => $balances
-            ]);
+        ]);
     }
 
     /**
@@ -128,14 +128,13 @@ class SiteController extends Controller
 
         $model = new LoginForm();
 
-        
-        if ($model->load(Yii::$app->request->post()) && $model->login()  ) {
 
-             
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+
+
             return $this->goBack();
-
         } else {
-          
+
             $model->password = '';
 
             return $this->render('login', [
@@ -152,7 +151,7 @@ class SiteController extends Controller
     public function actionLogout()
     {
 
-        if(Yii::$app->session->has('IdentityPassword')){
+        if (Yii::$app->session->has('IdentityPassword')) {
             Yii::$app->session->remove('IdentityPassword');
         }
         Yii::$app->user->logout();
@@ -206,10 +205,9 @@ class SiteController extends Controller
 
         // Capture Ajax Validation shit
 
-        if(Yii::$app->request->isAjax && $model->load(Yii::$app->request->post()))
-        {
-                Yii::$app->response->format = Response::FORMAT_JSON;
-                return ActiveForm::validate($model);
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
         }
 
 
@@ -268,14 +266,13 @@ class SiteController extends Controller
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
-           // print_r($model->resetPassword()); exit;
-           if(is_string($model->resetPassword())){
-            Yii::$app->session->setFlash('error', $model->resetPassword());
-           }
-           else{
-            Yii::$app->session->setFlash('success', 'New password saved.');
-           }
-            
+            // print_r($model->resetPassword()); exit;
+            if (is_string($model->resetPassword())) {
+                Yii::$app->session->setFlash('error', $model->resetPassword());
+            } else {
+                Yii::$app->session->setFlash('success', 'New password saved.');
+            }
+
 
             return $this->goHome();
         }
@@ -301,7 +298,7 @@ class SiteController extends Controller
             throw new BadRequestHttpException($e->getMessage());
         }
         if ($user = $model->verifyEmail()) {
-           /* if (Yii::$app->user->login($user)) {
+            /* if (Yii::$app->user->login($user)) {
                 Yii::$app->session->setFlash('success', 'Your email has been confirmed!');
                 return $this->goHome();
             }*/
@@ -336,46 +333,47 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionGetemployee(){
+    public function actionGetemployee()
+    {
 
         $service = Yii::$app->params['ServiceName']['EmployeeCard'];
         $filter = [
             'No' => Yii::$app->user->identity->{'Employee No_'},
         ];
 
-        $employee = \Yii::$app->navhelper->getData($service,$filter);
+        $employee = \Yii::$app->navhelper->getData($service, $filter);
         return $employee;
     }
 
-    public function getSupervisor($userID){
+    public function getSupervisor($userID)
+    {
         $service = Yii::$app->params['ServiceName']['EmployeeCard'];
         $filter = [
             'User_ID' => $userID
         ];
-        $supervisor = \Yii::$app->navhelper->getData($service,$filter);
+        $supervisor = \Yii::$app->navhelper->getData($service, $filter);
         //Yii::$app->recruitment->printrr($filter);
-        if(is_array($supervisor)){
+        if (is_array($supervisor)) {
             return $supervisor[0];
-        }else{
+        } else {
             return false;
         }
-        
     }
 
-    public function Getleavebalance(){
+    public function Getleavebalance()
+    {
         $service = Yii::$app->params['ServiceName']['LeaveBalances'];
         $filter = [
             'No' => Yii::$app->user->identity->{'Employee No_'},
         ];
 
-        $balances = \Yii::$app->navhelper->getData($service,$filter);
+        $balances = \Yii::$app->navhelper->getData($service, $filter);
         $result = [];
 
-        /*print '<pre>';
-         print_r($balances);exit;*/
+        // Yii::$app->recruitment->printrr($balances);
 
-        if(is_array($balances)) {
-            foreach($balances as $b){
+        if (is_array($balances)) {
+            foreach ($balances as $b) {
                 $result = [
                     'Key' => $b->Key,
                     'Annual_Leave_Bal' => $b->Annual_Leave_Balance,
@@ -383,13 +381,12 @@ class SiteController extends Controller
                     'Paternity' => $b->Partenity_Leave_Balance,
                     'Study_Leave_Bal' => $b->Study_Leave_Balance,
                     'Compasionate_Leave_Bal' => $b->Compasionate_Leave_Balance,
-                    'Sick_Leave_Bal' => !empty($b->Sick_Leave_Bal)?$b->Sick_Leave_Bal:'Not Set'
+                    'CTO_Leave_Balance' => $b->CTO_Leave_Balance,
+                    'RNR_Leave_Balance' => $b->RNR_Leave_Balance
                 ];
             }
-
         }
 
         return $result;
-
     }
 }

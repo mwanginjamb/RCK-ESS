@@ -30,28 +30,26 @@ exit;*/
                 <div class="card card-info card-outline">
                     <div class="card-body box-profile">
                         <div class="text-center">
-                            <img class="profile-user-img img-fluid img-circle"
-                                 src="https://via.placeholder.com/150/cccccc/FFFFFF/?text=<?= !empty(Yii::$app->user->identity->Employee[0]->Last_Name)?Yii::$app->user->identity->Employee[0]->Last_Name: 'User'?>"
-                                 alt="User profile picture">
+                            <img class="profile-user-img img-fluid img-circle" src="https://via.placeholder.com/150/cccccc/FFFFFF/?text=<?= !empty(Yii::$app->user->identity->Employee[0]->Last_Name) ? Yii::$app->user->identity->Employee[0]->Last_Name : 'User' ?>" alt="User profile picture">
                         </div>
 
-                        <h3 class="profile-username text-center"><?= (!empty( $employee->First_Name) && !empty( $employee->Last_Name))? $employee->First_Name.' '.$employee->Last_Name:'';  ?></h3>
+                        <h3 class="profile-username text-center"><?= (!empty($employee->First_Name) && !empty($employee->Last_Name)) ? $employee->First_Name . ' ' . $employee->Last_Name : '';  ?></h3>
 
-                        <p class="text-muted text-center"><?= !empty($employee->Title)?$employee->Title:'' ?></p>
+                        <p class="text-muted text-center"><?= !empty($employee->Title) ? $employee->Title : '' ?></p>
 
                         <ul class="list-group list-group-unbordered mb-3">
                             <li class="list-group-item">
-                                <b><i class="fa fa-phone-alt"></i></b> <a class="float-right"><?= !empty($employee->Phone_No)?$employee->Phone_No:'(Not Set)' ?></a>
+                                <b><i class="fa fa-phone-alt"></i></b> <a class="float-right"><?= !empty($employee->Phone_No) ? $employee->Phone_No : '(Not Set)' ?></a>
                             </li>
                             <li class="list-group-item">
-                                <b><i class="fa fa-mail-bulk"></i></b><a class="float-right"><?= !empty($employee->E_Mail)?$employee->E_Mail:'' ?></a>
+                                <b><i class="fa fa-mail-bulk"></i></b><a class="float-right"><?= !empty($employee->E_Mail) ? $employee->E_Mail : '' ?></a>
                             </li>
                             <li class="list-group-item">
-                                <b><i class="fa fa-hourglass-start"></i></b> <a title="Length of Service" class="float-right"><?= !empty($employee->Service_Period)?$employee->Service_Period:'' ?></a>
+                                <b><i class="fa fa-hourglass-start"></i></b> <a title="Length of Service" class="float-right"><?= !empty($employee->Service_Period) ? $employee->Service_Period : '' ?></a>
                             </li>
                         </ul>
 
-                        <a href="mailto:<?= !empty($supervisor)?$supervisor->Company_E_Mail: 'Not Set' ?>" class="btn btn-info btn-block"><b>Email Supervisor</b></a>
+                        <a href="mailto:<?= !empty($supervisor) ? $supervisor->Company_E_Mail : 'Not Set' ?>" class="btn btn-info btn-block"><b>Email Supervisor</b></a>
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -67,28 +65,28 @@ exit;*/
                         <strong><i class="fas fa-book mr-1"></i> Job Title</strong>
 
                         <p class="text-muted">
-                            <?= !empty($employee->Job_Description)?$employee->Job_Description:'' ?>
+                            <?= !empty($employee->Job_Description) ? $employee->Job_Description : '' ?>
                         </p>
 
                         <hr>
 
                         <strong><i class="fas fa-person-booth mr-1"></i> Gender</strong>
 
-                        <p class="text-muted"><?= !empty($employee->Gender)?$employee->Gender:'' ?> </p>
+                        <p class="text-muted"><?= !empty($employee->Gender) ? $employee->Gender : '' ?> </p>
 
                         <hr>
 
                         <strong><i class="fas fa-birthday-cake mr-1"></i> Age</strong>
 
                         <p class="text-muted">
-                            <?= !empty($employee->Age)?$employee->Age:''?>
+                            <?= !empty($employee->Age) ? $employee->Age : '' ?>
                         </p>
 
                         <hr>
 
                         <strong><i class="far fa-file-alt mr-1"></i> Date of Join:</strong>
 
-                        <p class="text-muted"><?= !empty($employee->Employment_Date)?$employee->Employment_Date:'' ?></p>
+                        <p class="text-muted"><?= !empty($employee->Employment_Date) ? $employee->Employment_Date : '' ?></p>
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -108,13 +106,13 @@ exit;*/
                 <!-- Info boxes -->
                 <div class="row">
                     <div class="col-12 col-sm-6 col-md-3">
-                        <a href="<?= Yii::$app->recruitment->absoluteUrl().'recruitment/vacancies' ?>" target="_blank">
+                        <a href="<?= Yii::$app->recruitment->absoluteUrl() . 'recruitment/vacancies' ?>" target="_blank">
                             <div class="info-box">
                                 <span class="info-box-icon bg-info elevation-1"><i class="fas fa-briefcase"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">HR Vacancies</span>
                                     <span class="info-box-number"><?= Yii::$app->dashboard->getVacancies() ?>
-                                      <small></small>
+                                        <small></small>
                                     </span>
                                 </div>
                                 <!-- /.info-box-content -->
@@ -127,14 +125,14 @@ exit;*/
 
 
                     <div class="col-12 col-sm-6 col-md-3">
-                         <a href="<?= Yii::$app->recruitment->absoluteUrl().'approvals/open-approvals' ?>" target="_blank">
+                        <a href="<?= Yii::$app->recruitment->absoluteUrl() . 'approvals/open-approvals' ?>" target="_blank">
                             <div class="info-box">
                                 <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
 
                                 <div class="info-box-content">
                                     <span class="info-box-text">Open Approvals</span>
                                     <span class="info-box-number"><?= Yii::$app->dashboard->getOpenApprovals() ?>
-                                      <small></small>
+                                        <small></small>
                                     </span>
                                 </div>
                                 <!-- /.info-box-content -->
@@ -147,7 +145,7 @@ exit;*/
                     <div class="clearfix hidden-md-up"></div>
                     <!-- /.col -->
                     <div class="col-12 col-sm-6 col-md-3">
-                        <a href="<?= Yii::$app->recruitment->absoluteUrl().'approvals/approved-approvals' ?>" target="_blank">
+                        <a href="<?= Yii::$app->recruitment->absoluteUrl() . 'approvals/approved-approvals' ?>" target="_blank">
                             <div class="info-box mb-3">
                                 <span class="info-box-icon bg-success elevation-1"><i class="fas fa-thumbs-up"></i></span>
 
@@ -166,7 +164,7 @@ exit;*/
                     <div class="clearfix hidden-md-up"></div>
 
                     <div class="col-12 col-sm-6 col-md-3">
-                        <a href="<?= Yii::$app->recruitment->absoluteUrl().'approvals/rejected-approvals' ?>" target="_blank">
+                        <a href="<?= Yii::$app->recruitment->absoluteUrl() . 'approvals/rejected-approvals' ?>" target="_blank">
                             <div class="info-box mb-3">
                                 <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-times"></i></span>
 
@@ -191,7 +189,7 @@ exit;*/
 
                             <div class="info-box-content">
                                 <span class="info-box-text">Staff Count</span>
-                                <span class="info-box-number"><?= number_format(Yii::$app->dashboard->getStaffCount())?></span>
+                                <span class="info-box-number"><?= number_format(Yii::$app->dashboard->getStaffCount()) ?></span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -204,13 +202,13 @@ exit;*/
 
                     <!-- /.col -->
                     <div class="col-12 col-sm-6 col-md-3">
-                        <a href="<?= Yii::$app->recruitment->absoluteUrl().'leave/activeleaves' ?>" target="_blank">
+                        <a href="<?= Yii::$app->recruitment->absoluteUrl() . 'leave/activeleaves' ?>" target="_blank">
                             <div class="info-box mb-3">
                                 <span class="info-box-icon bg-info elevation-1"><i class="fas fa-paper-plane"></i></span>
 
                                 <div class="info-box-content">
                                     <span class="info-box-text">Staff on Leave</span>
-                                    <span class="info-box-number"><?= number_format(Yii::$app->dashboard->getOnLeave())?></span>
+                                    <span class="info-box-number"><?= number_format(Yii::$app->dashboard->getOnLeave()) ?></span>
                                 </div>
                                 <!-- /.info-box-content -->
                             </div>
@@ -224,13 +222,13 @@ exit;*/
 
                     <!-- /.col -->
                     <div class="col-12 col-sm-6 col-md-3">
-                        <a href="<?= Yii::$app->recruitment->absoluteUrl().'recruitment/internalapplications' ?>" target="_blank">
+                        <a href="<?= Yii::$app->recruitment->absoluteUrl() . 'recruitment/internalapplications' ?>" target="_blank">
                             <div class="info-box mb-3">
                                 <span class="info-box-icon bg-info elevation-1"><i class="fas fa-paper-plane"></i></span>
 
                                 <div class="info-box-content">
                                     <span class="info-box-text">My Applications</span>
-                                    <span class="info-box-number"><?= number_format(Yii::$app->dashboard->getInternalapplications())?></span>
+                                    <span class="info-box-number"><?= number_format(Yii::$app->dashboard->getInternalapplications()) ?></span>
                                 </div>
                                 <!-- /.info-box-content -->
                             </div>
@@ -239,16 +237,16 @@ exit;*/
                     </div>
                     <!-- /.col -->
 
-                     <!-- /.col -->
+                    <!-- /.col -->
                     <div class="col-12 col-sm-6 col-md-3">
 
-                        <a href="<?= Yii::$app->recruitment->absoluteUrl().'approvals/sapproved' ?>" target="_blank">
+                        <a href="<?= Yii::$app->recruitment->absoluteUrl() . 'approvals/sapproved' ?>" target="_blank">
                             <div class="info-box mb-3">
                                 <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
 
                                 <div class="info-box-content">
                                     <span class="info-box-text">Super Approved</span>
-                                    <span class="info-box-number"><?= number_format(Yii::$app->dashboard->getSuperApproved())?></span>
+                                    <span class="info-box-number"><?= number_format(Yii::$app->dashboard->getSuperApproved()) ?></span>
                                 </div>
                                 <!-- /.info-box-content -->
                             </div>
@@ -266,14 +264,14 @@ exit;*/
 
                     <!-- /.col -->
                     <div class="col-12 col-sm-6 col-md-3">
-                        <a href="<?= Yii::$app->recruitment->absoluteUrl().'approvals/srejected' ?>" target="_blank">
+                        <a href="<?= Yii::$app->recruitment->absoluteUrl() . 'approvals/srejected' ?>" target="_blank">
 
                             <div class="info-box mb-3">
                                 <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
 
                                 <div class="info-box-content">
                                     <span class="info-box-text">Super Rejected</span>
-                                    <span class="info-box-number"><?=number_format(Yii::$app->dashboard->getSuperRejected())?></span>
+                                    <span class="info-box-number"><?= number_format(Yii::$app->dashboard->getSuperRejected()) ?></span>
                                 </div>
                                 <!-- /.info-box-content -->
                             </div>
@@ -283,58 +281,58 @@ exit;*/
                     <!-- /.col -->
 
                     <!-- /.col -->
-                    <?php if( Yii::$app->user->identity->{'Is HR Admin'}): ?>
+                    <?php if (Yii::$app->user->identity->{'Is HR Admin'}) : ?>
 
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <a href="<?= Yii::$app->recruitment->absoluteUrl().'appraisal/prob-status-list' ?>" target="_blank">
-                            <div class="info-box mb-3">
-                                <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-balance-scale"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">probation Status</span>
-                                    <span class="primary-box-number">0</span>
+                        <div class="col-12 col-sm-6 col-md-3">
+                            <a href="<?= Yii::$app->recruitment->absoluteUrl() . 'appraisal/prob-status-list' ?>" target="_blank">
+                                <div class="info-box mb-3">
+                                    <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-balance-scale"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">probation Status</span>
+                                        <span class="primary-box-number">0</span>
+                                    </div>
+                                    <!-- /.info-box-content -->
                                 </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                        </a>
-                        <!-- /.info-box -->
-                    </div>
-                    <!-- /.col -->
+                            </a>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
 
 
-                      <!-- /.col -->
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <a href="<?= Yii::$app->recruitment->absoluteUrl().'appraisal/st-status' ?>" target="_blank">
-                            <div class="info-box mb-3">
-                                <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-balance-scale"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Short Term Status</span>
-                                    <span class="info-box-number">0</span>
+                        <!-- /.col -->
+                        <div class="col-12 col-sm-6 col-md-3">
+                            <a href="<?= Yii::$app->recruitment->absoluteUrl() . 'appraisal/st-status' ?>" target="_blank">
+                                <div class="info-box mb-3">
+                                    <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-balance-scale"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Short Term Status</span>
+                                        <span class="info-box-number">0</span>
+                                    </div>
+                                    <!-- /.info-box-content -->
                                 </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                        </a>
-                        <!-- /.info-box -->
-                    </div>
-                    <!-- /.col -->
+                            </a>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
 
 
-                      <!-- /.col -->
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <a href="<?= Yii::$app->recruitment->absoluteUrl().'appraisal/lt-status' ?>" target="_blank">
-                            <div class="info-box mb-3">
-                                <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-balance-scale"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Long Term Status</span>
-                                    <span class="info-box-number">0</span>
+                        <!-- /.col -->
+                        <div class="col-12 col-sm-6 col-md-3">
+                            <a href="<?= Yii::$app->recruitment->absoluteUrl() . 'appraisal/lt-status' ?>" target="_blank">
+                                <div class="info-box mb-3">
+                                    <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-balance-scale"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Long Term Status</span>
+                                        <span class="info-box-number">0</span>
+                                    </div>
+                                    <!-- /.info-box-content -->
                                 </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                        </a>
-                        <!-- /.info-box -->
-                    </div>
-                    <!-- /.col -->
+                            </a>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
 
-            <?php endif; ?>
+                    <?php endif; ?>
 
 
                 </div>
@@ -359,24 +357,21 @@ exit;*/
                                     </thead>
                                     <tbody>
 
-                                    <?php
+                                        <?php
 
+                                        // Yii::$app->recruitment->printrr($balances);
 
-
-                                    foreach($balances as $key => $val){
-                                        if($key == 'Key') {
-                                            continue;
-                                        }
-                                        else{ /*if ($key == 'Annual_Leave_Bal' || $key == 'Compasionate_Leave_Bal'){*/
-                                            print '
+                                        foreach ($balances as $key => $val) {
+                                            if ($key == 'Key') {
+                                                continue;
+                                            } else { /*if ($key == 'Annual_Leave_Bal' || $key == 'Compasionate_Leave_Bal'){*/
+                                                print '
                                             <tr>
-                                                <td>'.$key.'</td><td>'.$val.'</td>
+                                                <td>' . $key . '</td><td>' . $val . '</td>
                                              </tr>
                                              ';
-                                        }
-
-
-                                    } ?>
+                                            }
+                                        } ?>
 
                                     </tbody>
                                 </table>
@@ -418,8 +413,8 @@ exit;*/
 
                 </div>
 
+            </div>
         </div>
-    </div>
 
 </section>
 
