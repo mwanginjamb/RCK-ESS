@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: HP ELITEBOOK 840 G5
@@ -7,6 +8,7 @@
  */
 
 namespace frontend\controllers;
+
 use frontend\models\Employeeappraisalkra;
 use frontend\models\Experience;
 use frontend\models\Leaveplanline;
@@ -35,15 +37,15 @@ class TimesheetlineController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup','index','create','update','delete','view'],
+                'only' => ['logout', 'signup', 'index', 'create', 'update', 'delete', 'view'],
                 'rules' => [
                     [
-                        'actions' => ['signup','index'],
+                        'actions' => ['signup', 'index'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout','index','create','update','delete','view'],
+                        'actions' => ['logout', 'index', 'create', 'update', 'delete', 'view'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -55,9 +57,9 @@ class TimesheetlineController extends Controller
                     'logout' => ['post'],
                 ],
             ],
-            'contentNegotiator' =>[
+            'contentNegotiator' => [
                 'class' => ContentNegotiator::class,
-                'only' => ['setquantity','setitem','setstarttime','setendtime'],
+                'only' => ['setquantity', 'setitem', 'setstarttime', 'setendtime'],
                 'formatParam' => '_format',
                 'formats' => [
                     'application/json' => Response::FORMAT_JSON,
@@ -67,110 +69,110 @@ class TimesheetlineController extends Controller
         ];
     }
 
-    public function actionIndex(){
+    public function actionIndex()
+    {
 
         return $this->render('index');
-
     }
 
-    public function actionCreate($No,$Period_Month){
-       $service = Yii::$app->params['ServiceName']['OvertimeLine'];
-       $model = new Timesheetline();
-       $model->Date = date('Y-m-d', strtotime($Period_Month));
+    public function actionCreate($No, $Period_Month)
+    {
+        $service = Yii::$app->params['ServiceName']['OvertimeLine'];
+        $model = new Timesheetline();
+        $model->Date = date('Y-m-d', strtotime($Period_Month));
 
-       if(Yii::$app->request->get('No') && !Yii::$app->request->post()){
+        if (Yii::$app->request->get('No') && !Yii::$app->request->post()) {
 
-        $model->Application_No = $No;
-        //$model->Date = date('Y-m-d');
-        $model->Employee_No = Yii::$app->user->identity->{'Employee No_'};
-        $model->Line_No = time();
-        $result = Yii::$app->navhelper->postData($service, $model);
-        //Yii::$app->recruitment->printrr($result);
-        if(is_string($result))
-        {
-            Yii::$app->recruitment->printrr($result);
+            $model->Application_No = $No;
+            //$model->Date = date('Y-m-d');
+            $model->Employee_No = Yii::$app->user->identity->{'Employee No_'};
+            $model->Line_No = time();
+            $result = Yii::$app->navhelper->postData($service, $model);
+            //Yii::$app->recruitment->printrr($result);
+            if (is_string($result)) {
+                Yii::$app->recruitment->printrr($result);
+            }
+
+            Yii::$app->navhelper->loadmodel($result, $model);
         }
 
-        Yii::$app->navhelper->loadmodel($result,$model);
-}
 
-    
 
-        if(Yii::$app->request->isAjax){
+        if (Yii::$app->request->isAjax) {
             return $this->renderAjax('create', [
                 'model' => $model,
-                'grants' => Yii::$app->navhelper->dropdown('ProgramFunds','Program_Code','Program_Code',['Employee_No' => Yii::$app->user->identity->{'Employee No_'}]), //$this->getGrants()
+                'grants' => Yii::$app->navhelper->dropdown('ProgramFunds', 'Grant_No', 'Program_Code', ['Employee_No' => Yii::$app->user->identity->{'Employee No_'}], ['Percentage', 'Grant_No', 'Program_Code']), //$this->getGrants()
 
             ]);
         }
-
-
     }
 
 
-    public function actionUpdate($Key){
+    public function actionUpdate($Key)
+    {
         $model = new Timesheetline();
         $model->isNewRecord = false;
         $service = Yii::$app->params['ServiceName']['OvertimeLine'];
-       
 
-        $result = Yii::$app->navhelper->readByKey($service,$Key);
 
-        if(is_object($result)){
+        $result = Yii::$app->navhelper->readByKey($service, $Key);
+
+        if (is_object($result)) {
             //load nav result to model
-            Yii::$app->navhelper->loadmodel($result,$model) ;
-        }else{
+            Yii::$app->navhelper->loadmodel($result, $model);
+        } else {
             Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             //Yii::$app->recruitment->printrr($result);
-            return ['note' => '<div class="alert alert-danger">Error Updating Line: '.$result.'</div>'];
+            return ['note' => '<div class="alert alert-danger">Error Updating Line: ' . $result . '</div>'];
         }
 
 
-        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Timesheetline'],$model) ){
+        if (Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Timesheetline'], $model)) {
 
-                      
+
 
             //Yii::$app->recruitment->printrr($model);
 
-            $result = Yii::$app->navhelper->updateData($service,$model);
+            $result = Yii::$app->navhelper->updateData($service, $model);
 
             Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            if(!is_string($result)){
+            if (!is_string($result)) {
 
-                return ['note' => '<div class="alert alert-success"> Line Updated Successfully. </div>' ];
-            }else{
+                return ['note' => '<div class="alert alert-success"> Line Updated Successfully. </div>'];
+            } else {
 
-                return ['note' => '<div class="alert alert-danger">Error Updating Line: '.$result.'</div>'];
+                return ['note' => '<div class="alert alert-danger">Error Updating Line: ' . $result . '</div>'];
             }
-
         }
 
-        if(Yii::$app->request->isAjax){
+        if (Yii::$app->request->isAjax) {
             return $this->renderAjax('update', [
                 'model' => $model,
-                'grants' => Yii::$app->navhelper->dropdown('ProgramFunds','Program_Code','Program_Code',['Employee_No' => Yii::$app->user->identity->{'Employee No_'}]),//$this->getGrants()
+                'grants' => Yii::$app->navhelper->dropdown('ProgramFunds', 'Grant_No', 'Program_Code', ['Employee_No' => Yii::$app->user->identity->{'Employee No_'}], ['Percentage', 'Grant_No', 'Program_Code']), //$this->getGrants()
             ]);
         }
 
-        return $this->render('update',[
+        return $this->render('update', [
             'model' => $model,
-            'grants' => $this->getGrants()
+            'grants' => Yii::$app->navhelper->dropdown('ProgramFunds', 'Grant_No', 'Program_Code', ['Employee_No' => Yii::$app->user->identity->{'Employee No_'}], ['Percentage', 'Grant_No', 'Program_Code']),
         ]);
     }
 
-    public function actionDelete(){
+    public function actionDelete()
+    {
         $service = Yii::$app->params['ServiceName']['OvertimeLine'];
-        $result = Yii::$app->navhelper->deleteData($service,Yii::$app->request->get('Key'));
+        $result = Yii::$app->navhelper->deleteData($service, Yii::$app->request->get('Key'));
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        if(!is_string($result)){
+        if (!is_string($result)) {
             return ['note' => '<div class="alert alert-success">Record Purged Successfully</div>'];
-        }else{
-            return ['note' => '<div class="alert alert-danger">Error Purging Record: '.$result.'</div>' ];
+        } else {
+            return ['note' => '<div class="alert alert-danger">Error Purging Record: ' . $result . '</div>'];
         }
     }
 
 
-    public function actionSetstarttime(){
+    public function actionSetstarttime()
+    {
         $model = new Timesheetline();
         $service = Yii::$app->params['ServiceName']['OvertimeLine'];
 
@@ -179,23 +181,22 @@ class TimesheetlineController extends Controller
         ];
         $line = Yii::$app->navhelper->getData($service, $filter);
         // Yii::$app->recruitment->printrr($line);
-        if(is_array($line)){
-            Yii::$app->navhelper->loadmodel($line[0],$model);
+        if (is_array($line)) {
+            Yii::$app->navhelper->loadmodel($line[0], $model);
             $model->Key = $line[0]->Key;
             $model->Start_Time = Yii::$app->request->post('Start_Time');
             $model->Date = Yii::$app->request->post('Date');
-
         }
 
 
-        $result = Yii::$app->navhelper->updateData($service,$model);
+        $result = Yii::$app->navhelper->updateData($service, $model);
 
         return $result;
-
     }
 
 
-    public function actionSetendtime(){
+    public function actionSetendtime()
+    {
         $model = new Timesheetline();
         $service = Yii::$app->params['ServiceName']['OvertimeLine'];
 
@@ -204,23 +205,22 @@ class TimesheetlineController extends Controller
         ];
         $line = Yii::$app->navhelper->getData($service, $filter);
         // Yii::$app->recruitment->printrr($line);
-        if(is_array($line)){
-            Yii::$app->navhelper->loadmodel($line[0],$model);
+        if (is_array($line)) {
+            Yii::$app->navhelper->loadmodel($line[0], $model);
             $model->Key = $line[0]->Key;
             $model->End_Time = Yii::$app->request->post('End_Time');
-
         }
 
 
-        $result = Yii::$app->navhelper->updateData($service,$model);
+        $result = Yii::$app->navhelper->updateData($service, $model);
 
         return $result;
-
     }
 
     // Set Location
 
-    public function actionSetlocation(){
+    public function actionSetlocation()
+    {
         $model = new Storerequisitionline();
         $service = Yii::$app->params['ServiceName']['StoreRequisitionLine'];
 
@@ -229,21 +229,20 @@ class TimesheetlineController extends Controller
         ];
         $line = Yii::$app->navhelper->getData($service, $filter);
         // Yii::$app->recruitment->printrr($line);
-        if(is_array($line)){
-            Yii::$app->navhelper->loadmodel($line[0],$model);
+        if (is_array($line)) {
+            Yii::$app->navhelper->loadmodel($line[0], $model);
             $model->Key = $line[0]->Key;
             $model->Location = Yii::$app->request->post('Location');
-
         }
 
 
-        $result = Yii::$app->navhelper->updateData($service,$model);
+        $result = Yii::$app->navhelper->updateData($service, $model);
 
         return $result;
-
     }
 
-    public function actionSetitem(){
+    public function actionSetitem()
+    {
         $model = new Storerequisitionline();
         $service = Yii::$app->params['ServiceName']['StoreRequisitionLine'];
 
@@ -252,47 +251,48 @@ class TimesheetlineController extends Controller
         ];
         $line = Yii::$app->navhelper->getData($service, $filter);
         // Yii::$app->recruitment->printrr($line);
-        if(is_array($line)){
-            Yii::$app->navhelper->loadmodel($line[0],$model);
+        if (is_array($line)) {
+            Yii::$app->navhelper->loadmodel($line[0], $model);
             $model->Key = $line[0]->Key;
             $model->No = Yii::$app->request->post('No');
-
         }
 
-        $result = Yii::$app->navhelper->updateData($service,$model);
+        $result = Yii::$app->navhelper->updateData($service, $model);
 
         return $result;
-
     }
 
 
     /*Get Locations*/
 
-    public function getLocations(){
+    public function getLocations()
+    {
         $service = Yii::$app->params['ServiceName']['Locations'];
         $filter = [];
         $result = \Yii::$app->navhelper->getData($service, $filter);
-       // return ArrayHelper::map($result,'Code','Name');
+        // return ArrayHelper::map($result,'Code','Name');
 
-        return Yii::$app->navhelper->refactorArray($result,'Code', 'Name');
+        return Yii::$app->navhelper->refactorArray($result, 'Code', 'Name');
     }
 
 
 
     /*Get Items*/
 
-    public function getItems(){
+    public function getItems()
+    {
         $service = Yii::$app->params['ServiceName']['Items'];
         $filter = [];
         $result = \Yii::$app->navhelper->getData($service, $filter);
 
-        return Yii::$app->navhelper->refactorArray($result,'No','Description');
+        return Yii::$app->navhelper->refactorArray($result, 'No', 'Description');
     }
 
 
 
 
-    public function actionView($ApplicationNo){
+    public function actionView($ApplicationNo)
+    {
         $service = Yii::$app->params['ServiceName']['leaveApplicationCard'];
 
 
@@ -304,21 +304,22 @@ class TimesheetlineController extends Controller
 
         //load nav result to model
         $leaveModel = new Leave();
-        $model = $this->loadtomodel($leave[0],$leaveModel);
+        $model = $this->loadtomodel($leave[0], $leaveModel);
 
 
-        return $this->render('view',[
+        return $this->render('view', [
             'model' => $model,
         ]);
     }
 
 
     /*Get Grants */
-    public function getGrants(){
+    public function getGrants()
+    {
         $service = Yii::$app->params['ServiceName']['DonorList'];
 
         $result = \Yii::$app->navhelper->getData($service, []);
-        $data = Yii::$app->navhelper->refactorArray($result,'Donor_Code','Donor_Name');
+        $data = Yii::$app->navhelper->refactorArray($result, 'Donor_Code', 'Donor_Name');
 
         return $data;
     }
@@ -330,21 +331,18 @@ class TimesheetlineController extends Controller
         $service = Yii::$app->params['ServiceName']['Jobs'];
         $filter = [];
         $result = \Yii::$app->navhelper->getData($service, $filter);
-        return Yii::$app->navhelper->refactorArray($result,'No','Description');
+        return Yii::$app->navhelper->refactorArray($result, 'No', 'Description');
     }
 
 
-     /** Updates a single field */
-     public function actionSetfield($field){
+    /** Updates a single field */
+    public function actionSetfield($field)
+    {
         $service = 'OvertimeLine';
         $value = Yii::$app->request->post('fieldValue');
-       
-        $result = Yii::$app->navhelper->Commit($service,[$field => $value],Yii::$app->request->post('Key'));
+
+        $result = Yii::$app->navhelper->Commit($service, [$field => $value], Yii::$app->request->post('Key'));
         Yii::$app->response->format = \yii\web\response::FORMAT_JSON;
         return $result;
-          
     }
-
-
-    
 }

@@ -1487,6 +1487,7 @@ class Navhelper extends Component
     public function refactorArray($arr, $from, $to, $extraFields = [])
     {
         $list = [];
+
         if (is_array($arr)) {
 
             foreach ($arr as $item) {
@@ -1504,15 +1505,16 @@ class Navhelper extends Component
                 if (count($valid)) {
                     $ValuesToAppend = implode(' - ', $valid);
                 }
-                if (!empty($item->$from) && !empty($item->$to)) {
+                if (property_exists($item, $from) && property_exists($item, $to)) {
+
                     $list[] = [
-                        $from => $item->$from,
-                        $to => $item->$to . ' - ' . $ValuesToAppend
+                        'Code' => $item->$from,
+                        'Desc' => strlen($ValuesToAppend) ? $item->$to . $ValuesToAppend : $item->$to
                     ];
                 }
             }
-
-            return  yii\helpers\ArrayHelper::map($list, $from, $to);
+            //  Yii::$app->recruitment->printrr($list);
+            return  yii\helpers\ArrayHelper::map($list, 'Code', 'Desc');
         }
 
         return $list;
@@ -1524,9 +1526,12 @@ class Navhelper extends Component
     {
 
         $service = Yii::$app->params['ServiceName'][$service];
-        //Yii::$app->recruitment->printrr($filterValues);
 
         $result = \Yii::$app->navhelper->getData($service, $filterValues);
-        return Yii::$app->navhelper->refactorArray($result, $from, $to, $extraFields);
+
+        $dd =  Yii::$app->navhelper->refactorArray($result, $from, $to, $extraFields);
+        // Yii::$app->recruitment->printrr($dd);
+
+        return $dd;
     }
 }
