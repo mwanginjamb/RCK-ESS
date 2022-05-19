@@ -28,7 +28,7 @@ Yii::$app->session->set('isSupervisor',false);*/
         <?= ($model->Status == 'New') ? Html::a('<i class="fas fa-paper-plane"></i> Send Approval Req', ['send-for-approval'], [
             'class' => 'btn btn-app submitforapproval',
             'data' => [
-                'confirm' => 'Are you sure you want to send imprest request for approval?',
+                'confirm' => 'Are you sure you want to send imprest surrender request for approval?',
                 'params' => [
                     'No' => $model->No,
                     'employeeNo' => Yii::$app->user->identity->{'Employee_No'},

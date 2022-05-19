@@ -52,6 +52,7 @@ class Imprestcard extends Model
 
     public  $attachment;
     public  $attachment_multiple;
+    public $Approval_Entries;
 
     /*public function __construct(array $config = [])
     {
