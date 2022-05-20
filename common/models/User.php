@@ -1,4 +1,5 @@
 <?php
+
 namespace common\models;
 
 use Yii;
@@ -63,10 +64,11 @@ class User extends ActiveRecord implements IdentityInterface
     public $password_reset_token;
 
     public $Is_System_Admin;
+    public $Grant_Admin;
 
 
 
-    
+
 
 
     /**
@@ -74,9 +76,9 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function tableName()
     {
-       // return '{{%user}}';
+        // return '{{%user}}';
 
-        return Yii::$app->params['DBCompanyName'].'User Setup ';
+        return Yii::$app->params['DBCompanyName'] . 'User Setup ';
     }
 
     /**
@@ -95,8 +97,8 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-           // ['status', 'default', 'value' => self::STATUS_INACTIVE],
-           // ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+            // ['status', 'default', 'value' => self::STATUS_INACTIVE],
+            // ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
         ];
     }
 
@@ -106,20 +108,19 @@ class User extends ActiveRecord implements IdentityInterface
     public static function findIdentity($id)
     {
 
-       /* if(is_int($id))
+        /* if(is_int($id))
         {
             return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
         }
         return null;*/
-        if($id == 1){
+        if ($id == 1) {
             return null;
         }
         $username = strtoupper($id);
         return static::findOne(['User ID' => $id]);
-
     }
 
-     public static function Auth($username,$password)
+    public static function Auth($username, $password)
     {
         $service = Yii::$app->params['ServiceName']['UserSetup'];
         $credentials = new \stdClass();
@@ -132,9 +133,9 @@ class User extends ActiveRecord implements IdentityInterface
         $credentials->UserName = $NavisionUsername;
         $credentials->PassWord = $NavisionPassword;
 
-       // return $credentials;
+        // return $credentials;
 
-        $result = Yii::$app->navhelper->findOne($service,$credentials,'User_ID', $NavisionUsername);
+        $result = Yii::$app->navhelper->findOne($service, $credentials, 'User_ID', $NavisionUsername);
         //return $result;
 
         return new User($result);
@@ -156,7 +157,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByUsername($username)
     {
-       // return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+        // return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
         $username = strtoupper($username);
 
         return static::findOne(['User ID' => $username]);
@@ -170,14 +171,14 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByPasswordResetToken($token)
     {
-       
+
         if (!static::isPasswordResetTokenValid($token)) {
             return null;
         }
 
         return static::findOne([
             'password_reset_token' => $token,
-           // 'status' => self::STATUS_ACTIVE,
+            // 'status' => self::STATUS_ACTIVE,
         ]);
     }
 
@@ -187,7 +188,8 @@ class User extends ActiveRecord implements IdentityInterface
      * @param string $token verify email token
      * @return static|null
      */
-    public static function findByVerificationToken($token) {
+    public static function findByVerificationToken($token)
+    {
 
         return;
 
@@ -205,7 +207,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function isPasswordResetTokenValid($token)
     {
-        
+
         if (empty($token)) {
             return false;
         }
@@ -225,7 +227,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getId()
     {
-       // return $this->getPrimaryKey();
+        // return $this->getPrimaryKey();
         return $this->{'User ID'};
     }
 
@@ -236,7 +238,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function getAuthKey()
     {
         return 1;
-       // return $this->auth_key;
+        // return $this->auth_key;
 
 
     }
@@ -284,15 +286,15 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function generatePasswordResetToken($User)
     {
-       // Yii::$app->recruitment->printrr($User);
-       $token = Yii::$app->security->generateRandomString() . '_' . time();
-       $this->password_reset_token = $token; // This is just for maintaining identity token state, update id done by user setup service
-       $userService = Yii::$app->params['ServiceName']['UserSetup'];
-       $data = [
-           'Key' => $User[0]->Key,
-           'password_reset_token' => $token 
+        // Yii::$app->recruitment->printrr($User);
+        $token = Yii::$app->security->generateRandomString() . '_' . time();
+        $this->password_reset_token = $token; // This is just for maintaining identity token state, update id done by user setup service
+        $userService = Yii::$app->params['ServiceName']['UserSetup'];
+        $data = [
+            'Key' => $User[0]->Key,
+            'password_reset_token' => $token
         ];
-       Yii::$app->navhelper->updateData($userService, $data);
+        Yii::$app->navhelper->updateData($userService, $data);
     }
 
     /**
@@ -315,7 +317,8 @@ class User extends ActiveRecord implements IdentityInterface
         return Yii::$app->nav;
     }*/
 
-    public function getEmployee(){
+    public function getEmployee()
+    {
         $service = Yii::$app->params['ServiceName']['EmployeeCard'];
         $filter = [
             'No' => Yii::$app->user->identity->{'Employee No_'},
@@ -323,59 +326,54 @@ class User extends ActiveRecord implements IdentityInterface
 
         //Yii::$app->recruitment->printrr($filter);
 
-        $employee = \Yii::$app->navhelper->getData($service,$filter);
+        $employee = \Yii::$app->navhelper->getData($service, $filter);
         return $employee;
     }
     /* Get Appraisal Supervisor*/
-    public function isSupervisor($AppraiseeNo = ''){
+    public function isSupervisor($AppraiseeNo = '')
+    {
 
-       // Yii::$app->recruitment->printrr(Yii::$app->user->identity->employee);
+        // Yii::$app->recruitment->printrr(Yii::$app->user->identity->employee);
         $service = Yii::$app->params['ServiceName']['SupervisorList'];
         $filter = [
             'Emp_No' => Yii::$app->user->identity->{'Employee No_'},
         ];
 
-        $result = \Yii::$app->navhelper->getData($service,$filter);
+        $result = \Yii::$app->navhelper->getData($service, $filter);
 
         // Yii::$app->recruitment->printrr($result);
 
-        if(is_array($result))
-        {
-             // return ($result[0]->Level == 'Line_Manager')?TRUE:FALSE;
+        if (is_array($result)) {
+            // return ($result[0]->Level == 'Line_Manager')?TRUE:FALSE;
 
-            foreach($result as $obj) 
-            {
-                if($obj->Level == 'Line_Manager')
-                {
+            foreach ($result as $obj) {
+                if ($obj->Level == 'Line_Manager') {
                     return TRUE;
                 }
             }
         }
 
         return false;
-       
-       
     }
 
     /* Get Overview Status*/
 
-    public function isOverview($AppraiseeNo = ''){
+    public function isOverview($AppraiseeNo = '')
+    {
 
-       // Yii::$app->recruitment->printrr(Yii::$app->user->identity->employee);
+        // Yii::$app->recruitment->printrr(Yii::$app->user->identity->employee);
         $service = Yii::$app->params['ServiceName']['SupervisorList'];
         $filter = [
             'Emp_No' => Yii::$app->user->identity->{'Employee No_'},
         ];
 
-        $result = \Yii::$app->navhelper->getData($service,$filter);
+        $result = \Yii::$app->navhelper->getData($service, $filter);
 
-        if(is_array($result))
-        {
+        if (is_array($result)) {
             return $result[0]->Level == 'OverView';
         }
 
-        return false;        
-       
+        return false;
     }
 
     public function isApprover()
@@ -385,7 +383,7 @@ class User extends ActiveRecord implements IdentityInterface
             'Approver_No' => Yii::$app->user->identity->{'Employee No_'},
         ];
 
-        $result = \Yii::$app->navhelper->getData($service,$filter);
+        $result = \Yii::$app->navhelper->getData($service, $filter);
 
         return is_array($result);
     }
@@ -395,10 +393,10 @@ class User extends ActiveRecord implements IdentityInterface
         return \Yii::$app->user->identity->employee[0]->User_ID;
     }
 
-    public function isAppraisalSupervisor($AppraiseeNo = ''){
+    public function isAppraisalSupervisor($AppraiseeNo = '')
+    {
 
-        if(Yii::$app->session->has('Appraisee_ID'))
-        {
+        if (Yii::$app->session->has('Appraisee_ID')) {
             $Appraisee_ID = Yii::$app->session->get('Appraisee_ID');
             //check if current identity appears as supervisor with corresponsing Employee_User_Id
             $super = \common\models\AppraisalHeader::find()->where([
@@ -406,57 +404,55 @@ class User extends ActiveRecord implements IdentityInterface
                 'Employee User Id ' => $Appraisee_ID
             ])->count();
 
-            if($super > 0){
+            if ($super > 0) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
-        }else {
+        } else {
             Yii::$app->session->setFlash('error', 'Appraisee Employee_User_ID state is missing.');
             return false;
-
         }
     }
 
     // Loggedin User is designated as an appraisal Supervisor
 
-    public function isAppraisalSupervisorDesignate($AppraiseeNo = ''){
+    public function isAppraisalSupervisorDesignate($AppraiseeNo = '')
+    {
 
         //check if current identity is designated as supervisor for any employee
         $super = \common\models\AppraisalHeader::find()->where([
             'Supervisor User Id ' => $this->getId()
         ])->count();
 
-        if($super > 0){
+        if ($super > 0) {
             return true;
-        }else{
+        } else {
             return false;
         }
-
     }
 
-    public function isPeer1(){
+    public function isPeer1()
+    {
         //loop through user setup check if current identity appears in approvers column
         $super = Appraisalheader::find()->where(['Peer 1 Employee No ' => $this->{'Employee No_'}])->count();
 
-        if($super > 0){
+        if ($super > 0) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
-    public function isPeer2(){
+    public function isPeer2()
+    {
         //loop through user setup check if current identity appears in approvers column
         $super = Appraisalheader::find()->where(['Peer 2 Employee No ' => $this->{'Employee No_'}])->count();
 
-        if($super > 0){
+        if ($super > 0) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
-
-
-
 }
