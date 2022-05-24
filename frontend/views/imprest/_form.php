@@ -7,6 +7,7 @@
  * Time: 12:13 PM
  */
 
+use yii\bootstrap4\Html as Bootstrap4Html;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -281,6 +282,40 @@ if (Yii::$app->session->hasFlash('success')) {
             </div>
         </div>
 
+        <!-- Attachments -->
+        <?php if (is_array($attachments) && count($attachments)) :  //Yii::$app->recruitment->printrr($attachments); 
+        ?>
+            <div class="card card-info">
+                <div class="card-header">
+                    <h3 class="card-title">Files Attachments</h3>
+                </div>
+                <div class="card-body">
+                    <?php $i = 0;
+                    foreach ($attachments as $file) : ++$i; ?>
+
+
+                        <div class="my-2 file border border-info d-flex justify-content-around align-items-center rounded p-3">
+                            <p class="my-auto border rounded border-info bg-info p-2">Attachment <?= $i ?></p>
+                            <?= Bootstrap4Html::a('<i class="fas fa-file"></i> Open', ['read'], [
+                                'class' => 'btn btn-info',
+                                'data' => [
+                                    'params' => [
+                                        'path' => $file->File_path,
+                                        'No' => $model->No
+                                    ],
+                                    'method' => 'POST'
+                                ]
+                            ]) ?>
+                        </div>
+
+
+                    <?php endforeach; ?>
+                </div>
+
+            </div>
+        <?php endif; ?>
+        <!-- / Attachments -->
+
 
 
 
@@ -447,10 +482,12 @@ $script = <<<JS
 
     $('#imprestcard-attachment').change(function(e){
           globalUpload('LeaveAttachments','Imprestcard','attachment','ImprestRequestCard');
+          setTimeout(()=>{ location.reload(true)}, 1500)
     });
 
     $('#select_multiple').change(function(e){
           globalUploadMultiple('LeaveAttachments','Imprestcard','imprest','ImprestRequestCard');
+          setTimeout(()=>{ location.reload(true)}, 1500)
     });
     
       /* Add Line */

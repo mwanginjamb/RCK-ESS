@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: HP ELITEBOOK 840 G5
@@ -14,20 +15,21 @@ use yii\helpers\Html;
 
 $this->title = 'Fund Requisition Document.';
 $this->params['breadcrumbs'][] = ['label' => 'Funds Requisitions', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => 'Funds Requisition Form', 'url' => ['update','No'=> $model->No]];
+$this->params['breadcrumbs'][] = ['label' => 'Funds Requisition Form', 'url' => ['update', 'No' => $model->No]];
 
 ?>
 <div class="agenda-document-update">
 
     <!--<h1><?= Html::encode($this->title) ?></h1>-->
 
-    <?= $this->render('_form',[
+    <?= $this->render('_form', [
         'model' => $model,
         'employees' => $employees,
         'programs' => $programs,
         'departments' => $departments,
         'currencies' => $currencies,
-        'document' => $document
+        'document' => $document,
+        'attachments' => $attachments
     ]) ?>
 
 </div>

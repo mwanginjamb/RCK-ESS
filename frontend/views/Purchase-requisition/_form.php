@@ -9,6 +9,7 @@
 
 use yii\helpers\Html;
 use yii\bootstrap4\ActiveForm;
+use yii\bootstrap4\Html as Bootstrap4Html;
 
 $absoluteUrl = \yii\helpers\Url::home(true);
 ?>
@@ -246,10 +247,45 @@ $absoluteUrl = \yii\helpers\Url::home(true);
         </div>
 
         <!--/Lines card -->
+        <!-- Attachments -->
+        <?php if (is_array($attachments) && count($attachments)) :  //Yii::$app->recruitment->printrr($attachments); 
+        ?>
+            <div class="card card-info">
+                <div class="card-header">
+                    <h3 class="card-title">Files Attachments</h3>
+                </div>
+                <div class="card-body">
+                    <?php $i = 0;
+                    foreach ($attachments as $file) : ++$i; ?>
+
+
+                        <div class="my-2 file border border-info d-flex justify-content-around align-items-center rounded p-3">
+                            <p class="my-auto border rounded border-info bg-info p-2">Attachment <?= $i ?></p>
+                            <?= Bootstrap4Html::a('<i class="fas fa-file"></i> Open', ['read'], [
+                                'class' => 'btn btn-info',
+                                'data' => [
+                                    'params' => [
+                                        'path' => $file->File_path,
+                                        'No' => $model->No
+                                    ],
+                                    'method' => 'POST'
+                                ]
+                            ]) ?>
+                        </div>
+
+
+                    <?php endforeach; ?>
+                </div>
+
+            </div>
+        <?php endif; ?>
+        <!-- / Attachments -->
 
 
 
     </div>
+
+
 </div>
 
 
@@ -293,10 +329,12 @@ $script = <<<JS
     //Upload Damn File
     $('#purchaserequisition-attachment').change(function(e){
           globalUpload('LeaveAttachments','purchaserequisition','attachment','PurchaseRequisitionCard');    
+          setTimeout(()=>{ location.reload(true)}, 1500);
     });
 
     $('#select_multiple').change(function(e){
           globalUploadMultiple('LeaveAttachments','purchaserequisition','purchase-requisition','PurchaseRequisitionCard');
+          setTimeout(()=>{ location.reload(true)}, 1500);
     });
 
  // Trigger Creation of a line

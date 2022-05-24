@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: HP ELITEBOOK 840 G5
@@ -13,7 +14,7 @@ use yii\helpers\Html;
 
 $this->title = 'Update Imprest Surrender Request ';
 $this->params['breadcrumbs'][] = ['label' => 'surrenders', 'url' => ['surrenderlist']];
-$this->params['breadcrumbs'][] = ['label' => 'imprest Surrender Update', 'url' => ['update-surrender','No' => $model->No]];
+$this->params['breadcrumbs'][] = ['label' => 'imprest Surrender Update', 'url' => ['update-surrender', 'No' => $model->No]];
 
 $model->isNewRecord = true;
 ?>
@@ -29,7 +30,8 @@ $model->isNewRecord = true;
         'currencies' => $currencies,
         'imprests' => $imprests,
         'receipts' => $receipts,
-        'surrender' => $surrender
+        'surrender' => $surrender,
+        'attachments' => $attachments
     ]) ?>
 
 </div>

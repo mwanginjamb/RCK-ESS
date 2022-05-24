@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: HP ELITEBOOK 840 G5
@@ -25,8 +26,8 @@ $model->isNewRecord = true;
     <?= $this->render('_form', [
         'model' => $model,
         'programs' => $programs,
-        'departments' => $departments
-
+        'departments' => $departments,
+        'attachments' => $attachments
     ]) ?>
 
 </div>

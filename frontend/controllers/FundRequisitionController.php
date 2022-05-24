@@ -194,7 +194,8 @@ class FundRequisitionController extends Controller
             'programs' => $this->getPrograms(),
             'departments' => $this->getDepartments(),
             'currencies' => Yii::$app->navhelper->dropdown('Currencies', 'Code', 'Description'),
-            'document' => $result
+            'document' => $result,
+            'attachments' => Yii::$app->navhelper->getData(Yii::$app->params['ServiceName']['LeaveAttachments'], ['Document_No' => $model->No])
         ]);
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: HP ELITEBOOK 840 G5
@@ -10,21 +11,21 @@ use yii\bootstrap4\Html as Bootstrap4Html;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-$this->title = 'Purchase Requisition - '.$model->No;
+$this->title = 'Purchase Requisition - ' . $model->No;
 $this->params['breadcrumbs'][] = ['label' => 'Purchase Requisitions', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => 'Purchase Requisition Card', 'url' => ['view','No'=> $model->No]];
+$this->params['breadcrumbs'][] = ['label' => 'Purchase Requisition Card', 'url' => ['view', 'No' => $model->No]];
 
 ?>
 
 <?php
-if(Yii::$app->session->hasFlash('success')){
+if (Yii::$app->session->hasFlash('success')) {
     print ' <div class="alert alert-success alert-dismissable">
                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                                     <h5><i class="icon fas fa-check"></i> Success!</h5>
  ';
     echo Yii::$app->session->getFlash('success');
     print '</div>';
-}else if(Yii::$app->session->hasFlash('error')){
+} else if (Yii::$app->session->hasFlash('error')) {
     print ' <div class="alert alert-danger alert-dismissable">
                                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                                     <h5><i class="icon fas fa-times"></i> Error!</h5>
@@ -37,121 +38,126 @@ if(Yii::$app->session->hasFlash('success')){
 <div class="row">
     <div class="col-md-4">
 
-        <?= ($model->Status == 'New')?Html::a('<i class="fas fa-paper-plane"></i> Send Approval Req',['send-for-approval'],['class' => 'btn btn-app submitforapproval',
+        <?= ($model->Status == 'New') ? Html::a('<i class="fas fa-paper-plane"></i> Send Approval Req', ['send-for-approval'], [
+            'class' => 'btn btn-app submitforapproval',
             'data' => [
                 'confirm' => 'Are you sure you want to send this document for approval?',
-                'params'=>[
-                    'No'=> $model->No,
+                'params' => [
+                    'No' => $model->No,
                     'employeeNo' => Yii::$app->user->identity->{'Employee_No'},
                 ],
                 'method' => 'get',
-        ],
+            ],
             'title' => 'Submit Document for Approval'
 
-        ]):'' ?>
+        ]) : '' ?>
 
 
-        <?= ($model->Status == 'Pending_Approval')?Html::a('<i class="fas fa-times"></i> Cancel Approval Req.',['cancel-request'],['class' => 'btn btn-app submitforapproval',
+        <?= ($model->Status == 'Pending_Approval') ? Html::a('<i class="fas fa-times"></i> Cancel Approval Req.', ['cancel-request'], [
+            'class' => 'btn btn-app submitforapproval',
             'data' => [
-            'confirm' => 'Are you sure you want to cancel document approval request?',
-            'params'=>[
-                'No'=> $model->No,
+                'confirm' => 'Are you sure you want to cancel document approval request?',
+                'params' => [
+                    'No' => $model->No,
+                ],
+                'method' => 'get',
             ],
-            'method' => 'get',
-        ],
             'title' => 'Cancel Document Approval Request'
 
-        ]):'' ?>
+        ]) : '' ?>
     </div>
 </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card-info">
-                <div class="card-header">
-                    <h3>Purchase Requisition Document </h3>
-                </div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card-info">
+            <div class="card-header">
+                <h3>Purchase Requisition Document </h3>
             </div>
         </div>
     </div>
+</div>
 
 
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
 
-                    <h3 class="card-title">Requisition No : <?= $model->No?></h3>
-
-
-                </div>
-                <div class="card-body">
+                <h3 class="card-title">Requisition No : <?= $model->No ?></h3>
 
 
-                    <?php $form = ActiveForm::begin(); ?>
+            </div>
+            <div class="card-body">
 
 
-                    <div class="row">
-                        <div class=" row col-md-12">
-                            <div class="col-md-6">
+                <?php $form = ActiveForm::begin(); ?>
 
-                                <?= $form->field($model, 'No')->textInput(['readonly' => true]) ?>
-                                <?= $form->field($model, 'Key')->hiddenInput()->label(false) ?>
-                                <?= $form->field($model, 'Employee_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, 'Employee_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, 'Title')->textInput(['maxlength'=> 250,'readonly' => true]) ?>
-                                <?= $form->field($model, 'Requested_Delivery_Date')->textInput(['type'=> 'date','readonly'=> true, 'disabled'=>true]) ?>
 
-                            </div>
-                            <div class="col-md-6">
+                <div class="row">
+                    <div class=" row col-md-12">
+                        <div class="col-md-6">
 
-                                <?= $form->field($model, 'Global_Dimension_2_Code')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, 'Requisition_Date')->textInput(['readonly'=> true,'disabled'=> true]) ?>
-                                
-                                <?= $form->field($model, 'Status')->textInput(['readonly'=> true,'disabled'=> true]) ?>
-                                <?= $form->field($model, 'Approval_Entries')->textInput(['readonly'=> true,'disabled'=> true]) ?>
-                               
+                            <?= $form->field($model, 'No')->textInput(['readonly' => true]) ?>
+                            <?= $form->field($model, 'Key')->hiddenInput()->label(false) ?>
+                            <?= $form->field($model, 'Employee_No')->textInput(['readonly' => true, 'disabled' => true]) ?>
+                            <?= $form->field($model, 'Employee_Name')->textInput(['readonly' => true, 'disabled' => true]) ?>
+                            <?= $form->field($model, 'Title')->textInput(['maxlength' => 250, 'readonly' => true]) ?>
+                            <?= $form->field($model, 'Requested_Delivery_Date')->textInput(['type' => 'date', 'readonly' => true, 'disabled' => true]) ?>
 
-                            </div>
+                        </div>
+                        <div class="col-md-6">
+
+                            <?= $form->field($model, 'Global_Dimension_2_Code')->textInput(['readonly' => true, 'disabled' => true]) ?>
+                            <?= $form->field($model, 'Requisition_Date')->textInput(['readonly' => true, 'disabled' => true]) ?>
+
+                            <?= $form->field($model, 'Status')->textInput(['readonly' => true, 'disabled' => true]) ?>
+                            <?= $form->field($model, 'Approval_Entries')->textInput(['readonly' => true, 'disabled' => true]) ?>
+
+
                         </div>
                     </div>
-
-
-
-
-                    <?php ActiveForm::end(); ?>
-
-
-
-                </div>
-            </div><!--end details card-->
-
-            <!--Lines -->
-
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">
-                        <?php ($model->Status == 'New')?Html::a('<i class="fa fa-plus-square"></i> Add Line',['purchase-requisitionline/create','No'=>$model->No],['class' => 'add-line btn btn-outline-info',
-                        ]):'' ?>
-                    </div>
                 </div>
 
-                <div class="card-body">
+
+
+
+                <?php ActiveForm::end(); ?>
+
+
+
+            </div>
+        </div>
+        <!--end details card-->
+
+        <!--Lines -->
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    <?php ($model->Status == 'New') ? Html::a('<i class="fa fa-plus-square"></i> Add Line', ['purchase-requisitionline/create', 'No' => $model->No], [
+                        'class' => 'add-line btn btn-outline-info',
+                    ]) : '' ?>
+                </div>
+            </div>
+
+            <div class="card-body">
 
 
 
 
 
-                    <?php if(is_array($model->lines)){ //show Lines ?>
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
+                <?php if (is_array($model->lines)) { //show Lines 
+                ?>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
                                 <tr>
                                     <td><b>Type</b></td>
                                     <td><b>Name</b></td>
                                     <td><b>Unit of Measure</b></td>
-                                    
+
                                     <td><b>Quantity</b></td>
                                     <td><b>Location</b></td>
                                     <td><b>Estimate Unit Price</b></td>
@@ -159,64 +165,66 @@ if(Yii::$app->session->hasFlash('success')){
                                     <td><b>Procurement Method</b></td>
                                     <td><b>Sub Office</b></td>
                                     <td><b>Program Code</b></td>
-                                    
-                                    
+
+
 
 
                                     <!-- <td><b>Action</b></td> -->
 
                                 </tr>
-                                </thead>
-                                <tbody>
+                            </thead>
+                            <tbody>
                                 <?php
                                 // print '<pre>'; print_r($model->getObjectives()); exit;
 
-                                foreach($model->lines as $obj):
-                                    $updateLink = Html::a('<i class="fa fa-edit"></i>',['purchase-requisitionline/update','No'=> $obj->Line_No],['class' => 'update-objective btn btn-outline-info btn-xs']);
-                                    $deleteLink = Html::a('<i class="fa fa-trash"></i>',['purchase-requisitionline/delete','Key'=> $obj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
-                                    ?>
+                                foreach ($model->lines as $obj) :
+                                    $updateLink = Html::a('<i class="fa fa-edit"></i>', ['purchase-requisitionline/update', 'No' => $obj->Line_No], ['class' => 'update-objective btn btn-outline-info btn-xs']);
+                                    $deleteLink = Html::a('<i class="fa fa-trash"></i>', ['purchase-requisitionline/delete', 'Key' => $obj->Key], ['class' => 'delete btn btn-outline-danger btn-xs']);
+                                ?>
                                     <tr>
 
-                                        <td><?= !empty($obj->Type)?$obj->Type:'Not Set' ?></td>
-                                        <td><?= !empty($obj->Name)?$obj->Name:'Not Set' ?></td>
-                                        <td><?= !empty($obj->Unit_of_Measure)?$obj->Unit_of_Measure:'Not Set' ?></td>
-                                        
-                                        <td><?= !empty($obj->Quantity)?$obj->Quantity:'Not Set' ?></td>
-                                        <td><?= !empty($obj->Location)?$obj->Location:'Not Set' ?></td>
-                                        <td><?= !empty($obj->Estimate_Unit_Price)?$obj->Estimate_Unit_Price:'Not Set' ?></td>
-                                        <td><?= !empty($obj->Estimate_Total_Amount)?$obj->Estimate_Total_Amount:'Not Set' ?></td>
-                                        <td><?= !empty($obj->Procurement_Method)?$obj->Procurement_Method:'Not Set' ?></td>
-                                        <td><?= !empty($obj->Global_Dimension_1_Code)?$obj->Global_Dimension_1_Code:'Not Set' ?></td>
-                                        <td><?= !empty($obj->Global_Dimension_2_Code)?$obj->Global_Dimension_2_Code:'Not Set' ?></td>
-                                       
-                                        
-                                        <!-- <td><?= $updateLink.'|'.$deleteLink ?></td> -->
+                                        <td><?= !empty($obj->Type) ? $obj->Type : 'Not Set' ?></td>
+                                        <td><?= !empty($obj->Name) ? $obj->Name : 'Not Set' ?></td>
+                                        <td><?= !empty($obj->Unit_of_Measure) ? $obj->Unit_of_Measure : 'Not Set' ?></td>
+
+                                        <td><?= !empty($obj->Quantity) ? $obj->Quantity : 'Not Set' ?></td>
+                                        <td><?= !empty($obj->Location) ? $obj->Location : 'Not Set' ?></td>
+                                        <td><?= !empty($obj->Estimate_Unit_Price) ? $obj->Estimate_Unit_Price : 'Not Set' ?></td>
+                                        <td><?= !empty($obj->Estimate_Total_Amount) ? $obj->Estimate_Total_Amount : 'Not Set' ?></td>
+                                        <td><?= !empty($obj->Procurement_Method) ? $obj->Procurement_Method : 'Not Set' ?></td>
+                                        <td><?= !empty($obj->Global_Dimension_1_Code) ? $obj->Global_Dimension_1_Code : 'Not Set' ?></td>
+                                        <td><?= !empty($obj->Global_Dimension_2_Code) ? $obj->Global_Dimension_2_Code : 'Not Set' ?></td>
+
+
+                                        <!-- <td><?= $updateLink . '|' . $deleteLink ?></td> -->
 
                                     </tr>
                                 <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
+                            </tbody>
+                        </table>
+                    </div>
 
-                    <?php } ?>
-                </div>
+                <?php } ?>
             </div>
+        </div>
 
-            <!--End Lines -->
+        <!--End Lines -->
 
-             <!-- Attachments -->
-        <?php if(is_array($attachments) && count($attachments)):  //Yii::$app->recruitment->printrr($attachments); ?>
+        <!-- Attachments -->
+        <?php if (is_array($attachments) && count($attachments)) :  //Yii::$app->recruitment->printrr($attachments); 
+        ?>
             <div class="card card-info">
                 <div class="card-header">
                     <h3 class="card-title">Files Attachments</h3>
                 </div>
                 <div class="card-body">
-                    <?php $i = 0; foreach($attachments as $file): ++$i; ?>
-                        
+                    <?php $i = 0;
+                    foreach ($attachments as $file) : ++$i; ?>
+
 
                         <div class="my-2 file border border-info d-flex justify-content-around align-items-center rounded p-3">
                             <p class="my-auto border rounded border-info bg-info p-2">Attachment <?= $i ?></p>
-                            <?= Bootstrap4Html::a('<i class="fas fa-file"></i> Open',['read'],[
+                            <?= Bootstrap4Html::a('<i class="fas fa-file"></i> Open', ['read'], [
                                 'class' => 'btn btn-info',
                                 'data' => [
                                     'params' => [
@@ -231,10 +239,10 @@ if(Yii::$app->session->hasFlash('success')){
 
                     <?php endforeach; ?>
                 </div>
-                                
+
             </div>
         <?php endif; ?>
-            <!-- / Attachments -->
+        <!-- / Attachments -->
 
     </div>
 
@@ -262,9 +270,9 @@ if(Yii::$app->session->hasFlash('success')){
     </div>
 
 
-<?php
+    <?php
 
-$script = <<<JS
+    $script = <<<JS
 
     $(function(){
       
@@ -476,9 +484,9 @@ $script = <<<JS
         
 JS;
 
-$this->registerJs($script);
+    $this->registerJs($script);
 
-$style = <<<CSS
+    $style = <<<CSS
     p span {
         margin-right: 50%;
         font-weight: bold;
@@ -527,4 +535,4 @@ $style = <<<CSS
     }
 CSS;
 
-$this->registerCss($style);
+    $this->registerCss($style);

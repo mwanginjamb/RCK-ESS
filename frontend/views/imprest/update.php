@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: HP ELITEBOOK 840 G5
@@ -14,20 +15,22 @@ use yii\helpers\Html;
 
 $this->title = 'Update Imprest Document.';
 $this->params['breadcrumbs'][] = ['label' => 'imprest', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => 'Update Imprest Request', 'url' => ['update','No' => $model->No]];
+$this->params['breadcrumbs'][] = ['label' => 'Update Imprest Request', 'url' => ['update', 'No' => $model->No]];
 
 ?>
 <div class="agenda-document-update">
 
     <!--<h1><?= Html::encode($this->title) ?></h1>-->
 
-    <?= $this->render('_form',[
+    <?= $this->render('_form', [
         'model' => $model,
         'document' =>  $document,
         'employees' => $employees,
         'programs' => $programs,
         'departments' => $departments,
-        'currencies' => $currencies
+        'currencies' => $currencies,
+        'attachments' => $attachments
+
     ]) ?>
 
 </div>

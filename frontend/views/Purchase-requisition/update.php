@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: HP ELITEBOOK 840 G5
@@ -11,8 +12,9 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\AgendaDocument */
+
 $this->params['breadcrumbs'][] = ['label' => 'Purchase Requisitions', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => 'Update Request', 'url' => ['update','No' => $model->No]];
+$this->params['breadcrumbs'][] = ['label' => 'Update Request', 'url' => ['update', 'No' => $model->No]];
 $this->title = 'Update Purchase Requisition Document';
 
 ?>
@@ -20,10 +22,11 @@ $this->title = 'Update Purchase Requisition Document';
 
     <!--<h1><?= Html::encode($this->title) ?></h1>-->
 
-    <?= $this->render('_form',[
+    <?= $this->render('_form', [
         'model' => $model,
         'programs' => $programs,
-        'departments' => $departments
+        'departments' => $departments,
+        'attachments' => $attachments
     ]) ?>
 
 </div>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: HP ELITEBOOK 840 G5
@@ -29,6 +30,7 @@ $model->isNewRecord = true;
         'currencies' => $currencies,
         'imprests' => $imprests,
         'receipts' => $receipts,
+        'attachments' => $attachments
     ]) ?>
 
 </div>

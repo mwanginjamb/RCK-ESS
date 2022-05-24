@@ -163,6 +163,7 @@ class ImprestController extends Controller
             'programs' => $this->getPrograms(),
             'departments' => $this->getDepartments(),
             'currencies' => Yii::$app->navhelper->dropdown('Currencies', 'Code', 'Description'),
+            'attachments' => Yii::$app->navhelper->getData(Yii::$app->params['ServiceName']['LeaveAttachments'], ['Document_No' => $model->No]),
         ]);
     }
 
@@ -204,46 +205,8 @@ class ImprestController extends Controller
 
                 if (is_string($request)) {
                     Yii::$app->session->setFlash('error', 'Error Creating Imprest Surrender ' . $request);
-                    return $this->render('createsurrender', [
-                        'model' => $model,
-                        'employees' => $this->getEmployees(),
-                        'programs' => $this->getPrograms(),
-                        'departments' => $this->getDepartments(),
-                        'currencies' => Yii::$app->navhelper->dropdown('Currencies', 'Code', 'Description'),
-                        'imprests' => $this->getmyimprests(),
-                        'receipts' => $this->getimprestreceipts($model->No)
-                    ]);
+                    return $this->redirect(['surrenderlist']);
                 }
-            }
-        }
-
-        if (Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Imprestsurrendercard'], $model)) {
-
-            // Yii::$app->recruitment->printrr(Yii::$app->request->post());
-
-            $result = Yii::$app->navhelper->findOne($service, '', 'No', Yii::$app->request->post()['Imprestsurrendercard']['No']);
-
-            $model = Yii::$app->navhelper->loadmodel($result, $model);
-
-            $result = Yii::$app->navhelper->updateData($service, $model, ['No']);
-
-
-            if (!is_string($result)) {
-                //Yii::$app->recruitment->printrr($result);
-                Yii::$app->session->setFlash('success', 'Imprest Surrender Created Successfully.');
-
-                return $this->redirect(['view-surrender', 'No' => $result->No]);
-            } else {
-                Yii::$app->session->setFlash('error', 'Error Creating Imprest Surrender ' . $result);
-                return $this->render('createsurrender', [
-                    'model' => $model,
-                    'employees' => $this->getEmployees(),
-                    'programs' => $this->getPrograms(),
-                    'departments' => $this->getDepartments(),
-                    'currencies' => Yii::$app->navhelper->dropdown('Currencies', 'Code', 'Description'),
-                    'imprests' => $this->getmyimprests(),
-                    'receipts' => $this->getimprestreceipts($model->No)
-                ]);
             }
         }
 
@@ -254,7 +217,8 @@ class ImprestController extends Controller
             'departments' => $this->getDepartments(),
             'currencies' => Yii::$app->navhelper->dropdown('Currencies', 'Code', 'Description'),
             'imprests' => $this->getmyimprests(),
-            'receipts' => $this->getimprestreceipts($model->No)
+            'receipts' => $this->getimprestreceipts($model->No),
+            'attachments' => Yii::$app->navhelper->getData(Yii::$app->params['ServiceName']['LeaveAttachments'], ['Document_No' => $model->No]),
         ]);
     }
 
@@ -274,17 +238,7 @@ class ImprestController extends Controller
             $model = Yii::$app->navhelper->loadmodel($result, $model); //$this->loadtomodeEmployee_Nol($result[0],$Expmodel);
         } else {
             Yii::$app->session->setFlash('error', 'Error : ' . $result);
-            return $this->render('updatesurrender', [
-                'model' => $model,
-                'employees' => $this->getEmployees(),
-                'programs' => $this->getPrograms(),
-                'departments' => $this->getDepartments(),
-                'currencies' => Yii::$app->navhelper->dropdown('Currencies', 'Code', 'Description'),
-                'imprests' => $this->getmyimprests(),
-                'receipts' => $this->getimprestreceipts($model->No),
-                'surrender' =>  new stdClass()
-
-            ]);
+            return $this->redirect(['index']);
         }
 
 
@@ -302,21 +256,14 @@ class ImprestController extends Controller
                     'currencies' => Yii::$app->navhelper->dropdown('Currencies', 'Code', 'Description'),
                     'imprests' => $this->getmyimprests(),
                     'receipts' => $this->getimprestreceipts($model->No),
-                    'surrender' =>  $result
+                    'surrender' =>  $result,
+                    'attachments' => Yii::$app->navhelper->getData(Yii::$app->params['ServiceName']['LeaveAttachments'], ['Document_No' => $model->No]),
+
                 ]);
             } else {
 
                 Yii::$app->session->setFlash('updatesurrender', 'Error : ' . $result);
-                return $this->render('update', [
-                    'model' => $model,
-                    'employees' => $this->getEmployees(),
-                    'programs' => $this->getPrograms(),
-                    'departments' => $this->getDepartments(),
-                    'currencies' => Yii::$app->navhelper->dropdown('Currencies', 'Code', 'Description'),
-                    'imprests' => $this->getmyimprests(),
-                    'receipts' => $this->getimprestreceipts($model->No),
-                    'surrender' =>  new stdClass()
-                ]);
+                return $this->redirect(['index']);
             }
         }
 
@@ -344,7 +291,8 @@ class ImprestController extends Controller
             'currencies' => Yii::$app->navhelper->dropdown('Currencies', 'Code', 'Description'),
             'imprests' => $this->getmyimprests(),
             'receipts' => $this->getimprestreceipts($model->No),
-            'surrender' =>  $result
+            'surrender' =>  $result,
+            'attachments' => Yii::$app->navhelper->getData(Yii::$app->params['ServiceName']['LeaveAttachments'], ['Document_No' => $model->No]),
         ]);
     }
 
@@ -384,7 +332,6 @@ class ImprestController extends Controller
         }
 
 
-        // Yii::$app->recruitment->printrr($model);
         if (Yii::$app->request->isAjax) {
             return $this->renderAjax('update', [
                 'model' => $model,
@@ -396,6 +343,7 @@ class ImprestController extends Controller
 
             ]);
         }
+        //Yii::$app->recruitment->printrr(Yii::$app->navhelper->getData(Yii::$app->params['ServiceName']['LeaveAttachments'], ['Document_No' => $model->No]));
 
         return $this->render('update', [
             'model' => $model,
@@ -403,7 +351,8 @@ class ImprestController extends Controller
             'employees' => $this->getEmployees(),
             'programs' => $this->getPrograms(),
             'departments' => $this->getDepartments(),
-            'currencies' => Yii::$app->navhelper->dropdown('Currencies', 'Code', 'Description')
+            'currencies' => Yii::$app->navhelper->dropdown('Currencies', 'Code', 'Description'),
+            'attachments' => Yii::$app->navhelper->getData(Yii::$app->params['ServiceName']['LeaveAttachments'], ['Document_No' => $model->No]),
         ]);
     }
 

@@ -143,6 +143,7 @@ class PurchaseRequisitionController extends Controller
             'model' => $model,
             'programs' => $this->getPrograms(),
             'departments' => $this->getDepartments(),
+            'attachments' => Yii::$app->navhelper->getData(Yii::$app->params['ServiceName']['LeaveAttachments'], ['Document_No' => $model->No]),
         ]);
     }
 
@@ -199,7 +200,7 @@ class PurchaseRequisitionController extends Controller
             'model' => $model,
             'programs' => $this->getPrograms(),
             'departments' => $this->getDepartments(),
-
+            'attachments' => Yii::$app->navhelper->getData(Yii::$app->params['ServiceName']['LeaveAttachments'], ['Document_No' => $model->No])
         ]);
     }
 
