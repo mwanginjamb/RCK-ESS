@@ -263,6 +263,19 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                     'method' => 'POST'
                                 ]
                             ]) ?>
+
+                            <?= Html::a(
+                                '<i class="fa fa-trash"></i> ',
+                                ['delete-line'],
+                                [
+                                    'class' => 'delete btn btn-outline-danger',
+                                    'title' => 'Delete this record.',
+                                    'data-key' => $file->Key,
+                                    'data-service' => 'LeaveAttachments',
+
+                                ]
+                            )
+                            ?>
                         </div>
 
 
@@ -325,28 +338,13 @@ $('.add').on('click',function(e){
                 },1500);
             });
         });
-    /*Deleting Records*/
-     
-    $('.delete, .delete-objective').on('click',function(e){
-         e.preventDefault();
-           var secondThought = confirm("Are you sure you want to delete this record ?");
-           if(!secondThought){//if user says no, kill code execution
-                return;
-           }
-           
-         var url = $(this).attr('href');
-         $.get(url).done(function(msg){
-             $('.modal').modal('show')
-                    .find('.modal-body')
-                    .html(msg.note);
-         },'json');
-     });
+   
 
      //Upload Damn File
 
     $('#fundrequisition-attachment').change(function(e){
           globalUpload('LeaveAttachments','fundrequisition','attachment','AllowanceRequestCard');
-          setTimeout(()=>{ location.reload(true)}, 1500);
+          setTimeout(()=>{ location.reload(true)}, 3000);
     });
       
 

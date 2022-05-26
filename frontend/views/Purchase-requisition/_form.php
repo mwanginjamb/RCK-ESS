@@ -271,6 +271,18 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                     'method' => 'POST'
                                 ]
                             ]) ?>
+                            <?= Html::a(
+                                '<i class="fa fa-trash"></i> ',
+                                ['delete-line'],
+                                [
+                                    'class' => 'delete btn btn-outline-danger',
+                                    'title' => 'Delete this record.',
+                                    'data-key' => $file->Key,
+                                    'data-service' => 'LeaveAttachments',
+
+                                ]
+                            )
+                            ?>
                         </div>
 
 
@@ -329,7 +341,7 @@ $script = <<<JS
     //Upload Damn File
     $('#purchaserequisition-attachment').change(function(e){
           globalUpload('LeaveAttachments','purchaserequisition','attachment','PurchaseRequisitionCard');    
-          setTimeout(()=>{ location.reload(true)}, 1500);
+          setTimeout(()=>{ location.reload(true)}, 3000);
     });
 
     $('#select_multiple').change(function(e){

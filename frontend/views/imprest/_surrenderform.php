@@ -250,6 +250,18 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                     'method' => 'POST'
                                 ]
                             ]) ?>
+                            <?= Html::a(
+                                '<i class="fa fa-trash"></i> ',
+                                ['delete-line'],
+                                [
+                                    'class' => 'delete btn btn-outline-danger',
+                                    'title' => 'Delete this record.',
+                                    'data-key' => $file->Key,
+                                    'data-service' => 'LeaveAttachments',
+
+                                ]
+                            )
+                            ?>
                         </div>
 
 
@@ -315,12 +327,12 @@ $script = <<<JS
 
     $('#imprestsurrendercard-attachment').change(function(e){
           globalUpload('LeaveAttachments','Imprestsurrendercard','attachment','ImprestSurrenderCard');
-          setTimeout(()=>{ location.reload(true)}, 1500)
+          setTimeout(()=>{ location.reload(true)}, 3000)
     });
 
     $('#imprestsurrendercard-imprest_no').change((e) => {
         globalFieldUpdate('Imprestsurrendercard','imprest','Imprest_No', e,[],'ImprestSurrenderCard');
-        setTimeout(()=>{ location.reload(true)}, 1500)
+        setTimeout(()=>{ location.reload(true)}, 3000)
     });
 
    

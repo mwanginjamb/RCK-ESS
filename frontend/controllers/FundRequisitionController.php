@@ -212,6 +212,22 @@ class FundRequisitionController extends Controller
         }
     }
 
+    public function actionDeleteLine($Service, $Key)
+    {
+        $service = Yii::$app->params['ServiceName'][$Service];
+        $result = Yii::$app->navhelper->deleteData($service, Yii::$app->request->get('Key'));
+        Yii::$app->session->setFlash('success', 'Record Deleted Successfully.', true);
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        if (!is_string($result)) {
+            return [
+                'note' => 'Record Deleted Successfully.',
+                'result' => $result
+            ];
+        } else {
+            return ['note' => $result];
+        }
+    }
+
     public function actionView($No)
     {
         $service = Yii::$app->params['ServiceName']['AllowanceRequestCard'];

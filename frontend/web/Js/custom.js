@@ -553,4 +553,34 @@ async function globalUploadMultiple(attachmentService, entity, route, documentSe
 }
 
 
+//Delete a document Line
+
+
+$('.delete').on('click', function (e) {
+  e.preventDefault();
+  if (confirm('Are you sure about deleting this record?')) {
+    let data = $(this).data();
+    let url = $(this).attr('href');
+    let Key = data.key;
+    let Service = data.service;
+    const payload = {
+      'Key': Key,
+      'Service': Service
+    };
+    $(this).text('Deleting...');
+    $(this).attr('disabled', true);
+    $.get(url, payload).done((msg) => {
+      console.log(typeof msg.result);
+      if (typeof msg.result === 'string') {
+        alert(msg['result']);
+      }
+      setTimeout(() => {
+        location.reload(true);
+      }, 100);
+    });
+  }
+
+});
+
+
 
