@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: HP ELITEBOOK 840 G5
@@ -7,6 +8,7 @@
  */
 
 namespace frontend\models;
+
 use common\models\User;
 use Yii;
 use yii\base\Model;
@@ -52,8 +54,8 @@ class Imprestsurrendercard extends Model
     public function rules()
     {
         return [
-            [['attachment'],'file','mimeTypes' => ['application/pdf']],
-            [['attachment'],'file','maxSize' => '15728640'], //15mb
+            [['attachment'], 'file', 'mimeTypes' => ['application/pdf']],
+            [['attachment'], 'file', 'maxSize' => '15728640'], //15mb
         ];
     }
 
@@ -65,18 +67,14 @@ class Imprestsurrendercard extends Model
         ];
     }
 
-    public function getLines($No){
+    public function getLines($No)
+    {
         $service = Yii::$app->params['ServiceName']['ImprestRequestLine'];
         $filter = [
             'Request_No' => $No,
         ];
 
         $lines = Yii::$app->navhelper->getData($service, $filter);
-       return $lines;
-
-
+        return $lines;
     }
-
-
-
 }

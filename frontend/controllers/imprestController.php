@@ -1087,7 +1087,7 @@ class ImprestController extends Controller
                 $metadata = [
                     'Application' => $parentDocument->No,
                     'Employee' => $parentDocument->Employee_No,
-                    'Leavetype' => 'Imprest - ' . $parentDocument->Purpose,
+                    'Leavetype' => 'Imprest - ' . !empty($parentDocument->Purpose) ?? '',
                 ];
             }
             Yii::$app->session->set('metadata', $metadata);

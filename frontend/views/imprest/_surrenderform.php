@@ -88,7 +88,8 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                             <?= ($model->Request_For == 'Other') ? $form->field($model, 'Employee_No')->dropDownList($employees, ['prompt' => 'Select']) : '' ?>
                             <?= $form->field($model, 'Employee_Name')->textInput(['readonly' => true, 'disabled' => true]) ?>
                             <?= $form->field($model, 'Imprest_No')->dropDownList($imprests, ['prompt' => 'select..']) ?>
-                            <?= $form->field($model, 'Purpose')->textInput(['readonly' => true, 'disabled' => true]) ?>
+                            <?= $form->field($model, 'Purpose')->textInput(['readonly' => true, 'disabled' => true])
+                            ?>
                             <?= $form->field($model, 'attachment')->fileInput(['accept' => 'application/pdf']) ?>
                             <?= '<p><span>Employee Balance</span> ' . Html::a($model->Employee_Balance, '#');
                             '</p>' ?>
@@ -336,6 +337,11 @@ $script = <<<JS
     });
 
    
+    /**Update Purpose */
+
+    $('#imprestsurrendercard-purpose').change((e) => {
+        globalFieldUpdate('Imprestsurrendercard','imprest','Purpose', e,[],'ImprestSurrenderCard');
+    }); 
      
      /*Set Program and Department dimension */
      
