@@ -498,12 +498,10 @@ $script = <<<JS
 
     $('#imprestcard-attachment').change(function(e){
           globalUpload('LeaveAttachments','Imprestcard','attachment','ImprestRequestCard');
-          setTimeout(()=>{ location.reload(true)}, 3000)
     });
 
     $('#select_multiple').change(function(e){
           globalUploadMultiple('LeaveAttachments','Imprestcard','imprest','ImprestRequestCard');
-          setTimeout(()=>{ location.reload(true)}, 3000)
     });
     
       /* Add Line */

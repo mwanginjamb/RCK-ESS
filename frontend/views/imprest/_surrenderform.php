@@ -24,7 +24,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                 'data' => [
                     'confirm' => 'Are you sure you want to send imprest request for approval?',
                     'params' => [
-                        'No' => $_GET['No'],
+                        'No' => $model->No,
                         'employeeNo' => Yii::$app->user->identity->{'Employee_No'},
                     ],
                     'method' => 'get',
@@ -39,7 +39,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                 'data' => [
                     'confirm' => 'Are you sure you want to cancel imprest approval request?',
                     'params' => [
-                        'No' => $_GET['No'],
+                        'No' => $model->No,
                     ],
                     'method' => 'get',
                 ],
@@ -328,12 +328,12 @@ $script = <<<JS
 
     $('#imprestsurrendercard-attachment').change(function(e){
           globalUpload('LeaveAttachments','Imprestsurrendercard','attachment','ImprestSurrenderCard');
-          setTimeout(()=>{ location.reload(true)}, 3000)
+         // setTimeout(()=>{ location.reload(true)}, 3000)
     });
 
     $('#imprestsurrendercard-imprest_no').change((e) => {
         globalFieldUpdate('Imprestsurrendercard','imprest','Imprest_No', e,[],'ImprestSurrenderCard');
-        setTimeout(()=>{ location.reload(true)}, 3000)
+        //setTimeout(()=>{ location.reload(true)}, 3000)
     });
 
    

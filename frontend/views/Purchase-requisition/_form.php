@@ -341,12 +341,12 @@ $script = <<<JS
     //Upload Damn File
     $('#purchaserequisition-attachment').change(function(e){
           globalUpload('LeaveAttachments','purchaserequisition','attachment','PurchaseRequisitionCard');    
-          setTimeout(()=>{ location.reload(true)}, 3000);
+          // setTimeout(()=>{ location.reload(true)}, 3000);
     });
 
     $('#select_multiple').change(function(e){
           globalUploadMultiple('LeaveAttachments','purchaserequisition','purchase-requisition','PurchaseRequisitionCard');
-          setTimeout(()=>{ location.reload(true)}, 1500);
+         // setTimeout(()=>{ location.reload(true)}, 1500);
     });
 
  // Trigger Creation of a line

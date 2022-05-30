@@ -278,7 +278,6 @@ function globalFieldUpdate(entity, controller = false, fieldName, ev, autoPopula
 
 
   if (Key.length) {
-
     $.post(url, { fieldValue: fieldValue, 'Key': Key, 'service': service }).done(function (msg) {
 
       console.log('Original Result ..................');
@@ -378,11 +377,12 @@ function requestStateUpdater(fieldParentNode, notificationType, msg = '') {
 // Global Uploader
 
 async function globalUpload(attachmentService, entity, fieldName, documentService = false) {
-
+  const formField = '.field-' + entity.toLowerCase() + '-' + fieldName.toLowerCase();
   const model = entity.toLowerCase();
   const key = document.querySelector(`#${model}-key`).value;
   const fileInput = document.querySelector(`#${model}-${fieldName}`);
   let endPoint = './upload/';
+  let error = false;
   const navPayload = {
     "Key": key,
     "Service": attachmentService,
@@ -396,6 +396,26 @@ async function globalUpload(attachmentService, entity, fieldName, documentServic
 
 
   console.log(fileInput.files);
+  // Validate file you are uploading
+  let file = fileInput.files[0];
+  console.log(file);
+  if (!['application/pdf'].includes(file.type)) {
+    console.log(`We require only PDFs: ${file.name} is of type: ${file.type}`);
+    error = `<div class="text text-danger">We require only PDFs: ${file.name} is of type: ${file.type}</div>`;
+    msg = `We require only PDFs: ${file.name} is of type: ${file.type}`;
+  } else { // Create request payload and upload
+    formData.append('attachments[]', file);
+  }
+
+  if (error) {
+    notifyError(formField, msg);
+    _(`#{model}-${fieldName}`).value = '';
+    Toast.fire({
+      type: 'error',
+      title: error
+    })
+    return;
+  }
 
 
   try {
@@ -430,10 +450,16 @@ async function globalUpload(attachmentService, entity, fieldName, documentServic
     console.log(NavResp);
     console.info(navReq.ok);
     if (navReq.ok) {
+      notifySuccess(formField, 'Attachment Uploaded Successfully.');
       Toast.fire({
         type: 'success',
         title: 'Attachment uploaded Successfully.'
       });
+      // Reload
+      setTimeout(() => {
+        console.log(`Trying to reload.`);
+        location.reload(true)
+      }, 1000)
     } else {
       Toast.fire({
         type: 'error',
@@ -455,7 +481,7 @@ function _(element) {
 
 // Upload multiple Files
 async function globalUploadMultiple(attachmentService, entity, route, documentService = false) {
-
+  const formField = '.field-select_multiple';
   const model = entity.toLowerCase();
   const key = _(`${model}-key`).value;
   let endPoint = _('absolute').value + `${route}/upload-multiple`;
@@ -540,6 +566,24 @@ async function globalUploadMultiple(attachmentService, entity, route, documentSe
 
     console.log(`Data Request......................`);
     console.log(res);
+
+    if (Requesto.ok) {
+      notifySuccess(formField, 'Attachments Uploaded Successfully.');
+      Toast.fire({
+        type: 'success',
+        title: 'Attachment uploaded Successfully.'
+      });
+      // Reload
+      setTimeout(() => {
+        console.log(`Trying to reload.`);
+        location.reload(true)
+      }, 1000)
+    } else {
+      Toast.fire({
+        type: 'error',
+        title: 'Attachment could not be uploaded.'
+      })
+    }
 
 
     ajax_request.addEventListener('error', (e) => {

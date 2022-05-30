@@ -854,11 +854,11 @@ class ImprestController extends Controller
 
         if (!is_string($result)) {
             Yii::$app->session->setFlash('success', 'Imprest Request Cancelled Successfully.', true);
-            return $this->redirect(['view', 'No' => $No]);
+            return $this->redirect(['index']);
         } else {
 
             Yii::$app->session->setFlash('error', 'Error Cancelling Imprest Approval Request.  : ' . $result);
-            return $this->redirect(['view', 'No' => $No]);
+            return $this->redirect(['index']);
         }
     }
 

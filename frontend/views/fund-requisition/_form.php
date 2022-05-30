@@ -344,7 +344,7 @@ $('.add').on('click',function(e){
 
     $('#fundrequisition-attachment').change(function(e){
           globalUpload('LeaveAttachments','fundrequisition','attachment','AllowanceRequestCard');
-          setTimeout(()=>{ location.reload(true)}, 3000);
+          // setTimeout(()=>{ location.reload(true)}, 3000);
     });
       
 
