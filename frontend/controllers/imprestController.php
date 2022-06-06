@@ -418,6 +418,8 @@ class ImprestController extends Controller
 
     public function actionRead()
     {
+
+        exit(Yii::$app->recruitment->download());
         $path = Yii::$app->request->post('path');
         $No = Yii::$app->request->post('No');
         $binary = file_get_contents($path);
