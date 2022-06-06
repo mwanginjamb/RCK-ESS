@@ -877,8 +877,11 @@ class FundRequisitionController extends Controller
     {
         $path = Yii::$app->request->post('path');
         $No = Yii::$app->request->post('No');
-        $binary = file_get_contents($path);
-        $content = chunk_split(base64_encode($binary));
+        $file = basename($path);
+        $library = env('SP_LIBRARY');
+        $SP_RESOURCE_PATH = '/sites/RCKIntranet/' . $library . '/' . $file;
+        $content = Yii::$app->recruitment->download($SP_RESOURCE_PATH);
+
         return $this->render('read', [
             'path' => $path,
             'No' => $No,

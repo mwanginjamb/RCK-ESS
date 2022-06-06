@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: HP ELITEBOOK 840 G5
@@ -11,6 +12,7 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\AgendaDocument */
+
 $this->title = 'Update Leave Application';
 $this->params['breadcrumbs'][] = ['label' => 'Leaves', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => 'Update Request', 'url' => ['update']];
@@ -23,11 +25,12 @@ $model->Start_Date = date('m-d-Y', strtotime($now.' + 2 days'));*/
 
     <!--<h1><?= Html::encode($this->title) ?></h1>-->
 
-    <?= $this->render('_form',[
+    <?= $this->render('_form', [
         'model' => $model,
         'leavetypes' => $leavetypes,
         'employees' => $employees,
         'Attachmentmodel' => new \frontend\models\Leaveattachment(),
+        'attachments' => $attachments
     ]) ?>
 
 </div>

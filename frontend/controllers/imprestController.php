@@ -268,20 +268,6 @@ class ImprestController extends Controller
         }
 
 
-        // Yii::$app->recruitment->printrr($model);
-        if (Yii::$app->request->isAjax) {
-            return $this->renderAjax('updatesurrender', [
-                'model' => $model,
-                'employees' => $this->getEmployees(),
-                'programs' => $this->getPrograms(),
-                'departments' => $this->getDepartments(),
-                'currencies' => Yii::$app->navhelper->dropdown('Currencies', 'Code', 'Description'),
-                'imprests' => $this->getmyimprests(),
-                'receipts' => $this->getimprestreceipts($model->No),
-                'surrender' =>  $result
-
-            ]);
-        }
 
         return $this->render('updatesurrender', [
             'model' => $model,
@@ -419,11 +405,13 @@ class ImprestController extends Controller
     public function actionRead()
     {
 
-        exit(Yii::$app->recruitment->download());
         $path = Yii::$app->request->post('path');
         $No = Yii::$app->request->post('No');
-        $binary = file_get_contents($path);
-        $content = chunk_split(base64_encode($binary));
+        $file = basename($path);
+        $library = env('SP_LIBRARY');
+        $SP_RESOURCE_PATH = '/sites/RCKIntranet/' . $library . '/' . $file;
+        $content = Yii::$app->recruitment->download($SP_RESOURCE_PATH);
+
         return $this->render('read', [
             'path' => $path,
             'No' => $No,

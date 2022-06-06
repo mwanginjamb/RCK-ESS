@@ -429,6 +429,8 @@ async function globalUpload(attachmentService, entity, fieldName, documentServic
       });
 
     const Response = await Request.json();
+    // reset file input
+    fileInput.value = '';
     console.log(`File Upload Request`);
     console.log(Response);
 
