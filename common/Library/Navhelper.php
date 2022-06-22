@@ -1509,7 +1509,7 @@ class Navhelper extends Component
 
                     $list[] = [
                         'Code' => $item->$from,
-                        'Desc' => strlen($ValuesToAppend) ? $item->$to . $ValuesToAppend : $item->$to
+                        'Desc' => strlen($ValuesToAppend) ? $item->$to . ' - ' . $ValuesToAppend : $item->$to
                     ];
                 }
             }

@@ -607,7 +607,7 @@ class ImprestController extends Controller
             'Surrender_Booked' => false
         ];
 
-        $results = \Yii::$app->navhelper->dropdown($service, 'No', 'Imprest_Amount', $filter, ['Purpose']);
+        $results = \Yii::$app->navhelper->dropdown($service, 'No', 'Imprest_Amount', $filter, ['Purpose', 'No']);
 
         return $results;
     }
