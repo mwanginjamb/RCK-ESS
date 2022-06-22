@@ -202,8 +202,8 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
                                         <td data-key="<?= $line->Key ?>" data-name="Donor_No" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'donors',{'Grant_No': 'grant','Amount':'amount'})" data-validate="Donor_Name" class="text-center"><?= !empty($line->Donor_No) ? $line->Donor_No : '' ?></td>
                                         <td class="text-center" id="Donor_Name"><?= !empty($line->Donor_Name) ? $line->Donor_Name : '' ?></td>
-                                        <td class="objective" data-key="<?= $obj->Key ?>" data-name="Objective_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'objectives',{'Grant_No': 'grant'})"><?= !empty($obj->Objective_Code) ? $obj->Objective_Code : '' ?></td>
-                                        <td data-key="<?= $obj->Key ?>" data-name="Activity_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'activities',{'Grant_No': 'grant','Objective_Code': 'objective'})"><?= !empty($obj->Activity_Code) ? $obj->Activity_Code : '' ?></td>
+                                        <td class="objective" data-key="<?= $obj->Key ?>" data-name="Objective_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'objectives',{'Grant_No': 'grant'})"><?= !empty($line->Objective_Code) ? $line->Objective_Code : '' ?></td>
+                                        <td data-key="<?= $line->Key ?>" data-name="Activity_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'activities',{'Grant_No': 'grant','Objective_Code': 'objective'})"><?= !empty($line->Activity_Code) ? $line->Activity_Code : '' ?></td>
 
                                     </tr>
                                 <?php endforeach; ?>
