@@ -607,21 +607,9 @@ class ImprestController extends Controller
             'Surrender_Booked' => false
         ];
 
-        $results = \Yii::$app->navhelper->getData($service, $filter);
+        $results = \Yii::$app->navhelper->dropdown($service, 'No', 'Imprest_Amount', $filter, ['Purpose']);
 
-        $result = [];
-        $i = 0;
-        if (is_array($results)) {
-            foreach ($results as $res) {
-                $result[$i] = [
-                    'No' => $res->No,
-                    'detail' => $res->No . ' - ' . $res->Imprest_Amount
-                ];
-                $i++;
-            }
-        }
-        // Yii::$app->recruitment->printrr(ArrayHelper::map($result,'No','detail'));
-        return ArrayHelper::map($result, 'No', 'detail');
+        return $results;
     }
 
     /* Get My Posted Imprest Receipts */
