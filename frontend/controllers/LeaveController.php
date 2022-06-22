@@ -112,6 +112,7 @@ class LeaveController extends Controller
             //Yii::$app->recruitment->printrr($request);
             if (is_object($request)) {
                 Yii::$app->navhelper->loadmodel($request, $model);
+                return $this->redirect(['update', 'No' => $model->Application_No]);
             } else {
                 Yii::$app->session->setFlash('error', 'Error : ' . $request, true);
                 return $this->redirect(['index']);
