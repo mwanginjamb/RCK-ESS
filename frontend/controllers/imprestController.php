@@ -608,7 +608,6 @@ class ImprestController extends Controller
         ];
 
         $results = \Yii::$app->navhelper->dropdown($service, 'No', 'Imprest_Amount', $filter, ['Purpose', 'No']);
-
         return $results;
     }
 

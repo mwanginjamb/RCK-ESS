@@ -223,6 +223,7 @@ if (Yii::$app->session->hasFlash('success')) {
                                     <td class="text-info"><b>Transaction_Type</b></td>
 
                                     <td><b>Account_Name</b></td>
+                                    <td><b>Account No</b></td>
                                     <td class="text-info"><b>Description</b></td>
                                     <td class="text-info"><b>Amount</b></td>
                                     <td><b>Amount_LCY</b></td>
@@ -235,6 +236,8 @@ if (Yii::$app->session->hasFlash('success')) {
                                     <td class="text-info text-center text-bold border border-info"><b>Objective_Code</b></td>
                                     <td class="text-info text-center text-bold border border-info"><b>Activity_Code</b></td>
 
+
+                                    <td class="text-info text-center text-bold border border-info">Partner Code</td>
 
                                     <td><b>Actions</b></td>
 
@@ -255,7 +258,8 @@ if (Yii::$app->session->hasFlash('success')) {
                                         <td><?= !empty($obj->Line_No) ? $obj->Line_No : '' ?></td>
                                         <td data-key="<?= $obj->Key ?>" data-name="Transaction_Type" data-service="ImprestRequestLine" ondblclick="addDropDown(this,'transactiontypes')" data-validate="Account_Name"><?= !empty($obj->Transaction_Type) ? $obj->Transaction_Type : '' ?></td>
                                         <td class="Account_Name"><?= !empty($obj->Account_Name) ? $obj->Account_Name : '' ?></td>
-                                        <td data-key="<?= $obj->Key ?>" data-name="Description" data-service="ImprestRequestLine" ondblclick="addTextarea(this)"><?= !empty($obj->Description) ? $obj->Description : '' ?></td>
+                                        <td class="Account_No"><?= !empty($obj->Account_No) ? $obj->Account_No : '' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="Description" data-service="ImprestRequestLine" ondblclick="addTextarea(this)" data-validate="Account_No"><?= !empty($obj->Description) ? $obj->Description : '' ?></td>
                                         <td data-key="<?= $obj->Key ?>" data-name="Amount" data-service="ImprestRequestLine" ondblclick="addInput(this,'number')" data-validate="Amount_LCY"><?= !empty($obj->Amount) ? $obj->Amount : '' ?></td>
                                         <td class="Amount_LCY"><?= !empty($obj->Amount_LCY) ? $obj->Amount_LCY : '' ?></td>
                                         <td data-key="<?= $obj->Key ?>" data-name="Global_Dimension_1_Code" data-service="ImprestRequestLine" ondblclick="addDropDown(this,'dimension1')"><?= !empty($obj->Global_Dimension_1_Code) ? $obj->Global_Dimension_1_Code : '' ?></td>
@@ -265,8 +269,10 @@ if (Yii::$app->session->hasFlash('success')) {
                                         <td data-key="<?= $obj->Key ?>" data-name="Donor_No" data-service="ImprestRequestLine" ondblclick="addDropDown(this,'donors',{'Grant_No': 'grant'})" data-validate="Donor_Name" class="text-center"><?= !empty($obj->Donor_No) ? $obj->Donor_No : '' ?></td>
                                         <td class="text-center Donor_Name"><?= !empty($obj->Donor_Name) ? $obj->Donor_Name : '' ?></td>
                                         <td class="objective" data-key="<?= $obj->Key ?>" data-name="Objective_Code" data-service="ImprestRequestLine" ondblclick="addDropDown(this,'objectives',{'Grant_No': 'grant'})"><?= !empty($obj->Objective_Code) ? $obj->Objective_Code : '' ?></td>
-                                        <td data-key="<?= $obj->Key ?>" data-name="Activity_Code" data-service="ImprestRequestLine" ondblclick="addDropDown(this,'activities',{'Grant_No': 'grant','Objective_Code': 'objective'})"><?= !empty($obj->Activity_Code) ? $obj->Activity_Code : '' ?></td>
+                                        <td class="activity" data-key="<?= $obj->Key ?>" data-name="Activity_Code" data-service="ImprestRequestLine" ondblclick="addDropDown(this,'activities',{'Grant_No': 'grant','Objective_Code': 'objective'})" data-validate="Account_No"><?= !empty($obj->Activity_Code) ? $obj->Activity_Code : '' ?></td>
 
+
+                                        <td data-key="<?= $obj->Key ?>" data-name="Partner_Code" data-service="ImprestRequestLine" ondblclick="addDropDown(this,'partners',{'Grant_No': 'grant','Account_No': 'Account_No','Activity_Code':'activity'})"><?= !empty($obj->Partner_Code) ? $obj->Partner_Code : '' ?></td>
                                         <td><?= $deleteLink ?></td>
                                     </tr>
                                 <?php endforeach; ?>

@@ -184,6 +184,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                     <!-- <td class=""><b>Donor Name</b></td> -->
                                     <td class="text text-info"><b>Objective Code</b></td>
                                     <td class="text text-info"><b>Activity Code</b></td>
+                                    <td class="text text-info"><b>Partner Code</b></td>
 
                                     <td>Action</td>
                                 </tr>
@@ -229,8 +230,8 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                         <!-- <td class="Donor_Name"><?php //!empty($obj->Donor_Name)?$obj->Donor_Name:'' 
                                                                     ?></td> -->
                                         <td class="objective" data-key="<?= $obj->Key ?>" data-name="Objective_Code" data-service="PurchaseRequisitionLine" ondblclick="addDropDown(this,'objectives',{'Grant_No': 'grant'})"><?= !empty($obj->Objective_Code) ? $obj->Objective_Code : '' ?></td>
-                                        <td data-key="<?= $obj->Key ?>" data-name="Activity_Code" data-service="PurchaseRequisitionLine" ondblclick="addDropDown(this,'activities',{'Grant_No': 'grant','Objective_Code': 'objective'})"><?= !empty($obj->Activity_Code) ? $obj->Activity_Code : '' ?></td>
-
+                                        <td class="activity" data-key="<?= $obj->Key ?>" data-name="Activity_Code" data-service="PurchaseRequisitionLine" ondblclick="addDropDown(this,'activities',{'Grant_No': 'grant','Objective_Code': 'objective'})"><?= !empty($obj->Activity_Code) ? $obj->Activity_Code : '' ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="Partner_Code" data-service="PurchaseRequisitionLine" ondblclick="addDropDown(this,'partners',{'Grant_No': 'grant','Activity_Code':'activity'})"><?= !empty($obj->Partner_Code) ? $obj->Partner_Code : '' ?></td>
                                         <td><?= $delete ?></td>
                                     </tr>
                                 <?php endforeach; ?>

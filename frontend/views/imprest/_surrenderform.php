@@ -175,6 +175,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                         <table class="table table-bordered">
                             <thead>
                                 <td class="text-center text-bold">Account_Name</td>
+                                <td><b>Account No</b></td>
                                 <td class="text-center text-bold">Description</td>
                                 <td class="text-center text-bold border border-info">Actual Spend</td>
                                 <td class="text-center text-bold ">Imprest Amount</td>
@@ -186,13 +187,15 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                 <td class="text-center text-bold">Donor Name</td>
                                 <td class="text-center text-bold border border-info"><b>Objective Code</b></td>
                                 <td class="text-center text-bold border border-info"><b>Activity Code</b></td>
-
+                                <td class="text-center text-bold border"><b>A/C No</b></td>
+                                <td class="text-center text-bold border border-info">Partner Code</td>
 
                             </thead>
                             <tbody>
                                 <?php foreach ($surrender->Imprest_Surrender_Line->Imprest_Surrender_Line as $line) : ?>
                                     <tr>
                                         <td class="text-center"><?= !empty($line->Account_Name) ? $line->Account_Name : '' ?></td>
+                                        <td class="Account_No"><?= !empty($obj->Account_No) ? $obj->Account_No : '' ?></td>
                                         <td class="text-center"><?= !empty($line->Description) ? $line->Description : '' ?></td>
                                         <td data-key="<?= $line->Key ?>" data-name="Amount" data-service="ImprestSurrenderLine" ondblclick="addInput(this,'number')"><?= !empty($line->Amount) ? $line->Amount : '' ?></td>
                                         <td class="text-center amount"><?= !empty($line->Imprest_Amount) ? $line->Imprest_Amount : '' ?></td>
@@ -203,8 +206,10 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                         <td data-key="<?= $line->Key ?>" data-name="Donor_No" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'donors',{'Grant_No': 'grant','Amount':'amount'})" data-validate="Donor_Name" class="text-center"><?= !empty($line->Donor_No) ? $line->Donor_No : '' ?></td>
                                         <td class="text-center" id="Donor_Name"><?= !empty($line->Donor_Name) ? $line->Donor_Name : '' ?></td>
                                         <td class="objective" data-key="<?= $line->Key ?>" data-name="Objective_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'objectives',{'Grant_No': 'grant'})"><?= !empty($line->Objective_Code) ? $line->Objective_Code : '' ?></td>
-                                        <td data-key="<?= $line->Key ?>" data-name="Activity_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'activities',{'Grant_No': 'grant','Objective_Code': 'objective'})"><?= !empty($line->Activity_Code) ? $line->Activity_Code : '' ?></td>
-
+                                        <td class="activity" data-key="<?= $line->Key ?>" data-name="Activity_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'activities',{'Grant_No': 'grant','Objective_Code': 'objective'})" data-validate="Account_No"><?= !empty($line->Activity_Code) ? $line->Activity_Code : '' ?></td>
+                                        <!-- Partener code : Account No, Grant No, Activity Code -->
+                                        <td class="account"><?= $line->Account_No ?></td>
+                                        <td data-key="<?= $obj->Key ?>" data-name="Partner_Code" data-service="ImprestRequestLine" ondblclick="addDropDown(this,'partners',{'Grant_No': 'grant','Account_No': 'Account_No','Activity_Code':'activity'})"><?= !empty($obj->Partner_Code) ? $obj->Partner_Code : '' ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
