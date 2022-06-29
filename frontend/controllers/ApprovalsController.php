@@ -406,6 +406,12 @@ class ApprovalsController extends Controller
                     $detailsLink = Html::a('View Details', ['timesheet/view', 'No' => $app->Document_No, 'Approval' => true], ['class' => 'btn btn-outline-info btn-xs', 'target' => '_blank']);
                 } elseif ($app->Document_Type == 'Taxi_Request') {
                     $detailsLink = Html::a('View Details', ['taxie/view', 'No' => $app->Document_No, 'Approval' => true], ['class' => 'btn btn-outline-info btn-xs', 'target' => '_blank']);
+                } elseif ($app->Document_Type == 'Requisition_Header') {
+                    $detailsLink = Html::a('View Details', ['purchase-requisition/view', 'No' => $app->Document_No, 'Approval' => true], ['class' => 'btn btn-outline-info btn-xs', 'target' => '_blank']);
+                } elseif ($app->Document_Type == 'V_Booking') {
+                    $detailsLink = Html::a('View Details', ['vehiclerequisition/view', 'No' => $app->Document_No, 'Approval' => true], ['class' => 'btn btn-outline-info btn-xs', 'target' => '_blank']);
+                } elseif ($app->Document_Type == 'V_Repair') {
+                    $detailsLink = Html::a('View Details', ['repair-requisition/view', 'No' => $app->Document_No, 'Approval' => true], ['class' => 'btn btn-outline-info btn-xs', 'target' => '_blank']);
                 } else { //Employee_Exit
                     $detailsLink = '';
                 }
