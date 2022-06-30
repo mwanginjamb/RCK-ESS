@@ -195,7 +195,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                 <?php foreach ($surrender->Imprest_Surrender_Line->Imprest_Surrender_Line as $line) : ?>
                                     <tr>
                                         <td class="text-center"><?= !empty($line->Account_Name) ? $line->Account_Name : '' ?></td>
-                                        <td class="Account_No"><?= !empty($obj->Account_No) ? $obj->Account_No : '' ?></td>
+                                        <td class="Account_No"><?= !empty($line->Account_No) ? $line->Account_No : '' ?></td>
                                         <td class="text-center"><?= !empty($line->Description) ? $line->Description : '' ?></td>
                                         <td data-key="<?= $line->Key ?>" data-name="Amount" data-service="ImprestSurrenderLine" ondblclick="addInput(this,'number')"><?= !empty($line->Amount) ? $line->Amount : '' ?></td>
                                         <td class="text-center amount"><?= !empty($line->Imprest_Amount) ? $line->Imprest_Amount : '' ?></td>
@@ -209,7 +209,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                         <td class="activity" data-key="<?= $line->Key ?>" data-name="Activity_Code" data-service="ImprestSurrenderLine" ondblclick="addDropDown(this,'activities',{'Grant_No': 'grant','Objective_Code': 'objective'})" data-validate="Account_No"><?= !empty($line->Activity_Code) ? $line->Activity_Code : '' ?></td>
                                         <!-- Partener code : Account No, Grant No, Activity Code -->
                                         <td class="account"><?= $line->Account_No ?></td>
-                                        <td data-key="<?= $obj->Key ?>" data-name="Partner_Code" data-service="ImprestRequestLine" ondblclick="addDropDown(this,'partners',{'Grant_No': 'grant','Account_No': 'Account_No','Activity_Code':'activity'})"><?= !empty($obj->Partner_Code) ? $obj->Partner_Code : '' ?></td>
+                                        <td data-key="<?= $line->Key ?>" data-name="Partner_Code" data-service="ImprestRequestLine" ondblclick="addDropDown(this,'partners',{'Grant_No': 'grant','Account_No': 'Account_No','Activity_Code':'activity'})"><?= !empty($line->Partner_Code) ? $line->Partner_Code : '' ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
