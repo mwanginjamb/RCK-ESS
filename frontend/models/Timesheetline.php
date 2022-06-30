@@ -33,6 +33,7 @@ class Timesheetline extends Model
     public $Line_No;
 
     public $isNewRecord;
+    public $Non_Shared_Grant;
 
 
 
