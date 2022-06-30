@@ -111,6 +111,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                         </div>
                         <div class="col-md-6">
                             <?= $form->field($model, 'Department')->textInput(['readonly' => true, 'disabled' => true]) ?>
+                            <?= $form->field($model, 'Location_Code')->textInput(['readonly' => true, 'disabled' => true]) ?>
                             <?= $form->field($model, 'Booking_Requisition_Status')->textInput(['readonly' => true, 'disabled' => true]) ?>
                             <?= $form->field($model, 'Booked_Status')->textInput(['readonly' => true, 'disabled' => true]) ?>
 
@@ -136,7 +137,11 @@ Yii::$app->session->set('isSupervisor',false);*/
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
-                    <?= ($model->Booking_Requisition_Status == 'New') ? Html::a('<i class="fa fa-plus-square"></i> Add Line', ['vehiclerequisitionline/create', 'No' => $model->Booking_Requisition_No], [
+                    <?= ($model->Booking_Requisition_Status == 'New') ? Html::a('<i class="fa fa-plus-square"></i> Add Line', [
+                        'vehiclerequisitionline/create',
+                        'No' => $model->Booking_Requisition_No,
+                        'Location' => $model->Location_Code
+                    ], [
                         'class' => 'add-line btn btn-outline-info',
                     ]) : '' ?>
                 </div>
@@ -166,7 +171,11 @@ Yii::$app->session->set('isSupervisor',false);*/
                             // print '<pre>'; print_r($model->getObjectives()); exit;
 
                             foreach ($model->lines as $obj) :
-                                $updateLink = Html::a('<i class="fa fa-edit"></i>', ['vehiclerequisitionline/update', 'No' => $obj->Booking_Requisition_No], ['class' => 'update-objective btn btn-outline-info btn-xs']);
+                                $updateLink = Html::a('<i class="fa fa-edit"></i>', [
+                                    'vehiclerequisitionline/update',
+                                    'No' => $obj->Booking_Requisition_No,
+                                    'Location' => $model->Location_Code
+                                ], ['class' => 'update-objective btn btn-outline-info btn-xs']);
                                 $deleteLink = Html::a('<i class="fa fa-trash"></i>', ['vehiclerequisitionline/delete', 'Key' => $obj->Key], ['class' => 'delete btn btn-outline-danger btn-xs']);
 
                                 $Start_Time = !empty($obj->Start_Time) ? date('H:i:s', strtotime($obj->Start_Time)) : '';
