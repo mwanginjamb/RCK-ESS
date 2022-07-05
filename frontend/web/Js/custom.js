@@ -233,7 +233,7 @@ function notifySuccess(parentClassField, message) {
   span.classList.add('small');
   span.innerText = message;
 
-  parent.append(span);
+  parent.appendChild(span);
 }
 
 function notifyError(parentClassField, message) {
@@ -245,7 +245,7 @@ function notifyError(parentClassField, message) {
   span.classList.add('small');
   span.innerText = message;
 
-  parent.append(span);
+  parent.appendChild(span);
 }
 
 // Function to do ajax field level updating
@@ -286,6 +286,9 @@ function globalFieldUpdate(entity, controller = false, fieldName, ev, autoPopula
       if (msg.Start_Time || msg.End_Time) {
         msg = { ...msg, Start_Time: sanitizeTime(msg.Start_Time), End_Time: sanitizeTime(msg.End_Time) };
       }
+
+      console.log('Updated Result ..................');
+      console.log(msg);
 
       // Populate relevant Fields
       $(keyField).val(msg.Key);
