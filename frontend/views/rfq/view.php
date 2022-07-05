@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: HP ELITEBOOK 840 G5
@@ -8,8 +9,9 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-$no = property_exists($model[0],'RFQ_No')?$model[0]->RFQ_No:'';
-$this->title = 'RFQ Evalution - '.$no;
+
+$no = property_exists($model[0], 'RFQ_No') ? $model[0]->RFQ_No : '';
+$this->title = 'RFQ Evalution - ' . $no;
 $this->params['breadcrumbs'][] = ['label' => 'Sent RFQ List   ', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => 'RFQ Commitee Evaluation ', 'url' => ['#']];
 $absoluteUrl = \yii\helpers\Url::home(true);
@@ -24,115 +26,119 @@ Yii::$app->session->set('isSupervisor',false);*/
 <div class="row">
     <div class="col-md-4">
 
-       
 
 
-      
+
+
     </div>
 </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card-info">
-                <div class="card-header">
-                    <h3>RFQ Commitee Evaluation </h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card-info">
+            <div class="card-header">
+                <h3>RFQ Commitee Evaluation </h3>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+
+
+
+
+                <h3 class="card-title">RFQ No : <?= $no ?></h3>
+
+
+
+                <?php
+                if (Yii::$app->session->hasFlash('success')) {
+                    print ' <div class="alert alert-success alert-dismissable">
+                                 ';
+                    echo Yii::$app->session->getFlash('success');
+                    print '</div>';
+                } else if (Yii::$app->session->hasFlash('error')) {
+                    print ' <div class="alert alert-danger alert-dismissable">
+                                 ';
+                    echo Yii::$app->session->getFlash('error');
+                    print '</div>';
+                }
+                ?>
+            </div>
+            <div class="card-body">
+
+
+                <?php $form = ActiveForm::begin(); ?>
+
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-bordered w-100">
+                            <thead>
+                                <tr>
+                                    <td class="font-weight-bold">Description</td>
+                                    <td class="font-weight-bold">Vendor Name</td>
+                                    <td class="font-weight-bold">Committee Member ID</td>
+                                    <td class="font-weight-bold">Quoted Amount (Ksh.)</td>
+                                    <td class="font-weight-bold">Award</td>
+                                    <td class="font-weight-bold">Remarks</td>
+                                    <td class="font-weight-bold">Action</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if (is_string($model)) : ?>
+                                    <tr>
+                                        <td colspan="6" align="center"><?= $model ?></td>
+                                    </tr>
+
+                                    <?php elseif (is_array($model)) :
+
+                                    foreach ($model as $m) :
+                                        if (empty($m->Vendor_No)) {
+                                            continue;
+                                        }
+                                    ?>
+                                        <tr>
+                                            <td><?= $m->Description ?? '' ?></td>
+                                            <td><?= $m->Vendor_Name ?? '' ?></td>
+                                            <td><?= $m->Committee_Member_ID ?? '' ?></td>
+                                            <td><?= number_format($m->Quoted_Amount) ?></td>
+                                            <td><?= Html::checkbox('Award', $m->Award, ['rev' => $m->Key, 'id' => 'Award_' . $m->Vendor_No]) ?></td>
+                                            <td><?= Html::textarea('Remarks', property_exists($m, 'Remarks') ? $m->Remarks : '', ['rows' => 2, 'id' => 'Remarks_' . $m->Vendor_No]) ?></td>
+                                            <td><?= Html::button('<i class="fa fa-check"></i>Submit', ['class' => 'btn btn-success', 'id' => $m->Vendor_No, 'rel' => $m->Key]) ?></td>
+                                        </tr>
+
+                                <?php
+                                    endforeach;
+                                endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
+
+
+
+                <?php ActiveForm::end(); ?>
 
 
 
             </div>
         </div>
-    </div>
+        <!--end details card-->
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
+        <!--Lines -->
 
 
 
-
-                    <h3 class="card-title">RFQ No : <?= $no ?></h3>
-
-
-
-                    <?php
-                    if(Yii::$app->session->hasFlash('success')){
-                        print ' <div class="alert alert-success alert-dismissable">
-                                 ';
-                        echo Yii::$app->session->getFlash('success');
-                        print '</div>';
-                    }else if(Yii::$app->session->hasFlash('error')){
-                        print ' <div class="alert alert-danger alert-dismissable">
-                                 ';
-                        echo Yii::$app->session->getFlash('error');
-                        print '</div>';
-                    }
-                    ?>
-                </div>
-                <div class="card-body">
-
-
-                    <?php $form = ActiveForm::begin(); ?>
-
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <table class="table table-bordered w-100" >
-                                <thead>
-                                    <tr>
-                                        <td class="font-weight-bold">Description</td>
-                                        <td class="font-weight-bold">Vendor Name</td>
-                                        <td class="font-weight-bold">Committee Member ID</td>
-                                        <td class="font-weight-bold">Quoted Amount (Ksh.)</td>
-                                        <td class="font-weight-bold">Award</td>
-                                        <td class="font-weight-bold">Remarks</td>
-                                        <td class="font-weight-bold">Action</td>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                    <?php if(is_string($model)): ?>
-                                    <tr>
-                                        <td colspan="6" align="center"><?= $model ?></td>
-                                    </tr>
-
-                                    <?php elseif(is_array($model)): 
-                                    
-                                    foreach($model as $m):
-                                         ?>
-                                    <tr>
-                                        <td><?= $m->Description ?></td>
-                                        <td><?= $m->Vendor_Name ?></td>
-                                        <td><?=$m->Committee_Member_ID ?></td>
-                                        <td><?= number_format($m->Quoted_Amount) ?></td>
-                                        <td><?= Html::checkbox( 'Award', $m->Award, ['rev'=> $m->Key, 'id' => 'Award_'.$m->Vendor_No]) ?></td>
-                                        <td><?= Html::textarea('Remarks',property_exists($m,'Remarks')?$m->Remarks:'',['rows' => 2,'id' => 'Remarks_'.$m->Vendor_No]) ?></td>
-                                        <td><?= Html::button('<i class="fa fa-check"></i>Submit', ['class' => 'btn btn-success','id' => $m->Vendor_No, 'rel' => $m->Key ])?></td>
-                                    </tr>
-
-                                    <?php
-                                    endforeach;
-                                 endif; ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-
-
-
-                    <?php ActiveForm::end(); ?>
-
-
-
-                </div>
-            </div><!--end details card-->
-
-            <!--Lines -->
-
-           
-
-            <!--End Lines -->
+        <!--End Lines -->
 
     </div>
 
@@ -160,9 +166,9 @@ Yii::$app->session->set('isSupervisor',false);*/
     </div>
     <input type="hidden" name="url" value="<?= $absoluteUrl ?>">
 
-<?php
+    <?php
 
-$script = <<<JS
+    $script = <<<JS
 
     $(function(){
       
@@ -214,9 +220,9 @@ $script = <<<JS
         
 JS;
 
-$this->registerJs($script);
+    $this->registerJs($script);
 
-$style = <<<CSS
+    $style = <<<CSS
     p span {
         margin-right: 50%;
         font-weight: bold;
@@ -254,4 +260,4 @@ $style = <<<CSS
     }*/
 CSS;
 
-$this->registerCss($style);
+    $this->registerCss($style);
