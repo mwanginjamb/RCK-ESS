@@ -144,7 +144,7 @@ if (Yii::$app->session->hasFlash('success')) {
 
 
                             <?= $form->field($model, 'Currency_Code')->dropDownList($currencies, ['prompt' => 'Select ...', 'required' => true]) ?>
-                            <?php $form->field($model, 'Exchange_Rate')->textInput(['type' => 'number', 'required' => true]) ?>
+                            <?= $form->field($model, 'Exchange_Rate')->textInput(['readonly' => true]) ?>
 
 
 
@@ -371,6 +371,8 @@ if (Yii::$app->session->hasFlash('success')) {
 <input type="hidden" name="absolute" id="absolute" value="<?= $absoluteUrl ?>">
 <?php
 $script = <<<JS
+$('.field-imprestcard-currency_code, .field-imprestcard-exchange_rate').hide();
+showCurrency();
   // Trigger Creation of a line
   $('.add').on('click',function(e){
             e.preventDefault();
@@ -419,6 +421,18 @@ $script = <<<JS
             }
             
     });
+    
+    function showCurrency()
+    {
+       const type = $('#imprestcard-imprest_type').val();
+       console.log('Imprest Type');
+       console.log(type);
+       if(type == 'Local'){
+        $('.field-imprestcard-currency_code, .field-imprestcard-exchange_rate').hide();
+       }else{
+        $('.field-imprestcard-currency_code, .field-imprestcard-exchange_rate').show();
+       }
+    }
 
 
     $('#imprestcard-employee_no').select2();
@@ -463,7 +477,7 @@ $script = <<<JS
     // Set Currency
 
     $('#imprestcard-currency_code').change((e) => {
-        globalFieldUpdate('Imprestcard','imprest','Currency_Code', e,[],'ImprestRequestCardPortal');
+        globalFieldUpdate('Imprestcard','imprest','Currency_Code', e,['Exchange_Rate'],'ImprestRequestCardPortal');
     });
 
 
@@ -493,6 +507,7 @@ $script = <<<JS
      
 
      $('#imprestcard-imprest_type').change((e) => {
+        showCurrency();
         globalFieldUpdate('Imprestcard','imprest','Imprest_Type', e,[],'ImprestRequestCardPortal');
     });
 
