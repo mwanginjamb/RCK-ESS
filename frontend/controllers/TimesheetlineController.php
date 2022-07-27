@@ -101,7 +101,7 @@ class TimesheetlineController extends Controller
         if (Yii::$app->request->isAjax) {
             return $this->renderAjax('create', [
                 'model' => $model,
-                'grants' => Yii::$app->navhelper->dropdown('ProgramFunds', 'Grant_No', 'Program_Code', ['Employee_No' => Yii::$app->user->identity->{'Employee No_'}], ['Percentage', 'Grant_No', 'Program_Code']), //$this->getGrants()
+                'grants' => Yii::$app->navhelper->dropdown('PayrollChargeGrants', 'Grant_Code', 'Payroll_Period', ['Emp_Code' => Yii::$app->user->identity->{'Employee No_'}], ['Percentage', 'Activity_Code', 'Partner_Code', 'Period_Month']), //$this->getGrants()
 
             ]);
         }

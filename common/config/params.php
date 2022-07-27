@@ -4,15 +4,15 @@ return [
     'welcomeText' => env('WELCOME_TEXT'),
     'ClientCompany' => env('CLIENT'), //branding
     'VendorCompany' => env('VENDOR'),
-    
+
     'adminEmail' => env('SMTP_USERNAME'),
     'supportEmail' => env('SMTP_USERNAME'),
     'senderEmail' => env('SMTP_USERNAME'),
-    
+
     'senderName' => 'HRMIS',
     'user.passwordResetTokenExpire' => 3600,
-    'NavisionUsername'=> env('NAV_USERNAME'),
-    'NavisionPassword'=> env('NAV_PASSWORD'),
+    'NavisionUsername' => env('NAV_USERNAME'),
+    'NavisionPassword' => env('NAV_PASSWORD'),
 
     'authMode' => [
         'AD' => FALSE,
@@ -20,20 +20,20 @@ return [
     ],
 
 
-    'server'=> env('NAV_SERVER'),//'app-svr-dev.rbss.com',//Navision Server
-    'WebServicePort'=> env('WS_PORT'),//Nav server Port
-    'ServerInstance'=>env('SERVER_INSTANCE'),//Nav Server Instance
-    'CompanyName'=> env('NAV_COMPANY'),
+    'server' => env('NAV_SERVER'), //'app-svr-dev.rbss.com',//Navision Server
+    'WebServicePort' => env('WS_PORT'), //Nav server Port
+    'ServerInstance' => env('SERVER_INSTANCE'), //Nav Server Instance
+    'CompanyName' => env('NAV_COMPANY'),
     'DBCompanyName' => env('NAV_DB'),
-    'AdPrefix'=> '',
-    'adServer' => '', 
+    'AdPrefix' => '',
+    'adServer' => '',
 
 
     //sharepoint config
-    'sharepointUrl' => env('SP_URL'),//'https://ackads.sharepoint.com',
-    'sharepointUsername' => env('SP_USERNAME'),//'francis@ackads.onmicrosoft.com',
-    'sharepointPassword' => env('SP_PASSWORD'),// Sp password
-    'library' => env('SP_LIBRARY'),// Sharepoint Library,
+    'sharepointUrl' => env('SP_URL'), //'https://ackads.sharepoint.com',
+    'sharepointUsername' => env('SP_USERNAME'), //'francis@ackads.onmicrosoft.com',
+    'sharepointPassword' => env('SP_PASSWORD'), // Sp password
+    'library' => env('SP_LIBRARY'), // Sharepoint Library,
     'clientID' => '', // SP App Client ID
     'clientSecret' => '', // SP Client Secret
 
@@ -58,7 +58,7 @@ return [
         'EmployeeExitManagement',
         'FleetMgt', //50230
     ],
-    'ServiceName'=>[
+    'ServiceName' => [
 
         /**************************IMPREST*************************************/
         'ImprestRequestList' => 'ImprestRequestList', //64020 (Page)
@@ -75,11 +75,11 @@ return [
         'ImprestSurrenderLine' => 'ImprestSurrenderLine', // 64032 // Page
         'ImprestSurrenderCardPortal' => 'ImprestSurrenderCardPortal', //64059 (Page)
         'PostedImprestRequest' => 'PostedImprestRequest', //64026 (Page)
-        'PostedReceiptsList' => 'PostedReceiptsList',//64056 (Page)
+        'PostedReceiptsList' => 'PostedReceiptsList', //64056 (Page)
         'PortalImprestRequest' => 'PortalImprestRequest', //64048
         'CustomerLookup' => 'CustomerLookup', //33
 
-        
+
 
 
         /**************************Leave Plan*************************************/
@@ -94,7 +94,7 @@ return [
         'LeaveCard' => 'LeaveCard', //50011
         'LeaveList' => 'LeaveList', //50013
         'LeaveTypesSetup' => 'LeaveTypesSetup', // 50024
-        'LeaveBalances' => 'LeaveBalances',//50041
+        'LeaveBalances' => 'LeaveBalances', //50041
         'LeaveRecallList' => 'LeaveRecallList', // 50065
         'LeaveRecallCard' => 'LeaveRecallCard', // 50064
         'LeaveAttachments' => 'LeaveAttachments', //50031
@@ -141,7 +141,7 @@ return [
         'MedicalCoverTypes' => 'MedicalCoverTypes', //50049
 
         'Currencies' => 'Currencies', // Page 5
-        'purchaseDocumentLines'=>'purchaseDocumentLines',//6405
+        'purchaseDocumentLines' => 'purchaseDocumentLines', //6405
         'UserSetup' => 'UserSetup', //119
 
         'EmployeeCard' => 'EmployeeCard', //5200
@@ -160,39 +160,39 @@ return [
         'leaveApplicationCard' => 'leaveApplicationCard', //71075
         //'leaveBalance' => 'leaveBalance',//71153
         'leaveTypes' => 'leaveTypes', //70045
-        'leaveRecallCard' => 'leaveRecallCard',//71076
-        'leaveRecallList' => 'leaveRecallList',//71077
-        'activeLeaveList' => 'activeLeaveList',//69005
+        'leaveRecallCard' => 'leaveRecallCard', //71076
+        'leaveRecallList' => 'leaveRecallList', //71077
+        'activeLeaveList' => 'activeLeaveList', //69005
 
-        
+
         'ApprovalComments' => 'ApprovalComments', //660
         'RejectedApprovalEntries' => 'RejectedApprovalEntries', //50003
 
-        'RequisitionEmployeeList' => 'RequisitionEmployeeList',//70029
-        'RequisitionEmployeeCard' => 'RequisitionEmployeeCard',//70028
+        'RequisitionEmployeeList' => 'RequisitionEmployeeList', //70029
+        'RequisitionEmployeeCard' => 'RequisitionEmployeeCard', //70028
 
 
         /**********Active COGI PAGES*****************/
 
-        'JobsList' => 'JobsList',//55057 --> Approved Requisitions
-        'JobsCard' => 'JobsCard',//55055
-        'RequirementSpecification'=> 'RequirementSpecification', //55049
+        'JobsList' => 'JobsList', //55057 --> Approved Requisitions
+        'JobsCard' => 'JobsCard', //55055
+        'RequirementSpecification' => 'RequirementSpecification', //55049
         'ResponsibilitySpecification' => 'ResponsibilitySpecification', //55048
 
         /**********Active COGI PAGES*****************/
         'JobApplicantProfile' => 'JobApplicantProfile', //55081
-        'referees' => 'referees',//55060
+        'referees' => 'referees', //55060
         'applicantLanguages' => 'applicantLanguages', //55061
         'experience' => 'experience', //55062
         'hobbies' => 'hobbies', //55063
-        'qualifications' => 'qualifications',//55064
-        'JobResponsibilities' => 'JobResponsibilities',//69000 -->specs
+        'qualifications' => 'qualifications', //55064
+        'JobResponsibilities' => 'JobResponsibilities', //69000 -->specs
         'JobRequirements' => 'JobRequirements', //69001 ---> specs
-        'JobExperience' => 'JobExperience',//69004
+        'JobExperience' => 'JobExperience', //69004
         'Qualifications' => 'Qualifications', //5205
         'JobApplicantRequirementEntries' => 'JobApplicantRequirementEntries', //55065
         'HRJobApplicationsList' => 'HRJobApplicationsList', //70020 ----> Not published on client side
-        'HRJobApplicationsCard'=>'HRJobApplicationsCard',//55059
+        'HRJobApplicationsCard' => 'HRJobApplicationsCard', //55059
 
         'Countries' => 'Countries', //10
         'Religion' => 'Religion', //70085
@@ -200,24 +200,24 @@ return [
         'HRTrainers' => 'HRTrainers', //56015
 
         //Appraisal--------------------------------------------------------------------------------
-        'AppraisalRating' => 'AppraisalRating',//60023
+        'AppraisalRating' => 'AppraisalRating', //60023
         'AppraisalProficiencyLevel' => 'AppraisalProficiencyLevel', //60025
         'AppraisalList' => 'AppraisalList', //60007
-        'AppraisalCard' => 'AppraisalCard',//60008
+        'AppraisalCard' => 'AppraisalCard', //60008
         'EmployeeAppraisalKPI' => 'EmployeeAppraisalKPI', //60010 --->Employee objectives
         'SubmittedAppraisals' => 'SubmittedAppraisals', //60012
         'ApprovedAppraisals' => 'ApprovedAppraisals', //60013 -- overview goal setting
-        'MYAppraiseeList' => 'MYAppraiseeList',//60014
-        'MYSupervisorList' => 'MYSupervisorList',//60015
+        'MYAppraiseeList' => 'MYAppraiseeList', //60014
+        'MYSupervisorList' => 'MYSupervisorList', //60015
         'MYAgreementList' => 'MYAgreementList', //60036
-        
-        'MYApprovedList' => 'MYApprovedList',//60016
-        'EYAppraiseeList' => 'EYAppraiseeList',//60017
-        'EYSupervisorList' => 'EYSupervisorList',//60018
-        'EYPeer1List' => 'EYPeer1List',//60019 --- EY Overview List
-        'EYPeer2List' => 'EYPeer2List',//60020 ---MY overview list
-        'EYAgreementList' => 'EYAgreementList',//60021
-        'ClosedAppraisalsList' => 'ClosedAppraisalsList',//60022
+
+        'MYApprovedList' => 'MYApprovedList', //60016
+        'EYAppraiseeList' => 'EYAppraiseeList', //60017
+        'EYSupervisorList' => 'EYSupervisorList', //60018
+        'EYPeer1List' => 'EYPeer1List', //60019 --- EY Overview List
+        'EYPeer2List' => 'EYPeer2List', //60020 ---MY overview list
+        'EYAgreementList' => 'EYAgreementList', //60021
+        'ClosedAppraisalsList' => 'ClosedAppraisalsList', //60022
 
         'CareerDevelopmentPlan' => 'CareerDevelopmentPlan', //60038 -->Not Taken to live server NF
         'CareerDevStrengths' => 'CareerDevStrengths', //60039 -->Not Taken to live server
@@ -225,16 +225,16 @@ return [
         'WeeknessDevPlan' => 'WeeknessDevPlan', //60041 -->Not Taken to live server
         'AppraisalTrainingNeed' => 'AppraisalTrainingNeed', //60086
 
-        'SupervisorList' =>'SupervisorList', // 51005
+        'SupervisorList' => 'SupervisorList', // 51005
 
 
         /*Probation*/
         'ObjectiveSettingList' => 'ObjectiveSettingList', // 60064
         'ProbationCard' => 'ProbationCard', //60065
-        'LnManagerObjList' => 'LnManagerObjList',//60066
+        'LnManagerObjList' => 'LnManagerObjList', //60066
         'ProbationOverviewObjList' => 'ProbationOverviewObjList', // 60067
         'ProbationAppraiseeList' => 'ProbationAppraiseeList', // 60068
-        'ProbationLnmanagerList' => 'ProbationLnmanagerList',// 60069
+        'ProbationLnmanagerList' => 'ProbationLnmanagerList', // 60069
         'ProbationAgreementList' => 'ProbationAgreementList', //60071
         'OverviewSupervisorList' => 'OverviewSupervisorList', //60070
         'ClosedProbationAppraisal' => 'ClosedProbationAppraisal', //60072
@@ -256,19 +256,19 @@ return [
 
         'StObjectiveSettingList' => 'StObjectiveSettingList', // 60055
         'StProbationCard' => 'StProbationCard', //60056
-        'StLnManagerObjList' => 'StLnManagerObjList',//60057
+        'StLnManagerObjList' => 'StLnManagerObjList', //60057
         'StProbationOverviewObjList' => 'StProbationOverviewObjList', // 60058
         'StProbationAppraiseeList' => 'StProbationAppraiseeList', // 60059
-        'StProbationLnmanagerList' => 'StProbationLnmanagerList',// 60060
+        'StProbationLnmanagerList' => 'StProbationLnmanagerList', // 60060
         'StProbationAgreementList' => 'StProbationAgreementList', //60062
         'StOverviewSupervisorList' => 'StOverviewSupervisorList', //60070
         'StOverviewList' => 'StOverviewList', // 60061 
         'StClosedProbationAppraisal' => 'StClosedProbationAppraisal', //60063
         'StProbationKRAs' => 'StProbationKRAs', //60001
         'StProbationKPIs' => 'StProbationKPIs', //60002
-        'StEmployeeAppraisalCompetence' => 'StEmployeeAppraisalCompetence',//60033
+        'StEmployeeAppraisalCompetence' => 'StEmployeeAppraisalCompetence', //60033
         'StAreasofFurtherDev' => 'StAreasofFurtherDev', // 60040
-        'ESS_Files' => 'ESS_Files',// 50097
+        'ESS_Files' => 'ESS_Files', // 50097
 
 
         /*Appraisal List*/
@@ -280,11 +280,11 @@ return [
 
 
         'AppraisalWorkflow' => 'AppraisalWorkflow', // 50228 ---> Code Unit************************
-        'PerformanceLevel' => 'PerformanceLevel',//60037 page
+        'PerformanceLevel' => 'PerformanceLevel', //60037 page
 
-        'EmployeeAppraisalKRA' => 'EmployeeAppraisalKRA',//60009
+        'EmployeeAppraisalKRA' => 'EmployeeAppraisalKRA', //60009
         'TrainingPlan' => 'TrainingPlan', //60036*************************** NOT AVAILABLE *********
-        'EmployeeAppraisalCompetence' => 'EmployeeAppraisalCompetence',//60033
+        'EmployeeAppraisalCompetence' => 'EmployeeAppraisalCompetence', //60033
         'EmployeeAppraisalBehaviours' => 'EmployeeAppraisalBehaviours', //60034
         'LearningAssessmentCompetence' => 'LearningAssessmentCompetence', //60035
 
@@ -318,7 +318,7 @@ return [
         'PayrollScales' => 'PayrollScales', //58014
         'PayrollScalePointers' => 'PayrollScalePointers', //58023
         'ApprovedHRJobs' => 'ApprovedHRJobs', //55053
-       
+
 
 
 
@@ -357,14 +357,14 @@ return [
 
         'BookingRequisitionList' => 'BookingRequisitionList', //70014
         'BookingRequisitionDocument' => 'BookingRequisitionDocument', //70012
-        'BookingRequisitionPortal' => 'BookingRequisitionPortal',//70056
+        'BookingRequisitionPortal' => 'BookingRequisitionPortal', //70056
         'BookingRequisitionLine' => 'BookingRequisitionLine', //70013
         'ApprovedBookingRequisition' => 'ApprovedBookingRequisition', // 70020
         'AvailableVehicleLookUp' => 'AvailableVehicleLookUp', //70021
         'VehicleAvailabilityStatus' => 'VehicleAvailabilityStatus', // 70022
 
 
-         /********Vehicle Repair Requisition ********************/
+        /********Vehicle Repair Requisition ********************/
 
         'RepairRequisitionDocument' => 'RepairRequisitionDocument', // 70009
         'RepairRequisitionLine' => 'RepairRequisitionLine', // 70010
@@ -392,7 +392,7 @@ return [
         'TaxieList' => 'TaxieList', //70066
         'Vendors' => 'Vendors', // 34
         'TaxieRequestTypes' => 'TaxieRequestTypes', // 70076
-        
+
 
         'Payrollperiods' => 'Payrollperiods', //58002
 
@@ -400,9 +400,9 @@ return [
 
         'P9YEARS' => 'P9YEARS', //50067
 
-        /* Request to Approve */ 
+        /* Request to Approve */
         'RequeststoApprove' => 'RequeststoApprove', //654
-        'RequestsTo_ApprovePortal'=> 'RequestsTo_ApprovePortal', // 67123
+        'RequestsTo_ApprovePortal' => 'RequestsTo_ApprovePortal', // 67123
         'ApprovalCommentsWeb' => 'ApprovalCommentsWeb', // 50068
 
 
@@ -464,28 +464,29 @@ return [
         'IssuedPrescriptionsList' => 'IssuedPrescriptionsList', //66122
 
 
-         /********************GRANTS SERVICE***************************************/
+        /********************GRANTS SERVICE***************************************/
 
-         'GrantList' => 'GrantList', // 60054
-         'GrantLookUp' => 'GrantLookUp', // 90205
-         'GrantLinesLookUp' => 'GrantLinesLookUp', //90204
-         'GrantDetailLines' => 'GrantDetailLines', //90203
+        'GrantList' => 'GrantList', // 60054
+        'GrantLookUp' => 'GrantLookUp', // 90205
+        'GrantLinesLookUp' => 'GrantLinesLookUp', //90204
+        'GrantDetailLines' => 'GrantDetailLines', //90203
 
         /********************CODE UNITS SERVICES***************************************/
         'PortalFactory' => 'PortalFactory', //Code Unit 50062
         'ImprestManagement' => 'ImprestManagement', // 50017
         'Portal_Workflows' => 'Portal_Workflows', //50019 Approval code unit
         'JobApplication' => 'JobApplication', //50002 Job Aplication Management Code Unit
-        'PortalReports' => 'PortalReports',//50064
+        'PortalReports' => 'PortalReports', //50064
         'FleetMgt' => 'FleetMgt',  //50230
 
-         /********************TIMESHEETS***************************************/
+        /********************TIMESHEETS***************************************/
 
-         'TsList' => 'TsList', //50037
-         'TsPendingApproval' => 'TsPendingApproval', //50039
-         'TsApproved' => 'TsApproved', //50040
-         'TsCard' => 'TsCard', //50038
-         'ProgramFunds' => 'ProgramFunds', //58039
+        'TsList' => 'TsList', //50037
+        'TsPendingApproval' => 'TsPendingApproval', //50039
+        'TsApproved' => 'TsApproved', //50040
+        'TsCard' => 'TsCard', //50038
+        'ProgramFunds' => 'ProgramFunds', //58039
+        'PayrollChargeGrants' => 'PayrollChargeGrants',
 
 
 
