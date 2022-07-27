@@ -101,7 +101,7 @@ class TimesheetlineController extends Controller
         if (Yii::$app->request->isAjax) {
             return $this->renderAjax('create', [
                 'model' => $model,
-                'grants' => Yii::$app->navhelper->dropdown('PayrollChargeGrants', 'Grant_Code', 'Payroll_Period', ['Emp_Code' => Yii::$app->user->identity->{'Employee No_'}], ['Percentage', 'Activity_Code', 'Partner_Code', 'Period_Month']), //$this->getGrants()
+                'grants' => Yii::$app->navhelper->dropdown('PayrollChargeGrants', 'Grant_Code', 'Grant_Name', ['Emp_Code' => Yii::$app->user->identity->{'Employee No_'}, 'Payroll_Period' => $model->Date], []), //$this->getGrants()
 
             ]);
         }
@@ -148,13 +148,13 @@ class TimesheetlineController extends Controller
         if (Yii::$app->request->isAjax) {
             return $this->renderAjax('update', [
                 'model' => $model,
-                'grants' => Yii::$app->navhelper->dropdown('PayrollChargeGrants', 'Grant_Code', 'Payroll_Period', ['Emp_Code' => Yii::$app->user->identity->{'Employee No_'}], ['Percentage', 'Activity_Code', 'Partner_Code', 'Period_Month']), //$this->getGrants()
+                'grants' => Yii::$app->navhelper->dropdown('PayrollChargeGrants', 'Grant_Code', 'Grant_Name', ['Emp_Code' => Yii::$app->user->identity->{'Employee No_'}, 'Payroll_Period' => $model->Date], []), //$this->getGrants()
             ]);
         }
 
         return $this->render('update', [
             'model' => $model,
-            'grants' => Yii::$app->navhelper->dropdown('PayrollChargeGrants', 'Grant_Code', 'Payroll_Period', ['Emp_Code' => Yii::$app->user->identity->{'Employee No_'}], ['Percentage', 'Activity_Code', 'Partner_Code', 'Period_Month']),
+            'grants' => Yii::$app->navhelper->dropdown('PayrollChargeGrants', 'Grant_Code', 'Grant_Name', ['Emp_Code' => Yii::$app->user->identity->{'Employee No_'}, 'Payroll_Period' => $model->Date], []),
         ]);
     }
 
